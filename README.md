@@ -68,4 +68,9 @@
 
         - Client side rendering.
             + Render giao diện ở phía người dùng.
+
+
+    LIBRARY:
+        - Express
+        - Nodemon
 -->
