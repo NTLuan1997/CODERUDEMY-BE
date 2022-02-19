@@ -1,0 +1,25 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "NodeJS Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NTLuan1997/Node_JS.git"
+  },
+  "keywords": [
+    "NodeJS"
+  ],
+  "author": "DuyNguyen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NTLuan1997/Node_JS/issues"
+  },
+  "homepage": "https://github.com/NTLuan1997/Node_JS#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
