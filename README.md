@@ -73,4 +73,8 @@
     LIBRARY:
         - Express
         - Nodemon
+        - Morgan
+        - Template engine
+            + express-handlebars
+            + pug
 -->
