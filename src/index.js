@@ -6,7 +6,31 @@ const app = express()
 const port = 3000
 
 // Static File Paths
-app.use(express.static(path.join(__dirname, 'assets')))
+let Path = (function () {
+    // Configuration path file.
+    let resource = __dirname.split("\\");
+    let resource_length = resource.length;
+
+    let derectory = resource.reduce((acc, curr, currIndex) => {
+        if (Array.isArray(acc)) {
+            if ((resource_length - 1) != currIndex) {
+                return acc.concat(curr);
+            }
+        }
+        return acc;
+    }, []).join("\\")
+
+    return {
+        getPath() {
+            return derectory;
+        }
+    }
+}())
+
+app.use('/static', express.static(path.join(__dirname, 'assets')))
+app.use("/css", express.static(path.join(Path.getPath(), '/node_modules/bootstrap/dist/css')))
+app.use("/jquery", express.static(path.join(Path.getPath(), '/node_modules/jquery/dist')))
+app.use("/js", express.static(path.join(Path.getPath(), '/node_modules/bootstrap/dist/js')))
 
 
 // HTTP Logger
@@ -18,9 +42,7 @@ app.engine('hbs', engine({
 }))
 app.set('view engine', 'hbs')
 app.set('views', path.join(__dirname, 'resource\\views'))
-
 app.get('/', (req, res) => {
-    console.log(__dirname);
     res.render("home")
 })
 

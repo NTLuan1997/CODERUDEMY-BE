@@ -1,9 +1,12 @@
+@import "_variables.scss";
+
 .home_title {
-    background-color: white;
-    color: white;
+    background-color: $red-color;
+    color: $red-color;
     font-size: 30px;
     font-weight: bold;
     letter-spacing: .2px;
     text-align: center;
     text-transform: uppercase;
+    display: block;
 }
