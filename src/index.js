@@ -5,6 +5,10 @@ const path = require('path')
 const app = express()
 const port = 3000
 
+// Static File Paths
+app.use(express.static(path.join(__dirname, 'assets')))
+
+
 // HTTP Logger
 app.use(morgan('combined'))
 
