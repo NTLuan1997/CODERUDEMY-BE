@@ -1,0 +1,9 @@
+{
+	"version": 3,
+	"file": "../src/assets/css/app.css",
+	"sources": [
+		"../src/resource/scss/app.scss"
+	],
+	"names": [],
+	"mappings": "AAAA,AAAA,WAAW,AAAC,CACR,gBAAgB,CAAE,KAAK,CACvB,KAAK,CAAE,KAAK,CACZ,SAAS,CAAE,IAAI,CACf,WAAW,CAAE,IAAI,CACjB,UAAU,CAAE,MAAM,CAClB,cAAc,CAAE,SAAS,CAC5B"
+}
