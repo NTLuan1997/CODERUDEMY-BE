@@ -1,9 +1,0 @@
-{
-	"version": 3,
-	"file": "../src/assets/css/header.css",
-	"sources": [
-		"../src/resource/scss/header.scss"
-	],
-	"names": [],
-	"mappings": "AAAA,AACI,MADE,CACF,EAAE,CAAC;EACC,KAAK,EAAE,GAAG;EACV,SAAS,EAAE,IAAI,GAClB"
-}

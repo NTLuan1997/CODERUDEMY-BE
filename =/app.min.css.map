@@ -1,9 +1,0 @@
-{
-	"version": 3,
-	"file": "../src/assets/css/app.min.css",
-	"sources": [
-		"../src/resource/scss/app.min.css"
-	],
-	"names": [],
-	"mappings": "AAAA,AAAA,WAAW,CAAA;EAAC,gBAAgB,EAAC,KAAK;EAAC,KAAK,EAAC,GAAG;EAAC,SAAS,EAAC,IAAI;EAAC,WAAW,EAAC,IAAI;EAAC,UAAU,EAAC,MAAM;EAAC,cAAc,EAAC,SAAS,GAAE"
-}
