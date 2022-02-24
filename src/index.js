@@ -42,12 +42,17 @@ app.engine('hbs', engine({
 }))
 app.set('view engine', 'hbs')
 app.set('views', path.join(__dirname, 'resource\\views'))
-app.get('/', (req, res) => {
+
+app.get("/", (req, res) => {
     res.render("home")
 })
 
-app.get('/news', (req, res) => {
+app.get("/news", (req, res) => {
     res.render("news")
+})
+
+app.get("/search", (req, res) => {
+    res.render("search", { title: "Search", data: req.query })
 })
 
 app.listen(port, () => {
