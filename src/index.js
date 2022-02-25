@@ -1,7 +1,8 @@
-const express = require('express')
-const { engine } = require("express-handlebars")
-const morgan = require('morgan')
-const path = require('path')
+const express = require('express');
+const { engine } = require("express-handlebars");
+const router = require("./routers/routers");
+// const morgan = require('morgan');
+const path = require('path');
 const app = express()
 const port = 3000
 
@@ -32,9 +33,14 @@ app.use("/css", express.static(path.join(Path.getPath(), '/node_modules/bootstra
 app.use("/jquery", express.static(path.join(Path.getPath(), '/node_modules/jquery/dist')))
 app.use("/js", express.static(path.join(Path.getPath(), '/node_modules/bootstrap/dist/js')))
 
+// Middleware
+app.use(express.urlencoded({
+    extended: true
+}))
+app.use(express.json())
 
 // HTTP Logger
-app.use(morgan('combined'))
+// app.use(morgan('combined'))
 
 // Template Engine
 app.engine('hbs', engine({
@@ -43,17 +49,9 @@ app.engine('hbs', engine({
 app.set('view engine', 'hbs')
 app.set('views', path.join(__dirname, 'resource\\views'))
 
-app.get("/", (req, res) => {
-    res.render("home")
-})
 
-app.get("/news", (req, res) => {
-    res.render("news")
-})
-
-app.get("/search", (req, res) => {
-    res.render("search", { title: "Search", data: req.query })
-})
+// Router initial
+router(app);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

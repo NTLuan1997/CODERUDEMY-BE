@@ -11,13 +11,13 @@
 </head>
 
 <body>
-    {{> header}}
+    <div class="container">
+        {{> header}}
 
-    <main>
-        {{{body}}}
-    </main>
+        <main>{{{body}}}</main>
 
-    {{> footer}}
+        {{> footer}}
+    </div>
 
     <script src="/jquery/jquery.js"></script>
     <script src="/js/bootstrap.min.js"></script>
