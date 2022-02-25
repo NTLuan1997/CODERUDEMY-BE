@@ -79,4 +79,8 @@
             + pug
 
         - Node-sass
+        - Body-parse (middleware)
+
+    Mô hình MVC:
+        
 -->
