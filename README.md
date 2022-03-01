@@ -80,6 +80,7 @@
 
         - Node-sass
         - Body-parse (middleware)
+        - Mongoose
 
     Mô hình MVC:
         

@@ -12,11 +12,16 @@
 
 <body>
     <div class="container">
+        {{#if show }}
         {{> header}}
+        {{/if}}
 
         <main>{{{body}}}</main>
 
+
+        {{#if show}}
         {{> footer}}
+        {{/if}}
     </div>
 
     <script src="/jquery/jquery.js"></script>
