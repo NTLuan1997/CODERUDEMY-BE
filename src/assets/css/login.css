@@ -1,6 +1,14 @@
-.login_page {
-  background-color: red;
-  height: 300px;
-  width: 200px; }
+.login-wrapper {
+  height: 100vh; }
+
+.login-wrapper .row {
+  height: 100vh; }
+
+.login-wrapper .row .form--title {
+  margin-bottom: 20px;
+  text-transform: uppercase; }
+
+.login-wrapper .row .login--form {
+  display: block; }
 
 /*# sourceMappingURL=../../../false/login.css.map */

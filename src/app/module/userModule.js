@@ -3,11 +3,12 @@ const connection = require("../core/connection");
 
 class UserModule {
     user = [];
+    userPass = false;
 
     constructor() {
-        connection.reConnect((err, client) => {
+        connection.connect((err, client) => {
             try {
-                const dbase = client.db('shopping')
+                const dbase = client.db('shopping');
                 dbase.collection('user').find().toArray((err, result) => {
                     if (err) throw err;
                     Object.assign(this.user, result);
@@ -19,9 +20,18 @@ class UserModule {
         })
     }
 
-    isUser(email = null, password = null) {
-        console.log(this.user);
+    isUser(email, password) {
+        this.user.forEach((e) => {
+            if (e?.email == email && e?.password == password) this.userPass = true;
+        })
+        return this.userPass;
     }
+
+    findUser() {
+        return (!!this.user.length) ? this.user : [];
+    }
+
+
 
 }
 

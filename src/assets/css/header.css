@@ -1,7 +1,24 @@
-header h1 {
-  color: red;
-  font-size: 30px;
-  font-weight: bold;
-  letter-spacing: 0.2px; }
+header {
+  height: 60px;
+  width: 100%; }
+  header .header-wrapper {
+    background-color: #366595;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: inherit;
+    left: 0px;
+    position: fixed;
+    top: 0px;
+    width: 100%; }
+    header .header-wrapper .header-redirect ul {
+      margin-bottom: 0; }
+      header .header-wrapper .header-redirect ul li a {
+        color: #ffffff;
+        display: inline-block;
+        letter-spacing: 0.2px;
+        padding: 0 15px;
+        text-decoration: none;
+        text-transform: uppercase; }
 
 /*# sourceMappingURL=../../../false/header.css.map */
