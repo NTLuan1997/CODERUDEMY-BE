@@ -3,7 +3,7 @@ const { MongoClient } = require('mongodb');
 class Connection {
     constructor() { }
 
-    reConnect(callBack) {
+    connect(callBack) {
         MongoClient.connect("mongodb://localhost:27017", callBack);
     }
 

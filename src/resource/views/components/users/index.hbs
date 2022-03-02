@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="user mt-5">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    {{#each keys}}
+                    <th>{{this}}</th>
+                    {{/each}}
+                </tr>
+            </thead>
+            <tbody>
+                {{#each users}}
+                <tr>
+                    <td>{{@index}}</td>
+                    <td>{{this.user_name}}</td>
+                    <td>{{this.email}}</td>
+                    <td>{{this.password}}</td>
+                    <td>{{this.status}}</td>
+                    <td>[{{this.skill}}]</td>
+                    <td>{{this.age}}</td>
+                    <td>
+                        <button type="button"><a href="/users/detail?id={{this._id}}">Update</a></button>
+                        <button type="button"><a href="/users/detail?id={{this._id}}">Delete</a></button>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>
