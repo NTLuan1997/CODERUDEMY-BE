@@ -3,13 +3,9 @@ window.onload = function (e) {
     const $$ = document.querySelectorAll.bind(document);
     const url = location.href;
 
-    let status = $("input[name='status']:checked");
+    // GET WRAPPER
     let userForm = $("#users-detail--info");
-    let userName = $("#user-name");
-    let password = $("#password");
-    let skills = $("#skills");
-    let email = $("#email");
-    let age = $("#age");
+    let createBtn = $("#create-btn");
 
     switch (getParams(0)[1]) {
         case "u":
@@ -78,6 +74,13 @@ window.onload = function (e) {
     }
 
     function getUserForm() {
+        let status = $("input[name='status']:checked");
+        let userName = $("#user-name");
+        let password = $("#password");
+        let skills = $("#skills");
+        let email = $("#email");
+        let age = $("#age");
+
         let data = {
             "id": getParams(1)[1],
             "user_name": userName.value,

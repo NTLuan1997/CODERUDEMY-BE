@@ -5,6 +5,43 @@
   font-weight: bold;
   letter-spacing: .2px;
   text-align: center;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  display: block; }
+
+footer {
+  background-color: #031b3d;
+  border-top: 25px solid #244576;
+  color: #ffffff; }
+  footer .footer-logo {
+    font-size: 20px;
+    font-weight: 700;
+    padding-right: 20px;
+    text-transform: uppercase; }
+  footer .nav-footer {
+    border-left: 1px solid #ffffff;
+    padding-left: 20px; }
+    footer .nav-footer ul li a {
+      color: #ffffff;
+      letter-spacing: .2px;
+      font-size: 14px;
+      text-decoration: none;
+      text-transform: uppercase; }
+    footer .nav-footer ul li:not(:last-child) {
+      margin-right: 10px; }
+    footer .nav-footer .nav-des {
+      font-size: 13px;
+      text-align: center;
+      text-transform: uppercase; }
+  footer .footer-social ul li a {
+    color: #ffffff;
+    font-size: 20px;
+    text-decoration: none; }
+  footer .footer-social ul li:not(:last-child) {
+    margin-right: 20px; }
+  footer .footer-social .social-des {
+    font-size: 13px;
+    font-size: 13px;
+    text-align: center;
+    text-transform: uppercase; }
 
 /*# sourceMappingURL=../../../false/app.css.map */

@@ -8,6 +8,7 @@ class UsersController {
         let attribute = {
             show: true,
             keys: ["STT", "User name", "Email", "Password", "Status", "Skill", "Age", "Action"],
+            totalUser: usersModule.findUser().length,
             users: usersModule.findUser()
         };
 

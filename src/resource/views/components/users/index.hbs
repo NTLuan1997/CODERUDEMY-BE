@@ -6,11 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/static/css/users.css">
 </head>
 
 <body>
-    <div class="user mt-5">
-        <table class="table">
+    <div class="user my-5">
+        <div class="d-flex align-items-center justify-content-end">
+            <button id="create-btn">Create user</button>
+        </div>
+        <table class="table mb-0">
             <thead class="thead-dark">
                 <tr>
                     {{#each keys}}
