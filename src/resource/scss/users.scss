@@ -1,6 +1,33 @@
 @import "./_variables.scss";
-// USER-DETAIL
+// USER-HOME
 .user {
     border: 1px solid #cccccc;
-    padding: 5px;
+    background-color: #f7f7f736;
+    padding: 15px;
+    .title-table {
+        font-size: 20px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+    .table {
+        margin-top: 15px;
+        .thead-dark {
+            tr {
+                th {
+                    font-size: 12px;
+                    text-transform: uppercase;
+                }
+            }
+        }
+        tbody {
+            td {
+                font-size: 15px;
+                .btn {
+                    a {
+                        color: #ffffff;
+                    }
+                }
+            }
+        }
+    }
 }

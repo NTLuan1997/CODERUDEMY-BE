@@ -7,7 +7,7 @@ class UsersController {
     index(req, res) {
         let attribute = {
             show: true,
-            keys: ["STT", "User name", "Email", "Password", "Status", "Skill", "Age", "Action"],
+            keys: ["STT", "Tài khoản", "Email", "Password", "Trạng thái", "Chuyên môn", "Tuổi", "Quyền"],
             totalUser: usersModule.findUser().length,
             users: usersModule.findUser()
         };

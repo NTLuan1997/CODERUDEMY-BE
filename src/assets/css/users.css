@@ -1,5 +1,19 @@
 .user {
   border: 1px solid #cccccc;
-  padding: 5px; }
+  background-color: #f7f7f736;
+  padding: 15px; }
+  .user .title-table {
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase; }
+  .user .table {
+    margin-top: 15px; }
+    .user .table .thead-dark tr th {
+      font-size: 12px;
+      text-transform: uppercase; }
+    .user .table tbody td {
+      font-size: 15px; }
+      .user .table tbody td .btn a {
+        color: #ffffff; }
 
 /*# sourceMappingURL=../../../false/users.css.map */
