@@ -1,2 +1,64 @@
-<h1>User detail</h1>
-{{user.user_name}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/css/users.css">
+</head>
+
+<body>
+
+    <div class="users-detail mt-5">
+        <form id="users-detail--info">
+            <div class="row">
+                <div class="form-group col-6">
+                    <label for="user-name">User name</label>
+                    <input type="text" class="form-control" id="user-name" placeholder="User name"
+                        value="{{user.user_name}}">
+                </div>
+                <div class="form-group col-6">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email" value="{{user.email}}">
+                </div>
+                <div class="form-group col-6">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Password"
+                        value="{{user.password}}">
+                </div>
+
+                <div class="form-group col-6">
+                    <label for="age">Age</label>
+                    <input type="text" class="form-control" id="age" placeholder="Age" value="{{user.age}}">
+                </div>
+
+                <div class="form-group col-6">
+                    <label for="exampleInputPassword1">Status</label>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="no-action" name="status" value="no-action" class="custom-control-input">
+                        <label class="custom-control-label" for="no-action">No Action</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="action" name="status" value="action" class="custom-control-input" {{#if
+                            user.status }} checked {{/if}}>
+                        <label class="custom-control-label" for="action">Action</label>
+                    </div>
+                </div>
+
+                <div class="form-group col-6">
+                    <label for="skills">Skills</label>
+                    <textarea class="form-control" id="skills" rows="3">{{user.skill}}</textarea>
+                </div>
+
+                <div class="form-group col-6">
+                    <button type="submit" class="btn btn-primary w-100">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script type="module" src="/static/js/user.js"></script>
+</body>
+
+</html>
