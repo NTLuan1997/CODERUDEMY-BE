@@ -10,3 +10,60 @@
     text-transform: uppercase;
     display: block;
 }
+
+// FOOTER
+footer {
+    background-color: $web-background;
+    border-top: 25px solid #244576;
+    color: #ffffff;
+    .footer-logo {
+        font-size: 20px;
+        font-weight: 700;
+        padding-right: 20px;
+        text-transform: uppercase;
+    }
+    .nav-footer {
+        border-left: 1px solid #ffffff;
+        padding-left: 20px;
+        ul {
+            li {
+                a {
+                    color: #ffffff;
+                    letter-spacing: .2px;
+                    font-size: 14px;
+                    text-decoration: none;
+                    text-transform: uppercase;
+                }
+                &:not(:last-child) {
+                    margin-right: 10px;
+                }
+            }
+        }
+        .nav-des {
+            font-size: 13px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+    }
+
+    .footer-social {
+        ul {
+            li {
+                a {
+                    color: #ffffff;
+                    font-size: 20px;
+                    text-decoration: none;
+                }
+                &:not(:last-child) {
+                    margin-right: 20px;
+                }
+            }
+        }
+        .social-des {
+            font-size: 13px;
+            font-size: 13px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+    }
+}

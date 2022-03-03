@@ -3,7 +3,7 @@ header {
   width: 100%; }
 
 header .header-wrapper {
-  background-color: #366595;
+  background-color: #031b3d;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,13 +14,23 @@ header .header-wrapper {
   width: 100%;
   z-index: 100; }
 
+header .header-wrapper .header-logo {
+  color: #ffffff;
+  font-size: 25px;
+  font-weight: bold;
+  letter-spacing: .2px;
+  vertical-align: middle;
+  text-transform: uppercase; }
+
 header .header-wrapper .header-redirect ul {
   margin-bottom: 0; }
 
 header .header-wrapper .header-redirect ul li a {
   color: #ffffff;
   display: inline-block;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.5px;
+  font-size: 15px;
+  font-weight: 700;
   padding: 0 15px;
   text-decoration: none;
   text-transform: uppercase; }
