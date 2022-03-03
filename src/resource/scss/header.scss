@@ -11,6 +11,7 @@ header {
         position: fixed;
         top: 0px;
         width: 100%;
+        z-index: 100;
         .header-redirect {
             ul {
                 margin-bottom: 0;
