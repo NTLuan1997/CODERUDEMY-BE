@@ -6,6 +6,6 @@ router.get("/", usersController.index);
 
 router.post("/:flag", usersController.createUser);
 router.put("/:flag", usersController.updateUser);
-router.delete("/:flag", usersController.deleteUser);
+router.delete("/", usersController.deleteUser);
 
 module.exports = router;

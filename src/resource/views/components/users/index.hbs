@@ -13,8 +13,9 @@
     <div class="user my-5">
         <div class="d-flex align-items-center justify-content-between">
             <h3 class="title-table">Thông tin người dùng</h3>
-            <button class="btn btn-primary" id="create-btn" data-toggle="modal" data-target="#exampleModal">
-                <i class="fa fa-plus mr-2" aria-hidden="true"></i>Thêm mới
+            <button class="btn btn-primary add-user" id="create-btn">
+                <i class="fa fa-plus mr-2" aria-hidden="true"></i>
+                <a href="/users/detail?type=create">Thêm mới</a>
             </button>
         </div>
         <table class="table mb-0">
@@ -36,10 +37,11 @@
                     <td>[{{this.skill}}]</td>
                     <td>{{this.age}}</td>
                     <td>
-                        <button type="button" class="btn btn-primary"><a
-                                href="/users/detail?t=u&&id={{this._id}}">Sửa</a></button>
-                        <button type="button" class="btn btn-danger"><a
-                                href="/users/detail?t=d&&id={{this._id}}">Xóa</a></button>
+                        <button type="button" class="btn btn-primary">
+                            <a href="/users/detail?type=update&id={{this._id}}">Sửa</a>
+                        </button>
+                        <button type="button" class="btn btn-danger btn-delete-user" data-toggle="modal"
+                            data-whatever="{{this._id}}" data-id="{{this._id}}" data-target="#deleteUser">Xóa</button>
                     </td>
                 </tr>
                 {{/each}}
@@ -47,6 +49,7 @@
         </table>
     </div>
 
+    <script src="/static/js/user.js"></script>
 </body>
 
 </html>

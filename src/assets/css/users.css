@@ -6,6 +6,13 @@
     font-size: 20px;
     font-weight: 700;
     text-transform: uppercase; }
+  .user .add-user a {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    text-decoration: none;
+    text-transform: uppercase; }
   .user .table {
     margin-top: 15px; }
     .user .table .thead-dark tr th {
@@ -15,5 +22,25 @@
       font-size: 15px; }
       .user .table tbody td .btn a {
         color: #ffffff; }
+
+.users-detail {
+  border: 1px solid #cccccc;
+  background-color: #f7f7f736;
+  padding: 25px 15px; }
+  .users-detail .users-detail--title {
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    margin-bottom: 30px;
+    text-transform: uppercase; }
+  .users-detail #users-detail--info .title--input {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    text-transform: uppercase; }
+  .users-detail #users-detail--info .input--status-title {
+    font-size: 14px; }
+  .users-detail #users-detail--info .form-control {
+    font-size: 14px; }
 
 /*# sourceMappingURL=../../../false/users.css.map */

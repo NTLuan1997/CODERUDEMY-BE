@@ -1,106 +1,36 @@
 window.onload = function (e) {
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
-    const url = location.href;
 
-    // GET WRAPPER
-    let userForm = $("#users-detail--info");
-    let createBtn = $("#create-btn");
+    let user_id = 0;
+    let btn_delete = $$(".btn-delete-user");
+    let modal_delete = $("#delete-user");
+    let model_close = $("#delete-user-close");
 
-    switch (getParams(0)[1]) {
-        case "u":
-            userForm.addEventListener("submit", updateUser);
-            break;
-
-        case "d":
-            userForm.addEventListener("submit", deleteUser);
-            break;
-
-        case "p":
-        default:
-            userForm.addEventListener("submit", createUser);
-            break;
+    for (let i = 0; i < btn_delete.length; i++) {
+        btn_delete[i].addEventListener("click", function (e) {
+            user_id = this.dataset.whatever;
+        });
     }
 
-    function createUser(e) {
-        e.preventDefault();
-        let data = getUserForm();
-        if (data) {
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
+    modal_delete.addEventListener("click", function (e) {
+        fetch(location.href, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "id": user_id })
+        })
+            .then((res) => {
+                return res.json();
             })
-                .then((res) => {
-                    console.log(res);
-                })
-        }
-    }
-
-    function updateUser(e) {
-        e.preventDefault();
-        let data = getUserForm();
-        if (data) {
-            fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
+            .then((data) => {
+                if (data) {
+                    location.reload();
+                }
             })
-                .then((res) => {
-                    console.log(res);
-                })
-        }
-    }
-
-    function deleteUser(e) {
-        e.preventDefault();
-        let data = getUserForm();
-        if (data) {
-            fetch(url, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
+            .catch((err) => {
+                console.log(err);
             })
-                .then((res) => {
-                    console.log(res);
-                })
-        }
-    }
-
-    function getUserForm() {
-        let status = $("input[name='status']:checked");
-        let userName = $("#user-name");
-        let password = $("#password");
-        let skills = $("#skills");
-        let email = $("#email");
-        let age = $("#age");
-
-        let data = {
-            "id": getParams(1)[1],
-            "user_name": userName.value,
-            "email": email.value,
-            "password": password.value,
-            "age": age.value,
-            "status": status.value,
-            "skills": skills.value || []
-        }
-        if ((!data["user_name"] || !data.email) ||
-            (!data.password || !data.age) || !data.status) {
-            return null;
-        }
-        return data;
-    }
-
-    function getParams(indexParame) {
-        let parameters = url.split("?");
-        let parameter = parameters[1].split("&&");
-        return parameter[indexParame].split("=");
-    }
-
+    })
 }

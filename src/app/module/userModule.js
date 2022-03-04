@@ -30,10 +30,10 @@ class UserModule {
         connection.connect((err, client) => {
             try {
                 let db = client.db("shopping");
-                db.collection("users").insertOne(body, (err, res) => {
+                db.collection("user").insertOne(body, (err, res) => {
                     if (err) throw err;
                     console.log("Insert successfuly!!!");
-                    db.close();
+                    client.close();
                 })
 
             } catch (err) {
@@ -59,22 +59,55 @@ class UserModule {
     }
 
     deleteUser(query) {
-        connection.connect((err, client) => {
-            try {
-                let db = client.collection("users").deleteOne(query, (err, res) => {
-                    if (err) throw err;
-                    console.log("Delete Successfuly!!!");
-                    db.close();
-                })
+        return new Promise((resolve, reject) => {
+            connection.connect((err, client) => {
+                try {
+                    let dbase = client.db("shopping");
+                    dbase.collection("user").deleteOne(query, (err, res) => {
+                        if (err) reject({ status: false, message: err });
+                        resolve({ status: true });
+                        client.close();
+                    })
 
-            } catch (err) {
-                console.log(err);
-            }
+                } catch (err) {
+                    console.log(err);
+                }
+            })
         })
     }
 
     findUser() {
-        return (!!this.user.length) ? this.user : [];
+        return new Promise((resolve, reject) => {
+            connection.connect((err, client) => {
+                try {
+                    const dbase = client.db('shopping');
+                    dbase.collection('user').find().toArray((err, result) => {
+                        if (err) reject({ status: false, message: err });
+                        resolve(result);
+                    })
+
+                } catch (err) {
+                    throw err;
+                }
+            })
+        })
+    }
+
+    findOneUser(query) {
+        return new Promise((resolve, reject) => {
+            connection.connect((err, client) => {
+                try {
+                    client.db("shopping").collection("user").findOne(query, function (err, result) {
+                        if (err) reject(err);
+                        resolve(result);
+                        client.close();
+                    })
+
+                } catch (err) {
+                    throw err;
+                }
+            })
+        })
     }
 
 }
