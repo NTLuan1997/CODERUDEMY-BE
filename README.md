@@ -81,6 +81,7 @@
         - Node-sass
         - Body-parse (middleware)
         - Mongoose
+        - Mongoose-slug-generation
 
     Mô hình MVC:
         

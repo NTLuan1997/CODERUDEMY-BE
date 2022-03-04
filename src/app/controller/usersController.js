@@ -8,32 +8,60 @@ class UsersController {
         let attribute = {
             show: true,
             keys: ["STT", "Tài khoản", "Email", "Password", "Trạng thái", "Chuyên môn", "Tuổi", "Quyền"],
-            totalUser: usersModule.findUser().length,
-            users: usersModule.findUser()
+            users: null
         };
 
-        res.render("components/users/index", attribute);
+        usersModule.findUser()
+            .then((data) => {
+                attribute.users = data;
+                res.render("components/users/index", attribute);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     //[GET]
     pageDetail(req, res) {
-        let user = usersModule.findUser().find((e) => e._id == req.query.id);
-        res.render("components/users/userDetail", { show: true, user: user });
+        // let user = usersModule.findUser().find((e) => e._id == req.query.id);
+        // res.render("components/users/userDetail", { show: true, user: user });
+        // usersModule.findUser()
+        // .then((data) => {
+        //     if(data) {
+        //         let users = {};
+        //         Object.assign(users, data);
+        //         res.render("components/users/userDetail", { show: true, user: users });
+        //     }
+        // })
+        // .catch((err) => {
+        //     console.log(err);
+        // })
+        if (req.query.id) {
+
+
+        } else {
+            res.render("components/users/userDetail", { show: true });
+        }
     }
 
     //[POST]
     createUser(req, res) {
-        console.log(req.body);
-        usersModule.findUser().forEach((e) => {
-            console.log(e?._id);
-        })
-        // res.send({ action: "Create" });
+        let body = req.body;
+        let data = {
+            "user_name": body["user_name"],
+            email: body.email,
+            password: body.password,
+            age: body.age,
+            status: body.status,
+            skill: body.skills
+        }
+
+        usersModule.createUser(data);
     }
 
     //[PUT]
     updateUser(req, res) {
         let user = req.body;
-        // let id = new ObjectId(user.id);
         let query = { _id: new ObjectId(user.id) };
         let body = {
             $set: {
@@ -51,7 +79,17 @@ class UsersController {
 
     //[DELETE]
     deleteUser(req, res) {
-        res.send({ action: "Delete" });
+        let user = req.body;
+        let query = { _id: new ObjectId(user.id) };
+        usersModule.deleteUser(query)
+            .then((data) => {
+                if (data.status) {
+                    res.status(200).json({ status: true, message: "delete successfuly" });
+                }
+            })
+            .catch((err) => {
+                res.json({ status: false, error: err, message: "update failed" });
+            })
     }
 
 }
