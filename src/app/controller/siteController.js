@@ -12,7 +12,6 @@ class SiteController {
         if (!!Object.values(userInfo).length) {
             userModule.isUser(userInfo)
                 .then((data) => {
-                    console.log(data);
                     if (data) {
                         res.status(200).json({ status: true, message: "Login successful!!", data });
                     } else {
