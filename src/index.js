@@ -3,12 +3,11 @@ const { engine } = require("express-handlebars");
 const router = require("./routers/routers");
 // const morgan = require('morgan');
 const path = require('path');
-const app = express()
-const port = 3000
+const app = express();
+const port = 3000;
 
 // Static File Paths
 let Path = (function () {
-    // Configuration path file.
     let resource = __dirname.split("\\");
     let resource_length = resource.length;
 
@@ -45,6 +44,18 @@ app.use(express.json())
 // Template Engine
 app.engine('hbs', engine({
     extname: ".hbs",
+    helpers: {
+        setChecked: (type, status) => {
+            if (type == "action") {
+                if (status == "action") return "checked";
+                return null;
+
+            } else {
+                if (status == "no-action") return "checked";
+                return null;
+            }
+        }
+    }
 }))
 app.set('view engine', 'hbs')
 app.set('views', path.join(__dirname, 'resource\\views'))

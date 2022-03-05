@@ -41,12 +41,12 @@
                         <div class="wrapper-status d-flex align-items-center">
                             <div class="custom-control custom-radio mr-3">
                                 <input type="radio" id="action" name="status" value="action"
-                                    class="custom-control-input" {{#if user.status }} checked {{/if}}>
+                                    class="custom-control-input" {{setChecked "action" user.status }}>
                                 <label class="custom-control-label input--status-title" for="action">Hoạt động</label>
                             </div>
                             <div class="custom-control custom-radio">
                                 <input type="radio" id="no-action" name="status" value="no-action"
-                                    class="custom-control-input">
+                                    class="custom-control-input" {{setChecked "no-action" user.status }}>
                                 <label class="custom-control-label input--status-title" for="no-action">Không hoạt
                                     động</label>
                             </div>
