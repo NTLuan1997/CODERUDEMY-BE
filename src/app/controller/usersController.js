@@ -7,7 +7,7 @@ class UsersController {
     index(req, res) {
         let attribute = {
             show: true,
-            keys: ["STT", "Tài khoản", "Email", "Password", "Trạng thái", "Chuyên môn", "Tuổi", "Quyền"],
+            keys: ["STT", "Tài khoản", "Email", "Password", "Trạng thái", "Tuổi", "Quyền"],
             users: null
         };
 
@@ -23,21 +23,18 @@ class UsersController {
 
     //[GET]
     pageDetail(req, res) {
-        // let user = usersModule.findUser().find((e) => e._id == req.query.id);
-        // res.render("components/users/userDetail", { show: true, user: user });
-        // usersModule.findUser()
-        // .then((data) => {
-        //     if(data) {
-        //         let users = {};
-        //         Object.assign(users, data);
-        //         res.render("components/users/userDetail", { show: true, user: users });
-        //     }
-        // })
-        // .catch((err) => {
-        //     console.log(err);
-        // })
-        if (req.query.id) {
-
+        let Id = req.query.id;
+        if (Id) {
+            let query = { "_id": new ObjectId(Id) };
+            usersModule.findOneUser(query)
+                .then((data) => {
+                    if (data) {
+                        res.render("components/users/userDetail", { show: true, user: data });
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
 
         } else {
             res.render("components/users/userDetail", { show: true });
@@ -56,7 +53,15 @@ class UsersController {
             skill: body.skills
         }
 
-        usersModule.createUser(data);
+        usersModule.createUser(data)
+            .then((data) => {
+                if (data.status) {
+                    res.status(200).json(data);
+                }
+            })
+            .catch((err) => {
+                res.status(400).json(err);
+            })
     }
 
     //[PUT]
@@ -73,8 +78,16 @@ class UsersController {
                 "age": user.age
             }
         };
-        usersModule.updateUser(query, body);
-        res.send({ action: "Update" });
+
+        usersModule.updateUser(query, body)
+            .then((data) => {
+                if (data.status) {
+                    res.status(200).json(data);
+                }
+            })
+            .catch((err) => {
+                res.json({ status: false, message: err });
+            })
     }
 
     //[DELETE]

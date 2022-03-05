@@ -8,14 +8,20 @@ class SiteController {
 
     //[POST]
     login(req, res) {
-        if (!!Object.values(req.body).length) {
-            let { email, password } = req.body;
-            if (userModule.isUser(email, password)) {
-                res.render("components/site/home", { show: true });
-                return;
-            }
-            res.render("components/site/login", { show: false });
-
+        let userInfo = req.body;
+        if (!!Object.values(userInfo).length) {
+            userModule.isUser(userInfo)
+                .then((data) => {
+                    console.log(data);
+                    if (data) {
+                        res.status(200).json({ status: true, message: "Login successful!!", data });
+                    } else {
+                        res.status(200).json({ status: false, message: "Invalid user" });
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
         } else {
             res.render("components/site/login", { show: false });
         }

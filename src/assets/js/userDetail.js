@@ -12,10 +12,6 @@ window.onload = function (e) {
             userForm.addEventListener("submit", updateUser);
             break;
 
-        case "d":
-            userForm.addEventListener("submit", deleteUser);
-            break;
-
         case "create":
         default:
             setTitleForm("create");
@@ -35,7 +31,12 @@ window.onload = function (e) {
                 body: JSON.stringify(data)
             })
                 .then((res) => {
-                    console.log(res);
+                    return res.json();
+                })
+                .then((data) => {
+                    if (data.status) {
+                        location.href = "/users";
+                    }
                 })
                 .catch((err) => {
                     console.error(err);
@@ -56,27 +57,15 @@ window.onload = function (e) {
                 body: JSON.stringify(data)
             })
                 .then((res) => {
-                    console.log(res);
+                    return res.json();
+                })
+                .then((data) => {
+                    if (data.status) {
+                        location.href = "/users";
+                    }
                 })
                 .catch((err) => {
                     console.error(err);
-                })
-        }
-    }
-
-    function deleteUser(e) {
-        e.preventDefault();
-        let data = getUserForm();
-        if (data) {
-            fetch(url, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-                .then((res) => {
-                    console.log(res);
                 })
         }
     }
