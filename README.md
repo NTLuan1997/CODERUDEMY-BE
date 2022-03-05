@@ -84,5 +84,13 @@
         - Mongoose-slug-generation
 
     Mô hình MVC:
+        - Kỹ thuật phân trang:
+        - VD: Khách hàng mong muốn tạo phân trang trên page sản phẩm mỗi lần tải lên 4 sản phẩm và biết tổng số sản phẩm hiện có là 17 sản phẩm và được lưu trong database.
+
+        - Những thông số cần biết:
+            + Số tinh một trang : 4 sản phẩm trên một trang.
+            + Tổng số tinh hiện có: 17 sản phẩm có trong database.
+            + Tổng số trang: (Tổng số tinh hiện có / Số tinh một trang ) => (17 / 4) = 4.x => làm tròn lên là 5.
+
         
 -->

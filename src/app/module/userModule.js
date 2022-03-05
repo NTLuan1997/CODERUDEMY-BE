@@ -3,6 +3,8 @@ const Core = require("./core");
 
 
 class UserModule extends Core {
+    db = "shopping";
+    collection = "user";
 
     constructor() {
         super();
@@ -14,23 +16,23 @@ class UserModule extends Core {
     }
 
     findUser() {
-        return super.find("shopping", "user");
+        return super.find(this.db, this.collection);
     }
 
     findOneUser(query) {
-        return super.findOne("shopping", "user", query);
+        return super.findOne(this.db, this.collection, query);
     }
 
     createUser(body) {
-        return super.createOne("shopping", "user", body);
+        return super.createOne(this.db, this.collection, body);
     }
 
     updateUser(query, body) {
-        return super.updateOne("shopping", "user", query, body);
+        return super.updateOne(this.db, this.collection, query, body);
     }
 
     deleteUser(query) {
-        return super.deleteOne("shopping", "user", query);
+        return super.deleteOne(this.db, this.collection, query);
     }
 
 }
