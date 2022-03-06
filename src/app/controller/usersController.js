@@ -3,25 +3,26 @@ const usersModule = require("../module/userModule");
 
 class UsersController {
 
-    //[GET]
+    // [GET]
     index(req, res) {
-        let attribute = {
-            show: true,
-            keys: ["STT", "Tài khoản", "Email", "Password", "Trạng thái", "Tuổi", "Quyền"],
-            users: null
-        };
+        res.render("components/users/index", { show: true });
+    }
 
-        usersModule.findUser()
+    // [GET HOME]
+    pageUser(req, res) {
+        let body = req.query;
+        usersModule.findLimit(Number.parseInt(body.limit), Number.parseInt(body.start))
             .then((data) => {
-                attribute.users = data;
-                res.render("components/users/index", attribute);
+                if (data) {
+                    res.status(200).json(data);
+                }
             })
             .catch((err) => {
                 console.log(err);
             })
     }
 
-    //[GET]
+    // [GET]
     pageDetail(req, res) {
         let Id = req.query.id;
         if (Id) {
@@ -39,6 +40,12 @@ class UsersController {
         } else {
             res.render("components/users/userDetail", { show: true });
         }
+    }
+
+    // [GET pagination]
+    pagination(req, res) {
+        console.log(req.query.currentPage);
+        // res.status(200).json({ status: true, message: "Test" });
     }
 
     //[POST]

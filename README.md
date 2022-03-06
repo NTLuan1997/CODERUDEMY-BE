@@ -90,7 +90,21 @@
         - Những thông số cần biết:
             + Số tinh một trang : 4 sản phẩm trên một trang.
             + Tổng số tinh hiện có: 17 sản phẩm có trong database.
-            + Tổng số trang: (Tổng số tinh hiện có / Số tinh một trang ) => (17 / 4) = 4.x => làm tròn lên là 5.
+            + Tổng số trang: (Tổng số tinh hiện có / Số tinh một trang ) => Math.ceil(17 / 4) = 4.x => làm tròn lên là 5.
+            + Lấy về trang hiện tại khi user click vào phân trang.
 
+            + Cách tính thông số truy vấn.
+            + Câu lệnh truy vấn ví dụ: giải sử bạn đang ở trang 1
+
+                - Select * from <name_table> limit 0(Con số bắt đầu truy vấn), 4(Số tinh một trang khác hàng yêu cầu)
+                - Công thức tính "Con số bắt đầu truy vấn"
+                    + Số tinh một trang * (Số trang hiện tại - 1);
+                    + VD:
+                        = Bạn đang ở trang 1, số tinh một trang hiện ra theo yêu cầu khách hàng là 4 ta tính như sau:
+
+                        4 * (1 - 1) = 0;        => Select * from <name_table> limit 0,4;
+                        4 * (2 - 1) = 4;        => Select * from <name_table> limit 4,4;
+                        4 * (3 - 1) = 8;        => Select * from <name_table> limit 8,4;
+                        ....
         
 -->

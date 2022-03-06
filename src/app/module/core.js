@@ -4,6 +4,21 @@ class Core {
 
     constructor() { }
 
+    countDocument(db_name, collection_name) {
+        connection.connect((err, client) => {
+            try {
+                client.db(db_name).collection(collection_name).find().count((err, result) => {
+                    if (err) reject(err);
+                    return result;
+                })
+            } catch (err) {
+                throw err;
+            } finally {
+                client.close();
+            }
+        })
+    }
+
     // [Find all document in collection]
     find(db_name, collection_name) {
         return new Promise((resolve, reject) => {
@@ -12,11 +27,12 @@ class Core {
                     client.db(db_name).collection(collection_name).find().toArray((err, result) => {
                         if (err) reject(err);
                         resolve(result);
-                        client.close();
                     })
 
                 } catch (err) {
                     console.log(err);
+                } finally {
+                    client.close();
                 }
             })
         })
@@ -30,11 +46,30 @@ class Core {
                     client.db(db_name).collection(collection_name).findOne(query, (err, result) => {
                         if (err) reject(err);
                         resolve(result);
-                        client.close();
                     })
 
                 } catch (err) {
                     throw err;
+                } finally {
+                    client.close();
+                }
+            })
+        })
+    }
+
+    // [Find limit document in collection]
+    findLimit(db_name, collection_name, limit, start) {
+        return new Promise((resolve, reject) => {
+            connection.connect((err, client) => {
+                try {
+                    client.db(db_name).collection(collection_name).find().limit(limit).skip(start).toArray((err, result) => {
+                        if (err) reject(err);
+                        resolve(result);
+                    })
+                } catch (err) {
+                    throw err;
+                } finally {
+                    client.close();
                 }
             })
         })
@@ -48,11 +83,12 @@ class Core {
                     client.db(db_name).collection(collection_name).insertOne(body, (err, res) => {
                         if (err) reject(err);
                         resolve({ status: true, message: "Insert document successful!!!" });
-                        client.close();
                     })
 
                 } catch (err) {
                     throw err;
+                } finally {
+                    client.close();
                 }
             })
 
@@ -67,11 +103,12 @@ class Core {
                     client.db(db_name).collection(collection_name).updateOne(query, body, (err, res) => {
                         if (err) reject(err);
                         resolve({ status: true, message: "Update document successful!!!" });
-                        client.close();
                     })
 
                 } catch (err) {
                     throw err;
+                } finally {
+                    client.close();
                 }
             })
         })
@@ -85,11 +122,12 @@ class Core {
                     client.db(db_name).collection(collection_name).deleteOne(query, body, (err, res) => {
                         if (err) reject(err);
                         resolve({ status: true, message: "Delete document successfully!!!" });
-                        client.close();
                     })
 
                 } catch (err) {
                     throw err;
+                } finally {
+                    client.close();
                 }
             })
         })
