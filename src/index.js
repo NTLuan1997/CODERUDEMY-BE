@@ -66,5 +66,5 @@ app.set('views', path.join(__dirname, 'resource/views'))
 router(app);
 
 app.listen(PORT, () => {
-    console.log(`Example app listening on port ${PORT}`)
+    console.log(`Example app listening on port ${PORT}`, app.settings.env);
 })
