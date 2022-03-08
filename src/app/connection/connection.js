@@ -8,7 +8,7 @@ class Connection {
     url = process.env.MONGODB_URI || "mongodb://localhost:27017";
 
     connect(callBack) {
-        MongoClient.connect(this.url, callBack);
+        MongoClient.connect("mongodb+srv://codeudemy:Npd97*93@cluster0.g39g6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", callBack);
     }
 
 }
