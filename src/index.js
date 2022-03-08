@@ -4,7 +4,8 @@ const router = require("./routers/routers");
 // const morgan = require('morgan');
 const path = require('path');
 const app = express();
-const port = 3000;
+// const port = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Static File Paths
 let Path = (function () {
@@ -64,6 +65,6 @@ app.set('views', path.join(__dirname, 'resource\\views'))
 // Router initial
 router(app);
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+app.listen(PORT, () => {
+    console.log(`Example app listening on port ${PORT}`)
 })
