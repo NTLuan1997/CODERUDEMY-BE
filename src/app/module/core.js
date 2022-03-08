@@ -56,7 +56,8 @@ class Core {
                     throw err;
 
                 } finally {
-                    client.close();
+                    // client.close();
+                    console.log("Connect done");
                 }
             })
         })
