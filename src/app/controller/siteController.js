@@ -9,6 +9,7 @@ class SiteController {
     //[POST]
     login(req, res) {
         let userInfo = req.body;
+        console.log(userInfo);
         if (!!Object.values(userInfo).length) {
             userModule.isUser(userInfo)
                 .then((data) => {
