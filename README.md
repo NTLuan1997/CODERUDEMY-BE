@@ -82,6 +82,20 @@
         - Body-parse (middleware)
         - Mongoose
         - Mongoose-slug-generation
+        - Kỹ thuật soft delete (xóa mềm)
+            + xóa tạm trên giao diện khoông xóa trong db.
+            + Phục hồi dữ liệu đã xóa tạm thời đi.
+            + Xóa thật trong db.
+
+        - Middleware Khái niệm:
+            + Ý nghĩa:
+                Phần mềm trung gian (đứng giữa các thanh phần).
+
+            + Vai trò: 
+                Sử lý trao đổi thông tin/ kiểm tra dữ liệu/ ...
+
+        - Sử lý transaction trong nodeJs và Mongodb
+            - Thư viện: mongo-sequence.
 
     Mô hình MVC:
         - Kỹ thuật phân trang:

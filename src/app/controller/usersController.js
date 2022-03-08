@@ -14,7 +14,10 @@ class UsersController {
         usersModule.findLimit(Number.parseInt(body.limit), Number.parseInt(body.start))
             .then((data) => {
                 if (data) {
-                    res.status(200).json(data);
+                    res.status(200).json({
+                        users: data[0],
+                        length: data[1]
+                    });
                 }
             })
             .catch((err) => {

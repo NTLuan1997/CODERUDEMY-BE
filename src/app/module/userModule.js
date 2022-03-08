@@ -3,11 +3,25 @@ const Core = require("./core");
 
 
 class UserModule extends Core {
+    // Cloud
+    // db = "codeudemy";
+    // collection = "users";
+
+    // Local
     db = "shopping";
     collection = "user";
 
     constructor() {
         super();
+    }
+
+    /**
+     * 
+     * Method count all document in collection
+     * Return number after count all document
+     */
+    countUser() {
+        return super.countDocumentInCollection(this.db, this.collection);
     }
 
     /**
@@ -51,7 +65,8 @@ class UserModule extends Core {
      * @returns list user or null
      */
     findLimit(limit, start) {
-        return super.findLimit(this.db, this.collection, limit, start);
+        return Promise.all([super.findLimit(this.db, this.collection, limit, start), super.countDocumentInCollection(this.db, this.collection)]);
+        // return super.findLimit(this.db, this.collection, limit, start);
     }
 
     /**
