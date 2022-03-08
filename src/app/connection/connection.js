@@ -11,6 +11,11 @@ class Connection {
         MongoClient.connect("mongodb+srv://codeudemy:Npd97*93@cluster0.g39g6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", callBack);
     }
 
+    reConnect() {
+        const client = new MongoClient(this.url, { useNewUrlParser: true, useUnifiedTopology: true });
+        return client;
+    }
+
 }
 
 module.exports = new Connection;
