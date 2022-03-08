@@ -4,6 +4,7 @@
   "description": "NodeJS Project",
   "main": "index.js",
   "scripts": {
+    "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --inspect src/index.js",
     "sass": "node-sass -w src/resource/scss --output=src/assets/css --source-map false"
