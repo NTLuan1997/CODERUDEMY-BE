@@ -4,12 +4,12 @@ const Core = require("./core");
 
 class UserModule extends Core {
     // Cloud
-    // db = "codeudemy";
-    // collection = "users";
+    db = "codeudemy";
+    collection = "users";
 
     // Local
-    db = "shopping";
-    collection = "user";
+    // db = "shopping";
+    // collection = "user";
 
     constructor() {
         super();
