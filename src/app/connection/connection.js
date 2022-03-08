@@ -4,10 +4,11 @@ class Connection {
     constructor() { }
 
     // local = "mongodb://localhost:27017";
-    cloud = "mongodb+srv://codeudemy:Npd97*93@cluster0.g39g6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+    // cloud = "mongodb+srv://codeudemy:Npd97*93@cluster0.g39g6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+    url = process.env.MONGODB_URI || "mongodb://localhost:27017";
 
     connect(callBack) {
-        MongoClient.connect(this.cloud, callBack);
+        MongoClient.connect(this.url, callBack);
     }
 
 }
