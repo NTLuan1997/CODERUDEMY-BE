@@ -5,7 +5,7 @@ class Core {
     constructor() {
         connection.connect((err, client) => {
             try {
-                client.db(db_name).collection(collection_name).find().forEach((e) => { console.log(e) });
+                client.db("codeudemy").collection("users").find().forEach((e) => { console.log(e) });
             } catch (err) {
                 throw err;
 
