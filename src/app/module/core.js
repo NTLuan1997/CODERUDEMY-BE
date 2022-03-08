@@ -3,12 +3,15 @@ const connection = require("../connection/connection");
 class Core {
 
     constructor() {
-        connection.reConnect().connect(function (err) {
-            this.db("codeudemy").collection("users").find((err, result) => {
-                result?.forEach((e) => {
-                    console.log(e);
-                })
-            });
+        connection.connect((err, client) => {
+            try {
+                client.db(db_name).collection(collection_name).find().forEach((e) => { console.log(e) });
+            } catch (err) {
+                throw err;
+
+            } finally {
+                client.close();
+            }
         })
     }
 
