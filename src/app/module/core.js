@@ -4,18 +4,21 @@ class Core {
 
     constructor() { }
 
-    countDocument(db_name, collection_name) {
-        connection.connect((err, client) => {
-            try {
-                client.db(db_name).collection(collection_name).find().count((err, result) => {
-                    if (err) reject(err);
-                    return result;
-                })
-            } catch (err) {
-                throw err;
-            } finally {
-                client.close();
-            }
+    countDocumentInCollection(db_name, collection_name) {
+        return new Promise((resolve, reject) => {
+            connection.connect((err, client) => {
+                try {
+                    client.db(db_name).collection(collection_name).find().count((err, result) => {
+                        if (err) reject(err);
+                        resolve(result);
+                    })
+                } catch (err) {
+                    throw err;
+
+                } finally {
+                    client.close();
+                }
+            })
         })
     }
 
@@ -31,6 +34,7 @@ class Core {
 
                 } catch (err) {
                     console.log(err);
+
                 } finally {
                     client.close();
                 }
@@ -50,6 +54,7 @@ class Core {
 
                 } catch (err) {
                     throw err;
+
                 } finally {
                     client.close();
                 }
@@ -68,6 +73,7 @@ class Core {
                     })
                 } catch (err) {
                     throw err;
+
                 } finally {
                     client.close();
                 }
@@ -87,6 +93,7 @@ class Core {
 
                 } catch (err) {
                     throw err;
+
                 } finally {
                     client.close();
                 }
@@ -107,6 +114,7 @@ class Core {
 
                 } catch (err) {
                     throw err;
+
                 } finally {
                     client.close();
                 }
@@ -126,6 +134,7 @@ class Core {
 
                 } catch (err) {
                     throw err;
+
                 } finally {
                     client.close();
                 }

@@ -1,59 +1,32 @@
 window.onload = function (e) {
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
+    let itemInPage = 2;   // Số phần tử trên page theo yêu cầu khách hàng
+    let totalPage = null; // Số item pagination được tính ra
     let url = location.href;
     let headerTitles = ["STT", "Tài khoản", "Email", "Password", "Trạng thái", "Tuổi", "Quyền"];
-    let pagination_items = $$(".pagination .page-items");
-
-    // let user_id = 0;
-    // let btn_delete = $$(".btn-delete-user");
-    // let modal_delete = $("#delete-user");
-
-    // for (let i = 0; i < btn_delete.length; i++) {
-    //     btn_delete[i].addEventListener("click", function (e) {
-    //         user_id = this.dataset.whatever;
-    //     });
-    // }
-
-    // modal_delete.addEventListener("click", function (e) {
-    //     fetch(location.href, {
-    //         method: "DELETE",
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({ "id": user_id })
-    //     })
-    //         .then((res) => {
-    //             return res.json();
-    //         })
-    //         .then((data) => {
-    //             if (data) {
-    //                 location.reload();
-    //             }
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         })
-    // })
 
     (function () {
-        fetch(`${url}/home?limit=2&start=0`, { method: "GET" })
+        fetch(`${url}/API/home?limit=${itemInPage}&start=0`, { method: "GET" })
             .then((res) => {
                 return res.json();
             })
             .then((data) => {
                 renderTableTitle();
-                return data;
+                renderTabPagination(data.length);
+                return data.users;
             })
             .then((data) => {
                 renderTableBody(data);
+                paginationEvent();
             })
             .catch((err) => {
                 console.log(err);
             })
-
     })();
 
+
+    // [RENDER TEMPLATE]
     function renderTableTitle() {
         let header = $("#user-table-header");
         let template = headerTitles.reduce((accument, current) => {
@@ -86,22 +59,34 @@ window.onload = function (e) {
         body.innerHTML = template;
     }
 
+    function renderTabPagination(totalItem) {
+        let wrapper = $$(".pagination")[0];
+        totalPage = Math.ceil(totalItem / itemInPage);
 
+        let template = '';
+        for (let i = 0; i < totalPage; i++) {
+            template += `<li class="page-items" data-id="${(i + 1)}"><a class="page-link">${(i + 1)}</a></li>`;
+        }
+        wrapper.innerHTML = template;
+    }
 
-    pagination_items.forEach(function (item) {
-        item.addEventListener("click", function () {
-            let url = `${location.href}//home?limit=2&start=2`;
-            fetch(url, { method: "GET" })
-                .then((res) => {
-                    return res.json();
-                })
-                .then((data) => {
-                    renderTableBody(data);
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
+    function paginationEvent() {
+        let items = $$(".page-items");
+        items.forEach((e) => {
+            e.addEventListener("click", function (e) {
+                let start = itemInPage * (this.dataset.id - 1);
+                fetch(`${url}/API/home?limit=${itemInPage}&start=${start}`, { method: "GET" })
+                    .then((res) => {
+                        return res.json();
+                    })
+                    .then((data) => {
+                        renderTableBody(data.users);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    })
+            })
         })
-    })
+    }
 
 }
