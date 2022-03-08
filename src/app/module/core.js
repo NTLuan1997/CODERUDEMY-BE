@@ -2,7 +2,15 @@ const connection = require("../connection/connection");
 
 class Core {
 
-    constructor() { }
+    constructor() {
+        connection.reConnect().connect(function (err) {
+            this.db("codeudemy").collection("users").find((err, result) => {
+                result?.forEach((e) => {
+                    console.log(e);
+                })
+            });
+        })
+    }
 
     countDocumentInCollection(db_name, collection_name) {
         return new Promise((resolve, reject) => {
