@@ -52,6 +52,9 @@ class Core {
                 try {
                     client.db(db_name).collection(collection_name).findOne(query, (err, result) => {
                         if (err) reject(err);
+
+                        console.log("Check data");
+                        console.log(result);
                         resolve(result);
                     })
 
