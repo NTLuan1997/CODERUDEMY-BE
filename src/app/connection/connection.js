@@ -8,11 +8,11 @@ class Connection {
     url = process.env.MONGODB_URI || "mongodb://localhost:27017";
 
     connect(callBack) {
-        MongoClient.connect("mongodb+srv://codeudemy:Npd97*93@cluster0.g39g6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", callBack);
+        MongoClient.connect(this.url, callBack);
     }
 
     reConnect() {
-        const client = new MongoClient("mongodb+srv://codeudemy:Npd97*93@cluster0.g39g6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
+        const client = new MongoClient(this.url, { useNewUrlParser: true, useUnifiedTopology: true });
         return client;
     }
 
