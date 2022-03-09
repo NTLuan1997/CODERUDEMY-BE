@@ -1,18 +1,10 @@
 const connection = require("../connection/connection");
+const db = require("./user");
 
 class Core {
 
     constructor() {
-        connection.connect((err, client) => {
-            try {
-                client.db("codeudemy").collection("users").find().forEach((e) => { console.log(e) });
-            } catch (err) {
-                throw err;
-
-            } finally {
-                client.close();
-            }
-        })
+        db.connect();
     }
 
     countDocumentInCollection(db_name, collection_name) {
