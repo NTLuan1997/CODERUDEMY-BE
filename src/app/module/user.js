@@ -14,7 +14,7 @@ uri = `mongodb://localhost:27017/shopping`;
 
 async function connect() {
     try {
-        await mongoose.connect("mongodb+srv://codeudemy:Npd97*93@cluster0.g39g6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
+        await mongoose.connect("mongodb+srv://DuyNguyen:Npd97*93@cluster0.xuzsg.mongodb.net/coderudemy?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connect successfuly!!!");
 
     } catch (err) {
