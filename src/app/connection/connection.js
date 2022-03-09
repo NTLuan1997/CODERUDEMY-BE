@@ -5,14 +5,14 @@ class Connection {
 
     // local = "mongodb://localhost:27017";
     // cloud = "mongodb+srv://codeudemy:Npd97*93@cluster0.g39g6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-    // url = process.env.MONGODB_URI || "mongodb://localhost:27017";
+    url = process.env.DATABASE_URL || "mongodb://localhost:27017";
 
     connect(callBack) {
-        MongoClient.connect("mongodb+srv://DuyNguyen:Npd97*93@cluster0.xuzsg.mongodb.net/coderudemy?retryWrites=true&w=majority", callBack);
+        MongoClient.connect(this.url, callBack);
     }
 
     reConnect() {
-        const client = new MongoClient("mongodb+srv://DuyNguyen:Npd97*93@cluster0.xuzsg.mongodb.net/coderudemy?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
+        const client = new MongoClient(this.url, { useNewUrlParser: true, useUnifiedTopology: true });
         return client;
     }
 
