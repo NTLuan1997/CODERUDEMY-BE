@@ -1,13 +1,10 @@
 const connection = require("../connection/connection");
+const db = require("./user");
 
 class Core {
 
     constructor() {
-        connection.reConnect().connect((err, client) => {
-            if (err) throw err;
-            console.log("Check connect to db cloud");
-            client.db("shopping").collection("user").find().forEach((e) => { console.log(e) });
-        })
+        db.connect();
     }
 
     countDocumentInCollection(db_name, collection_name) {
