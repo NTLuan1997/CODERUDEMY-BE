@@ -4,6 +4,8 @@ let url = process.env.DATABASE_URL || "mongodb://localhost:27017";
 
 
 async function connect() {
+    console.log("Url connect to db");
+    console.log(url);
     try {
         await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connect successfuly!!!");
