@@ -1,10 +1,24 @@
 const connection = require("../connection/connection");
+const { MongoClient } = require('mongodb');
 const db = require("./user");
 
 class Core {
 
     constructor() {
         db.connect();
+
+        console.log("Start check url connect to database");
+        const uri = "mongodb+srv://codeudemy:Npd97*93@cluster0.g39g6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+        const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        client.connect(err => {
+            const collection = client.db("codeudemy").collection("users");
+            // perform actions on the collection object
+            collection.find().forEach((e) => { console.log(e) });
+            client.close();
+        });
+
+        console.log("End check url connect to database");
+
     }
 
     countDocumentInCollection(db_name, collection_name) {
