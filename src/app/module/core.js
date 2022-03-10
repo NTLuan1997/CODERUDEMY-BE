@@ -11,11 +11,12 @@ class Core {
         const uri = "mongodb+srv://udemy:Npd97*93@cluster0.zpycx.mongodb.net/codeudemy?retryWrites=true&w=majority";
         const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
         client.connect(err => {
-            const collection = client.collection("courses");
+            const collection = client.db("codeudemy").collection("courses");
             // perform actions on the collection object
+            console.log(collection.find());
             collection.find().forEach((e) => { console.log(e?.name) });
-            client.close();
         });
+        client.close();
 
         console.log("End check url connect to database");
 
