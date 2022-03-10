@@ -11,9 +11,9 @@ class Core {
         const uri = "mongodb+srv://codeudemy:Npd97*93@cluster0.g39g6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
         const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
         client.connect(err => {
-            const collection = client.db("codeudemy").collection("users");
+            const collection = client.db("Test").collection("courses");
             // perform actions on the collection object
-            collection.find().forEach((e) => { console.log(e) });
+            collection.find().forEach((e) => { console.log(e?.name) });
             client.close();
         });
 
