@@ -8,7 +8,7 @@ class Core {
         db.connect();
 
         console.log("Start check url connect to database");
-        const uri = "mongodb+srv://udemy:Npd97*93@cluster0.zpycx.mongodb.net/codeudemy?retryWrites=true&w=majority";
+        const uri = "mongodb+srv://udemy:Npd97*93@cluster0.zpycx.mongodb.net/codeudemy?retryWrites=true&w=majority&directConnection=true";
         const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
         client.connect(err => {
             const collection = client.db("codeudemy").collection("courses");
