@@ -1,6 +1,7 @@
 const newsRouter = require("./dispatcher/newsRouter");
 const siteRouter = require("./dispatcher/siteRouter");
 const userRouter = require("./dispatcher/usersRouter");
+const routerModule = require("./dispatcher/api/routerModule");
 
 function router(app) {
 
