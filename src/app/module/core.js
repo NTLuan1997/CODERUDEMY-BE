@@ -1,19 +1,8 @@
 const connection = require("../connection/connection");
-const Users = require("../module/users");
 
 class Core {
 
-    constructor() {
-        connection.reConnect()
-            .then(() => {
-                Users.find({}, (err, doc) => {
-                    console.log(doc);
-                });
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }
+    constructor() { }
 
     countDocumentInCollection(db_name, collection_name) {
         return new Promise((resolve, reject) => {

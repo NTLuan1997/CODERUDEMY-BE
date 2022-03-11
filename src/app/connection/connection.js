@@ -4,9 +4,7 @@ const mongoose = require('mongoose');
 class Connection {
     constructor() { }
 
-    // local = "mongodb://localhost:27017";
-    // cloud = process.env.DATABASE_URL;
-    url = process.env.DATABASE_URL || "mongodb://localhost:27017";
+    url = process.env.DATABASE_URL || "mongodb+srv://udemy:Npd97*93@cluster0.zpycx.mongodb.net/codeudemy?retryWrites=true&w=majority" || "mongod://localhost:27017/codeudemy";
 
     connect(callBack) {
         console.log("Reconnect");
@@ -23,13 +21,10 @@ class Connection {
     }
 
     async reConnect() {
-        let URL = "mongodb+srv://udemy:Npd97*93@cluster0.zpycx.mongodb.net/codeudemy?retryWrites=true&w=majority" || "mongod://localhost:27017/codeudemy";
         try {
-            await mongoose.connect(URL);
-            console.log("Connect successful!!");
+            await mongoose.connect(this.url);
 
         } catch (err) {
-            console.log("Connect fail!!");
             throw err;
         }
     }

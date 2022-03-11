@@ -1,4 +1,5 @@
 const userModule = require("../module/userModule");
+const userService = require("../services/userService");
 class SiteController {
 
     //[GET]
@@ -8,20 +9,26 @@ class SiteController {
 
     //[POST]
     login(req, res) {
-        let userInfo = req.body;
-        console.log(userInfo);
-        if (!!Object.values(userInfo).length) {
-            userModule.isUser(userInfo)
+        console.log(req.body);
+        let { email, password } = req.body;
+        if (email, password) {
+
+            console.log(email);
+            console.log(password);
+
+            userService.isUser(email, password)
                 .then((data) => {
-                    if (data) {
-                        res.status(200).json({ status: true, message: "Login successful!!", data });
-                    } else {
-                        res.status(200).json({ status: false, message: "Invalid user" });
-                    }
+                    let user = {
+                        status: true,
+                        message: (data) ? "Login successful!!" : "Invalid user",
+                        user: (data) ? data : null
+                    };
+                    res.json(user);
                 })
                 .catch((err) => {
-                    console.log(err);
+                    throw err;
                 })
+
         } else {
             res.render("components/site/login", { show: false });
         }
