@@ -1,25 +1,18 @@
 const connection = require("../connection/connection");
-const { MongoClient } = require('mongodb');
-const db = require("./user");
+const Users = require("../module/users");
 
 class Core {
 
     constructor() {
-        db.connect();
-
-        console.log("Start check url connect to database");
-        const uri = "mongodb+srv://udemy:Npd97*93@cluster0.zpycx.mongodb.net/codeudemy?retryWrites=true&w=majority";
-        const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        client.connect(err => {
-            const collection = client.db("codeudemy").collection("courses");
-            // perform actions on the collection object
-            console.log(collection.find());
-            collection.find().forEach((e) => { console.log(e?.name) });
-        });
-        client.close();
-
-        console.log("End check url connect to database");
-
+        connection.reConnect()
+            .then(() => {
+                Users.find({}, (err, doc) => {
+                    console.log(doc);
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     countDocumentInCollection(db_name, collection_name) {
@@ -34,7 +27,7 @@ class Core {
                     throw err;
 
                 } finally {
-                    client.close();
+                    // client.close();
                 }
             })
         })
@@ -91,13 +84,14 @@ class Core {
                 try {
                     client.db(db_name).collection(collection_name).find().limit(limit).skip(start).toArray((err, result) => {
                         if (err) reject(err);
+                        console.log(result);
                         resolve(result);
                     })
                 } catch (err) {
                     throw err;
 
                 } finally {
-                    client.close();
+                    // client.close();
                 }
             })
         })
