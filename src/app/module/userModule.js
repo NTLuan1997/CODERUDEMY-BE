@@ -5,7 +5,7 @@ const Core = require("./core");
 class UserModule extends Core {
     // Cloud
     db = "codeudemy";
-    collection = "users";
+    collection = "courses";
 
     // Local
     // db = "shopping";
