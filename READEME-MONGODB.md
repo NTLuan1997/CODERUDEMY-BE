@@ -582,4 +582,163 @@
                     "english.speaking": {$not: 8}
                 });
 
+            Sort:Sắp xếp dữ liệu
+                - Phương thức sắp xếp dữ liệu nhận vào 2 giá trị: (1) sắp xếp tăng dần - (-1): sắp xếp giảm dần
+                - VD: Sắp xếp người dùng theo tuổi và khả năng nói tiếng anh của họ.
+                    {
+                        "user_name": "Nguyễn Văn Thành",
+                        "email": "vanthanh@gmail.com,
+                        "password": "Npd97*93",
+                        "status": "active",
+                        "age": 30,
+                        "skills": [HTML, CSS, JS, PHP],
+                        "speaking": {
+                            "VietNam": 10,
+                            "English": 5
+                        }
+                    },
+                    {
+                        "user_name": "Nguyễn Thành Luân",
+                        "email": "thanhluan@gmail.com,
+                        "password": "Npd97*93",
+                        "status": "active",
+                        "age": 27,
+                        "skills": [HTML, CSS, JS, PHP],
+                        "speaking": {
+                            "Japan": 3,
+                            "English": 10
+                        }
+                    }
+
+                db.user.find({}).sort({age: 1, "speaking.english": -1"});
+
+            Xem câu query thực hiện ta dùng cú pháp như sau:
+                db.user.find({}).explain("executionStats");
+
+            - Nó sẽ trả ra những thông tin cần biết về câu query thực hiện. => Cách truy vấn này ảnh hưởng đến tốc đọ truy vấn khi database của chúng ta tăng kích thươc lên theo thời gian sử dụng và truy cập của người dùng.
+            - Để giải quyết Mongodb cung cấp một phương thức Indexes: Phương thức Indexes trong database được sử dụng để tối ưu quá trình tìm kiếm, Indexes trong database cũng giống như mục lục trông một cuốn sách, Thay vì ta phải tìm từng trang trong cuốn sách database ta tạo một mục lục, ta sẽ dựa vào mục lục để tìm nội dung trong cuốn sách database. Qua đó giúp câu lệnh truy vấn nhanh hơn.
+            - Một câu truy vấn không có indexes được rọi là truy vấn "Table scan". Nghĩa là phải xem qua toàn bộ database để tìm document kết quả truy vấn. và đối với các collection lơn hình thức truy cập nãy sẽ rất chậm.
+
+            - VD: Giả sử tao có một database khoản 1000000 document trong đó.
+
+            - Trước khi thêm indexes vào trong field:
+                db.users.find({username: 'user112'}).explain("executionStats")["executionStats"]
+                {
+                    "executionSuccess" : true,
+                    "nReturned" : 1,
+                    "executionTimeMillis" : 269,                => Thời gian thực hiện truy vấn trước khi thêm indexes.
+                    "totalKeysExamined" : 0,
+                    "totalDocsExamined" : 1000000,
+                    "executionStages" : {
+                        "stage" : "COLLSCAN",
+                        "filter" : {
+                            "username" : {
+                                "$eq" : "user112"
+                            }
+                        },
+                        "nReturned" : 1,
+                        "executionTimeMillisEstimate" : 211,
+                        "works" : 1000002,
+                        "advanced" : 1,
+                        "needTime" : 1000000,
+                        "needYield" : 0,
+                        "saveState" : 7813,
+                        "restoreState" : 7813,
+                        "isEOF" : 1,
+                        "invalidates" : 0,
+                        "direction" : "forward",
+                        "docsExamined" : 1000000
+                    }
+                }
+
+            - Sau khi thêm indexes vào field .
+                db.users.createIndex({username: 1}) // Đánh index cho username theo thứ tự tăng dần, -1 là giảm dần.
+                db.users.getIndexes() // Xem index nào đã có.
+                [
+                    {
+                        "v" : 2,
+                        "key" : {
+                            "_id" : 1
+                        },
+                        "name" : "_id_",
+                        "ns" : "test.users"
+                    },
+                    {
+                        "v" : 2,
+                        "key" : {
+                            "username" : 1
+                        },
+                        "name" : "username_1",
+                        "ns" : "test.users"
+                    }
+                ]
+
+                - Thực hiện lại lệnh query:
+                db.users.find({username: 'user112'}).explain("executionStats")["executionStats"]
+                {
+                    "executionSuccess" : true,
+                    "nReturned" : 1,
+                    "executionTimeMillis" : 3,                      => Thời gian truy vấn đã giảm xuống.
+                    "totalKeysExamined" : 1,
+                    "totalDocsExamined" : 1,
+                    "executionStages" : {
+                        "stage" : "FETCH",
+                        "nReturned" : 1,
+                        "executionTimeMillisEstimate" : 0,
+                        "works" : 2,
+                        "advanced" : 1,
+                        "needTime" : 0,
+                        "needYield" : 0,
+                        "saveState" : 0,
+                        "restoreState" : 0,
+                        "isEOF" : 1,
+                        "invalidates" : 0,
+                        "docsExamined" : 1,
+                        "alreadyHasObj" : 0,
+                        "inputStage" : {
+                            "stage" : "IXSCAN",
+                            "nReturned" : 1,
+                            "executionTimeMillisEstimate" : 0,
+                            "works" : 2,
+                            "advanced" : 1,
+                            "needTime" : 0,
+                            "needYield" : 0,
+                            "saveState" : 0,
+                            "restoreState" : 0,
+                            "isEOF" : 1,
+                            "invalidates" : 0,
+                            "keyPattern" : {
+                                "username" : 1
+                            },
+                            "indexName" : "username_1",
+                            "isMultiKey" : false,
+                            "multiKeyPaths" : {
+                                "username" : [ ]
+                            },
+                            "isUnique" : false,
+                            "isSparse" : false,
+                            "isPartial" : false,
+                            "indexVersion" : 2,
+                            "direction" : "forward",
+                            "indexBounds" : {
+                                "username" : [
+                                    "[\"user112\", \"user112\"]"
+                                ]
+                            },
+                            "keysExamined" : 1,
+                            "seeks" : 1,
+                            "dupsTested" : 0,
+                            "dupsDropped" : 0,
+                            "seenInvalidated" : 0
+                        }
+                    }
+                }
+
+
+
+
+
+
+
+
 --->
