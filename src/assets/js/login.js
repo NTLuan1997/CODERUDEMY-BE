@@ -13,7 +13,7 @@ window.onload = function (e) {
         console.log(body);
 
         if (email && password) {
-            fetch(url, {
+            fetch(url + 'API/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

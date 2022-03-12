@@ -1,6 +1,9 @@
 const express = require('express');
 const { engine } = require("express-handlebars");
-const router = require("./routers/routers");
+// const router = require("./routers/routers");
+const routerApiModule = require("./routers/dispatcher/api/routerModule");
+const routerDenderModule = require("./routers/dispatcher/render/routerModule");
+
 // const morgan = require('morgan');
 const path = require('path');
 const app = express();
@@ -63,7 +66,8 @@ app.set('views', path.join(__dirname, 'resource/views'))
 
 
 // Router initial
-router(app);
+routerDenderModule(app);
+routerApiModule(app);
 
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`, app.settings.env);
