@@ -621,6 +621,8 @@
 
             - VD: Giả sử tao có một database khoản 1000000 document trong đó.
 
+            - Kỹ thuật Single Indexes trong mongodb.
+
             - Trước khi thêm indexes vào trong field:
                 db.users.find({username: 'user112'}).explain("executionStats")["executionStats"]
                 {
@@ -734,8 +736,258 @@
                     }
                 }
 
+        - Dạng đầy đủ của câp truy vân Thực hiện truy vấn thực tế trên bảng biểu dữ liệu database trong hệ cơ sở dữ liệu có trong database:
+            + Trước khi thêm indexes cho một record trong document. thời gian query mất khoản 7 millis second.
+                db.users.find({"password": "12345"}).sort({"user_name" 1}).explain("executionStats")
+
+                {
+                    "queryPlanner" : {
+                        "plannerVersion" : 1,
+                        "namespace" : "codeudemy.users",
+                        "indexFilterSet" : false,
+                        "parsedQuery" : {
+                            "password" : {
+                                "$eq" : "12345"
+                            }
+                        },
+                        "winningPlan" : {
+                            "stage" : "SORT",
+                            "sortPattern" : {
+                                "user_name" : 1.0
+                            },
+                            "inputStage" : {
+                                "stage" : "SORT_KEY_GENERATOR",
+                                "inputStage" : {
+                                    "stage" : "COLLSCAN",
+                                    "filter" : {
+                                        "password" : {
+                                            "$eq" : "12345"
+                                        }
+                                    },
+                                    "direction" : "forward"
+                                }
+                            }
+                        },
+                        "rejectedPlans" : []
+                    },
+                    "executionStats" : {
+                        "executionSuccess" : true,
+                        "nReturned" : 6,
+                        "executionTimeMillis" : 71,
+                        "totalKeysExamined" : 0,
+                        "totalDocsExamined" : 9,
+                        "executionStages" : {
+                            "stage" : "SORT",
+                            "nReturned" : 6,
+                            "executionTimeMillisEstimate" : 10,
+                            "works" : 19,
+                            "advanced" : 6,
+                            "needTime" : 12,
+                            "needYield" : 0,
+                            "saveState" : 0,
+                            "restoreState" : 0,
+                            "isEOF" : 1,
+                            "invalidates" : 0,
+                            "sortPattern" : {
+                                "user_name" : 1.0
+                            },
+                            "memUsage" : 953,
+                            "memLimit" : 33554432,
+                            "inputStage" : {
+                                "stage" : "SORT_KEY_GENERATOR",
+                                "nReturned" : 6,
+                                "executionTimeMillisEstimate" : 10,
+                                "works" : 12,
+                                "advanced" : 6,
+                                "needTime" : 5,
+                                "needYield" : 0,
+                                "saveState" : 0,
+                                "restoreState" : 0,
+                                "isEOF" : 1,
+                                "invalidates" : 0,
+                                "inputStage" : {
+                                    "stage" : "COLLSCAN",
+                                    "filter" : {
+                                        "password" : {
+                                            "$eq" : "12345"
+                                        }
+                                    },
+                                    "nReturned" : 6,
+                                    "executionTimeMillisEstimate" : 10,
+                                    "works" : 11,
+                                    "advanced" : 6,
+                                    "needTime" : 4,
+                                    "needYield" : 0,
+                                    "saveState" : 0,
+                                    "restoreState" : 0,
+                                    "isEOF" : 1,
+                                    "invalidates" : 0,
+                                    "direction" : "forward",
+                                    "docsExamined" : 9
+                                }
+                            }
+                        }
+                    },
+                    "serverInfo" : {
+                        "host" : "LAPTOP-H32JOGGO",
+                        "port" : 27017,
+                        "version" : "3.6.23",
+                        "gitVersion" : "d352e6a4764659e0d0350ce77279de3c1f243e5c"
+                    },
+                    "ok" : 1.0
+                }
+
+            + Sau khi thêm hoặc đánh chỉ số index cho record trong database.
+                db.users.createIndex({"user_name": 1})
+
+                {
+                    "createdCollectionAutomatically" : false,
+                    "numIndexesBefore" : 1,
+                    "numIndexesAfter" : 2,
+                    "ok" : 1.0
+                }
+
+                db.users.getIndexes()
+
+                /* 1 */
+                [
+                    {
+                        "v" : 2,
+                        "key" : {
+                            "_id" : 1
+                        },
+                        "name" : "_id_",
+                        "ns" : "codeudemy.users"
+                    },
+                    {
+                        "v" : 2,
+                        "key" : {
+                            "user_name" : 1.0
+                        },
+                        "name" : "user_name_1",
+                        "ns" : "codeudemy.users"
+                    }
+                ]
+
+            + Sau khi đã đánh chỉ số indexes cho record trong document.
+                db.users.find({"password": "12345"}).sort({"user_name" 1}).explain("executionStats")
+
+                /* 1 */
+                {
+                    "queryPlanner" : {
+                        "plannerVersion" : 1,
+                        "namespace" : "codeudemy.users",
+                        "indexFilterSet" : false,
+                        "parsedQuery" : {
+                            "password" : {
+                                "$eq" : "12345"
+                            }
+                        },
+                        "winningPlan" : {
+                            "stage" : "FETCH",
+                            "filter" : {
+                                "password" : {
+                                    "$eq" : "12345"
+                                }
+                            },
+                            "inputStage" : {
+                                "stage" : "IXSCAN",
+                                "keyPattern" : {
+                                    "user_name" : 1.0
+                                },
+                                "indexName" : "user_name_1",
+                                "isMultiKey" : false,
+                                "multiKeyPaths" : {
+                                    "user_name" : []
+                                },
+                                "isUnique" : false,
+                                "isSparse" : false,
+                                "isPartial" : false,
+                                "indexVersion" : 2,
+                                "direction" : "forward",
+                                "indexBounds" : {
+                                    "user_name" : [ 
+                                        "[MinKey, MaxKey]"
+                                    ]
+                                }
+                            }
+                        },
+                        "rejectedPlans" : []
+                    },
+                    "executionStats" : {
+                        "executionSuccess" : true,
+                        "nReturned" : 6,
+                        "executionTimeMillis" : 57,
+                        "totalKeysExamined" : 9,
+                        "totalDocsExamined" : 9,
+                        "executionStages" : {
+                            "stage" : "FETCH",
+                            "filter" : {
+                                "password" : {
+                                    "$eq" : "12345"
+                                }
+                            },
+                            "nReturned" : 6,
+                            "executionTimeMillisEstimate" : 11,
+                            "works" : 10,
+                            "advanced" : 6,
+                            "needTime" : 3,
+                            "needYield" : 0,
+                            "saveState" : 1,
+                            "restoreState" : 1,
+                            "isEOF" : 1,
+                            "invalidates" : 0,
+                            "docsExamined" : 9,
+                            "alreadyHasObj" : 0,
+                            "inputStage" : {
+                                "stage" : "IXSCAN",
+                                "nReturned" : 9,
+                                "executionTimeMillisEstimate" : 11,
+                                "works" : 10,
+                                "advanced" : 9,
+                                "needTime" : 0,
+                                "needYield" : 0,
+                                "saveState" : 1,
+                                "restoreState" : 1,
+                                "isEOF" : 1,
+                                "invalidates" : 0,
+                                "keyPattern" : {
+                                    "user_name" : 1.0
+                                },
+                                "indexName" : "user_name_1",
+                                "isMultiKey" : false,
+                                "multiKeyPaths" : {
+                                    "user_name" : []
+                                },
+                                "isUnique" : false,
+                                "isSparse" : false,
+                                "isPartial" : false,
+                                "indexVersion" : 2,
+                                "direction" : "forward",
+                                "indexBounds" : {
+                                    "user_name" : [ 
+                                        "[MinKey, MaxKey]"
+                                    ]
+                                },
+                                "keysExamined" : 9,
+                                "seeks" : 1,
+                                "dupsTested" : 0,
+                                "dupsDropped" : 0,
+                                "seenInvalidated" : 0
+                            }
+                        }
+                    },
+                    "serverInfo" : {
+                        "host" : "LAPTOP-H32JOGGO",
+                        "port" : 27017,
+                        "version" : "3.6.23",
+                        "gitVersion" : "d352e6a4764659e0d0350ce77279de3c1f243e5c"
+                    },
+                    "ok" : 1.0
+                }
 
 
+        - Kỹ thuật compund index trong mongodb.
 
 
 
