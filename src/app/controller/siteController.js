@@ -14,9 +14,9 @@ class SiteController {
             userService.isUser(email, password)
                 .then((data) => {
                     let user = {
-                        status: true,
-                        message: (data) ? "Login successful!!" : "Invalid user",
-                        user: (data) ? data : null
+                        status: (data.length > 0) ? true : false,
+                        message: (data.length > 0) ? "Login successful!!" : "User dosen't exist",
+                        user: (data.length > 0) ? data : null
                     };
                     res.json(user);
                 })

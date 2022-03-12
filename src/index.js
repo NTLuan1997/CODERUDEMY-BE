@@ -1,8 +1,8 @@
 const express = require('express');
 const { engine } = require("express-handlebars");
 // const router = require("./routers/routers");
-const routerApiModule = require("./routers/dispatcher/api/routerModule");
-const routerDenderModule = require("./routers/dispatcher/render/routerModule");
+const routerApiModule = require("./routers/api/routerModule");
+const routerRenderModule = require("./routers/render/routerModule");
 
 // const morgan = require('morgan');
 const path = require('path');
@@ -65,8 +65,8 @@ app.set('view engine', 'hbs')
 app.set('views', path.join(__dirname, 'resource/views'))
 
 
-// Router initial
-routerDenderModule(app);
+// Router init
+routerRenderModule(app);
 routerApiModule(app);
 
 app.listen(PORT, () => {

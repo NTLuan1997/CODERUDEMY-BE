@@ -44,4 +44,20 @@ footer {
     text-align: center;
     text-transform: uppercase; }
 
+.modal-loader {
+  background-color: #ebebeb82;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+  position: fixed;
+  width: 100%; }
+  .modal-loader img {
+    width: 450px; }
+
+.modal-loader.active {
+  display: flex; }
+
 /*# sourceMappingURL=../../../false/app.css.map */
