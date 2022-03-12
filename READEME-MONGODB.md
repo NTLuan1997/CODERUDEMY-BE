@@ -459,7 +459,127 @@
 
 
         - Lệnh truy vấn kết quả trong database của MongoDB (Find & Query & Projection operators trong MongoDB).
-            
+            Query:
+            + Đếm số record (document) có trong collection.
+                db.<name_collection>.find({}).count();
 
+            + Tìm theo điều kiên.
+                db.<name_collection>.find({"name_filed": "value query"});
+
+            Projection:
+            + Tìm kiếm theo điều kiện hiển thị thông tin các trường theo mong muốn.
+                db.<name_collection>.find({}, {"name_key": 1, "name_key": 0})
+
+                - đối số thứ 2 cung cấp thông tin các trường cần truy cập với các đối số 1: là hiện - 0: là không lấy thông tin
+
+            Phân trang:
+            + Phương thức limit();
+                db.<name_collection>.find({}).limit(<number_item_query>).skip(<number_start_query>);
+                - Limit(<number_item_query>): Phương thức limit() quy định số phần tử sẽ lấy.
+                - skip(<number_start_query>): Phương thức skip() vị trí bắt đầu truy vấn.
+
+            Câu lệnh điều kiện:
+            + Tìm nhiều phần tử.
+                db.<name_collection>.find("_id": {$in: [ObjectId(1......), ObjectId(2......)]});
+                - Toán tử $in(bằng với a hoặc bằng với b): tìm phần có điều kiện đúng với những giá trị trong mảng đã cho trước.
+                - VD: Tìm những phần tử có tuổi lớn hơn 30 và nhỏ hơn 40 hiện có trong database.
+                db.user.find({
+                    age: {
+                        $gt: 30,
+                        $lt: 40
+                    }
+                });
+
+                - VD: Tìm người dùng có khả năng nói tiếng anh tốt trong khoản 3 - 7 và giả sử ta có một đối tượng như sau.
+                    {
+                        "user_name": "Nguyễn Văn Thành",
+                        "email": "vanthanh@gmail.com,
+                        "password": "Npd97*93",
+                        "status": "active",
+                        "skills": [HTML, CSS, JS, PHP],
+                        "speaking": {
+                            "english": 9,
+                            "VietNam": 10
+                        }
+                    }
+
+                db.user.find({"speaking.VietNam": {$gt: 9, $lt: 10}});
+
+                - Toán tử $ne(không bằng): Tìm phần tử có điều kiệm không đúng với giá trị cần so sánh.
+                - VD: Tìm người dùng không biết ngôn ngữ lập trình "PHP".
+                    {
+                        "user_name": "Nguyễn Văn Thành",
+                        "email": "vanthanh@gmail.com,
+                        "password": "Npd97*93",
+                        "status": "active",
+                        "skills": [HTML, CSS, JS, PHP],
+                        "speaking": {
+                            "english": 9,
+                            "VietNam": 10
+                        }
+                    }
+
+                db.user.find({"skills": {$en: "PHP"}});
+
+                - Toán tử $or(hoặc): Tìm phần tử có giá trị bằng với a hoặc bằng với b.
+                - VD: Tìm người dùng biết tiếng Nhật Bản leve: 5 hoặc tiếng Viêt Nam leve: > 5.
+                    {
+                        "user_name": "Nguyễn Văn Thành",
+                        "email": "vanthanh@gmail.com,
+                        "password": "Npd97*93",
+                        "status": "active",
+                        "skills": [HTML, CSS, JS, PHP],
+                        "speaking": {
+                            "VietNam": 10,
+                            "English": 5
+                        }
+                    },
+                    {
+                        "user_name": "Nguyễn Thành Luân",
+                        "email": "thanhluan@gmail.com,
+                        "password": "Npd97*93",
+                        "status": "active",
+                        "skills": [HTML, CSS, JS, PHP],
+                        "speaking": {
+                            "Japan": 3,
+                            "English": 10
+                        }
+                    }
+
+                db.user.find({
+                    $or: [
+                        "speaking.VietName": {$gt: 5},
+                        "speaking.Japan": {$eq: 5}
+                    ]
+                });
+
+                - Toán tử $not(Phủ định): phủ định của một điều kiện nào đó.
+                - VD: Tìm người dùng có leve tiếng Anh không bẳng 8.
+                    {
+                        "user_name": "Nguyễn Văn Thành",
+                        "email": "vanthanh@gmail.com,
+                        "password": "Npd97*93",
+                        "status": "active",
+                        "skills": [HTML, CSS, JS, PHP],
+                        "speaking": {
+                            "VietNam": 10,
+                            "English": 5
+                        }
+                    },
+                    {
+                        "user_name": "Nguyễn Thành Luân",
+                        "email": "thanhluan@gmail.com,
+                        "password": "Npd97*93",
+                        "status": "active",
+                        "skills": [HTML, CSS, JS, PHP],
+                        "speaking": {
+                            "Japan": 3,
+                            "English": 10
+                        }
+                    }
+
+                db.user.find({
+                    "english.speaking": {$not: 8}
+                });
 
 --->
