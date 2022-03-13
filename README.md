@@ -94,8 +94,35 @@
             + Vai trò: 
                 Sử lý trao đổi thông tin/ kiểm tra dữ liệu/ ...
 
+            + Cách thức hoạt động:
+
+                - Mô hìfnh nội dung:
+                    Browser (client) ==================> Request ==================> Server (Node)
+
+                    Browser (client) <================== Request <================== Server (Node)
+
+                - VD:
+                    Nhà ===========================> Bác bảo về : sự kiện (soát vé)
+
+                    Nhà ===========================> Sự kiện
+
+
+                    1) Tiến hành soát vé
+                    2) Không cho vào
+                    3) Cho phép vào (Validation pass -> cho vào)
+                    4) Chỉnh sửa/ thay đổi
+
         - Sử lý transaction trong nodeJs và Mongodb
             - Thư viện: mongo-sequence.
+
+
+    Session - Cookie:
+        - Cookie: Khái niệm
+            - Cookie lưu giữ thông tin người dùng trên web page.
+            - Cookie được lưu dưới daạng "Name=value".
+              cú pháp: username = "John Doe"
+            - VD: document.cookie = "username=John Doe";
+
 
     Mô hình MVC:
         - Kỹ thuật phân trang:

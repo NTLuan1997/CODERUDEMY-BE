@@ -49,7 +49,7 @@ window.onload = function (e) {
                         saveUser(user);
 
                     } else {
-                        resValidation(user, (status, err) => {
+                        resValidation(user, (status) => {
                             (status) ? loginForm.removeAttribute("disabled") : loginForm.setAttribute("disabled", true);
                         }, email, password);
                     }
