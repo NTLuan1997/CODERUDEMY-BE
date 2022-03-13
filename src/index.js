@@ -1,8 +1,10 @@
 const express = require('express');
 const { engine } = require("express-handlebars");
+const session = require('express-session');
 // const router = require("./routers/routers");
 const routerApiModule = require("./routers/api/routerModule");
 const routerRenderModule = require("./routers/render/routerModule");
+// const user = require("./app/middleware/userMiddleware");
 
 // const morgan = require('morgan');
 const path = require('path');
@@ -36,7 +38,7 @@ app.use("/css", express.static(path.join(Path.getPath(), '/node_modules/bootstra
 app.use("/jquery", express.static(path.join(Path.getPath(), '/node_modules/jquery/dist')))
 app.use("/js", express.static(path.join(Path.getPath(), '/node_modules/bootstrap/dist/js')))
 
-// Middleware
+// Middleware giúp bắt dữ liệu submit từ form lên || được gưiửi qua Ajax.
 app.use(express.urlencoded({
     extended: true
 }))
@@ -63,6 +65,15 @@ app.engine('hbs', engine({
 }))
 app.set('view engine', 'hbs')
 app.set('views', path.join(__dirname, 'resource/views'))
+
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
+}))
+
+
+// app.use(user.accept);
 
 
 // Router init
