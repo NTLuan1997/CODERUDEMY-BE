@@ -18,6 +18,12 @@ class SiteController {
                         message: (data.length > 0) ? "Login successful!!" : "User dosen't exist",
                         user: (data.length > 0) ? data : null
                     };
+                    if (user.status) {
+                        req.session.user = user;
+                        req.session.user.expires = 24 * 60 * 60 * 1000;
+                        req.session.user.maxAge = 24 * 60 * 60 * 1000;
+                        // req.session.destroy();
+                    }
                     res.json(user);
                 })
                 .catch((err) => {

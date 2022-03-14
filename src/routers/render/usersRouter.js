@@ -1,12 +1,13 @@
 const router = require("express").Router();
 const usersController = require("../../app/controller/usersController");
+const user = require("../../app/middleware/userMiddleware");
 
-router.get("/:flag", usersController.pageDetail);
-router.get("/", usersController.index);
+router.get("/:flag", user.accept, usersController.pageDetail);
+router.get("/", user.accept, usersController.index);
 
-router.post("/:flag", usersController.createUser);
-router.put("/:flag", usersController.updateUser);
-router.delete("/", usersController.deleteUser);
+router.post("/:flag", user.accept, usersController.createUser);
+router.put("/:flag", user.accept, usersController.updateUser);
+router.delete("/", user.accept, usersController.deleteUser);
 // [NORMAL]
 
 //[API]
