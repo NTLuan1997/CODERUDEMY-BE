@@ -73,9 +73,6 @@ app.use(session({
 }))
 
 
-// app.use(user.accept);
-
-
 // Router init
 routerRenderModule(app);
 routerApiModule(app);
