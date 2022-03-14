@@ -63,6 +63,18 @@ class UserService {
         })
     }
 
+    updateUserSingle(query, body) {
+        return new Promise((resolve, reject) => {
+            connection.reConnect()
+                .then(() => {
+                    Users.updateOne(query, body, { upsert: true }).exec((err, doc) => {
+                        if (err) reject(err);
+                        resolve({ status: true, message: "Update done" });
+                    })
+                })
+        })
+    }
+
 
     findLimit(limit, start) {
         return Promise.all([this.findUserLimit(limit, start), this.countUser()]);

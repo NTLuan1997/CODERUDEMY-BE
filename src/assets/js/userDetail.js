@@ -2,6 +2,7 @@ window.onload = function (e) {
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
     const url = location.href;
+    const origin = window.location.origin;
 
     // GET WRAPPER
     let userForm = $("#users-detail--info");
@@ -49,7 +50,7 @@ window.onload = function (e) {
         e.preventDefault();
         let data = getUserForm();
         if (data) {
-            fetch(url, {
+            fetch(origin + "/API/user/update", {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

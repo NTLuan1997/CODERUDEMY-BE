@@ -13,7 +13,6 @@ class UserController {
 
     // [GET HOME]
     pageUser(req, res) {
-        console.log(req);
         let { limit, start } = req.query;
         userService.findLimit(Number.parseInt(limit), Number.parseInt(start))
             .then((data) => {
@@ -78,16 +77,14 @@ class UserController {
                 "password": user.password,
                 "email": user.email,
                 "status": user.status,
-                "skill": user.skills,
+                "skills": user.skills,
                 "age": user.age
             }
         };
 
-        usersModule.updateUser(query, body)
+        userService.updateUserSingle(query, body)
             .then((data) => {
-                if (data.status) {
-                    res.status(200).json(data);
-                }
+                res.status(200).json(data);
             })
             .catch((err) => {
                 res.json({ status: false, message: err });
