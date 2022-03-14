@@ -34,7 +34,7 @@ window.onload = function (e) {
         loader.classList.add("active");
 
         if (email?.value && password?.value) {
-            fetch(url + 'API/login', {
+            fetch(url + 'API/user/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -46,8 +46,8 @@ window.onload = function (e) {
                 })
                 .then((user) => {
                     if (user.status) {
+                        console.log(user);
                         saveUser(user);
-
                     } else {
                         resValidation(user, (status) => {
                             (status) ? loginForm.removeAttribute("disabled") : loginForm.setAttribute("disabled", true);

@@ -22,8 +22,10 @@ class SiteController {
                         req.session.user = user;
                         req.session.user.expires = 24 * 60 * 60 * 1000;
                         req.session.user.maxAge = 24 * 60 * 60 * 1000;
+                        req.session.user.originalMaxAge = 24 * 60 * 60 * 1000;
                         // req.session.destroy();
                     }
+                    console.log(user);
                     res.json(user);
                 })
                 .catch((err) => {

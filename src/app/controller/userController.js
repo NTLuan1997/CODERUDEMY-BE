@@ -1,7 +1,10 @@
 const ObjectId = require("mongodb").ObjectId;
 const usersModule = require("../module/userModule");
+const userService = require("../services/userService");
 
-class UsersController {
+class UserController {
+
+    constructor() { }
 
     // [GET]
     index(req, res) {
@@ -10,18 +13,17 @@ class UsersController {
 
     // [GET HOME]
     pageUser(req, res) {
-        let body = req.query;
-        usersModule.findLimit(Number.parseInt(body.limit), Number.parseInt(body.start))
+        console.log(req);
+        let { limit, start } = req.query;
+        userService.findLimit(Number.parseInt(limit), Number.parseInt(start))
             .then((data) => {
-                if (data) {
-                    res.status(200).json({
-                        users: data[0],
-                        length: data[1]
-                    });
-                }
+                res.status(200).json({
+                    "users": data[0],
+                    "length": data[1]
+                })
             })
             .catch((err) => {
-                console.log(err);
+                throw err;
             })
     }
 
@@ -29,15 +31,12 @@ class UsersController {
     pageDetail(req, res) {
         let Id = req.query.id;
         if (Id) {
-            let query = { "_id": new ObjectId(Id) };
-            usersModule.findOneUser(query)
+            userService.findUserSingle(Id)
                 .then((data) => {
-                    if (data) {
-                        res.render("components/users/userDetail", { show: true, user: data });
-                    }
+                    res.render("components/users/userDetail", { show: true, user: data.toObject() });
                 })
                 .catch((err) => {
-                    console.log(err);
+                    throw err;
                 })
 
         } else {
@@ -45,11 +44,6 @@ class UsersController {
         }
     }
 
-    // [GET pagination]
-    pagination(req, res) {
-        console.log(req.query.currentPage);
-        // res.status(200).json({ status: true, message: "Test" });
-    }
 
     //[POST]
     createUser(req, res) {
@@ -117,4 +111,4 @@ class UsersController {
 
 }
 
-module.exports = new UsersController;
+module.exports = new UserController;
