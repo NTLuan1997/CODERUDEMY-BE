@@ -4,17 +4,19 @@ window.onload = function (e) {
     let itemInPage = 2;   // Số phần tử trên page theo yêu cầu khách hàng
     let totalPage = null; // Số item pagination được tính ra
     let url = location.href;
+    url = url.replace("/users", "");
     let headerTitles = ["STT", "Tài khoản", "Email", "Password", "Trạng thái", "Tuổi", "Quyền"];
 
     (function () {
-        fetch(`${url}/API/home?limit=${itemInPage}&start=0`, { method: "GET" })
+
+        fetch(`${url}/API/user/home?limit=${itemInPage}&start=0`, { method: "GET" })
             .then((res) => {
                 return res.json();
             })
             .then((data) => {
                 renderTableTitle();
                 renderTabPagination(data.length);
-                return data.users;
+                return data?.users;
             })
             .then((data) => {
                 renderTableBody(data);
@@ -75,7 +77,7 @@ window.onload = function (e) {
         items.forEach((e) => {
             e.addEventListener("click", function (e) {
                 let start = itemInPage * (this.dataset.id - 1);
-                fetch(`${url}/API/home?limit=${itemInPage}&start=${start}`, { method: "GET" })
+                fetch(`${url}/API/user/home?limit=${itemInPage}&start=${start}`, { method: "GET" })
                     .then((res) => {
                         return res.json();
                     })

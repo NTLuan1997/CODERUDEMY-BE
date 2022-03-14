@@ -1,7 +1,7 @@
 const userApi = require("./userApi");
 
 function routerApiModule(app) {
-    app.use("/API/login", userApi);
+    app.use("/API/user", userApi);
 }
 
 module.exports = routerApiModule;
