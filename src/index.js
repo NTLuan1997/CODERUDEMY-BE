@@ -53,11 +53,11 @@ app.engine('hbs', engine({
     helpers: {
         setChecked: (type, status) => {
             if (type == "action") {
-                if (status == "active") return "checked";
+                if (status == "action") return "checked";
                 return null;
 
             } else {
-                if (status == "no-active") return "checked";
+                if (status == "no-action") return "checked";
                 return null;
             }
         }
