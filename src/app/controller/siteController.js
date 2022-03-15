@@ -9,6 +9,7 @@ class SiteController {
 
     //[POST]
     login(req, res) {
+        console.log(req.body);
         let { email, password } = req.body;
         if (email, password) {
             userService.isUser(email, password)

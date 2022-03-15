@@ -106,18 +106,30 @@ class UserController {
             })
     }
 
-    deleteUser(req, res) {
-        let user = req.body;
-        let query = { _id: new ObjectId(user.id) };
-        usersModule.deleteUser(query)
+
+
+    removeUser(req, res) {
+        // let user = req.body;
+        // console.log(user);
+
+        let query = { _id: new ObjectId(req.body.id) };
+        userService.deleteUserSingle(query)
             .then((data) => {
-                if (data.status) {
-                    res.status(200).json({ status: true, message: "delete successfuly" });
-                }
+                res.status(200).json(data);
             })
             .catch((err) => {
-                res.json({ status: false, error: err, message: "update failed" });
+                res.json({ status: false, message: err });
             })
+
+        // usersModule.deleteUser(query)
+        //     .then((data) => {
+        //         if (data.status) {
+        //             res.status(200).json({ status: true, message: "delete successfuly" });
+        //         }
+        //     })
+        //     .catch((err) => {
+        //         res.json({ status: false, error: err, message: "update failed" });
+        //     })
     }
 
 }
