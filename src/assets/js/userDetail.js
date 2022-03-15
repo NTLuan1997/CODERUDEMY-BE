@@ -24,7 +24,7 @@ window.onload = function (e) {
         e.preventDefault();
         let data = getUserForm();
         if (data) {
-            fetch(url, {
+            fetch(origin + "/API/user/new", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -50,7 +50,7 @@ window.onload = function (e) {
         e.preventDefault();
         let data = getUserForm();
         if (data) {
-            fetch(origin + "/API/user/update", {
+            fetch(origin + "/API/user/edit", {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

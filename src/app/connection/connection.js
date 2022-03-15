@@ -22,7 +22,7 @@ class Connection {
 
     async reConnect() {
         try {
-            await mongoose.connect(this.url);
+            await mongoose.createConnection(this.url);
 
         } catch (err) {
             throw err;
