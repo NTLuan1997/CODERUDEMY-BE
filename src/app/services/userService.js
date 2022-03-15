@@ -48,6 +48,23 @@ class UserService {
         })
     }
 
+    newUseSingle(body) {
+        return new Promise((resolve, reject) => {
+            connection.reConnect()
+                .then(() => {
+                    let user = new Users(body);
+                    user.save((err) => {
+                        if (err) reject(err);
+                        resolve({ status: true, message: "Create done" });
+                    })
+
+                })
+                .catch((err) => {
+                    throw err;
+                })
+        })
+    }
+
     findUserSingle(id) {
         return new Promise((resolve, reject) => {
             connection.reConnect()
