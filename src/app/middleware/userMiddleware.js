@@ -23,4 +23,12 @@ function mapperUser(req, res, next) {
     next();
 }
 
-module.exports = { mapperUser };
+function mapperUserLogin(req, res, next) {
+    req.userLogin = {
+        email: req.body.email,
+        password: req.body.password
+    }
+    next();
+}
+
+module.exports = { mapperUser, mapperUserLogin };

@@ -1,6 +1,5 @@
 import { httpsService } from "./httpService.js";
 const $ = document.querySelector.bind(document);
-const origin = window.location.origin;
 let userId = null;
 
 export function deleteUser(element) {

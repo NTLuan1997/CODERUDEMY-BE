@@ -11,6 +11,34 @@
     display: block;
 }
 
+// BREADCRUMD
+.breadcrumd {
+    margin-top: 30px;
+    ul {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin-bottom: 0px;
+        li {
+            color: $web-background;
+            font-weight: 700;
+            a, span {
+                color: inherit;
+                font-size: 13px;
+                text-transform: uppercase;
+            }
+            span {
+                color: #031b3d96;
+            }
+            &:not(:last-child)::after {
+                display: inline-block;
+                content: "/";
+                margin: 0px 3px;
+            }
+        }
+    }
+}
+
 // FOOTER
 footer {
     background-color: $web-background;
