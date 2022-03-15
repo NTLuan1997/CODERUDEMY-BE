@@ -6,12 +6,10 @@ class UserController {
 
     constructor() { }
 
-    // [GET]
     index(req, res) {
         res.render("components/users/index", { show: true });
     }
 
-    // [GET HOME]
     pageUser(req, res) {
         let { limit, start } = req.query;
         userService.findLimit(Number.parseInt(limit), Number.parseInt(start))
@@ -26,7 +24,6 @@ class UserController {
             })
     }
 
-    // [GET]
     pageDetail(req, res) {
         let Id = req.query.id;
         if (Id) {
@@ -44,7 +41,6 @@ class UserController {
     }
 
 
-    //[POST]
     createUser(req, res) {
         let body = req.body;
         let data = {
@@ -87,7 +83,6 @@ class UserController {
             })
     }
 
-    //[PUT]
     editUser(req, res) {
         let user = req.body;
         let query = { _id: new ObjectId(user.id) };
@@ -111,7 +106,6 @@ class UserController {
             })
     }
 
-    //[DELETE]
     deleteUser(req, res) {
         let user = req.body;
         let query = { _id: new ObjectId(user.id) };
