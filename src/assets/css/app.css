@@ -8,6 +8,27 @@
   text-transform: uppercase;
   display: block; }
 
+.breadcrumd {
+  margin-top: 30px; }
+  .breadcrumd ul {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 0px; }
+    .breadcrumd ul li {
+      color: #031b3d;
+      font-weight: 700; }
+      .breadcrumd ul li a, .breadcrumd ul li span {
+        color: inherit;
+        font-size: 13px;
+        text-transform: uppercase; }
+      .breadcrumd ul li span {
+        color: #031b3d96; }
+      .breadcrumd ul li:not(:last-child)::after {
+        display: inline-block;
+        content: "/";
+        margin: 0px 3px; }
+
 footer {
   background-color: #031b3d;
   border-top: 25px solid #244576;
