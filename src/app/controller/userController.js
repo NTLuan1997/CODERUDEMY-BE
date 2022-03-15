@@ -1,5 +1,5 @@
 const ObjectId = require("mongodb").ObjectId;
-const usersModule = require("../module/userModule");
+// const usersModule = require("../module/userModule");
 const userService = require("../services/userService");
 
 class UserController {
@@ -40,41 +40,8 @@ class UserController {
         }
     }
 
-
-    createUser(req, res) {
-        let body = req.body;
-        let data = {
-            "user_name": body["user_name"],
-            email: body.email,
-            password: body.password,
-            age: body.age,
-            status: body.status,
-            skill: body.skills
-        }
-
-        usersModule.createUser(data)
-            .then((data) => {
-                if (data.status) {
-                    res.status(200).json(data);
-                }
-            })
-            .catch((err) => {
-                res.status(400).json(err);
-            })
-    }
-
     newUser(req, res) {
-        let user = req.body;
-        let body = {
-            "user_name": user["user_name"],
-            "password": user.password,
-            "email": user.email,
-            "status": user.status,
-            "skills": user.skills,
-            "age": user.age
-        };
-
-        userService.newUseSingle(body)
+        userService.newUseSingle(req.mongoBody)
             .then((data) => {
                 res.status(200).json(data);
             })
@@ -84,20 +51,7 @@ class UserController {
     }
 
     editUser(req, res) {
-        let user = req.body;
-        let query = { _id: new ObjectId(user.id) };
-        let body = {
-            $set: {
-                "user_name": user["user_name"],
-                "password": user.password,
-                "email": user.email,
-                "status": user.status,
-                "skills": user.skills,
-                "age": user.age
-            }
-        };
-
-        userService.updateUserSingle(query, body)
+        userService.updateUserSingle(req.mongoQuery, req.mongoBody)
             .then((data) => {
                 res.status(200).json(data);
             })
@@ -106,30 +60,14 @@ class UserController {
             })
     }
 
-
-
     removeUser(req, res) {
-        // let user = req.body;
-        // console.log(user);
-
-        let query = { _id: new ObjectId(req.body.id) };
-        userService.deleteUserSingle(query)
+        userService.deleteUserSingle(req.mongoQuery)
             .then((data) => {
                 res.status(200).json(data);
             })
             .catch((err) => {
                 res.json({ status: false, message: err });
             })
-
-        // usersModule.deleteUser(query)
-        //     .then((data) => {
-        //         if (data.status) {
-        //             res.status(200).json({ status: true, message: "delete successfuly" });
-        //         }
-        //     })
-        //     .catch((err) => {
-        //         res.json({ status: false, error: err, message: "update failed" });
-        //     })
     }
 
 }
