@@ -1,12 +1,10 @@
 import { validation, resValidation } from './validation.js';
+import { httpsService } from "./httpService.js";
 
 window.onload = function (e) {
     let $ = document.querySelector.bind(document);
     let $$ = document.querySelectorAll.bind(document);
 
-    let url = location.href;
-    // let emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    let loader = $$(".modal-loader")[0];
     let email = $("#user_email");
     let password = $("#user_password");
     let loginForm = $("#user_login");
@@ -31,29 +29,19 @@ window.onload = function (e) {
 
     loginForm.addEventListener("click", function (e) {
         e.preventDefault();
-        loader.classList.add("active");
-
         if (email?.value && password?.value) {
-            fetch(url + 'API/user/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ "email": email?.value, password: password?.value })
-            })
-                .then((res) => {
-                    return res.json();
+            httpsService('API/user/login', 'POST', { "email": email?.value, password: password?.value })
+                .then((data) => {
+                    return data.json();
                 })
                 .then((user) => {
                     if (user.status) {
-                        console.log(user);
                         saveUser(user);
                     } else {
                         resValidation(user, (status) => {
                             (status) ? loginForm.removeAttribute("disabled") : loginForm.setAttribute("disabled", true);
                         }, email, password);
                     }
-                    loader.classList.remove("active");
                 })
                 .catch((err) => {
                     console.log(err);

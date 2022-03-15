@@ -1,16 +1,16 @@
 import { deleteUser } from "./delete.js";
+import { httpsService } from "./httpService.js";
 
 window.onload = function (e) {
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
+
     let itemInPage = 2;   // Số phần tử trên page theo yêu cầu khách hàng
     let totalPage = null; // Số item pagination được tính ra
-    let origin = window.location.origin;
     let headerTitles = ["STT", "Tài khoản", "Email", "Password", "Trạng thái", "Tuổi", "Quyền"];
 
     (function () {
-
-        fetch(`${origin}/API/user/home?limit=${itemInPage}&start=0`, { method: "GET" })
+        httpsService(`API/user/home?limit=${itemInPage}&start=0`, "GET", null)
             .then((res) => {
                 return res.json();
             })
@@ -27,7 +27,6 @@ window.onload = function (e) {
                 console.log(err);
             })
     })();
-
 
     // [RENDER TEMPLATE]
     function renderTableTitle() {
@@ -79,7 +78,7 @@ window.onload = function (e) {
         items.forEach((e) => {
             e.addEventListener("click", function (e) {
                 let start = itemInPage * (this.dataset.id - 1);
-                fetch(`${origin}/API/user/home?limit=${itemInPage}&start=${start}`, { method: "GET" })
+                httpsService(`API/user/home?limit=${itemInPage}&start=${start}`, "GET", null)
                     .then((res) => {
                         return res.json();
                     })
