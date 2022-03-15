@@ -67,8 +67,28 @@ class UserController {
             })
     }
 
+    newUser(req, res) {
+        let user = req.body;
+        let body = {
+            "user_name": user["user_name"],
+            "password": user.password,
+            "email": user.email,
+            "status": user.status,
+            "skills": user.skills,
+            "age": user.age
+        };
+
+        userService.newUseSingle(body)
+            .then((data) => {
+                res.status(200).json(data);
+            })
+            .catch((err) => {
+                res.json({ status: false, message: err });
+            })
+    }
+
     //[PUT]
-    updateUser(req, res) {
+    editUser(req, res) {
         let user = req.body;
         let query = { _id: new ObjectId(user.id) };
         let body = {
