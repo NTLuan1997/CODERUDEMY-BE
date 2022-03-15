@@ -10,35 +10,37 @@
 </head>
 
 <body>
+    <div class="container">
 
-    <div class="breadcrumd">
-        <ul class="list-unstyled">
-            <li><a href="/home">Trang chủ</a></li>
-            <li><span>Người dùng</span></li>
-        </ul>
-    </div>
-
-    <div class="user my-3">
-        <div class="d-flex align-items-center justify-content-between">
-            <h3 class="title-table">Thông tin người dùng</h3>
-            <button class="btn btn-primary add-user" id="create-btn">
-                <i class="fa fa-plus mr-2" aria-hidden="true"></i>
-                <a href="/users/detail?type=create">Thêm mới</a>
-            </button>
+        <div class="breadcrumd">
+            <ul class="list-unstyled">
+                <li><a href="/home">Trang chủ</a></li>
+                <li><span>Người dùng</span></li>
+            </ul>
         </div>
-        <table class="table mb-0" id="user-table">
-            <thead class="thead-dark">
-                <tr id="user-table-header"></tr>
-            </thead>
-            <tbody id="user-table-body">
-            </tbody>
-        </table>
-    </div>
 
-    <!-- Pagination -->
-    <nav aria-label="Page navigation example">
-        <ul class="pagination d-flex align-items-center justify-content-center"></ul>
-    </nav>
+        <div class="user my-3">
+            <div class="d-flex align-items-center justify-content-between">
+                <h3 class="title-table">Thông tin người dùng</h3>
+                <button class="btn btn-primary add-user" id="create-btn">
+                    <i class="fa fa-plus mr-2" aria-hidden="true"></i>
+                    <a href="/users/detail?type=create">Thêm mới</a>
+                </button>
+            </div>
+            <table class="table mb-0" id="user-table">
+                <thead class="thead-dark">
+                    <tr id="user-table-header"></tr>
+                </thead>
+                <tbody id="user-table-body">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination d-flex align-items-center justify-content-center"></ul>
+        </nav>
+    </div>
 
     <script type="module" src="/static/js/user.js"></script>
 </body>

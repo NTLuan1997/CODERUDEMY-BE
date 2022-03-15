@@ -21,7 +21,8 @@
       font-size: 12px;
       text-transform: uppercase; }
     .user .table tbody td {
-      font-size: 15px; }
+      font-size: 15px;
+      vertical-align: middle; }
       .user .table tbody td .btn a {
         color: #ffffff; }
 

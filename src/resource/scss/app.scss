@@ -1,5 +1,6 @@
 @import "_variables.scss";
 
+// HOME PAGE
 .home_title {
     background-color: $red-color;
     color: $red-color;
@@ -9,6 +10,41 @@
     text-align: center;
     text-transform: uppercase;
     display: block;
+}
+
+.document-component {
+    .component-items {
+        overflow: hidden;
+        position: relative;
+        .component-items--content {
+            color: #ffffff;
+            background-color: #00000017;
+            position: absolute;
+            left: 0px;
+            bottom: -110px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            width: 100%;
+            .content-title {
+                font-size: 21px;
+                letter-spacing:.2px;
+                text-transform: uppercase;
+            }
+            .content-description{
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+        &:hover, &:focus {
+            .component-items--content {
+                bottom: 0px;
+            }
+        }
+    }
 }
 
 // BREADCRUMD
