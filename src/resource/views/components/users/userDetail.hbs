@@ -10,65 +10,68 @@
 </head>
 
 <body>
-    <div class="breadcrumd">
-        <ul class="list-unstyled">
-            <li><a href="/home">Trang chủ</a></li>
-            <li><a href="/users">Người dùng</a></li>
-            <li><span>Chi tiết người dùng</span></li>
-        </ul>
-    </div>
-    <div class="users-detail my-5">
-        <h2 class="users-detail--title">User detail title</h2>
-        <form id="users-detail--info">
-            <div class="row">
-                <div class="col-6">
-                    <div class="form-group">
-                        <label class="title--input" for="user-name">Tên người dùng</label>
-                        <input type="text" class="form-control" id="user-name" placeholder="Họ và tên"
-                            value="{{user.user_name}}">
-                    </div>
-                    <div class="form-group">
-                        <label class="title--input" for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Địa chỉ email"
-                            value="{{user.email}}">
-                    </div>
-                    <div class="form-group">
-                        <label class="title--input" for="password">Mật khẩu</label>
-                        <input type="password" class="form-control" id="password" placeholder="Mật khẩu"
-                            value="{{user.password}}">
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label class="title--input" for="age">Tuổi</label>
-                        <input type="text" class="form-control" id="age" placeholder="Tuổi" value="{{user.age}}">
-                    </div>
-                    <div class="form-group">
-                        <label class="title--input" for="exampleInputPassword1">Trạng thái</label>
-                        <div class="wrapper-status d-flex align-items-center">
-                            <div class="custom-control custom-radio mr-3">
-                                <input type="radio" id="action" name="status" value="action"
-                                    class="custom-control-input" {{setChecked "action" user.status }}>
-                                <label class="custom-control-label input--status-title" for="action">Hoạt động</label>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input type="radio" id="no-action" name="status" value="no-action"
-                                    class="custom-control-input" {{setChecked "no-action" user.status }}>
-                                <label class="custom-control-label input--status-title" for="no-action">Không hoạt
-                                    động</label>
-                            </div>
+    <div class="container">
+        <div class="breadcrumd">
+            <ul class="list-unstyled">
+                <li><a href="/home">Trang chủ</a></li>
+                <li><a href="/users">Người dùng</a></li>
+                <li><span>Chi tiết</span></li>
+            </ul>
+        </div>
+        <div class="users-detail my-3">
+            <h2 class="users-detail--title">User detail title</h2>
+            <form id="users-detail--info">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="title--input" for="user-name">Tên người dùng</label>
+                            <input type="text" class="form-control" id="user-name" placeholder="Họ và tên"
+                                value="{{user.user_name}}">
+                        </div>
+                        <div class="form-group">
+                            <label class="title--input" for="email">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="Địa chỉ email"
+                                value="{{user.email}}">
+                        </div>
+                        <div class="form-group">
+                            <label class="title--input" for="password">Mật khẩu</label>
+                            <input type="password" class="form-control" id="password" placeholder="Mật khẩu"
+                                value="{{user.password}}">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="title--input" for="skills">Chuyên môn</label>
-                        <textarea class="form-control" id="skills" rows="5">{{user.skills}}</textarea>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="title--input" for="age">Tuổi</label>
+                            <input type="text" class="form-control" id="age" placeholder="Tuổi" value="{{user.age}}">
+                        </div>
+                        <div class="form-group">
+                            <label class="title--input" for="exampleInputPassword1">Trạng thái</label>
+                            <div class="wrapper-status d-flex align-items-center">
+                                <div class="custom-control custom-radio mr-3">
+                                    <input type="radio" id="action" name="status" value="action"
+                                        class="custom-control-input" {{setChecked "action" user.status }}>
+                                    <label class="custom-control-label input--status-title" for="action">Hoạt
+                                        động</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="no-action" name="status" value="no-action"
+                                        class="custom-control-input" {{setChecked "no-action" user.status }}>
+                                    <label class="custom-control-label input--status-title" for="no-action">Không hoạt
+                                        động</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="title--input" for="skills">Chuyên môn</label>
+                            <textarea class="form-control" id="skills" rows="5">{{user.skills}}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group col-6">
+                        <button type="submit" class="btn btn-primary w-100 users-detail--btn">Submit</button>
                     </div>
                 </div>
-                <div class="form-group col-6">
-                    <button type="submit" class="btn btn-primary w-100 users-detail--btn">Submit</button>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
     <script type="module" src="/static/js/userDetail.js"></script>
 </body>
