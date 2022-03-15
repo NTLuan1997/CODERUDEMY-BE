@@ -5,7 +5,7 @@ window.onload = function (e) {
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
 
-    let itemInPage = 2;   // Số phần tử trên page theo yêu cầu khách hàng
+    let itemInPage = 5;   // Số phần tử trên page theo yêu cầu khách hàng
     let totalPage = null; // Số item pagination được tính ra
     let headerTitles = ["STT", "Tài khoản", "Email", "Password", "Trạng thái", "Tuổi", "Quyền"];
 

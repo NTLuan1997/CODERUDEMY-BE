@@ -1,5 +1,3 @@
-const ObjectId = require("mongodb").ObjectId;
-// const usersModule = require("../module/userModule");
 const userService = require("../services/userService");
 
 class UserController {

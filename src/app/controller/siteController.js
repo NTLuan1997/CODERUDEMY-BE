@@ -9,10 +9,9 @@ class SiteController {
 
     //[POST]
     login(req, res) {
-        console.log(req.body);
-        let { email, password } = req.body;
-        if (email, password) {
-            userService.isUser(email, password)
+        if (req.hasOwnProperty("userLogin")) {
+            // if (req.userLogin.email, req.userLogin.password) {
+            userService.isUser(req.userLogin.email, req.userLogin.password)
                 .then((data) => {
                     let user = {
                         status: (data.length > 0) ? true : false,
@@ -33,6 +32,7 @@ class SiteController {
                     throw err;
                 })
 
+            // } 
         } else {
             res.render("components/site/login", { show: false });
         }
