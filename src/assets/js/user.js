@@ -1,3 +1,5 @@
+import { deleteUser } from "./delete.js";
+
 window.onload = function (e) {
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
@@ -58,6 +60,7 @@ window.onload = function (e) {
             `)
         }, []).join("");
         body.innerHTML = template;
+        deleteUser($$(".btn-delete-user"));
     }
 
     function renderTabPagination(totalItem) {
