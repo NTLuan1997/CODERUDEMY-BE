@@ -1,3 +1,4 @@
+import { httpsService } from "./httpService.js";
 const $ = document.querySelector.bind(document);
 const origin = window.location.origin;
 let userId = null;
@@ -16,16 +17,10 @@ export function deleteUser(element) {
 }
 
 function removeUser(id) {
-    fetch(origin + "/API/user/remove", {
-        method: "DELETE",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ id: id })
-    })
+    httpsService("API/user/remove", "DELETE", { "id": id })
         .then((data) => {
             if (data.status) {
-                location.href = "/users";
+                location.reload();
             }
         })
         .catch((err) => {

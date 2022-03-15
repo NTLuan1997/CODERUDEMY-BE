@@ -1,13 +1,12 @@
-import { awaitLoader, getType, getToken } from "./common.js";
+import { getType, getToken } from "./common.js";
+import { httpsService } from "./httpService.js";
 
 window.onload = function (e) {
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
-    const origin = window.location.origin;
 
     // GET WRAPPER
     let userForm = $("#users-detail--info");
-    let loader = $$(".modal-loader")[0];
 
     switch (getType()) {
         case "update":
@@ -26,20 +25,12 @@ window.onload = function (e) {
         e.preventDefault();
         let data = getUserForm();
         if (data) {
-            awaitLoader(loader, true);
-            fetch(origin + "/API/user/new", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
+            httpsService("API/user/new", "POST", data)
                 .then((res) => {
                     return res.json();
                 })
                 .then((data) => {
                     if (data.status) {
-                        awaitLoader(loader, false);
                         location.href = "/users";
                     }
                 })
@@ -47,7 +38,6 @@ window.onload = function (e) {
                     console.error(err);
                 })
         }
-
     }
 
     function updateUser(e) {
@@ -55,20 +45,12 @@ window.onload = function (e) {
         let data = getUserForm();
         data["id"] = getToken();
         if (data) {
-            awaitLoader(loader, true);
-            fetch(origin + "/API/user/edit", {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
+            httpsService("API/user/edit", "PUT", data)
                 .then((res) => {
                     return res.json();
                 })
                 .then((data) => {
                     if (data.status) {
-                        awaitLoader(loader, false);
                         location.href = "/users";
                     }
                 })
