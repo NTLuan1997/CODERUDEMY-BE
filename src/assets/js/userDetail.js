@@ -1,13 +1,15 @@
+import { awaitLoader, getType, getToken } from "./common.js";
+
 window.onload = function (e) {
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
-    const url = location.href;
     const origin = window.location.origin;
 
     // GET WRAPPER
     let userForm = $("#users-detail--info");
+    let loader = $$(".modal-loader")[0];
 
-    switch (getParams("type")) {
+    switch (getType()) {
         case "update":
             setTitleForm("update");
             userForm.addEventListener("submit", updateUser);
@@ -24,6 +26,7 @@ window.onload = function (e) {
         e.preventDefault();
         let data = getUserForm();
         if (data) {
+            awaitLoader(loader, true);
             fetch(origin + "/API/user/new", {
                 method: 'POST',
                 headers: {
@@ -36,6 +39,7 @@ window.onload = function (e) {
                 })
                 .then((data) => {
                     if (data.status) {
+                        awaitLoader(loader, false);
                         location.href = "/users";
                     }
                 })
@@ -49,7 +53,9 @@ window.onload = function (e) {
     function updateUser(e) {
         e.preventDefault();
         let data = getUserForm();
+        data["id"] = getToken();
         if (data) {
+            awaitLoader(loader, true);
             fetch(origin + "/API/user/edit", {
                 method: 'PUT',
                 headers: {
@@ -62,6 +68,7 @@ window.onload = function (e) {
                 })
                 .then((data) => {
                     if (data.status) {
+                        awaitLoader(loader, false);
                         location.href = "/users";
                     }
                 })
@@ -80,7 +87,6 @@ window.onload = function (e) {
         let age = $("#age");
 
         let data = {
-            "id": getParams("id"),
             "user_name": userName.value,
             "email": email.value,
             "password": password.value,
@@ -93,16 +99,6 @@ window.onload = function (e) {
             return null;
         }
         return data;
-    }
-
-    function getParams(type) {
-        let conditions = url.split("?");
-        let querys = conditions[1].split("&");
-
-        if (type == "id" && (querys.length > 1)) {
-            return querys[1].split("=")[1];
-        }
-        return querys[0].split("=")[1];
     }
 
     function setTitleForm(type) {

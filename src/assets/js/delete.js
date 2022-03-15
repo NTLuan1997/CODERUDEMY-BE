@@ -10,7 +10,6 @@ export function deleteUser(element) {
     }
 
     $("#delete-user").addEventListener("click", function (e) {
-        // console.log(userId);
         removeUser(userId);
     })
 
