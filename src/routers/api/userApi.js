@@ -6,5 +6,6 @@ router.get("/home", userController.pageUser);
 router.post("/login", siteController.login);
 router.post("/new", userController.newUser);
 router.put("/edit", userController.editUser);
+router.delete("/remove", userController.removeUser);
 
 module.exports = router;

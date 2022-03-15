@@ -5,6 +5,4 @@ const user = require("../../app/middleware/userMiddleware");
 router.get("/:flag", userController.pageDetail);
 router.get("/", userController.index);
 
-router.delete("/", userController.deleteUser);
-
 module.exports = router;

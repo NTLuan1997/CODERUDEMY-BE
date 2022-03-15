@@ -48,6 +48,25 @@ class UserService {
         })
     }
 
+    findUserSingle(id) {
+        return new Promise((resolve, reject) => {
+            connection.reConnect()
+                .then(() => {
+                    Users.findOne({ "_id": { $eq: new ObjectId(id) } }).exec((err, doc) => {
+                        if (err) reject(err);
+                        resolve(doc);
+                    })
+                })
+                .catch((err) => {
+                    throw err;
+                })
+        })
+    }
+
+    findLimit(limit, start) {
+        return Promise.all([this.findUserLimit(limit, start), this.countUser()]);
+    }
+
     newUseSingle(body) {
         return new Promise((resolve, reject) => {
             connection.reConnect()
@@ -65,21 +84,6 @@ class UserService {
         })
     }
 
-    findUserSingle(id) {
-        return new Promise((resolve, reject) => {
-            connection.reConnect()
-                .then(() => {
-                    Users.findOne({ "_id": { $eq: new ObjectId(id) } }).exec((err, doc) => {
-                        if (err) reject(err);
-                        resolve(doc);
-                    })
-                })
-                .catch((err) => {
-                    throw err;
-                })
-        })
-    }
-
     updateUserSingle(query, body) {
         return new Promise((resolve, reject) => {
             connection.reConnect()
@@ -89,13 +93,27 @@ class UserService {
                         resolve({ status: true, message: "Update done" });
                     })
                 })
+                .catch((err) => {
+                    throw err;
+                })
         })
     }
 
-
-    findLimit(limit, start) {
-        return Promise.all([this.findUserLimit(limit, start), this.countUser()]);
+    deleteUserSingle(query) {
+        return new Promise((resolve, reject) => {
+            connection.reConnect()
+                .then(() => {
+                    Users.deleteOne(query).exec((err, doc) => {
+                        if (err) reject(err);
+                        resolve({ status: true, message: "Update done" });
+                    })
+                })
+                .catch((err) => {
+                    throw err;
+                })
+        })
     }
+
 }
 
 module.exports = new UserService;
