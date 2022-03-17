@@ -1,6 +1,5 @@
 const ObjectId = require("mongodb").ObjectId;
-const connection = require("../connection/connection");
-const Users = require("../module/users");
+const User = require("../module/user");
 const Service = require("./service");
 
 class UserService extends Service {
@@ -11,12 +10,12 @@ class UserService extends Service {
 
     /**
      * 
-     * Method count user.
-     * @Returns number of users in collection.
+     * Method count User.
+     * @Returns number all of Users in collection.
      */
     countUser() {
         return super.documentQuery((resolve, reject) => {
-            resolve(Users.count({}));
+            resolve(User.count({}));
         })
     }
 
@@ -30,7 +29,7 @@ class UserService extends Service {
     isUser(email, password) {
         let query = { email: { $eq: email }, password: { $eq: password } };
         return super.documentQuery((resolve, reject) => {
-            Users.findOne(query, (err, doc) => {
+            User.findOne(query, (err, doc) => {
                 if (err) reject(err);
                 resolve(doc);
             })
@@ -48,7 +47,7 @@ class UserService extends Service {
     findOneUser(id, email, password) {
         let query = (id) ? { "_id": { $eq: new ObjectId(id) } } : { "email": { $eq: email }, "password": { $eq: password } };
         return super.documentQuery((resolve, reject) => {
-            Users.findOne(query, (err, doc) => {
+            User.findOne(query, (err, doc) => {
                 if (err) reject(err);
                 resolve(doc);
             })
@@ -64,7 +63,7 @@ class UserService extends Service {
      */
     findLimitUser(limit, start) {
         return Promise.all([super.documentQuery((resolve, reject) => {
-            Users.find({}).limit(limit).skip(start).exec((err, doc) => {
+            User.find({}).limit(limit).skip(start).exec((err, doc) => {
                 if (err) reject(err);
                 resolve(doc);
             })
@@ -79,7 +78,7 @@ class UserService extends Service {
      */
     newUser(body) {
         return super.documentQuery((resolve, reject) => {
-            Users.create(body, (err, doc) => {
+            User.create(body, (err, doc) => {
                 if (err) reject(err);
                 resolve({ status: true, message: "Create done" })
             })
@@ -95,7 +94,7 @@ class UserService extends Service {
      */
     updateUser(query, body) {
         return super.documentQuery((resolve, reject) => {
-            Users.updateOne(query, body, { upsert: true }).exec((err, doc) => {
+            User.updateOne(query, body, { upsert: true }).exec((err, doc) => {
                 if (err) reject(err);
                 resolve({ status: true, message: "Update done" });
             })
@@ -110,9 +109,9 @@ class UserService extends Service {
      */
     deleteUser(query) {
         return super.documentQuery((resolve, reject) => {
-            Users.deleteOne(query).exec((err, doc) => {
+            User.deleteOne(query).exec((err, doc) => {
                 if (err) reject(err);
-                resolve({ status: true, message: "Update done" });
+                resolve({ status: true, message: "Delete done" });
             })
         })
     }

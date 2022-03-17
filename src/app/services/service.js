@@ -6,7 +6,7 @@ class Service {
 
     /**
      * 
-     * Method count all document in collection.
+     * Method call connect to database and executed query.
      * @param {*} callback Method executed function query to mongodb.
      * @Returns Object Promise.
      */
