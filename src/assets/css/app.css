@@ -8,6 +8,39 @@
   text-transform: uppercase;
   display: block; }
 
+.sliders-component {
+  height: 100vh; }
+  .sliders-component ul {
+    box-shadow: 0 0 2px #00000030;
+    height: 100%;
+    left: 0px;
+    position: fixed;
+    padding: 15px;
+    top: 60px;
+    width: 190px; }
+    .sliders-component ul li:not(:first-child) {
+      margin-top: 15px; }
+    .sliders-component ul li a {
+      border: unset;
+      border-radius: 8px;
+      background-color: transparent;
+      box-shadow: 0 0 1px 1px #0000001f;
+      color: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 65px;
+      font-size: 11px;
+      flex-direction: column;
+      text-decoration: none;
+      text-transform: uppercase;
+      width: 100%; }
+      .sliders-component ul li a i.fa {
+        font-size: 15px;
+        margin-bottom: 5px; }
+      .sliders-component ul li a:hover {
+        text-decoration: none; }
+
 .document-component .component-items {
   overflow: hidden;
   position: relative; }
