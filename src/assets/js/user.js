@@ -1,5 +1,6 @@
 import { deleteUser } from "./delete.js";
 import { httpsService } from "./httpService.js";
+import { renderCommon } from "./render.js";
 
 window.onload = function (e) {
     const $ = document.querySelector.bind(document);
@@ -39,26 +40,7 @@ window.onload = function (e) {
 
     function renderTableBody(data) {
         let body = $("#user-table-body");
-        let template = data.reduce((accument, current, currentIndex) => {
-            return accument.concat(`
-                <tr>
-                    <td>${currentIndex + 1}</td>
-                    <td>${current['user_name']}</td>
-                    <td>${current['email']}</td>
-                    <td>${current['password']}</td>
-                    <td>${current['status']}</td>
-                    <td>${current['age']}</td>
-                    <td>
-                        <button type="button" class="btn btn-primary">
-                            <a href="/users/detail?type=update&id=${current['_id']}">Sửa</a>
-                        </button>
-                        <button type="button" class="btn btn-danger btn-delete-user" data-toggle="modal"
-                            data-whatever="${current['_id']}" data-id="${current['_id']}" data-target="#deleteUser">Xóa</button>
-                    </td>
-                </tr>
-            `)
-        }, []).join("");
-        body.innerHTML = template;
+        body.innerHTML = renderCommonBody(data);
         deleteUser($$(".btn-delete-user"));
     }
 
