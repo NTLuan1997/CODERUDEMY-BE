@@ -10,7 +10,7 @@ class UserController {
 
     pageUser(req, res) {
         let { limit, start } = req.query;
-        userService.findLimit(Number.parseInt(limit), Number.parseInt(start))
+        userService.findLimitUser(Number.parseInt(limit), Number.parseInt(start))
             .then((data) => {
                 res.status(200).json({
                     "users": data[0],
@@ -25,7 +25,7 @@ class UserController {
     pageDetail(req, res) {
         let Id = req.query.id;
         if (Id) {
-            userService.findUserSingle(Id)
+            userService.findOneUser(Id)
                 .then((data) => {
                     res.render("components/users/userDetail", { show: true, user: data.toObject() });
                 })
@@ -39,7 +39,7 @@ class UserController {
     }
 
     newUser(req, res) {
-        userService.newUseSingle(req.mongoBody)
+        userService.newUser(req.mongoBody)
             .then((data) => {
                 res.status(200).json(data);
             })
@@ -49,7 +49,7 @@ class UserController {
     }
 
     editUser(req, res) {
-        userService.updateUserSingle(req.mongoQuery, req.mongoBody)
+        userService.updateUser(req.mongoQuery, req.mongoBody)
             .then((data) => {
                 res.status(200).json(data);
             })
@@ -59,7 +59,7 @@ class UserController {
     }
 
     removeUser(req, res) {
-        userService.deleteUserSingle(req.mongoQuery)
+        userService.deleteUser(req.mongoQuery)
             .then((data) => {
                 res.status(200).json(data);
             })
