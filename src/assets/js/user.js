@@ -1,6 +1,6 @@
 import { deleteUser } from "./delete.js";
 import { httpsService } from "./httpService.js";
-import { renderCommon } from "./render.js";
+import { renderCommonBody } from "./render.js";
 
 window.onload = function (e) {
     const $ = document.querySelector.bind(document);
@@ -40,7 +40,7 @@ window.onload = function (e) {
 
     function renderTableBody(data) {
         let body = $("#user-table-body");
-        body.innerHTML = renderCommonBody(data);
+        body.innerHTML = renderCommonBody(data, ["_id", "skills"]);
         deleteUser($$(".btn-delete-user"));
     }
 
