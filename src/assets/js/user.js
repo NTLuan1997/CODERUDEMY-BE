@@ -8,7 +8,8 @@ window.onload = function (e) {
 
     let itemInPage = 5;   // Số phần tử trên page theo yêu cầu khách hàng
     let totalPage = null; // Số item pagination được tính ra
-    let headerTitles = ["STT", "Tài khoản", "Email", "Password", "Trạng thái", "Tuổi", "Quyền"];
+    let wrapperTemplate = $("#user-table-body");
+    let headerTitles = ["STT", "Tên người dùng", "Email", "Password", "Trạng thái", "Tuổi", "Quyền"];
 
     (function () {
         httpsService(`API/user/home?limit=${itemInPage}&start=0`, "GET", null)
@@ -21,7 +22,8 @@ window.onload = function (e) {
                 return data?.users;
             })
             .then((data) => {
-                renderTableBody(data);
+                renderCommonBody(wrapperTemplate, data, ["_id", "skills", "__v"], "users");
+                deleteUser($$(".btn-delete-user"));
                 paginationEvent();
             })
             .catch((err) => {
@@ -36,12 +38,6 @@ window.onload = function (e) {
             return accument.concat(`<th>${current}</th>`);
         }, []).join("");
         header.innerHTML = template;
-    }
-
-    function renderTableBody(data) {
-        let body = $("#user-table-body");
-        body.innerHTML = renderCommonBody(data, ["_id", "skills"]);
-        deleteUser($$(".btn-delete-user"));
     }
 
     function renderTabPagination(totalItem) {
@@ -65,7 +61,8 @@ window.onload = function (e) {
                         return res.json();
                     })
                     .then((data) => {
-                        renderTableBody(data.users);
+                        renderCommonBody(wrapperTemplate, data, ["_id", "skills", "__v"], "users");
+                        deleteUser($$(".btn-delete-user"));
                     })
                     .catch((err) => {
                         console.log(err);
