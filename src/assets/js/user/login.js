@@ -1,5 +1,5 @@
-import { validation, resValidation } from './validation.js';
-import { httpsService } from "./httpService.js";
+import { validation, resValidation } from '../commons/validation.js';
+import { httpsService } from "../commons/httpService.js";
 
 window.onload = function (e) {
     let $ = document.querySelector.bind(document);

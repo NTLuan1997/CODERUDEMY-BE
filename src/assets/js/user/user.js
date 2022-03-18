@@ -1,6 +1,6 @@
-import { deleteUser } from "./delete.js";
-import { httpsService } from "./httpService.js";
-import { renderHeaderTable, renderBodyTable, renderPagination } from "./render.js";
+import { deleteUser } from "../commons/delete.js";
+import { httpsService } from "../commons/httpService.js";
+import { renderHeaderTable, renderBodyTable, renderPagination } from "../commons/render.js";
 
 window.onload = function (e) {
     const $ = document.querySelector.bind(document);

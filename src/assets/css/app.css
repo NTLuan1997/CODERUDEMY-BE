@@ -88,6 +88,17 @@
         content: "/";
         margin: 0px 3px; }
 
+.table {
+  margin-top: 15px; }
+  .table .thead-dark tr th {
+    font-size: 12px;
+    text-transform: uppercase; }
+  .table tbody td {
+    font-size: 15px;
+    vertical-align: middle; }
+    .table tbody td .btn a {
+      color: #ffffff; }
+
 footer {
   background-color: #031b3d;
   border-top: 25px solid #244576;

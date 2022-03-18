@@ -1,5 +1,5 @@
-import { getType, getToken } from "./common.js";
-import { httpsService } from "./httpService.js";
+import { getType, getToken } from "../commons/common.js";
+import { httpsService } from "../commons/httpService.js";
 
 window.onload = function (e) {
     const $ = document.querySelector.bind(document);

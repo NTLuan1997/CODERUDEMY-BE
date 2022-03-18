@@ -15,16 +15,6 @@
     letter-spacing: .3px;
     text-decoration: none;
     text-transform: uppercase; }
-  .user .table {
-    margin-top: 15px; }
-    .user .table .thead-dark tr th {
-      font-size: 12px;
-      text-transform: uppercase; }
-    .user .table tbody td {
-      font-size: 15px;
-      vertical-align: middle; }
-      .user .table tbody td .btn a {
-        color: #ffffff; }
 
 .users-detail {
   border: 1px solid #cccccc;
