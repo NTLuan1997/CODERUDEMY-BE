@@ -2,6 +2,22 @@
 import { httpsService } from "./httpService.js";
 let $ = document.querySelector.bind(document);
 let $$ = document.querySelectorAll.bind(document);
+
+/**
+ * 
+ * Method render table header.
+ * @param {*} wrapperTemplate wrapperTemplate Element HTML box parent arount theader.
+ * @param {*} titles this's list title want render
+ */
+export function renderHeaderTable(wrapperTemplate, titles) {
+    let template = titles.reduce((accument, currentValue) => {
+        return accument.concat(`<th>${currentValue}</th>`);
+    }, []).join("");
+
+    wrapperTemplate.innerHTML = template;
+}
+
+
 /**
  *
  * Method render table template.
@@ -55,10 +71,10 @@ function renderButtonAction(currentId, endPoint) {
 /**
  * 
  * Method render pagination template.
- * @param {*} wrapperTemplate 
- * @param {*} pageRequire 
- * @param {*} totalDocument 
- * @param {*} endPoint 
+ * @param {*} wrapperTemplate wrapper box content pagination.
+ * @param {*} pageRequire number page customer want show.
+ * @param {*} totalDocument number all document.
+ * @param {*} endPoint connect to api.
  */
 export function renderPagination(wrapperTemplate, pageRequire, totalDocument, endPoint, callBack) {
     let template = '';
@@ -67,7 +83,7 @@ export function renderPagination(wrapperTemplate, pageRequire, totalDocument, en
         template += `<li class="page-items" data-id="${(i + 1)}"><a class="page-link">${(i + 1)}</a></li>`;
     }
     wrapperTemplate.innerHTML = template;
-    renderPaginationAction(pageRequire, endPoint, callBack)
+    renderPaginationAction(pageRequire, endPoint, callBack);
 }
 
 function renderPaginationAction(pageRequire, endPoint, callBack) {
