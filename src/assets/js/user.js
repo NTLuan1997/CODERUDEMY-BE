@@ -61,7 +61,7 @@ window.onload = function (e) {
                         return res.json();
                     })
                     .then((data) => {
-                        renderCommonBody(wrapperTemplate, data, ["_id", "skills", "__v"], "users");
+                        renderCommonBody(wrapperTemplate, data?.users, ["_id", "skills", "__v"], "users");
                         deleteUser($$(".btn-delete-user"));
                     })
                     .catch((err) => {
