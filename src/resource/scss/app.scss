@@ -116,6 +116,30 @@
     }
 }
 
+// TABLE
+.table {
+    margin-top: 15px;
+    .thead-dark {
+        tr {
+            th {
+                font-size: 12px;
+                text-transform: uppercase;
+            }
+        }
+    }
+    tbody {
+        td {
+            font-size: 15px;
+            vertical-align: middle;
+            .btn {
+                a {
+                    color: #ffffff;
+                }
+            }
+        }
+    }
+}
+
 // FOOTER
 footer {
     background-color: $web-background;
