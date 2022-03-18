@@ -19,19 +19,19 @@
 
         <table class="table">
             <thead class="thead-dark">
-                <tr>
-                    <th scope="col">#</th>
+                <tr id="course-table-header">
+                    {{!-- <th scope="col">#</th>
                     <th scope="col">Tên khóa học</th>
                     <th scope="col">Tác giả</th>
                     <th scope="col">loại khóa học</th>
                     <th scope="col">Giá khóa học</th>
                     <th scope="col">Ngày tạo</th>
                     <th scope="col">Lần cập nhật cuối cùng</th>
-                    <th scope="col">Chúc năng</th>
+                    <th scope="col">Chúc năng</th> --}}
                 </tr>
             </thead>
-            <tbody>
-                <tr>
+            <tbody id="course-table-body">
+                {{!-- <tr>
                     <th scope="row">1</th>
                     <td>Mark</td>
                     <td>Otto</td>
@@ -70,10 +70,15 @@
                     <td>Mark</td>
                     <td>Otto</td>
                     <td>@mdo</td>
-                </tr>
+                </tr> --}}
             </tbody>
         </table>
     </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination d-flex align-items-center justify-content-center"></ul>
+    </nav>
+
+    <script type="module" src="/static/js/course.js"></script>
 </body>
 
 </html>

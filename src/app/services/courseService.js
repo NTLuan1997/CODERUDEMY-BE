@@ -61,7 +61,7 @@ class CourseService extends Service {
                 if (err) reject(err);
                 resolve(doc);
             })
-        }), this.countCourse]);
+        }), this.countCourse()]);
     }
 
 
