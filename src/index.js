@@ -1,7 +1,6 @@
 const express = require("express");
 const { engine } = require("express-handlebars");
 const session = require("express-session");
-const cors = require("cors");
 const corsMiddleware = require("./app/middleware/corsMiddleware");
 const routerApiModule = require("./routers/api/routerModule");
 const routerRenderModule = require("./routers/render/routerModule");
