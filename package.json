@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NTLuan1997/Node_JS.git"
+    "url": "git+https://github.com/NTLuan1997/CODER_UDEMY.git"
   },
   "keywords": [
     "NodeJS"
@@ -19,11 +19,12 @@
   "author": "DuyNguyen",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/NTLuan1997/Node_JS/issues"
+    "url": "https://github.com/NTLuan1997/CODER_UDEMY/issues"
   },
-  "homepage": "https://github.com/NTLuan1997/Node_JS#readme",
+  "homepage": "https://github.com/NTLuan1997/CODER_UDEMY#readme",
   "dependencies": {
     "bootstrap": "^4.5.0",
+    "cors": "^2.8.5",
     "express": "^4.17.3",
     "express-handlebars": "^6.0.2",
     "express-session": "^1.17.2",
