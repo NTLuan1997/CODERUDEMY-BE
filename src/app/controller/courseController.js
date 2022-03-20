@@ -9,6 +9,14 @@ class CourseController {
         res.render('components/courses/course', { show: true });
     }
 
+    renderCourseDetail(req, res) {
+        res.render('components/courses/courseDetail', { show: true });
+    }
+
+    renderCourseDetailUpload(req, res) {
+        res.render('components/courses/courseDetail', { show: true });
+    }
+
     // Method support api.
     pageCourse(req, res) {
         courseService.findLimitCourse(req.query.limit, req.query.start)
