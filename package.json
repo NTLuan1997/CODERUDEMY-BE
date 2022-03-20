@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NTLuan1997/CODER_UDEMY.git"
+    "url": "git+https://github.com/NTLuan1997/CODERUDEMY-BE.git"
   },
   "keywords": [
     "NodeJS"
@@ -19,9 +19,9 @@
   "author": "DuyNguyen",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/NTLuan1997/CODER_UDEMY/issues"
+    "url": "https://github.com/NTLuan1997/CODERUDEMY-BE/issues"
   },
-  "homepage": "https://github.com/NTLuan1997/CODER_UDEMY#readme",
+  "homepage": "https://github.com/NTLuan1997/CODERUDEMY-BE#readme",
   "dependencies": {
     "bootstrap": "^4.5.0",
     "cors": "^2.8.5",
