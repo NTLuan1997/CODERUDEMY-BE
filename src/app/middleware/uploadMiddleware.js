@@ -3,8 +3,9 @@ const path = require("path");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        let dist = `${__dirname.split("src")[0]}\src\\assets\\img`;
-        cb(null, dist);
+        // let path = `${__dirname.split("src")[0]}\src\\assets\\img`; // local path
+        let path = `${__dirname.split("src")[0]}\src/assets/img`; // serve path
+        cb(null, path);
     },
     filename: (req, file, cb) => {
         console.log(file);
