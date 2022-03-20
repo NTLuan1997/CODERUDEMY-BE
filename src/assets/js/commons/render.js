@@ -58,11 +58,14 @@ function renderTemplate(currentData, currentIndex, keys, endPoint) {
 function renderButtonAction(currentId, endPoint) {
     let template = `
     <td>
-        <button type="button" class="btn btn-primary">
-            <a href="/${endPoint}/detail?type=update&id=${currentId}">Sửa</a>
-        </button>
-        <button type="button" class="btn btn-danger btn-delete-user" data-toggle="modal"
-            data-whatever="${currentId}" data-id="${currentId}" data-target="#deleteUser">Xóa</button>
+        <a class="btn-edit" href="/${endPoint}/detail?type=update&id=${currentId}">Cập nhật</a>
+        <a href="#" class="btn-delete btn-delete-user"
+            data-toggle="modal"
+            data-whatever="${currentId}"
+            data-id="${currentId}"
+            data-target="#deleteUser">
+            Xóa
+        </a>
     </td>`;
 
     return template;

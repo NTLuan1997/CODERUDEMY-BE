@@ -17,12 +17,21 @@
             </ul>
         </div>
 
-        <table class="table">
-            <thead class="thead-dark">
-                <tr id="course-table-header"></tr>
-            </thead>
-            <tbody id="course-table-body"></tbody>
-        </table>
+        <div class="page-main">
+            <div class="page-main--header d-flex align-items-center justify-content-between">
+                <h2 class="header-title">Danh mục khóa học</h2>
+                <a class="header-router-link-detail" href="/courses/detail?type=create">
+                    <i class="fa fa-plus mr-2" aria-hidden="true"></i>
+                    Thêm mới
+                </a>
+            </div>
+            <table class="page-main-body table">
+                <thead class="thead-dark">
+                    <tr id="course-table-header"></tr>
+                </thead>
+                <tbody id="course-table-body"></tbody>
+            </table>
+        </div>
     </div>
     <nav aria-label="Page navigation example">
         <ul class="pagination d-flex align-items-center justify-content-center"></ul>

@@ -116,9 +116,73 @@
     }
 }
 
+// PAGE MAIN
+.page-main {
+    box-shadow: 0 0 2px #00000030;
+    margin: 15px 0px;
+    padding: 15px;
+    .page-main--header {
+        .header-title {
+            font-size: 25px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .header-router-link-detail {
+            border-radius: 5px;
+            background-color: #f28d0f;
+            color: white;
+            font-weight: 700;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+    }
+    .page-main-body {
+        margin-bottom: 0px;
+        tbody {
+            border: 1px solid #00000014;
+            .btn-edit {
+                border-radius: 5px;
+                background-color: #f28d0f;
+                color: white;
+                padding: 10px;
+            }
+            .btn-delete {
+                border-radius: 5px;
+                background-color: #f28d0f;
+                color: white;
+                padding: 10px;
+            }
+        }
+    }
+}
+
+// PAGE DETAIL
+.page-detail {
+    box-shadow: 0 0 2px #00000030;
+    margin-top: 15px;
+    padding: 15px;
+    .page-detail--title {
+        font-size: 25px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+    }
+    .page-detail-form {
+        .form-group {
+            .form-group--label {
+                font-size: 16px;
+            }
+        }
+        .btn-executed {
+            background-color: #f28d0f;
+            color: white;
+        }
+    }
+}
+
 // TABLE
 .table {
-    margin-top: 15px;
+    // margin-top: 15px;
     .thead-dark {
         tr {
             th {
