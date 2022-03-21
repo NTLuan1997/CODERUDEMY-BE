@@ -5,7 +5,7 @@ class UserController {
     constructor() { }
 
     index(req, res) {
-        res.render("components/users/index", { show: true });
+        res.render("components/users/user", { show: true });
     }
 
     pageUser(req, res) {

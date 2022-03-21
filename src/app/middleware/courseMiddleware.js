@@ -37,4 +37,9 @@ function converInforNew(req, res, next) {
     next();
 }
 
-module.exports = { converQuerySingle, converInforNew, converInforEdit };
+function converInforRemove(req, res, next) {
+    req.courseQuery = { "_id": { $eq: new ObjectId(req.body.id) } };
+    next();
+}
+
+module.exports = { converQuerySingle, converInforNew, converInforEdit, converInforRemove };

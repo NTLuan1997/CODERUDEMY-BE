@@ -64,13 +64,13 @@ class CourseController {
 
 
     removeCourse(req, res) {
-        // courseService.removeCourse(query)
-        //     .then((data) => {
-        //         res.status(200).json(data);
-        //     })
-        //     .catch((err) => {
-        //         throw err;
-        //     })
+        courseService.deleteCourse(req.courseQuery)
+            .then((data) => {
+                res.status(200).json(data);
+            })
+            .catch((err) => {
+                throw err;
+            })
     }
 
 }

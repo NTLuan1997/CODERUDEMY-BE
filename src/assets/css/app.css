@@ -1,3 +1,6 @@
+.main-body {
+  min-height: 85vh; }
+
 .home_title {
   background-color: green;
   color: green;

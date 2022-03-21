@@ -32,7 +32,12 @@
                         </div>
                         <div class="form-group">
                             <label class="form-group--label" for="course-type">Loại khóa học</label>
-                            <input type="text" class="form-control" id="course-type">
+                            {{!-- <input type="text" class="form-control" id="course-type"> --}}
+                            <select class="custom-select" id="course-type">
+                                <option selected>Chọn loại khóa học</option>
+                                <option value="FE">Font-End</option>
+                                <option value="BE">Back-End</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label class="form-group--label" for="course-lesson">Số bài giảng hiện có</label>

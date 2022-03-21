@@ -1,4 +1,5 @@
 import { httpsService } from "../commons/httpService.js";
+import { deleteDocument } from "../commons/delete.js";
 import { renderHeaderTable, renderBodyTable, renderPagination } from "../commons/render.js";
 
 window.onload = function (e) {
@@ -20,11 +21,13 @@ window.onload = function (e) {
                 renderHeaderTable(wrapperTableHeader, titles);
                 renderPagination(wrapperPagination, 5, data.length, "API/user/home", (e) => {
                     renderBodyTable(wrapperTablebody, e?.courses, ["_id", "description", "thumbnail", "__v"], "courses");
+                    deleteDocument($$(".btn-delete-document"), "API/course/remove");
                 });
                 return data;
             })
             .then((data) => {
                 renderBodyTable(wrapperTablebody, data?.courses, ["_id", "description", "thumbnail", "__v"], "courses");
+                deleteDocument($$(".btn-delete-document"), "API/course/remove");
             })
             .catch((err) => {
                 console.log(err);

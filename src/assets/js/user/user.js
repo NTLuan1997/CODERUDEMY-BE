@@ -1,4 +1,4 @@
-import { deleteUser } from "../commons/delete.js";
+import { deleteDocument } from "../commons/delete.js";
 import { httpsService } from "../commons/httpService.js";
 import { renderHeaderTable, renderBodyTable, renderPagination } from "../commons/render.js";
 
@@ -21,13 +21,13 @@ window.onload = function (e) {
                 renderHeaderTable(wrapperTableHeader, titles);
                 renderPagination(wrapperPagination, 5, data.length, "API/user/home", (e) => {
                     renderBodyTable(wrapperTablebody, e?.users, ["_id", "skills", "__v"], "users");
-                    deleteUser($$(".btn-delete-user"));
+                    deleteDocument($$(".btn-delete-document"), "API/user/remove");
                 });
                 return data;
             })
             .then((data) => {
                 renderBodyTable(wrapperTablebody, data?.users, ["_id", "skills", "__v"], "users");
-                deleteUser($$(".btn-delete-user"));
+                deleteDocument($$(".btn-delete-document"), "API/user/remove");
             })
             .catch((err) => {
                 console.log(err);
