@@ -43,13 +43,13 @@ class CourseController {
     }
 
     newCourse(req, res) {
-        // courseService.newCourse(body)
-        //     .then((data) => {
-        //         res.status(200).json(data);
-        //     })
-        //     .catch((err) => {
-        //         throw err;
-        //     })
+        courseService.newCourse(req.courseBody)
+            .then((data) => {
+                res.status(200).json(data);
+            })
+            .catch((err) => {
+                throw err;
+            })
     }
 
     editCourse(req, res) {
