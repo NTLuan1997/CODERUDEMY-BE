@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Courses = new Schema({
+    "courseName": String,
     "author": String,
     "type": String,
     "coin": Number,
-    "courseName": String,
     "createDate": Date,
+    "updateDate": Date,
     "description": String,
-    "thumbnail": String,
-    "updateDate": Date
+    "thumbnail": String
 })
 
 module.exports = mongoose.model("Course", Courses);

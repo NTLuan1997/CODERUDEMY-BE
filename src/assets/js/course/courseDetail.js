@@ -71,7 +71,6 @@ window.onload = function (e) {
         e.preventDefault();
         let data = getCourseForm();
         data["id"] = getToken();
-        console.log(data);
         if (data) {
             httpsService("API/course/edit", "PUT", data)
                 .then((res) => {

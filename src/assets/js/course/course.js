@@ -19,12 +19,12 @@ window.onload = function (e) {
             .then((data) => {
                 renderHeaderTable(wrapperTableHeader, titles);
                 renderPagination(wrapperPagination, 5, data.length, "API/user/home", (e) => {
-                    renderBodyTable(wrapperTablebody, e?.courses, ["_id", "description", "thumbnail"], "courses");
+                    renderBodyTable(wrapperTablebody, e?.courses, ["_id", "description", "thumbnail", "__v"], "courses");
                 });
                 return data;
             })
             .then((data) => {
-                renderBodyTable(wrapperTablebody, data?.courses, ["_id", "description", "thumbnail"], "courses");
+                renderBodyTable(wrapperTablebody, data?.courses, ["_id", "description", "thumbnail", "__v"], "courses");
             })
             .catch((err) => {
                 console.log(err);
