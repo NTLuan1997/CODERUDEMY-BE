@@ -21,7 +21,6 @@ window.onload = function (e) {
 
     if (getType() == "update") {
         (function () {
-            console.log(getToken());
             httpsService("API/course/single", "POST", { id: getToken() })
                 .then((data) => {
                     return data.json();
@@ -88,7 +87,7 @@ window.onload = function (e) {
     }
 
     function getCourseForm() {
-        console.log(courseType.value);
+        // console.log(courseType.value);
         let data = {
             courseName: courseName.value,
             author: courseAuthor.value,
@@ -105,13 +104,17 @@ window.onload = function (e) {
     function setCourseForm(course) {
         courseCode.value = course["_id"];
         courseName.value = course.courseName;
-        courseType.value = course.type;
         courseLesson.value = course.coin;
         courseAuthor.value = course.author;
         courseCreateDate.value = course.createDate.split(".")[0];
         courseEditLastDate.value = course.updateDate.split(".")[0];
         courseThumbanil.value = course.thumbnail;
         courseDescription.value = course.description;
+        for (let type of courseType) {
+            if (type.value == course.type) {
+                type.setAttribute("selected", true);
+            }
+        }
     }
 
     function setTitleForm(type) {

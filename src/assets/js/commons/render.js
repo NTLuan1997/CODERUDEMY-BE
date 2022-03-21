@@ -64,7 +64,7 @@ function renderButtonAction(currentId, endPoint) {
     let template = `
     <td>
         <a class="btn-edit" href="/${endPoint}/detail?type=update&id=${currentId}">Cập nhật</a>
-        <a href="#" class="btn-delete btn-delete-user"
+        <a href="#" class="btn-delete btn-delete-document"
             data-toggle="modal"
             data-whatever="${currentId}"
             data-id="${currentId}"

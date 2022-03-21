@@ -20,9 +20,11 @@
     {{> header}}
     {{/if}}
 
-    <div class="container-fluid">
-        <main>{{{body}}}</main>
-    </div>
+    <section class="main-body">
+        <div class="container-fluid">
+            <main>{{{body}}}</main>
+        </div>
+    </section>
 
     {{#if show}}
     {{> footer}}

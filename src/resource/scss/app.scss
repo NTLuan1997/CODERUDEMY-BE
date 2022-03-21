@@ -1,6 +1,10 @@
 @import "_variables.scss";
 
 // HOME PAGE
+.main-body {
+    min-height: 85vh;
+}
+
 .home_title {
     background-color: $red-color;
     color: $red-color;
