@@ -49,6 +49,11 @@ function renderTemplate(currentData, currentIndex, keys, endPoint) {
     let template = `<tr> <td>${currentIndex}</td>`;
 
     let content = keys.reduce((accument, currunetValue) => {
+
+        if (currunetValue == "createDate" || currunetValue == "updateDate") {
+            currentData[currunetValue] = new Date(currentData[currunetValue].split(".")[0]).toLocaleString();
+        }
+
         return accument.concat(`<td>${currentData[currunetValue]}</td>`);
     }, []).join("");
 

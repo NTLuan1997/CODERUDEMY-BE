@@ -19,7 +19,7 @@
         </div>
         <div class="page-detail">
             <h2 class="page-detail--title">Thông tin khóa học</h2>
-            <form class="page-detail-form">
+            <form class="page-detail-form" id="course-detail--info">
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
@@ -32,30 +32,29 @@
                         </div>
                         <div class="form-group">
                             <label class="form-group--label" for="course-type">Loại khóa học</label>
-                            <input type="email" class="form-control" id="course-type">
+                            <input type="text" class="form-control" id="course-type">
                         </div>
                         <div class="form-group">
                             <label class="form-group--label" for="course-lesson">Số bài giảng hiện có</label>
-                            <input type="email" class="form-control" id="course-lesson" aria-describedby="emailHelp">
+                            <input type="text" class="form-control" id="course-lesson" aria-describedby="emailHelp">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label class="form-group--label" for="course-author">Tác giả</label>
-                            <input type="email" class="form-control" id="course-author">
+                            <input type="text" class="form-control" id="course-author">
                         </div>
                         <div class="form-group">
                             <label class="form-group--label" for="course-create-date">Ngày tạo</label>
-                            <input type="email" class="form-control" id="course-create-date">
+                            <input type="datetime-local" step="0.001" class="form-control" id="course-create-date">
                         </div>
                         <div class="form-group">
                             <label class="form-group--label" for="course-edit-last-date">Cập nhật gần đây</label>
-                            <input type="email" class="form-control" id="course-edit-last-date"
-                                aria-describedby="emailHelp">
+                            <input type="datetime-local" step="0.001" class="form-control" id="course-edit-last-date">
                         </div>
                         <div class="form-group">
                             <label class="form-group--label" for="course-thumbnail">Ảnh đại diện khóa học</label>
-                            <input type="email" class="form-control" id="course-thumbnail" aria-describedby="emailHelp">
+                            <input type="text" class="form-control" id="course-thumbnail" aria-describedby="emailHelp">
                         </div>
                     </div>
                     <div class="col-12">
@@ -69,6 +68,8 @@
             </form>
         </div>
     </div>
+
+    <script type="module" src="/static/js/course/courseDetail.js"></script>
 </body>
 
 </html>

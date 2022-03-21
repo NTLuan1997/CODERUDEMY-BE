@@ -1,4 +1,5 @@
 const courseService = require("../services/courseService");
+const moment = require("moment");
 
 class CourseController {
 
@@ -18,6 +19,16 @@ class CourseController {
     }
 
     // Method support api.
+    findSingle(req, res) {
+        courseService.findOneCourse(req.id)
+            .then((data) => {
+                res.status(200).json(data);
+            })
+            .catch((err) => {
+                throw err;
+            })
+    }
+
     pageCourse(req, res) {
         courseService.findLimitCourse(req.query.limit, req.query.start)
             .then((data) => {
@@ -29,6 +40,37 @@ class CourseController {
             .catch((err) => {
                 throw err;
             })
+    }
+
+    newCourse(req, res) {
+        // courseService.newCourse(body)
+        //     .then((data) => {
+        //         res.status(200).json(data);
+        //     })
+        //     .catch((err) => {
+        //         throw err;
+        //     })
+    }
+
+    editCourse(req, res) {
+        courseService.updateCourse(req.courseQuery, req.courseBody)
+            .then((data) => {
+                res.status(200).json(data);
+            })
+            .catch((err) => {
+                throw err;
+            })
+    }
+
+
+    removeCourse(req, res) {
+        // courseService.removeCourse(query)
+        //     .then((data) => {
+        //         res.status(200).json(data);
+        //     })
+        //     .catch((err) => {
+        //         throw err;
+        //     })
     }
 
 }
