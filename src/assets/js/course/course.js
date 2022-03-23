@@ -19,7 +19,7 @@ window.onload = function (e) {
             })
             .then((data) => {
                 renderHeaderTable(wrapperTableHeader, titles);
-                renderPagination(wrapperPagination, 5, data.length, "API/user/home", (e) => {
+                renderPagination(wrapperPagination, 5, data.length, "API/course/home", (e) => {
                     renderBodyTable(wrapperTablebody, e?.courses, ["_id", "description", "thumbnail", "__v"], "courses");
                     deleteDocument($$(".btn-delete-document"), "API/course/remove");
                 });

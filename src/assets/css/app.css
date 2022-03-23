@@ -120,6 +120,14 @@
         background-color: #f28d0f;
         color: white;
         padding: 10px; }
+  .page-main .undefine-data {
+    border: 1px solid #ddd;
+    letter-spacing: .3px;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 30px 15px;
+    text-align: center;
+    text-transform: uppercase; }
 
 .page-detail {
   box-shadow: 0 0 2px #00000030;
