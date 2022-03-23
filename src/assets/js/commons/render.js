@@ -61,17 +61,34 @@ function renderTemplate(currentData, currentIndex, keys, endPoint) {
 }
 
 function renderButtonAction(currentId, endPoint) {
-    let template = `
-    <td>
-        <a class="btn-edit" href="/${endPoint}/detail?type=update&id=${currentId}">Cập nhật</a>
-        <a href="#" class="btn-delete btn-delete-document"
-            data-toggle="modal"
-            data-whatever="${currentId}"
-            data-id="${currentId}"
-            data-target="#deleteUser">
-            Xóa
-        </a>
-    </td>`;
+    let template = "<td>";
+    if (endPoint == "courses") {
+        template += `
+                <a class="btn-edit" href="/${endPoint}/detail?type=update&id=${currentId}">Cập nhật</a>
+                <a class="btn-edit" href="/${endPoint}/units?course=${currentId}">Chương học</a>
+                <a href="#" class="btn-delete btn-delete-document"
+                    data-toggle="modal"
+                    data-whatever="${currentId}"
+                    data-id="${currentId}"
+                    data-target="#deleteUser">
+                    Xóa
+                </a>
+            </td>
+        `;
+
+    } else {
+        template += `
+                <a class="btn-edit" href="/${endPoint}/detail?type=update&id=${currentId}">Cập nhật</a>
+                <a href="#" class="btn-delete btn-delete-document"
+                    data-toggle="modal"
+                    data-whatever="${currentId}"
+                    data-id="${currentId}"
+                    data-target="#deleteUser">
+                    Xóa
+                </a>
+            </td>
+        `;
+    }
 
     return template;
 }

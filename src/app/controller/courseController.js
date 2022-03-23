@@ -1,4 +1,5 @@
 const courseService = require("../services/courseService");
+const unitService = require("../services/unitService");
 const moment = require("moment");
 
 class CourseController {
@@ -18,7 +19,11 @@ class CourseController {
         res.render('components/courses/courseDetail', { show: true });
     }
 
-    // Method support api.
+    renderCourseUnit(req, res) {
+        res.render("components/courses/unit", { show: true });
+    }
+
+    // Method support api Course.
     findSingle(req, res) {
         courseService.findOneCourse(req.id)
             .then((data) => {
@@ -62,9 +67,63 @@ class CourseController {
             })
     }
 
-
     removeCourse(req, res) {
         courseService.deleteCourse(req.courseQuery)
+            .then((data) => {
+                res.status(200).json(data);
+            })
+            .catch((err) => {
+                throw err;
+            })
+    }
+
+    // Method support api Unit.
+
+    findSingleUnit(req, res) {
+        unitService.findOneUnit(req.id)
+            .then((data) => {
+                res.status(200).json(data);
+            })
+            .catch((err) => {
+                throw err;
+            })
+    }
+
+    pageUnit(req, res) {
+        unitService.findLimitUnit(req.query.limit, req.query.start)
+            .then((data) => {
+                res.status(200).json({
+                    "courses": data[0],
+                    "length": data[1]
+                })
+            })
+            .catch((err) => {
+                throw err;
+            })
+    }
+
+    newUnit(req, res) {
+        unitService.newUnit(req.courseBody)
+            .then((data) => {
+                res.status(200).json(data);
+            })
+            .catch((err) => {
+                throw err;
+            })
+    }
+
+    editUnit(req, res) {
+        unitService.updateUnit(req.courseQuery, req.courseBody)
+            .then((data) => {
+                res.status(200).json(data);
+            })
+            .catch((err) => {
+                throw err;
+            })
+    }
+
+    removeUnit(req, res) {
+        unitService.deleteUnit(req.courseQuery)
             .then((data) => {
                 res.status(200).json(data);
             })

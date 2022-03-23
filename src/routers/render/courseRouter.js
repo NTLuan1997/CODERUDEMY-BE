@@ -4,6 +4,7 @@ const upload = require("../../app/middleware/uploadMiddleware");
 
 router.get("/detail", courseController.renderCourseDetail);
 router.post("/detail", upload.single("image"), courseController.renderCourseDetailUpload);
+router.get("/units", courseController.renderCourseUnit);
 router.get("/", courseController.renderCourse);
 
 module.exports = router;
