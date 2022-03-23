@@ -23,6 +23,10 @@ class CourseController {
         res.render("components/courses/unit", { show: true });
     }
 
+    renderCourseUnitDetail(req, res) {
+        res.render("components/courses/unitDetail", { show: true });
+    }
+
     // Method support api Course.
     findSingle(req, res) {
         courseService.findOneCourse(req.id)
@@ -90,10 +94,10 @@ class CourseController {
     }
 
     pageUnit(req, res) {
-        unitService.findLimitUnit(req.query.limit, req.query.start)
+        unitService.findLimitUnit(req.unitQuery, req.limit, req.start)
             .then((data) => {
                 res.status(200).json({
-                    "courses": data[0],
+                    "units": data[0],
                     "length": data[1]
                 })
             })

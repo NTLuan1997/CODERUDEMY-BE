@@ -17,7 +17,6 @@ export function renderHeaderTable(wrapperTemplate, titles) {
     wrapperTemplate.innerHTML = template;
 }
 
-
 /**
  *
  * Method render table template.
@@ -26,15 +25,24 @@ export function renderHeaderTable(wrapperTemplate, titles) {
  * @param {*} hideProperty property object not show in template.
  * @param {*} endpoint set up type page VD: ../users, ../course, .../vvv
  */
-export function renderBodyTable(wrapperTemplate, data, hideProperty, endPoint) {
-    let template = data.reduce((accument, current, curentIndex) => {
-        return accument.concat(renderKeys(current, curentIndex, hideProperty, endPoint, renderTemplate));
-    }, []).join("");
+export function renderBodyTable(wrapperTemplate, data, hideProperty, endPoint, pointter) {
+    let undefineData = document.querySelectorAll(".undefine-data")[0];
+    if (!Object.values(data).length) {
+        undefineData.classList.add("active");
+    } else {
+        if (undefineData.classList.contains("active")) {
+            undefineData.classList.remove("active");
+        }
 
-    wrapperTemplate.innerHTML = template;
+        let template = data.reduce((accument, current, curentIndex) => {
+            return accument.concat(renderKeys(current, curentIndex, hideProperty, endPoint, pointter, renderTemplate));
+        }, []).join("");
+
+        wrapperTemplate.innerHTML = template;
+    }
 }
 
-function renderKeys(currentData, currentIndex, hideProperty, endPoint, callback) {
+function renderKeys(currentData, currentIndex, hideProperty, endPoint, pointter, callback) {
     let keys = Object.keys(currentData).reduce((accument, currunetValue) => {
         if (hideProperty.every((e) => e != currunetValue)) {
             return accument.concat(currunetValue);
@@ -42,10 +50,10 @@ function renderKeys(currentData, currentIndex, hideProperty, endPoint, callback)
         return accument;
     }, []);
 
-    return callback(currentData, currentIndex, keys, endPoint);
+    return callback(currentData, currentIndex, keys, endPoint, pointter);
 }
 
-function renderTemplate(currentData, currentIndex, keys, endPoint) {
+function renderTemplate(currentData, currentIndex, keys, endPoint, pointter) {
     let template = `<tr> <td>${currentIndex}</td>`;
 
     let content = keys.reduce((accument, currunetValue) => {
@@ -57,15 +65,16 @@ function renderTemplate(currentData, currentIndex, keys, endPoint) {
         return accument.concat(`<td>${currentData[currunetValue]}</td>`);
     }, []).join("");
 
-    return template += content + renderButtonAction(currentData["_id"], endPoint) + "</tr>";
+    return template += content + renderButtonAction(currentData["_id"], endPoint, pointter) + "</tr>";
 }
 
-function renderButtonAction(currentId, endPoint) {
+function renderButtonAction(currentId, endPoint, pointter) {
+    let mappPointer = ["courses", "units"];
     let template = "<td>";
-    if (endPoint == "courses") {
+    if (mappPointer.includes(endPoint)) {
         template += `
                 <a class="btn-edit" href="/${endPoint}/detail?type=update&id=${currentId}">Cập nhật</a>
-                <a class="btn-edit" href="/${endPoint}/units?course=${currentId}">Chương học</a>
+                <a class="btn-edit" href="/${endPoint}/${pointter}?course=${currentId}">Chương học</a>
                 <a href="#" class="btn-delete btn-delete-document"
                     data-toggle="modal"
                     data-whatever="${currentId}"
@@ -101,21 +110,29 @@ function renderButtonAction(currentId, endPoint) {
  * @param {*} totalDocument number all document.
  * @param {*} endPoint connect to api.
  */
-export function renderPagination(wrapperTemplate, pageRequire, totalDocument, endPoint, callBack) {
+export function renderPagination(wrapperTemplate, pageRequire, totalDocument, endPoint, callBack, condition) {
     let template = '';
     let totalPages = Math.ceil(totalDocument / pageRequire);
     for (let i = 0; i < totalPages; i++) {
         template += `<li class="page-items" data-id="${(i + 1)}"><a class="page-link">${(i + 1)}</a></li>`;
     }
     wrapperTemplate.innerHTML = template;
-    renderPaginationAction(pageRequire, endPoint, callBack);
+    renderPaginationAction(pageRequire, endPoint, callBack, condition);
 }
 
-function renderPaginationAction(pageRequire, endPoint, callBack) {
+function renderPaginationAction(pageRequire, endPoint, callBack, condition) {
+    console.log(condition);
+    let url = `${endPoint}?limit=${pageRequire}&start=Start`;
+    if (condition) {
+        condition.forEach((e) => {
+            url += `&${e}`;
+        })
+    }
+
     $$(".page-items").forEach(function (item) {
         item.addEventListener("click", function (e) {
             let start = pageRequire * (this.dataset.id - 1);
-            httpsService(`${endPoint}?limit=${pageRequire}&start=${start}`, "GET", null)
+            httpsService(url.replace("Start", start), "GET", null)
                 .then((res) => {
                     return res.json();
                 })

@@ -13,9 +13,9 @@ class UnitService extends Service {
      * Method count Unit.
      * @Returns Number all Units of collection.
      */
-    countUnit() {
+    countUnit(query) {
         return super.documentQuery((resolve, reject) => {
-            resolve(Unit.count({}));
+            resolve(Unit.count(query));
         })
     }
 
@@ -56,13 +56,13 @@ class UnitService extends Service {
      * @param {*} start location begin get
      * @returns list units registry of []
      */
-    findLimitUnit(limit, start) {
+    findLimitUnit(query, limit, start) {
         return Promise.all([super.documentQuery((resolve, reject) => {
-            Unit.find({}).limit(limit).skip(start).exec((err, doc) => {
+            Unit.find(query).limit(limit).skip(start).exec((err, doc) => {
                 if (err) reject(err);
                 resolve(doc);
             })
-        }), this.countUnit()]);
+        }), this.countUnit(query)]);
     }
 
 

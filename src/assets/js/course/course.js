@@ -20,13 +20,13 @@ window.onload = function (e) {
             .then((data) => {
                 renderHeaderTable(wrapperTableHeader, titles);
                 renderPagination(wrapperPagination, 5, data.length, "API/course/home", (e) => {
-                    renderBodyTable(wrapperTablebody, e?.courses, ["_id", "description", "thumbnail", "__v"], "courses");
+                    renderBodyTable(wrapperTablebody, e?.courses, ["_id", "description", "thumbnail", "__v"], "courses", "units");
                     deleteDocument($$(".btn-delete-document"), "API/course/remove");
-                });
+                }, null);
                 return data;
             })
             .then((data) => {
-                renderBodyTable(wrapperTablebody, data?.courses, ["_id", "description", "thumbnail", "__v"], "courses");
+                renderBodyTable(wrapperTablebody, data?.courses, ["_id", "description", "thumbnail", "__v"], "courses", "units");
                 deleteDocument($$(".btn-delete-document"), "API/course/remove");
             })
             .catch((err) => {
