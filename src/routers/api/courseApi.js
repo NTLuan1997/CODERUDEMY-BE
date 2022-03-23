@@ -10,6 +10,6 @@ router.put("/edit", middleware.converInforEdit, courseController.editCourse);
 router.delete("/remove", middleware.converInforRemove, courseController.removeCourse);
 
 // Unit API
-router.get("/unit-home", courseController.pageUnit);
+router.get("/unit-home", middleware.converPageUnit, courseController.pageUnit);
 
 module.exports = router;

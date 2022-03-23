@@ -11,6 +11,8 @@ let course = {
     id: null,
 };
 
+// Middle ware course.
+
 function converQuerySingle(req, res, next) {
     req.id = req.body.id;
     next();
@@ -42,4 +44,18 @@ function converInforRemove(req, res, next) {
     next();
 }
 
-module.exports = { converQuerySingle, converInforNew, converInforEdit, converInforRemove };
+// Middleware unit.
+function converPageUnit(req, res, next) {
+    req.limit = req.query.limit;
+    req.start = req.query.start;
+    req.unitQuery = { "courseId": { "$eq": req.query.courseId } };
+    next();
+}
+
+module.exports = {
+    converQuerySingle,
+    converInforNew,
+    converInforEdit,
+    converInforRemove,
+    converPageUnit
+};
