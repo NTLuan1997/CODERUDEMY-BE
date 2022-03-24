@@ -25,8 +25,7 @@ class UnitService extends Service {
      * @param {*} id condition find single Unit.
      * @returns One Unit document in collection.
      */
-    findOneUnit(id) {
-        let query = { "_id": { "_id": new ObjectId(id) } };
+    findOneUnit(query) {
         return super.documentQuery((resolve, reject) => {
             Unit.findOne(query).exec((err, doc) => {
                 if (err) reject(err);

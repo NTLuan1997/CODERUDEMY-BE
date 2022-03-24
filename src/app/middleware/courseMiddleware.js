@@ -1,4 +1,5 @@
 const ObjectId = require("mongodb").ObjectId;
+
 let course = {
     courseName: null,
     author: null,
@@ -10,6 +11,15 @@ let course = {
     thumbnail: null,
     id: null,
 };
+
+let unit = {
+    courseId: null,
+    unitName: null,
+    amountLesson: null,
+    status: null,
+    createDate: null,
+    updateDate: null
+}
 
 // Middle ware course.
 
@@ -52,10 +62,30 @@ function converPageUnit(req, res, next) {
     next();
 }
 
+function converUnit(req, res, next) {
+    Object.assign(unit, req.body);
+    if (req.body.id) {
+        req.unitQuery = { "_id": { "$eq": new ObjectId(req.body.id) } }
+    }
+    unit.amountLesson = Number(unit.amountLesson);
+    unit.createDate = new Date(unit.createDate).toISOString();
+    unit.updateDate = new Date(unit.updateDate).toISOString();
+    delete unit.id;
+    req.unitBody = unit;
+    next();
+}
+
+function converQueryUnit(req, res, next) {
+    req.unitQuery = { "_id": { "$eq": new ObjectId(req.body.id) } }
+    next();
+}
+
 module.exports = {
     converQuerySingle,
     converInforNew,
     converInforEdit,
     converInforRemove,
-    converPageUnit
+    converPageUnit,
+    converUnit,
+    converQueryUnit
 };

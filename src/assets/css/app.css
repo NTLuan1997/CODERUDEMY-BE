@@ -90,6 +90,8 @@
         display: inline-block;
         content: "/";
         margin: 0px 3px; }
+      .breadcrumd ul li .back-page-unit {
+        cursor: pointer; }
 
 .page-main {
   box-shadow: 0 0 2px #00000030;

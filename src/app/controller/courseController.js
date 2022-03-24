@@ -84,7 +84,7 @@ class CourseController {
     // Method support api Unit.
 
     findSingleUnit(req, res) {
-        unitService.findOneUnit(req.id)
+        unitService.findOneUnit(req.unitQuery)
             .then((data) => {
                 res.status(200).json(data);
             })
@@ -107,7 +107,7 @@ class CourseController {
     }
 
     newUnit(req, res) {
-        unitService.newUnit(req.courseBody)
+        unitService.newUnit(req.unitBody)
             .then((data) => {
                 res.status(200).json(data);
             })
@@ -117,7 +117,7 @@ class CourseController {
     }
 
     editUnit(req, res) {
-        unitService.updateUnit(req.courseQuery, req.courseBody)
+        unitService.updateUnit(req.unitQuery, req.unitBody)
             .then((data) => {
                 res.status(200).json(data);
             })
@@ -127,7 +127,7 @@ class CourseController {
     }
 
     removeUnit(req, res) {
-        unitService.deleteUnit(req.courseQuery)
+        unitService.deleteUnit(req.unitQuery)
             .then((data) => {
                 res.status(200).json(data);
             })

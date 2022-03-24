@@ -14,6 +14,7 @@
             <ul class="list-unstyled">
                 <li><a href="/home">Trang chủ</a></li>
                 <li><a href="/courses">Khóa học</a></li>
+                <li><a class="back-page-unit">Chương học</a></li>
                 <li><span>Chi tiết</span></li>
             </ul>
         </div>
@@ -26,53 +27,46 @@
                             <label class="form-group--label" for="course-code">Mã khóa học</label>
                             <input type="text" class="form-control" id="course-code" disabled placeholder="Mã code">
                         </div>
+
                         <div class="form-group">
-                            <label class="form-group--label" for="course-name">Tên khóa học</label>
-                            <input type="text" class="form-control" id="course-name">
+                            <label class="form-group--label" for="unit-name">Tên Chương học</label>
+                            <input type="text" class="form-control" id="unit-name">
                         </div>
+
                         <div class="form-group">
-                            <label class="form-group--label" for="course-type">Loại khóa học</label>
-                            {{!-- <input type="text" class="form-control" id="course-type"> --}}
-                            <select class="custom-select" id="course-type">
-                                <option selected>Chọn loại khóa học</option>
-                                <option value="FE">Font-End</option>
-                                <option value="BE">Back-End</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-group--label" for="course-lesson">Số bài giảng hiện có</label>
-                            <input type="text" class="form-control" id="course-lesson" aria-describedby="emailHelp">
+                            <label class="form-group--label" for="unit-lesson">Số bài giảng hiện có</label>
+                            <input type="text" class="form-control" id="unit-lesson" disabled>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label class="form-group--label" for="course-author">Tác giả</label>
-                            <input type="text" class="form-control" id="course-author">
+                            <label class="form-group--label" for="unit-status">Trạng thái</label>
+                            <div class="form-group-radio">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="active" name="status" value="action"
+                                        class="custom-control-input">
+                                    <label class="custom-control-label" for="active">Active</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="no-active" name="status" value="no-action"
+                                        class="custom-control-input">
+                                    <label class="custom-control-label" for="no-active">No-active</label>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-group--label" for="course-create-date">Ngày tạo</label>
-                            <input type="datetime-local" step="0.001" class="form-control" id="course-create-date">
+                            <label class="form-group--label" for="unit-create-date">Ngày tạo</label>
+                            <input type="datetime-local" step="0.001" class="form-control" id="unit-create-date">
                         </div>
                         <div class="form-group">
-                            <label class="form-group--label" for="course-edit-last-date">Cập nhật gần đây</label>
-                            <input type="datetime-local" step="0.001" class="form-control" id="course-edit-last-date">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-group--label" for="course-thumbnail">Ảnh đại diện khóa học</label>
-                            <input type="text" class="form-control" id="course-thumbnail" aria-describedby="emailHelp">
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label class="form-group--label" for="course-description">Mô tả khóa học</label>
-                            <textarea class="form-control" id="course-description" rows="3"></textarea>
+                            <label class="form-group--label" for="unit-edit-last-date">Cập nhật gần đây</label>
+                            <input type="datetime-local" step="0.001" class="form-control" id="unit-edit-last-date">
                         </div>
                     </div>
                 </div>
                 <button type="submit" class="btn-executed btn">Submit</button>
             </form>
         </div>
-        <button id="goback">goBack</button>
     </div>
 
     <script type="module" src="/static/js/course/unitDetail.js"></script>
