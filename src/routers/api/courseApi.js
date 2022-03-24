@@ -11,5 +11,9 @@ router.delete("/remove", middleware.converInforRemove, courseController.removeCo
 
 // Unit API
 router.get("/unit-home", middleware.converPageUnit, courseController.pageUnit);
+router.post("/unit-single", middleware.converQueryUnit, courseController.findSingleUnit);
+router.post("/unit-new", middleware.converUnit, courseController.newUnit);
+router.put("/unit-edit", middleware.converUnit, courseController.editUnit);
+router.delete("/unit-remove", middleware.converQueryUnit, courseController.removeUnit);
 
 module.exports = router;

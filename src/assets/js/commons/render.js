@@ -69,12 +69,13 @@ function renderTemplate(currentData, currentIndex, keys, endPoint, pointter) {
 }
 
 function renderButtonAction(currentId, endPoint, pointter) {
-    let mappPointer = ["courses", "units"];
+    let mappPointer = ["courses", "courses/units"];
+    let title = (pointter == "units") ? "Chương Học" : "Bài học";
     let template = "<td>";
     if (mappPointer.includes(endPoint)) {
         template += `
                 <a class="btn-edit" href="/${endPoint}/detail?type=update&id=${currentId}">Cập nhật</a>
-                <a class="btn-edit" href="/${endPoint}/${pointter}?course=${currentId}">Chương học</a>
+                <a class="btn-edit" href="/${endPoint}/${pointter}?course=${currentId}">${title}</a>
                 <a href="#" class="btn-delete btn-delete-document"
                     data-toggle="modal"
                     data-whatever="${currentId}"

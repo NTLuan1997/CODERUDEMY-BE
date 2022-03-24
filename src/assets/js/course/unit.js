@@ -11,9 +11,7 @@ window.onload = function (e) {
     let wrapperPagination = $$(".pagination")[0];
     let wrapperTableHeader = $("#unit-table-header");
     let wrapperTablebody = $("#unit-table-body");
-    let titles = ["STT", "Mã khóa học", "Tên chương học", "Số lượng bài học", "Ngày tạo", "Lần cập nhật cuối", "Quyền"];
-
-    console.log(location);
+    let titles = ["STT", "Mã khóa học", "Chương học", "Bài học", "Trang thái", "Ngày tạo", "Lần cập nhật cuối", "Quyền"];
 
     let courseId = location.search.split("=")[1];
     let condition = [`courseId=${courseId}`];
@@ -28,13 +26,13 @@ window.onload = function (e) {
             .then((data) => {
                 renderHeaderTable(wrapperTableHeader, titles);
                 renderPagination(wrapperPagination, 5, data.length, "API/unit/unit-home", (e) => {
-                    renderBodyTable(wrapperTablebody, e?.units, ["_id", "__v"], "units", "lesson");
+                    renderBodyTable(wrapperTablebody, e?.units, ["_id", "__v"], "courses/units", "lessons");
                     deleteDocument($$(".btn-delete-document"), "API/unit/unit-remove");
                 }, condition);
                 return data;
             })
             .then((data) => {
-                renderBodyTable(wrapperTablebody, data?.units, ["_id", "__v"], "units", "lesson");
+                renderBodyTable(wrapperTablebody, data?.units, ["_id", "__v"], "courses/units", "lessons");
                 deleteDocument($$(".btn-delete-document"), "API/unit/unit-remove");
             })
             .catch((err) => {

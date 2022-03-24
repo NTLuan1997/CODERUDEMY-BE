@@ -6,7 +6,7 @@ const Units = new Schema({
     unitName: String,
     amountLesson: Number,
     status: Boolean,
-    creaDate: Date,
+    createDate: Date,
     updateDate: Date
 });
 
