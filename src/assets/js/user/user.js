@@ -10,7 +10,7 @@ window.onload = function (e) {
     let wrapperPagination = $$(".pagination")[0];
     let wrapperTableHeader = $("#user-table-header");
     let wrapperTablebody = $("#user-table-body");
-    let titles = ["STT", "Tên người dùng", "Email", "Password", "Trạng thái", "Tuổi", "Quyền"];
+    let titles = ["STT", "Tên người dùng", "Email", "Password", "Trạng thái", "Tuổi", "Chức năng"];
 
     (function () {
         httpsService(`API/user/home?limit=${pageRequire}&start=0`, "GET", null)
@@ -20,13 +20,13 @@ window.onload = function (e) {
             .then((data) => {
                 renderHeaderTable(wrapperTableHeader, titles);
                 renderPagination(wrapperPagination, 5, data.length, "API/user/home", (e) => {
-                    renderBodyTable(wrapperTablebody, e?.users, ["_id", "skills", "__v"], "users", null);
+                    renderBodyTable(wrapperTablebody, e?.users, ["_id", "skills", "__v"], "users", null, null);
                     deleteDocument($$(".btn-delete-document"), "API/user/remove");
                 }, null);
                 return data;
             })
             .then((data) => {
-                renderBodyTable(wrapperTablebody, data?.users, ["_id", "skills", "__v"], "users", null);
+                renderBodyTable(wrapperTablebody, data?.users, ["_id", "skills", "__v"], "users", null, null);
                 deleteDocument($$(".btn-delete-document"), "API/user/remove");
             })
             .catch((err) => {

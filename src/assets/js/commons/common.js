@@ -16,9 +16,10 @@ export function getType() {
 }
 
 export function getToken() {
+    let keys = ["id", "course", "unitId"];
     let token = location.search.split("&")[1];
-    if (token && (token.includes("id") || token.includes("course"))) {
+    if (token && keys.some((e) => token.includes(e))) {
         return token.split("=")[1];
     }
-    return null;
+    return 0;
 }

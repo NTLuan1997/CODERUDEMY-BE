@@ -19,11 +19,11 @@ class CourseController {
         res.render('components/courses/courseDetail', { show: true });
     }
 
-    renderCourseUnit(req, res) {
+    renderUnit(req, res) {
         res.render("components/courses/unit", { show: true });
     }
 
-    renderCourseUnitDetail(req, res) {
+    renderUnitDetail(req, res) {
         res.render("components/courses/unitDetail", { show: true });
     }
 
