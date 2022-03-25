@@ -21,7 +21,17 @@ let unit = {
     updateDate: null
 }
 
-// Middle ware course.
+let lesson = {
+    unitId: null,
+    lessonName: null,
+    lessonContent: null,
+    status: null,
+    thumbnail: null,
+    createDate: null,
+    updateDate: null
+}
+
+// COURSE
 
 function converQuerySingle(req, res, next) {
     req.id = req.body.id;
@@ -54,7 +64,7 @@ function converInforRemove(req, res, next) {
     next();
 }
 
-// Middleware unit.
+// UNIT
 function converPageUnit(req, res, next) {
     req.limit = req.query.limit;
     req.start = req.query.start;
@@ -80,6 +90,28 @@ function converQueryUnit(req, res, next) {
     next();
 }
 
+// LESSON
+
+function converPageLesson(req, res, next) {
+    req.limit = req.query.limit;
+    req.start = req.query.start;
+    req.lessonQuery = { "unitId": { "$eq": req.query.unitId } };
+    next();
+}
+
+function converLesson(req, res, next) {
+    console.log(req.body);
+    Object.assign(lesson, req.body);
+    if (req.body.id) {
+        req.lessonQuery = { "_id": { "$eq": new ObjectId(req.body.id) } };
+        delete lesson.id;
+    }
+    lesson.createDate = new Date(lesson.createDate).toISOString();
+    lesson.updateDate = new Date(lesson.updateDate).toISOString();
+    req.lessonBody = lesson;
+    next();
+}
+
 module.exports = {
     converQuerySingle,
     converInforNew,
@@ -87,5 +119,7 @@ module.exports = {
     converInforRemove,
     converPageUnit,
     converUnit,
-    converQueryUnit
+    converQueryUnit,
+    converPageLesson,
+    converLesson
 };

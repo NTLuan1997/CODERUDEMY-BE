@@ -3,15 +3,15 @@ import { deleteDocument } from "../commons/delete.js";
 import { renderHeaderTable, renderBodyTable, renderPagination } from "../commons/render.js";
 
 window.onload = function (e) {
-    let $ = document.querySelector.bind(document);
-    let $$ = document.querySelectorAll.bind(document);
+    const $ = document.querySelector.bind(document);
+    const $$ = document.querySelectorAll.bind(document);
 
     let pageRequire = 5;
     let routerNew = $$(".header-router-link-detail")[0];
     let wrapperPagination = $$(".pagination")[0];
     let wrapperTableHeader = $("#unit-table-header");
     let wrapperTablebody = $("#unit-table-body");
-    let titles = ["STT", "Mã khóa học", "Chương học", "Bài học", "Trang thái", "Ngày tạo", "Lần cập nhật cuối", "Quyền"];
+    let titles = ["STT", "Mã khóa học", "Chương học", "Bài học", "Trang thái", "Ngày tạo", "Lần cập nhật cuối", "Chức năng"];
 
     let courseId = location.search.split("=")[1];
     let condition = [`courseId=${courseId}`];
@@ -26,13 +26,13 @@ window.onload = function (e) {
             .then((data) => {
                 renderHeaderTable(wrapperTableHeader, titles);
                 renderPagination(wrapperPagination, 5, data.length, "API/unit/unit-home", (e) => {
-                    renderBodyTable(wrapperTablebody, e?.units, ["_id", "__v"], "courses/units", "lessons");
+                    renderBodyTable(wrapperTablebody, e?.units, ["_id", "__v"], "courses/units", "lessons", "unitId");
                     deleteDocument($$(".btn-delete-document"), "API/unit/unit-remove");
                 }, condition);
                 return data;
             })
             .then((data) => {
-                renderBodyTable(wrapperTablebody, data?.units, ["_id", "__v"], "courses/units", "lessons");
+                renderBodyTable(wrapperTablebody, data?.units, ["_id", "__v"], "courses/units", "lessons", "unitId");
                 deleteDocument($$(".btn-delete-document"), "API/unit/unit-remove");
             })
             .catch((err) => {

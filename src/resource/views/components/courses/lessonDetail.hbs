@@ -14,31 +14,24 @@
             <ul class="list-unstyled">
                 <li><a href="/home">Trang chủ</a></li>
                 <li><a href="/courses">Khóa học</a></li>
-                <li><a class="back-page-unit">Học phần</a></li>
-                <li><span>Chi tiết</span></li>
+                <li><a href="/courses">Chương học</a></li>
+                <li><a id="go-back" href="#">Bài học</a></li>
+                <li><span>Chi tiết bài học</span></li>
             </ul>
         </div>
         <div class="page-detail">
             <h2 class="page-detail--title">Thông tin khóa học</h2>
-            <form class="page-detail-form" id="course-detail--info">
+            <form class="page-detail-form" id="lesson-detail--info">
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            <label class="form-group--label" for="course-code">Mã khóa học</label>
-                            <input type="text" class="form-control" id="course-code" disabled placeholder="Mã code">
+                            <label class="form-group--label" for="unit-code">Mã Chương học</label>
+                            <input type="text" class="form-control" id="unit-code" disabled placeholder="Mã code">
                         </div>
-
                         <div class="form-group">
-                            <label class="form-group--label" for="unit-name">Tên Chương học</label>
-                            <input type="text" class="form-control" id="unit-name">
+                            <label class="form-group--label" for="lesson-name">Tên bài học</label>
+                            <input type="text" class="form-control" id="lesson-name">
                         </div>
-
-                        <div class="form-group">
-                            <label class="form-group--label" for="unit-lesson">Số bài giảng hiện có</label>
-                            <input type="text" class="form-control" id="unit-lesson" disabled>
-                        </div>
-                    </div>
-                    <div class="col-6">
                         <div class="form-group">
                             <label class="form-group--label" for="unit-status">Trạng thái</label>
                             <div class="form-group-radio">
@@ -54,13 +47,25 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-6">
                         <div class="form-group">
-                            <label class="form-group--label" for="unit-create-date">Ngày tạo</label>
-                            <input type="datetime-local" step="0.001" class="form-control" id="unit-create-date">
+                            <label class="form-group--label" for="lesson-thumbanil">Ảnh khóa học</label>
+                            <input type="text" class="form-control" id="lesson-thumbanil">
                         </div>
                         <div class="form-group">
-                            <label class="form-group--label" for="unit-edit-last-date">Cập nhật gần đây</label>
-                            <input type="datetime-local" step="0.001" class="form-control" id="unit-edit-last-date">
+                            <label class="form-group--label" for="lesson-create-date">Ngày tạo</label>
+                            <input type="datetime-local" step="0.001" class="form-control" id="lesson-create-date">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-group--label" for="lesson-edit-last-date">Cập nhật gần đây</label>
+                            <input type="datetime-local" step="0.001" class="form-control" id="lesson-edit-last-date">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="form-group--label" for="lesson-content">Nội dung khóa học</label>
+                            <textarea class="form-control" id="lesson-content" rows="5"></textarea>
                         </div>
                     </div>
                 </div>
@@ -69,7 +74,7 @@
         </div>
     </div>
 
-    <script type="module" src="/static/js/course/unitDetail.js"></script>
+    <script type="module" src="/static/js/course/lessonDetail.js"></script>
 </body>
 
 </html>

@@ -25,7 +25,7 @@ export function renderHeaderTable(wrapperTemplate, titles) {
  * @param {*} hideProperty property object not show in template.
  * @param {*} endpoint set up type page VD: ../users, ../course, .../vvv
  */
-export function renderBodyTable(wrapperTemplate, data, hideProperty, endPoint, pointter) {
+export function renderBodyTable(wrapperTemplate, data, hideProperty, endPoint, pointter, codeName) {
     let undefineData = document.querySelectorAll(".undefine-data")[0];
     if (!Object.values(data).length) {
         undefineData.classList.add("active");
@@ -35,14 +35,14 @@ export function renderBodyTable(wrapperTemplate, data, hideProperty, endPoint, p
         }
 
         let template = data.reduce((accument, current, curentIndex) => {
-            return accument.concat(renderKeys(current, curentIndex, hideProperty, endPoint, pointter, renderTemplate));
+            return accument.concat(renderKeys(current, curentIndex, hideProperty, endPoint, pointter, codeName, renderTemplate));
         }, []).join("");
 
         wrapperTemplate.innerHTML = template;
     }
 }
 
-function renderKeys(currentData, currentIndex, hideProperty, endPoint, pointter, callback) {
+function renderKeys(currentData, currentIndex, hideProperty, endPoint, pointter, codeName, callback) {
     let keys = Object.keys(currentData).reduce((accument, currunetValue) => {
         if (hideProperty.every((e) => e != currunetValue)) {
             return accument.concat(currunetValue);
@@ -50,10 +50,10 @@ function renderKeys(currentData, currentIndex, hideProperty, endPoint, pointter,
         return accument;
     }, []);
 
-    return callback(currentData, currentIndex, keys, endPoint, pointter);
+    return callback(currentData, currentIndex, keys, endPoint, pointter, codeName);
 }
 
-function renderTemplate(currentData, currentIndex, keys, endPoint, pointter) {
+function renderTemplate(currentData, currentIndex, keys, endPoint, pointter, codeName) {
     let template = `<tr> <td>${currentIndex}</td>`;
 
     let content = keys.reduce((accument, currunetValue) => {
@@ -65,17 +65,17 @@ function renderTemplate(currentData, currentIndex, keys, endPoint, pointter) {
         return accument.concat(`<td>${currentData[currunetValue]}</td>`);
     }, []).join("");
 
-    return template += content + renderButtonAction(currentData["_id"], endPoint, pointter) + "</tr>";
+    return template += content + renderButtonAction(currentData["_id"], endPoint, pointter, codeName) + "</tr>";
 }
 
-function renderButtonAction(currentId, endPoint, pointter) {
+function renderButtonAction(currentId, endPoint, pointter, codeName) {
     let mappPointer = ["courses", "courses/units"];
     let title = (pointter == "units") ? "Chương Học" : "Bài học";
     let template = "<td>";
     if (mappPointer.includes(endPoint)) {
         template += `
                 <a class="btn-edit" href="/${endPoint}/detail?type=update&id=${currentId}">Cập nhật</a>
-                <a class="btn-edit" href="/${endPoint}/${pointter}?course=${currentId}">${title}</a>
+                <a class="btn-edit" href="/${endPoint}/${pointter}?${codeName}=${currentId}">${title}</a>
                 <a href="#" class="btn-delete btn-delete-document"
                     data-toggle="modal"
                     data-whatever="${currentId}"

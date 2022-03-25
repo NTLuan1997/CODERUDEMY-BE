@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="breadcrumd">
+            <ul class="list-unstyled">
+                <li><a href="/home">Trang chủ</a></li>
+                <li><a href="/courses">Khóa học</a></li>
+                <li><a id="come-back" href="#">Chương học</a></li>
+                <li><span>Học phần</span></li>
+            </ul>
+        </div>
+
+        <div class="page-main">
+            <div class="page-main--header d-flex align-items-center justify-content-between">
+                <h2 class="header-title">Chương học hiện có</h2>
+                <a class="header-router-link-detail" id="lesson-new">
+                    <i class="fa fa-plus mr-2" aria-hidden="true"></i>
+                    Thêm mới
+                </a>
+            </div>
+            <table class="page-main-body table">
+                <thead class="thead-dark">
+                    <tr id="lesson-table-header"></tr>
+                </thead>
+                <tbody id="lesson-table-body"></tbody>
+            </table>
+            <div class="undefine-data">Không có nội dung phù hợp</div>
+        </div>
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination d-flex align-items-center justify-content-center"></ul>
+    </nav>
+
+    <script type="module" src="/static/js/course/lesson.js"></script>
+</body>
+
+</html>
