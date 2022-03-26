@@ -75,7 +75,11 @@ function renderButtonAction(currentId, endPoint, pointter, codeName) {
     if (mappPointer.includes(endPoint)) {
         template += `
                 <a class="btn-edit" href="/${endPoint}/detail?type=update&id=${currentId}">Cập nhật</a>
-                <a class="btn-edit" id="router-child" href="/${endPoint}/${pointter}?${codeName}=${currentId}">${title}</a>
+                <a class="btn-edit router-child"
+                    data-id="${currentId}"
+                    href="/${endPoint}/${pointter}?${codeName}=${currentId}">
+                    ${title}
+                </a>
                 <a href="#" class="btn-delete btn-delete-document"
                     data-toggle="modal"
                     data-whatever="${currentId}"
