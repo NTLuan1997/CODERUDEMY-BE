@@ -71,7 +71,7 @@ class LessonController {
     }
 
     editLesson(req, res) {
-        lessonService.updateLesson(req.unitQuery, req.unitBody)
+        lessonService.updateLesson(req.lessonQuery, req.lessonBody)
             .then((data) => {
                 res.status(200).json(data);
             })
@@ -81,9 +81,32 @@ class LessonController {
     }
 
     removeLesson(req, res) {
-        lessonService.deleteLesson(req.unitQuery)
+        let unitId = null;
+        lessonService.findOneLesson(req.lessonQuery)
             .then((data) => {
-                res.status(200).json(data);
+                unitId = data.unitId;
+                return data;
+            })
+            .then((data) => {
+                let query = { "_id": { "$eq": data["_id"] } };
+                return lessonService.deleteLesson(query);
+            })
+            .then((state) => {
+                if (state.status) {
+                    let query = { "unitId": { "$eq": unitId } };
+                    return lessonService.countLesson(query);
+                }
+                return 0;
+            })
+            .then((count) => {
+                if (count >= 0) {
+                    let query = { "_id": { "$eq": new ObjectId(unitId) } };
+                    let unitBody = { "amountLesson": Number(count) };
+                    return unitService.updateUnit(query, unitBody);
+                }
+            })
+            .then((state) => {
+                res.status(200).json(state);
             })
             .catch((err) => {
                 throw err;

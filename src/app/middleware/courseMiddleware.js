@@ -100,7 +100,6 @@ function converPageLesson(req, res, next) {
 }
 
 function converLesson(req, res, next) {
-    console.log(req.body);
     Object.assign(lesson, req.body);
     if (req.body.id) {
         req.lessonQuery = { "_id": { "$eq": new ObjectId(req.body.id) } };
@@ -109,6 +108,11 @@ function converLesson(req, res, next) {
     lesson.createDate = new Date(lesson.createDate).toISOString();
     lesson.updateDate = new Date(lesson.updateDate).toISOString();
     req.lessonBody = lesson;
+    next();
+}
+
+function converQueryLesson(req, res, next) {
+    req.lessonQuery = { "_id": { "$eq": new ObjectId(req.body.id) } }
     next();
 }
 
@@ -121,5 +125,6 @@ module.exports = {
     converUnit,
     converQueryUnit,
     converPageLesson,
-    converLesson
+    converLesson,
+    converQueryLesson
 };

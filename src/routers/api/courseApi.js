@@ -20,6 +20,9 @@ router.delete("/unit-remove", middleware.converQueryUnit, unitController.removeU
 
 // LESSON
 router.get("/lesson-home", middleware.converPageLesson, lessonController.pageLesson);
+router.post("/lesson-single", middleware.converQueryLesson, lessonController.findSingleLessson);
 router.post("/lesson-new", middleware.converLesson, lessonController.newLesson);
+router.put("/lesson-edit", middleware.converLesson, lessonController.editLesson);
+router.delete("/lesson-remove", middleware.converQueryLesson, lessonController.removeLesson);
 
 module.exports = router;

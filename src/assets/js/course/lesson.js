@@ -6,10 +6,6 @@ window.onload = function (e) {
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
 
-    $("#come-back").addEventListener("click", function (e) {
-        window.history.back();
-    })
-
     let pageRequire = 5;
     let routerLessonNew = $("#lesson-new");
     let wrapperPagination = $$(".pagination")[0];
@@ -20,11 +16,13 @@ window.onload = function (e) {
     let unitId = location.search.split("=")[1];
     let condition = [`unitId=${unitId}`];
 
+    $("#go-back").addEventListener("click", function (e) {
+        window.history.back();
+    })
+
     routerLessonNew.setAttribute("href", location.href.replace("?", "/detail?type=create&"));
 
     (function () {
-
-        console.log(unitId);
 
         httpsService(`API/lesson/lesson-home?limit=${pageRequire}&start=0&unitId=${unitId}`, "GET", null)
             .then((data) => {
@@ -33,14 +31,14 @@ window.onload = function (e) {
             .then((data) => {
                 renderHeaderTable(wrapperTableHeader, titles);
                 renderPagination(wrapperPagination, 5, data.length, "API/lesson/lesson-home", (e) => {
-                    renderBodyTable(wrapperTablebody, e?.lessons, ["_id", "lessonContent", "thumbnail", "__v"], "courses/units", "lessons");
-                    deleteDocument($$(".btn-delete-document"), "API/unit/unit-remove");
+                    renderBodyTable(wrapperTablebody, e?.lessons, ["_id", "lessonContent", "thumbnail", "__v"], "courses/units/lessons", "lessons");
+                    deleteDocument($$(".btn-delete-document"), "API/lesson/lesson-remove");
                 }, condition);
                 return data;
             })
             .then((data) => {
-                renderBodyTable(wrapperTablebody, data?.lessons, ["_id", "lessonContent", "thumbnail", "__v"], "courses/units", "lessons");
-                deleteDocument($$(".btn-delete-document"), "API/unit/unit-remove");
+                renderBodyTable(wrapperTablebody, data?.lessons, ["_id", "lessonContent", "thumbnail", "__v"], "courses/units/lessons", "lessons");
+                deleteDocument($$(".btn-delete-document"), "API/lesson/lesson-remove");
             })
             .catch((err) => {
                 console.log(err);
