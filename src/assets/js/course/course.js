@@ -29,6 +29,11 @@ window.onload = function (e) {
                 renderBodyTable(wrapperTablebody, data?.courses, ["_id", "description", "thumbnail", "__v"], "courses", "units", "courseId");
                 deleteDocument($$(".btn-delete-document"), "API/course/remove");
             })
+            .then(() => {
+                $("#router-child").addEventListener("click", function (e) {
+
+                })
+            })
             .catch((err) => {
                 console.log(err);
             })

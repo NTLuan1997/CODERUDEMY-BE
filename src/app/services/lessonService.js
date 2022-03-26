@@ -88,24 +88,12 @@ class LessonService extends Service {
      * @returns status after update unit
      */
     updateLesson(query, body) {
-        // return new Promise((resolve, reject) => {
-        //     super.documentQuery((resolve, reject) => {
-        //         Lessons.updateOne(query, body, { upsert: true }).exec((err, doc) => {
-        //             if (err) reject(err);
-        //             resolve({ status: true, message: "Update done" });
-        //         })
-        //         .then((state) => {
-        //             if(state.status) {
-        //                 return state;
-        //             } else {
-        //                 reject({status: false, message: "Upload false"});
-        //             }
-        //         })
-        //         .then((state) => {
-        //             this.countLesson()
-        //         })
-        //     })
-        // })
+        return super.documentQuery((resolve, reject) => {
+            Lessons.updateOne(query, body, { upsert: true }).exec((err, doc) => {
+                if (err) reject(err);
+                resolve({ status: true, message: "Update done" });
+            })
+        })
     }
 
     /**

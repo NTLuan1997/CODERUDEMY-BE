@@ -16,7 +16,7 @@ window.onload = function () {
 
     // let urlBack = "/courses/units?course=";
 
-    $$(".back-page-unit").forEach((e) => {
+    $$(".go-back").forEach((e) => {
         e.addEventListener("click", function (element) {
             window.history.back();
         })

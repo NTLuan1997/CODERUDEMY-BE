@@ -19,26 +19,27 @@ window.onload = function (e) {
         window.history.back();
     })
 
-    // if (getType() == "update") {
-    //     (function () {
-    //         console.log(getToken());
-    //         httpsService("API/unit/unit-single", "POST", { id: getToken() })
-    //             .then((data) => {
-    //                 return data.json();
-    //             })
-    //             .then((data) => {
-    //                 setCourseForm(data);
-    //             })
-    //             .catch((err) => {
-    //                 console.log(err);
-    //             })
-    //     }());
-    // }
+    if (getType() == "update") {
+        (function () {
+            console.log(getToken());
+            httpsService("API/lesson/lesson-single", "POST", { id: getToken() })
+                .then((data) => {
+                    return data.json();
+                })
+                .then((data) => {
+                    setCourseForm(data);
+                    // console.log(data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }());
+    }
 
     switch (getType()) {
         case "update":
             setTitleForm("update");
-            // lessonForm.addEventListener("submit", updateLesson);
+            lessonForm.addEventListener("submit", updateLesson);
             break;
 
         case "create":
@@ -52,7 +53,6 @@ window.onload = function (e) {
     function createLesson(e) {
         e.preventDefault();
         let lesson = getLesson();
-        console.log(lesson);
         if (lesson) {
             httpsService("API/lesson/lesson-new", "POST", lesson)
                 .then((res) => {
@@ -69,25 +69,25 @@ window.onload = function (e) {
         }
     }
 
-    // function updateLesson(e) {
-    //     e.preventDefault();
-    //     let unit = getLesson();
-    //     unit["id"] = getToken();
-    //     if (unit) {
-    //         httpsService("API/unit/unit-edit", "PUT", unit)
-    //             .then((res) => {
-    //                 return res.json();
-    //             })
-    //             .then((data) => {
-    //                 if (data.status) {
-    //                     location.href = `/courses/units?course=${unit.courseId}`;
-    //                 }
-    //             })
-    //             .catch((err) => {
-    //                 console.error(err);
-    //             })
-    //     }
-    // }
+    function updateLesson(e) {
+        e.preventDefault();
+        let lesson = getLesson();
+        lesson["id"] = getToken();
+        if (lesson) {
+            httpsService("API/lesson/lesson-edit", "PUT", lesson)
+                .then((res) => {
+                    return res.json();
+                })
+                .then((data) => {
+                    if (data.status) {
+                        location.href = `/courses/units/lessons?unitId=${lesson.unitId}`;
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                })
+        }
+    }
 
     function getLesson() {
         let data = {
@@ -102,14 +102,15 @@ window.onload = function (e) {
         return data;
     }
 
-    // function setCourseForm(unit) {
-    //     // courseCode.value = unit.courseId;
-    //     // unitName.value = unit.unitName;
-    //     // unitLesson.value = unit.amountLesson;
-    //     // (unit.status) ? $(`input[id='active']`).checked = true : $(`input[id='no-active']`).checked = true;
-    //     // unitCreateDate.value = unit.createDate.split(".")[0];
-    //     // unitEditLastDate.value = unit.updateDate.split(".")[0];
-    // }
+    function setCourseForm(lesson) {
+        unitCode.value = lesson.unitId;
+        name.value = lesson.lessonName;
+        content.value = lesson.lessonContent;
+        (lesson.status) ? $(`input[id='active']`).checked = true : $(`input[id='no-active']`).checked = true;
+        thumbnail.value = lesson.thumbnail;
+        createDate.value = lesson.createDate.split(".")[0];
+        editLastDate.value = lesson.updateDate.split(".")[0];
+    }
 
     function setTitleForm(type) {
         let title = $$(".page-detail--title")[0];
