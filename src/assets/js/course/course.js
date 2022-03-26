@@ -30,9 +30,12 @@ window.onload = function (e) {
                 deleteDocument($$(".btn-delete-document"), "API/course/remove");
             })
             .then(() => {
-                $("#router-child").addEventListener("click", function (e) {
-
+                $$(".router-child").forEach(function (router) {
+                    router.addEventListener("click", function (e) {
+                        localStorage.setItem("courseId", JSON.stringify(this.dataset.id));
+                    })
                 })
+
             })
             .catch((err) => {
                 console.log(err);
