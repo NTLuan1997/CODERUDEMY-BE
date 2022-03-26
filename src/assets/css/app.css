@@ -117,6 +117,8 @@
         background-color: #f28d0f;
         color: white;
         padding: 10px; }
+      .page-main .page-main-body tbody .router-child {
+        margin-right: 4px; }
       .page-main .page-main-body tbody .btn-delete {
         border-radius: 5px;
         background-color: #f28d0f;
