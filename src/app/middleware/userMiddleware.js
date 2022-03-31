@@ -14,6 +14,7 @@ function mapperUser(req, res, next) {
             email: null,
             password: null,
             age: null,
+            role: null,
             status: null,
             skills: null
         };
@@ -24,10 +25,16 @@ function mapperUser(req, res, next) {
     next();
 }
 
+function mapperUserQuery(req, res, next) {
+    let query = { "_id": { "$eq": new ObjectId(req.body.id) } };
+    req.userQuery = query;
+    next();
+}
+
 function mapperUserLogin(req, res, next) {
     req.email = req.body.email;
     req.password = req.body.password;
     next();
 }
 
-module.exports = { mapperUser, mapperUserLogin };
+module.exports = { mapperUser, mapperUserQuery, mapperUserLogin };

@@ -7,6 +7,7 @@ const Users = new Schema({
     "email": String,
     "status": String,
     "age": String,
+    "role": String,
     "skills": String
 });
 

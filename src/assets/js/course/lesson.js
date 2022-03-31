@@ -38,16 +38,6 @@ window.onload = function (e) {
                 renderBodyTable(wrapperTablebody, data?.lessons, ["_id", "lessonContent", "thumbnail", "__v"], "courses/units/lessons", "lessons");
                 deleteDocument($$(".btn-delete-document"), "API/lesson/lesson-remove");
             })
-            .then(() => {
-                // $("#go-back").addEventListener("click", function (e) {
-                //     let id = localStorage.getItem("unit") ? localStorage.getItem("unit") : 0;
-                //     if (id) {
-                //         location.href = `/courses/units?courseId=${id}`;
-                //         // console.log(location.href.replace("/lessons?", `/courses/units?courseId=${id}`));
-                //     }
-                // })
-                // $("#go-back").setAttribute("href", `/courses/units?courseId=${id}`);
-            })
             .catch((err) => {
                 console.log(err);
             })

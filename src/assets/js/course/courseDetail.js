@@ -87,7 +87,6 @@ window.onload = function (e) {
     }
 
     function getCourseForm() {
-        // console.log(courseType.value);
         let data = {
             courseName: courseName.value,
             author: courseAuthor.value,

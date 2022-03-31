@@ -28,7 +28,6 @@ window.onload = function (e) {
                 })
                 .then((data) => {
                     setCourseForm(data);
-                    // console.log(data);
                 })
                 .catch((err) => {
                     console.log(err);

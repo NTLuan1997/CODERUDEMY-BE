@@ -70,6 +70,15 @@ class UserService extends Service {
         }), this.countUser()]);
     }
 
+    findSingleUser(query) {
+        return new Promise((resolve, reject) => {
+            User.findOne(query).exec((err, doc) => {
+                if (err) reject(err);
+                resolve(doc);
+            })
+        })
+    }
+
     /**
      * 
      * Method create user.
