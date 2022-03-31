@@ -15,10 +15,6 @@ class CourseController {
         res.render('components/courses/courseDetail', { show: true });
     }
 
-    renderCourseDetailUpload(req, res) {
-        res.render('components/courses/courseDetail', { show: true });
-    }
-
     renderUnit(req, res) {
         res.render("components/courses/unit", { show: true });
     }

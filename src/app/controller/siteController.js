@@ -1,4 +1,5 @@
 const userService = require("../services/userService");
+const jwt = require("../utils/jwt");
 class SiteController {
 
     //[GET]
@@ -8,16 +9,15 @@ class SiteController {
 
     //[POST]
     login(req, res) {
-        //req.hasOwnProperty("userLogin")
-        if (req.userLogin?.email && req.userLogin?.password) {
-            userService.isUser(req.userLogin.email, req.userLogin.password)
-                .then((data) => {
-                    let user = {
-                        status: (data) ? true : false,
-                        message: (data) ? "Login successful!!" : "User dosen't exist",
-                        user: (data) ? data : null
-                    };
-                    res.json(user);
+        if (req.email && req.password) {
+            userService.isUser(req.email, req.password)
+                .then((user) => {
+                    if (user) {
+                        res.status(200).json({ status: true, token: jwt.generation(user["_id"]) });
+
+                    } else {
+                        res.status(400).json({ status: false });
+                    }
                 })
                 .catch((err) => {
                     throw err;
@@ -25,11 +25,6 @@ class SiteController {
         } else {
             res.render("components/site/login", { show: false });
         }
-    }
-
-    //[GET]
-    search(req, res) {
-        res.render("components/site/search");
     }
 }
 

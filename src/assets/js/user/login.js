@@ -1,9 +1,10 @@
 import { validation, resValidation } from '../commons/validation.js';
 import { httpsService } from "../commons/httpService.js";
+import { setCookie } from "../commons/common.js";
 
 window.onload = function (e) {
-    let $ = document.querySelector.bind(document);
-    let $$ = document.querySelectorAll.bind(document);
+    const $ = document.querySelector.bind(document);
+    const $$ = document.querySelectorAll.bind(document);
 
     let email = $("#user_email");
     let password = $("#user_password");
@@ -50,7 +51,7 @@ window.onload = function (e) {
     })
 
     function saveUser(user) {
-        localStorage.setItem("user", JSON.stringify(user));
+        setCookie("token", user.token);
         location.href = "/home";
     }
 }

@@ -123,6 +123,20 @@
               cú pháp: username = "John Doe"
             - VD: document.cookie = "username=John Doe";
 
+    
+    Json web token:
+        - Mỗi JWT bao gồm ba phần:
+            1) Phần 1: là (header)thuật toán mã hóa sh-265 ..., token type.
+            2) Phần 2: là (payload)data của token.
+            3) Phần 3: là signature(Chữ ký) của server tạo ra.
+
+        - Mỗi token điều có thời gian sống riêng và không thể hủy token sau khi đã được tạo ra - chỉ có thể đợi expire token.
+
+        - Tao ra JWT dùng thư viện : const jwt = require("jsonwebtoken");
+
+            + data + secret  => jwt.sign({data: data}, "serect", {expiresIn: 30})    => token
+            + token + serect => jwt.verify(token, "serect")         => data
+
 
     Mô hình MVC:
         - Kỹ thuật phân trang:

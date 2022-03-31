@@ -1,6 +1,7 @@
 const express = require("express");
 const { engine } = require("express-handlebars");
 const session = require("express-session");
+const cookieParser = require('cookie-parser');
 const corsMiddleware = require("./app/middleware/corsMiddleware");
 const routerApiModule = require("./routers/api/routerModule");
 const routerRenderModule = require("./routers/render/routerModule");
@@ -36,11 +37,12 @@ app.use("/css", express.static(path.join(Path.getPath(), '/node_modules/bootstra
 app.use("/jquery", express.static(path.join(Path.getPath(), '/node_modules/jquery/dist')));
 app.use("/js", express.static(path.join(Path.getPath(), '/node_modules/bootstrap/dist/js')));
 
-// Middleware giúp bắt dữ liệu submit từ form lên || được gưiửi qua Ajax.
+// Middleware giúp bắt dữ liệu submit từ form lên || được gửi qua Ajax.
 app.use(express.urlencoded({
     extended: true
 }));
 app.use(express.json());
+app.use(cookieParser());
 app.use(corsMiddleware.corsOption);
 
 
