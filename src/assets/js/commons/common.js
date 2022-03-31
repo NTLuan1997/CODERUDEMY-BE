@@ -23,3 +23,7 @@ export function getToken() {
     }
     return 0;
 }
+
+export function setCookie(cname, cvalue) {
+    document.cookie = cname + "=" + cvalue + ";" + ";path=/";
+}

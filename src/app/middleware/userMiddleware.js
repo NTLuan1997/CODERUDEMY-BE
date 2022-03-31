@@ -1,4 +1,5 @@
 const ObjectId = require("mongodb").ObjectId;
+
 function mapperUser(req, res, next) {
     let values = Object.values(req.body).length;
     req.mongoQuery = {
@@ -24,10 +25,8 @@ function mapperUser(req, res, next) {
 }
 
 function mapperUserLogin(req, res, next) {
-    req.userLogin = {
-        email: req.body.email,
-        password: req.body.password
-    }
+    req.email = req.body.email;
+    req.password = req.body.password;
     next();
 }
 
