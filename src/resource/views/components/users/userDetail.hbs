@@ -38,6 +38,14 @@
                             <input type="password" class="form-control" id="password" placeholder="Mật khẩu"
                                 value="{{user.password}}">
                         </div>
+                        <div class="form-group">
+                            <label class="title--input" for="user-role">Loại tài khoản</label>
+                            <select class="custom-select" id="user-role">
+                                <option selected>Chọn loại tài khoản</option>
+                                <option value="user">khách hàng</option>
+                                <option value="admin">Quản trị</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
@@ -49,13 +57,13 @@
                             <div class="wrapper-status d-flex align-items-center">
                                 <div class="custom-control custom-radio mr-3">
                                     <input type="radio" id="action" name="status" value="action"
-                                        class="custom-control-input" {{setChecked "action" user.status }}>
+                                        class="custom-control-input">
                                     <label class="custom-control-label input--status-title" for="action">Hoạt
                                         động</label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="no-action" name="status" value="no-action"
-                                        class="custom-control-input" {{setChecked "no-action" user.status }}>
+                                        class="custom-control-input">
                                     <label class="custom-control-label input--status-title" for="no-action">Không hoạt
                                         động</label>
                                 </div>

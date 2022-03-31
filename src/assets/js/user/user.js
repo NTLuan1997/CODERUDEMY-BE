@@ -10,7 +10,7 @@ window.onload = function (e) {
     let wrapperPagination = $$(".pagination")[0];
     let wrapperTableHeader = $("#user-table-header");
     let wrapperTablebody = $("#user-table-body");
-    let titles = ["STT", "Tên người dùng", "Email", "Trạng thái", "Chức năng"];
+    let titles = ["STT", "Tên người dùng", "Email", "Trạng thái", "Quyền", "Chức năng"];
 
     (function () {
         httpsService(`API/user/home?limit=${pageRequire}&start=0`, "GET", null)

@@ -4,6 +4,7 @@ const siteController = require("../../app/controller/siteController");
 const userController = require("../../app/controller/userController");
 
 router.get("/home", userController.pageUser);
+router.post("/user-single", middleware.mapperUserQuery, userController.findSingleUser);
 router.post("/login", middleware.mapperUserLogin, siteController.login);
 router.post("/new", middleware.mapperUser, userController.newUser);
 router.put("/edit", middleware.mapperUser, userController.editUser);

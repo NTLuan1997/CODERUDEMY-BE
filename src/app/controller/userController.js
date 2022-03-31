@@ -8,6 +8,10 @@ class UserController {
         res.render("components/users/user", { show: true });
     }
 
+    pageDetail(req, res) {
+        res.render("components/users/userDetail", { show: true });
+    }
+
     pageUser(req, res) {
         let { limit, start } = req.query;
         userService.findLimitUser(Number.parseInt(limit), Number.parseInt(start))
@@ -22,20 +26,14 @@ class UserController {
             })
     }
 
-    pageDetail(req, res) {
-        let Id = req.query.id;
-        if (Id) {
-            userService.findOneUser(Id)
-                .then((data) => {
-                    res.render("components/users/userDetail", { show: true, user: data.toObject() });
-                })
-                .catch((err) => {
-                    throw err;
-                })
-
-        } else {
-            res.render("components/users/userDetail", { show: true });
-        }
+    findSingleUser(req, res) {
+        userService.findSingleUser(req.userQuery)
+            .then((data) => {
+                res.status(200).json(data);
+            })
+            .catch((err) => {
+                res.json({ status: false, message: err });
+            })
     }
 
     newUser(req, res) {

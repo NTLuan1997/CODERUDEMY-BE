@@ -7,6 +7,29 @@ window.onload = function (e) {
 
     // GET WRAPPER
     let userForm = $("#users-detail--info");
+    let status = $("input[name='status']:checked");
+    let userName = $("#user-name");
+    let password = $("#password");
+    let skills = $("#skills");
+    let email = $("#email");
+    let age = $("#age");
+    let role = $("#user-role");
+
+    if (getType() == "update") {
+        (function () {
+            httpsService("API/user/user-single", "POST", { id: getToken() })
+                .then((data) => {
+                    return data.json();
+                })
+                .then((data) => {
+                    setUserForm(data);
+                    console.log(data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }());
+    }
 
     switch (getType()) {
         case "update":
@@ -61,19 +84,13 @@ window.onload = function (e) {
     }
 
     function getUserForm() {
-        let status = $("input[name='status']:checked");
-        let userName = $("#user-name");
-        let password = $("#password");
-        let skills = $("#skills");
-        let email = $("#email");
-        let age = $("#age");
-
         let data = {
             "user_name": userName.value,
             "email": email.value,
             "password": password.value,
             "age": age.value,
-            "status": status.value,
+            "role": role.value,
+            "status": $("input[name='status']:checked").value,
             "skills": skills.value || []
         }
         if ((!data["user_name"] || !data.email) ||
@@ -81,6 +98,20 @@ window.onload = function (e) {
             return null;
         }
         return data;
+    }
+
+    function setUserForm(user) {
+        userName.value = user["user_name"];
+        email.value = user.email;
+        password.value = user.password;
+        age.value = user.age;
+        (user.status == "action") ? $(`input[id='action']`).checked = true : $(`input[id='no-action']`).checked = true;
+        skills.value = user.skills;
+        for (let type of role) {
+            if (type.value == user.role) {
+                type.setAttribute("selected", true);
+            }
+        }
     }
 
     function setTitleForm(type) {
