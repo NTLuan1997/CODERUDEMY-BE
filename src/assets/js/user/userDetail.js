@@ -1,4 +1,4 @@
-import { getType, getToken } from "../commons/common.js";
+import { getType, getToken, toastsMessage } from "../commons/common.js";
 import { httpsService } from "../commons/httpService.js";
 
 window.onload = function (e) {
@@ -14,6 +14,9 @@ window.onload = function (e) {
     let email = $("#email");
     let age = $("#age");
     let role = $("#user-role");
+
+    let modalToasts = $$(".modal-toasts")[0];
+    let content = $$(".toasts-content")[0];
 
     if (getType() == "update") {
         (function () {
@@ -48,14 +51,14 @@ window.onload = function (e) {
         e.preventDefault();
         let data = getUserForm();
         if (data) {
-            httpsService("API/user/new", "POST", data)
+            httpsService("API/user/user-new", "POST", data)
                 .then((res) => {
                     return res.json();
                 })
                 .then((data) => {
-                    if (data.status) {
-                        location.href = "/users";
-                    }
+                    data.status ?
+                        location.href = "/users" :
+                        toastsMessage(modalToasts, content, data);
                 })
                 .catch((err) => {
                     console.error(err);
@@ -68,14 +71,14 @@ window.onload = function (e) {
         let data = getUserForm();
         data["id"] = getToken();
         if (data) {
-            httpsService("API/user/edit", "PUT", data)
+            httpsService("API/user/user-edit", "PUT", data)
                 .then((res) => {
                     return res.json();
                 })
                 .then((data) => {
-                    if (data.status) {
-                        location.href = "/users";
-                    }
+                    data.status ?
+                        location.href = "/users" :
+                        toastsMessage(modalToasts, content, data);
                 })
                 .catch((err) => {
                     console.error(err);

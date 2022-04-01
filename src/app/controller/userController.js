@@ -4,12 +4,19 @@ class UserController {
 
     constructor() { }
 
+    // RENDER TEMPLATE
     index(req, res) {
         res.render("components/users/user", { show: true });
     }
 
     pageDetail(req, res) {
         res.render("components/users/userDetail", { show: true });
+    }
+
+    // API
+
+    signout(req, res) {
+        res.status(200).clearCookie("token").json({ status: true });
     }
 
     pageUser(req, res) {

@@ -161,6 +161,37 @@
   .table tbody td .btn a {
     color: #ffffff; }
 
+.modal-toasts {
+  background-color: #031b3d;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-height: 45px;
+  top: 108px;
+  right: 0px;
+  position: fixed;
+  padding: 5px 10px;
+  min-width: 150px;
+  z-index: 100;
+  animation: showToasts 2.5s ease forwards;
+  transition: all .5s ease; }
+  .modal-toasts .toasts-content {
+    color: #ffffff;
+    font-size: 13px;
+    margin-bottom: 0px;
+    text-transform: capitalize; }
+
+.modal-toasts.active {
+  display: flex; }
+
+@keyframes showToasts {
+  0% {
+    opacity: 0;
+    transform: translateX(200px); }
+  100% {
+    opacity: 1;
+    transform: translateX(0px); } }
+
 footer {
   background-color: #031b3d;
   border-top: 25px solid #244576;

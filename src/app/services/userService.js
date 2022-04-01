@@ -70,6 +70,12 @@ class UserService extends Service {
         }), this.countUser()]);
     }
 
+    /**
+     * 
+     * Method find one user by ID user.
+     * @param {*} query condition find user
+     * @returns One User.
+     */
     findSingleUser(query) {
         return new Promise((resolve, reject) => {
             User.findOne(query).exec((err, doc) => {

@@ -17,10 +17,15 @@ export function deleteDocument(element, endPoint) {
 
 function removeDocument(id, endPoint) {
     httpsService(endPoint, "DELETE", { "id": id })
+        .then((res) => {
+            // console.log(data);
+            // if (data.status) {
+            //     location.reload();
+            // }
+            return res.json();
+        })
         .then((data) => {
-            if (data.status) {
-                location.reload();
-            }
+            console.log(data);
         })
         .catch((err) => {
             console.log(err);
