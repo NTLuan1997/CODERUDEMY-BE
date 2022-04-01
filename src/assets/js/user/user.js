@@ -21,13 +21,13 @@ window.onload = function (e) {
                 renderHeaderTable(wrapperTableHeader, titles);
                 renderPagination(wrapperPagination, 5, data.length, "API/user/home", (e) => {
                     renderBodyTable(wrapperTablebody, e?.users, ["_id", "password", "skills", "age", "__v"], "users", null, null);
-                    deleteDocument($$(".btn-delete-document"), "API/user/remove");
+                    deleteDocument($$(".btn-delete-document"), "API/user/user-remove");
                 }, null);
                 return data;
             })
             .then((data) => {
                 renderBodyTable(wrapperTablebody, data?.users, ["_id", "password", "skills", "age", "__v"], "users", null, null);
-                deleteDocument($$(".btn-delete-document"), "API/user/remove");
+                deleteDocument($$(".btn-delete-document"), "API/user/user-remove");
             })
             .catch((err) => {
                 console.log(err);

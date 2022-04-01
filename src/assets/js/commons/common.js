@@ -7,6 +7,16 @@ export function awaitLoader(element, status) {
     }
 }
 
+export function toastsMessage(modal, content, message) {
+    console.log(message);
+    modal.classList.add("active");
+    content.textContent = message?.message;
+
+    setTimeout(function () {
+        modal.classList.remove("active");
+    }, 7000);
+}
+
 export function getType() {
     let type = location.search.split("&")[0];
     if (type && type.includes("type")) {
