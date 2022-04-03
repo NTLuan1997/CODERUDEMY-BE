@@ -1,12 +1,13 @@
 import { getType, getToken } from "../commons/common.js";
 import { httpsService } from "../commons/httpService.js";
+import { Validation } from "../commons/validation.js";
 
 window.onload = function () {
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
 
     // GET WRAPPER
-    let userForm = $("#course-detail--info");
+    let unitForm = $("#unit-detail");
     let courseCode = $("#course-code");
     let unitName = $("#unit-name");
     let unitLesson = $("#unit-lesson");
@@ -14,12 +15,33 @@ window.onload = function () {
     let unitCreateDate = $("#unit-create-date");
     let unitEditLastDate = $("#unit-edit-last-date");
 
-    // let urlBack = "/courses/units?course=";
-
     $$(".go-back").forEach((e) => {
         e.addEventListener("click", function (element) {
             window.history.back();
         })
+    });
+
+    Validation({
+        form: "#unit-detail",
+        selectorError: ".form-message",
+        rules: [
+            {
+                selector: "#course-code",
+                guides: [Validation.required()]
+            },
+            {
+                selector: "#unit-name",
+                guides: [Validation.required()]
+            },
+            {
+                selector: "#unit-create-date",
+                guides: [Validation.required()]
+            },
+            {
+                selector: "#unit-edit-last-date",
+                guides: [Validation.required()]
+            }
+        ]
     });
 
     if (getType() == "update") {
@@ -41,54 +63,54 @@ window.onload = function () {
     switch (getType()) {
         case "update":
             setTitleForm("update");
-            userForm.addEventListener("submit", updateUser);
+            unitForm.addEventListener("submit", updateUser);
             break;
 
         case "create":
         default:
             courseCode.value = getToken();
             setTitleForm("create");
-            userForm.addEventListener("submit", createUser);
+            unitForm.addEventListener("submit", createUser);
             break;
     }
 
     function createUser(e) {
         e.preventDefault();
-        let unit = getCourseForm();
-        if (unit) {
-            httpsService("API/unit/unit-new", "POST", unit)
-                .then((res) => {
-                    return res.json();
-                })
-                .then((data) => {
-                    if (data.status) {
-                        location.href = `/courses/units?course=${unit.courseId}`;
-                    }
-                })
-                .catch((err) => {
-                    console.error(err);
-                })
-        }
+        // let unit = getCourseForm();
+        // if (unit) {
+        //     httpsService("API/unit/unit-new", "POST", unit)
+        //         .then((res) => {
+        //             return res.json();
+        //         })
+        //         .then((data) => {
+        //             if (data.status) {
+        //                 location.href = `/courses/units?course=${unit.courseId}`;
+        //             }
+        //         })
+        //         .catch((err) => {
+        //             console.error(err);
+        //         })
+        // }
     }
 
     function updateUser(e) {
         e.preventDefault();
-        let unit = getCourseForm();
-        unit["id"] = getToken();
-        if (unit) {
-            httpsService("API/unit/unit-edit", "PUT", unit)
-                .then((res) => {
-                    return res.json();
-                })
-                .then((data) => {
-                    if (data.status) {
-                        location.href = `/courses/units?course=${unit.courseId}`;
-                    }
-                })
-                .catch((err) => {
-                    console.error(err);
-                })
-        }
+        // let unit = getCourseForm();
+        // unit["id"] = getToken();
+        // if (unit) {
+        //     httpsService("API/unit/unit-edit", "PUT", unit)
+        //         .then((res) => {
+        //             return res.json();
+        //         })
+        //         .then((data) => {
+        //             if (data.status) {
+        //                 location.href = `/courses/units?course=${unit.courseId}`;
+        //             }
+        //         })
+        //         .catch((err) => {
+        //             console.error(err);
+        //         })
+        // }
     }
 
     function getCourseForm() {

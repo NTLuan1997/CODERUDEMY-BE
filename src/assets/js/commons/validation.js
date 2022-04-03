@@ -1,65 +1,3 @@
-let $ = document.querySelector.bind(document);
-let $$ = document.querySelectorAll.bind(document);
-let message = null;
-let regexEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-export function validation(type, element, callback) {
-    switch (type) {
-        case 'email':
-            emailValidation(element, callback);
-            break;
-
-        case 'password':
-            passwordValidation(element, callback);
-            break;
-
-        default:
-            break;
-    }
-}
-
-export function resValidation(error, callback, ...element) {
-    element.forEach((E) => {
-        message = $(`#${E?.dataset.id}`);
-        message.style.display = "block";
-        message.textContent = "Thông tin người dùng không đúng";
-    })
-    callback(false);
-}
-
-function emailValidation(element, callback) {
-    callback(false);
-    message = $(`#${element?.dataset.id}`);
-
-    if (!regexEmail.test(element.value)) {
-        setMessage(message, "Email không hợp lệ vui lòng nhập lại");
-
-    }
-    else {
-        message.style.display = "none";
-        callback(true);
-    }
-}
-
-function passwordValidation(element, callback) {
-    callback(false);
-    message = $(`#${element?.dataset.id}`);
-
-    if (element.value.length < 5) {
-        setMessage(message, "Password không đủ vui lòng nhập lại");
-
-    }
-    else {
-        message.style.display = "none";
-        callback(true);
-    }
-}
-
-function setMessage(element, message) {
-    element.style.display = "block";
-    element.textContent = message;
-}
-
 /**
  * 
  * @param {*} options 
@@ -68,6 +6,7 @@ function setMessage(element, message) {
  *      2) SelectorError: parent message around content message.
  *      2) Rules: multiple rule validation.
  */
+let regexEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export function Validation(options) {
     let Form = document.querySelector(options?.form);
 
@@ -96,6 +35,14 @@ export function Validation(options) {
                         handleMessage(Form, Input, Message, null);
                     }
                 })
+
+                if (options.type == "no-event") {
+                    for (let i = 0; i < rule.guides.length; i++) {
+                        messageContent = rule.guides[i].test();
+                        if (messageContent) break;
+                    }
+                    handleMessage(Form, Input, Message, messageContent);
+                }
             }
 
             Form.addEventListener("submit", function () {
@@ -177,6 +124,20 @@ Validation.dateOfBirth = function (minAge, maxAge) {
                 message = null;
             }
 
+            return message;
+        }
+    }
+}
+
+Validation.data = function (data) {
+    let message = '';
+    if (data && data.hasOwnProperty("message")) {
+        if (data.type == "no-found") {
+            message = "Không tìm thấy tài khoản";
+        }
+    }
+    return {
+        test: function () {
             return message;
         }
     }
