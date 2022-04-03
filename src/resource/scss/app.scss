@@ -6,8 +6,8 @@
 }
 
 .home_title {
-    background-color: $red-color;
-    color: $red-color;
+    // background-color: $red-color;
+    // color: $red-color;
     font-size: 30px;
     font-weight: bold;
     letter-spacing: .2px;
@@ -36,6 +36,7 @@
                 background-color: transparent;
                 box-shadow: 0 0 1px 1px #0000001f;
                 color: #000000;
+                cursor: pointer;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -123,6 +124,11 @@
     }
 }
 
+// FORM
+.invalid-feedback.active {
+    display: block;
+}
+
 // PAGE MAIN
 .page-main {
     box-shadow: 0 0 2px #00000030;
@@ -199,6 +205,23 @@
         .btn-executed {
             background-color: #f28d0f;
             color: white;
+        }
+    }
+}
+
+.users-detail--serect {
+    margin-top: 10px;
+    button {
+        background-color: #f28d0f!important;
+        color: #ffffff;
+        
+        padding: 5px 15px;
+        text-transform: capitalize;
+        &:not(:last-child) {
+            margin-right: 5px;
+        }
+        &:hover {
+            color: #ffffff;
         }
     }
 }
