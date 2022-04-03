@@ -1,8 +1,11 @@
 import { httpsService } from "./httpService.js";
 const $ = document.querySelector.bind(document);
+const $$ = document.querySelectorAll.bind(document);
 let userId = null;
+let modalBody = $$(".modal-body")[0];
 
 export function deleteDocument(element, endPoint) {
+    modalBody.textContent = "Bạn có chắc muốn xóa người dùng này!!!";
     for (let E of element) {
         E.addEventListener("click", function (e) {
             userId = this.dataset.id;
@@ -18,14 +21,10 @@ export function deleteDocument(element, endPoint) {
 function removeDocument(id, endPoint) {
     httpsService(endPoint, "DELETE", { "id": id })
         .then((res) => {
-            // console.log(data);
-            // if (data.status) {
-            //     location.reload();
-            // }
             return res.json();
         })
         .then((data) => {
-            console.log(data);
+            modalBody.textContent = data.message;
         })
         .catch((err) => {
             console.log(err);

@@ -27,30 +27,35 @@
                             <label class="title--input" for="user-name">Tên người dùng</label>
                             <input type="text" class="form-control" id="user-name" placeholder="Họ và tên"
                                 value="{{user.user_name}}">
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label class="title--input" for="email">Email</label>
                             <input type="email" class="form-control" id="email" placeholder="Địa chỉ email"
                                 value="{{user.email}}">
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label class="title--input" for="password">Mật khẩu</label>
                             <input type="password" class="form-control" id="password" placeholder="Mật khẩu"
                                 value="{{user.password}}">
-                        </div>
-                        <div class="form-group">
-                            <label class="title--input" for="user-role">Loại tài khoản</label>
-                            <select class="custom-select" id="user-role">
-                                <option selected>Chọn loại tài khoản</option>
-                                <option value="user">khách hàng</option>
-                                <option value="admin">Quản trị</option>
-                            </select>
+                            <span class="form-message"></span>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label class="title--input" for="age">Tuổi</label>
-                            <input type="text" class="form-control" id="age" placeholder="Tuổi" value="{{user.age}}">
+                            <input type="date" class="form-control" id="age" placeholder="Tuổi" value="{{user.age}}">
+                            <span class="form-message"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="title--input" for="user-role">Loại tài khoản</label>
+                            <select class="custom-select" id="user-role">
+                                <option selected value="default">Chọn loại tài khoản</option>
+                                <option value="user">khách hàng</option>
+                                <option value="admin">Quản trị</option>
+                            </select>
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label class="title--input" for="exampleInputPassword1">Trạng thái</label>
@@ -67,16 +72,19 @@
                                     <label class="custom-control-label input--status-title" for="no-action">Không hoạt
                                         động</label>
                                 </div>
+                                <span class="form-message"></span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group d-none">
                             <label class="title--input" for="skills">Chuyên môn</label>
                             <textarea class="form-control" id="skills" rows="5">{{user.skills}}</textarea>
+                            <span class="form-message"></span>
                         </div>
                     </div>
-                    <div class="form-group col-6">
-                        <button type="submit" class="btn btn-primary w-100 users-detail--btn">Submit</button>
-                    </div>
+                </div>
+                <div class="users-detail--serect">
+                    <button type="submit" class="btn users-detail--btn">Submit</button>
+                    <button type="button" id="go-back" class="btn">Quay lại</button>
                 </div>
             </form>
         </div>

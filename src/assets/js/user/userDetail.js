@@ -1,4 +1,5 @@
 import { getType, getToken, toastsMessage } from "../commons/common.js";
+import { Validation } from "../commons/validation.js";
 import { httpsService } from "../commons/httpService.js";
 
 window.onload = function (e) {
@@ -17,6 +18,33 @@ window.onload = function (e) {
 
     let modalToasts = $$(".modal-toasts")[0];
     let content = $$(".toasts-content")[0];
+
+    Validation({
+        form: "#users-detail--info",
+        selectorError: ".form-message",
+        rules: [
+            {
+                selector: "#user-name",
+                guides: [Validation.required()]
+            },
+            {
+                selector: "#password",
+                guides: [Validation.required(), Validation.minLength(6), Validation.maxLength(10)]
+            },
+            {
+                selector: "#age",
+                guides: [Validation.required(), Validation.dateOfBirth(0, 80)]
+            },
+            {
+                selector: "#email",
+                guides: [Validation.required(), Validation.isEmail()]
+            },
+            {
+                selector: "#user-role",
+                guides: [Validation.required()]
+            }
+        ]
+    });
 
     if (getType() == "update") {
         (function () {

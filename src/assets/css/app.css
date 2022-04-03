@@ -2,8 +2,6 @@
   min-height: 85vh; }
 
 .home_title {
-  background-color: green;
-  color: green;
   font-size: 30px;
   font-weight: bold;
   letter-spacing: .2px;
@@ -29,6 +27,7 @@
       background-color: transparent;
       box-shadow: 0 0 1px 1px #0000001f;
       color: #000000;
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -93,6 +92,9 @@
       .breadcrumd ul li .back-page-unit {
         cursor: pointer; }
 
+.invalid-feedback.active {
+  display: block; }
+
 .page-main {
   box-shadow: 0 0 2px #00000030;
   margin: 15px 0px;
@@ -150,6 +152,18 @@
   .page-detail .page-detail-form .btn-executed {
     background-color: #f28d0f;
     color: white; }
+
+.users-detail--serect {
+  margin-top: 10px; }
+  .users-detail--serect button {
+    background-color: #f28d0f !important;
+    color: #ffffff;
+    padding: 5px 15px;
+    text-transform: capitalize; }
+    .users-detail--serect button:not(:last-child) {
+      margin-right: 5px; }
+    .users-detail--serect button:hover {
+      color: #ffffff; }
 
 .table .thead-dark tr th {
   font-size: 12px;
