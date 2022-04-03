@@ -16,7 +16,7 @@ class SiteController {
                         res.status(200).json({ status: true, token: jwt.generation(user["_id"]) });
 
                     } else {
-                        res.status(400).json({ status: false });
+                        res.status(400).json({ status: false, type: "no-found", message: "User not found" });
                     }
                 })
                 .catch((err) => {

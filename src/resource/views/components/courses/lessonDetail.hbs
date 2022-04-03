@@ -21,16 +21,18 @@
         </div>
         <div class="page-detail">
             <h2 class="page-detail--title">Thông tin khóa học</h2>
-            <form class="page-detail-form" id="lesson-detail--info">
+            <form class="page-detail-form" id="lesson-detail">
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
                             <label class="form-group--label" for="unit-code">Mã Chương học</label>
                             <input type="text" class="form-control" id="unit-code" disabled placeholder="Mã code">
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label class="form-group--label" for="lesson-name">Tên bài học</label>
                             <input type="text" class="form-control" id="lesson-name">
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label class="form-group--label" for="unit-status">Trạng thái</label>
@@ -52,24 +54,31 @@
                         <div class="form-group">
                             <label class="form-group--label" for="lesson-thumbanil">Ảnh khóa học</label>
                             <input type="text" class="form-control" id="lesson-thumbanil">
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label class="form-group--label" for="lesson-create-date">Ngày tạo</label>
                             <input type="datetime-local" step="0.001" class="form-control" id="lesson-create-date">
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label class="form-group--label" for="lesson-edit-last-date">Cập nhật gần đây</label>
                             <input type="datetime-local" step="0.001" class="form-control" id="lesson-edit-last-date">
+                            <span class="form-message"></span>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="form-group">
                             <label class="form-group--label" for="lesson-content">Nội dung khóa học</label>
                             <textarea class="form-control" id="lesson-content" rows="5"></textarea>
+                            <span class="form-message"></span>
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn-executed btn">Submit</button>
+                <div class="users-detail--serect">
+                    <button type="submit" class="btn-executed btn">Submit</button>
+                    <button type="button" id="go-back" class="btn">Quay lại</button>
+                </div>
             </form>
         </div>
     </div>

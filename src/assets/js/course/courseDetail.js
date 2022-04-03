@@ -1,14 +1,14 @@
 import { getType, getToken } from "../commons/common.js";
+import { Validation } from "../commons/validation.js";
 import { httpsService } from "../commons/httpService.js";
 
 window.onload = function (e) {
-
 
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
 
     // GET WRAPPER
-    let userForm = $("#course-detail--info");
+    let courseForm = $("#course-detail");
     let courseCode = $("#course-code");
     let courseName = $("#course-name");
     let courseType = $("#course-type");
@@ -18,6 +18,43 @@ window.onload = function (e) {
     let courseEditLastDate = $("#course-edit-last-date");
     let courseThumbanil = $("#course-thumbnail");
     let courseDescription = $("#course-description");
+
+
+    Validation({
+        form: "#course-detail",
+        selectorError: ".form-message",
+        rules: [
+            {
+                selector: "#course-name",
+                guides: [Validation.required()]
+            },
+            {
+                selector: "#course-type",
+                guides: [Validation.required()]
+            },
+            {
+                selector: "#course-author",
+                guides: [Validation.required()]
+            },
+            {
+                selector: "#course-create-date",
+                guides: [Validation.required()]
+            },
+            {
+                selector: "#course-edit-last-date",
+                guides: [Validation.required()]
+            },
+            {
+                selector: "#course-thumbnail",
+                guides: [Validation.required()]
+            },
+            {
+                selector: "#course-description",
+                guides: [Validation.required()]
+            }
+        ]
+    });
+
 
     if (getType() == "update") {
         (function () {
@@ -37,52 +74,56 @@ window.onload = function (e) {
     switch (getType()) {
         case "update":
             setTitleForm("update");
-            userForm.addEventListener("submit", updateUser);
+            courseForm.addEventListener("submit", updateUser);
             break;
 
         case "create":
         default:
             setTitleForm("create");
-            userForm.addEventListener("submit", createUser);
+            courseForm.addEventListener("submit", createUser);
             break;
     }
 
     function createUser(e) {
         e.preventDefault();
-        let data = getCourseForm();
-        if (data) {
-            httpsService("API/course/new", "POST", data)
-                .then((res) => {
-                    return res.json();
-                })
-                .then((data) => {
-                    if (data.status) {
-                        location.href = "/courses";
-                    }
-                })
-                .catch((err) => {
-                    console.error(err);
-                })
+        if (this.valid) {
+            let data = getCourseForm();
+            if (data) {
+                httpsService("API/course/new", "POST", data)
+                    .then((res) => {
+                        return res.json();
+                    })
+                    .then((data) => {
+                        if (data.status) {
+                            location.href = "/courses";
+                        }
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    })
+            }
         }
     }
 
     function updateUser(e) {
         e.preventDefault();
-        let data = getCourseForm();
-        data["id"] = getToken();
-        if (data) {
-            httpsService("API/course/edit", "PUT", data)
-                .then((res) => {
-                    return res.json();
-                })
-                .then((data) => {
-                    if (data.status) {
-                        location.href = "/courses";
-                    }
-                })
-                .catch((err) => {
-                    console.error(err);
-                })
+        if (this.valid) {
+            let data = getCourseForm();
+            data["id"] = getToken();
+            if (data) {
+                httpsService("API/course/edit", "PUT", data)
+                    .then((res) => {
+                        return res.json();
+                    })
+                    .then((data) => {
+                        if (data.status) {
+                            location.href = "/courses";
+                        }
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    })
+            }
         }
     }
 

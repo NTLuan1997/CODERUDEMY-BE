@@ -19,56 +19,70 @@
         </div>
         <div class="page-detail">
             <h2 class="page-detail--title">Thông tin khóa học</h2>
-            <form class="page-detail-form" id="course-detail--info">
+            <form class="page-detail-form" id="course-detail">
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
                             <label class="form-group--label" for="course-code">Mã khóa học</label>
                             <input type="text" class="form-control" id="course-code" disabled placeholder="Mã code">
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label class="form-group--label" for="course-name">Tên khóa học</label>
                             <input type="text" class="form-control" id="course-name">
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label class="form-group--label" for="course-type">Loại khóa học</label>
                             <select class="custom-select" id="course-type">
-                                <option selected>Chọn loại khóa học</option>
+                                <option selected value="default">Chọn loại khóa học</option>
                                 <option value="FE">Font-End</option>
                                 <option value="BE">Back-End</option>
                             </select>
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label class="form-group--label" for="course-lesson">Số bài giảng hiện có</label>
-                            <input type="text" class="form-control" id="course-lesson" aria-describedby="emailHelp">
+                            <input type="text" class="form-control" id="course-lesson" disabled
+                                aria-describedby="emailHelp">
+                            <span class="form-message"></span>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label class="form-group--label" for="course-author">Tác giả</label>
                             <input type="text" class="form-control" id="course-author">
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label class="form-group--label" for="course-create-date">Ngày tạo</label>
                             <input type="datetime-local" step="0.001" class="form-control" id="course-create-date">
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label class="form-group--label" for="course-edit-last-date">Cập nhật gần đây</label>
                             <input type="datetime-local" step="0.001" class="form-control" id="course-edit-last-date">
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label class="form-group--label" for="course-thumbnail">Ảnh đại diện khóa học</label>
                             <input type="text" class="form-control" id="course-thumbnail" aria-describedby="emailHelp">
+                            <span class="form-message"></span>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="form-group">
                             <label class="form-group--label" for="course-description">Mô tả khóa học</label>
                             <textarea class="form-control" id="course-description" rows="3"></textarea>
+                            <span class="form-message"></span>
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn-executed btn">Submit</button>
+
+                <div class="users-detail--serect">
+                    <button type="submit" class="btn-executed btn">Submit</button>
+                    <button type="button" id="go-back" class="btn">Quay lại</button>
+                </div>
             </form>
         </div>
     </div>

@@ -1,4 +1,4 @@
-import { getType, getToken, toastsMessage } from "../commons/common.js";
+import { getType, getToken, toastsMessage, formatDate } from "../commons/common.js";
 import { Validation } from "../commons/validation.js";
 import { httpsService } from "../commons/httpService.js";
 
@@ -7,8 +7,7 @@ window.onload = function (e) {
     const $$ = document.querySelectorAll.bind(document);
 
     // GET WRAPPER
-    let userForm = $("#users-detail--info");
-    let status = $("input[name='status']:checked");
+    let userForm = $("#users-detail");
     let userName = $("#user-name");
     let password = $("#password");
     let skills = $("#skills");
@@ -20,7 +19,7 @@ window.onload = function (e) {
     let content = $$(".toasts-content")[0];
 
     Validation({
-        form: "#users-detail--info",
+        form: "#users-detail",
         selectorError: ".form-message",
         rules: [
             {
@@ -77,40 +76,44 @@ window.onload = function (e) {
 
     function createUser(e) {
         e.preventDefault();
-        let data = getUserForm();
-        if (data) {
-            httpsService("API/user/user-new", "POST", data)
-                .then((res) => {
-                    return res.json();
-                })
-                .then((data) => {
-                    data.status ?
-                        location.href = "/users" :
-                        toastsMessage(modalToasts, content, data);
-                })
-                .catch((err) => {
-                    console.error(err);
-                })
+        if (userForm.valid) {
+            let data = getUserForm();
+            if (data) {
+                httpsService("API/user/user-new", "POST", data)
+                    .then((res) => {
+                        return res.json();
+                    })
+                    .then((data) => {
+                        data.status ?
+                            location.href = "/users" :
+                            toastsMessage(modalToasts, content, data);
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    })
+            }
         }
     }
 
     function updateUser(e) {
         e.preventDefault();
-        let data = getUserForm();
-        data["id"] = getToken();
-        if (data) {
-            httpsService("API/user/user-edit", "PUT", data)
-                .then((res) => {
-                    return res.json();
-                })
-                .then((data) => {
-                    data.status ?
-                        location.href = "/users" :
-                        toastsMessage(modalToasts, content, data);
-                })
-                .catch((err) => {
-                    console.error(err);
-                })
+        if (userForm.valid) {
+            let data = getUserForm();
+            data["id"] = getToken();
+            if (data) {
+                httpsService("API/user/user-edit", "PUT", data)
+                    .then((res) => {
+                        return res.json();
+                    })
+                    .then((data) => {
+                        data.status ?
+                            location.href = "/users" :
+                            toastsMessage(modalToasts, content, data);
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    })
+            }
         }
     }
 
@@ -123,10 +126,6 @@ window.onload = function (e) {
             "role": role.value,
             "status": $("input[name='status']:checked").value,
             "skills": skills.value || []
-        }
-        if ((!data["user_name"] || !data.email) ||
-            (!data.password || !data.age) || !data.status) {
-            return null;
         }
         return data;
     }

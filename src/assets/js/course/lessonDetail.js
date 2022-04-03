@@ -1,12 +1,13 @@
 import { getType, getToken } from "../commons/common.js";
 import { httpsService } from "../commons/httpService.js";
+import { Validation } from "../commons/validation.js";
 
 window.onload = function (e) {
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
 
     // GET WRAPPER
-    let lessonForm = $("#lesson-detail--info");
+    let lessonForm = $("#lesson-detail");
     let unitCode = $("#unit-code");
     let name = $("#lesson-name");
     let content = $("#lesson-content");
@@ -18,6 +19,33 @@ window.onload = function (e) {
     $("#go-back").addEventListener("click", function (element) {
         window.history.back();
     })
+
+    Validation({
+        form: "#lesson-detail",
+        selectorError: ".form-message",
+        rules: [
+            {
+                selector: "#lesson-name",
+                guides: [Validation.required()]
+            },
+            {
+                selector: "#lesson-content",
+                guides: [Validation.required()]
+            },
+            {
+                selector: "#lesson-thumbanil",
+                guides: [Validation.required()]
+            },
+            {
+                selector: "#lesson-create-date",
+                guides: [Validation.required()]
+            },
+            {
+                selector: "#lesson-edit-last-date",
+                guides: [Validation.required()]
+            }
+        ]
+    });
 
     if (getType() == "update") {
         (function () {
@@ -51,40 +79,44 @@ window.onload = function (e) {
 
     function createLesson(e) {
         e.preventDefault();
-        let lesson = getLesson();
-        if (lesson) {
-            httpsService("API/lesson/lesson-new", "POST", lesson)
-                .then((res) => {
-                    return res.json();
-                })
-                .then((data) => {
-                    if (data.status) {
-                        location.href = `/courses/units/lessons?unitId=${lesson.unitId}`;
-                    }
-                })
-                .catch((err) => {
-                    console.error(err);
-                })
+        if (this.valid) {
+            let lesson = getLesson();
+            if (lesson) {
+                httpsService("API/lesson/lesson-new", "POST", lesson)
+                    .then((res) => {
+                        return res.json();
+                    })
+                    .then((data) => {
+                        if (data.status) {
+                            location.href = `/courses/units/lessons?unitId=${lesson.unitId}`;
+                        }
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    })
+            }
         }
     }
 
     function updateLesson(e) {
         e.preventDefault();
-        let lesson = getLesson();
-        lesson["id"] = getToken();
-        if (lesson) {
-            httpsService("API/lesson/lesson-edit", "PUT", lesson)
-                .then((res) => {
-                    return res.json();
-                })
-                .then((data) => {
-                    if (data.status) {
-                        location.href = `/courses/units/lessons?unitId=${lesson.unitId}`;
-                    }
-                })
-                .catch((err) => {
-                    console.error(err);
-                })
+        if (this.valid) {
+            let lesson = getLesson();
+            lesson["id"] = getToken();
+            if (lesson) {
+                httpsService("API/lesson/lesson-edit", "PUT", lesson)
+                    .then((res) => {
+                        return res.json();
+                    })
+                    .then((data) => {
+                        if (data.status) {
+                            location.href = `/courses/units/lessons?unitId=${lesson.unitId}`;
+                        }
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    })
+            }
         }
     }
 
