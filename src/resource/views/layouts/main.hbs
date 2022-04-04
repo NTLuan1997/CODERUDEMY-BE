@@ -16,10 +16,6 @@
         <img src="/static/img/loader.gif" alt="loader">
     </div>
 
-    <div class="modal-toasts">
-        <p class="toasts-content"></p>
-    </div>
-
     {{#if show }}
     {{> header}}
     {{/if}}
@@ -33,6 +29,10 @@
     {{#if show}}
     {{> footer}}
     {{/if}}
+
+    <div class="modal-toasts">
+        <p class="content"></p>
+    </div>
 
     <script src="/static/js/commons/jquery.min.js"></script>
     <script src="/static/js/commons/bootstrap.min.js"></script>

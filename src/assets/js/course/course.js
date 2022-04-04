@@ -10,32 +10,24 @@ window.onload = function (e) {
     let wrapperPagination = $$(".pagination")[0];
     let wrapperTableHeader = $("#course-table-header");
     let wrapperTablebody = $("#course-table-body");
-    let titles = ["STT", "Tên khóa học", "Tác giả", "Loại khóa học", "Giá khóa học", "Ngày tạo", "Lần cập nhật cuối", "Chức năng"];
+    let titles = ["STT", "Tên khóa học", "Tác giả", "Loại khóa học", "Số bài giảng", "Ngày tạo", "Lần cập nhật cuối", "Chức năng"];
 
     (function () {
-        httpsService(`API/course/home?limit=${pageRequire}&start=0`, "GET", null)
+        httpsService(`API/course/course?limit=${pageRequire}&start=0`, "GET", null)
             .then((data) => {
                 return data.json();
             })
             .then((data) => {
                 renderHeaderTable(wrapperTableHeader, titles);
-                renderPagination(wrapperPagination, 5, data.length, "API/course/home", (e) => {
+                renderPagination(wrapperPagination, 5, data.length, "API/course/course", (e) => {
                     renderBodyTable(wrapperTablebody, e?.courses, ["_id", "description", "thumbnail", "__v"], "courses", "units", "courseId");
-                    deleteDocument($$(".btn-delete-document"), "API/course/remove");
+                    deleteDocument($$(".btn-delete-document"), "API/course/course-remove");
                 }, null);
                 return data;
             })
             .then((data) => {
                 renderBodyTable(wrapperTablebody, data?.courses, ["_id", "description", "thumbnail", "__v"], "courses", "units", "courseId");
-                deleteDocument($$(".btn-delete-document"), "API/course/remove");
-            })
-            .then(() => {
-                $$(".router-child").forEach(function (router) {
-                    router.addEventListener("click", function (e) {
-                        localStorage.setItem("courseId", JSON.stringify(this.dataset.id));
-                    })
-                })
-
+                deleteDocument($$(".btn-delete-document"), "API/course/course-remove");
             })
             .catch((err) => {
                 console.log(err);

@@ -3,13 +3,14 @@ const courseController = require("../../app/controller/courseController");
 const unitController = require("../../app/controller/unitController");
 const lessonController = require("../../app/controller/lessonController");
 const middleware = require("../../app/middleware/courseMiddleware");
+const authen = require("../../app/middleware/authentication");
 
 // COURSE
-router.get("/home", courseController.pageCourse);
-router.post("/single", middleware.converQuerySingle, courseController.findSingle);
-router.post("/new", middleware.converInforNew, courseController.newCourse);
-router.put("/edit", middleware.converInforEdit, courseController.editCourse);
-router.delete("/remove", middleware.converInforRemove, courseController.removeCourse);
+router.get("/course", authen.authentication, courseController.course);
+router.post("/course-single", authen.authentication, authen.permissions, middleware.converQuerySingle, courseController.findSingle);
+router.post("/course-new", authen.authentication, authen.permissions, middleware.courseMapper, courseController.newCourse);
+router.put("/course-edit", authen.authentication, authen.permissions, middleware.courseMapper, courseController.editCourse);
+router.delete("/course-remove", authen.authentication, authen.permissions, middleware.converInforRemove, courseController.removeCourse);
 
 // UNIT
 router.get("/unit-home", middleware.converPageUnit, unitController.pageUnit);

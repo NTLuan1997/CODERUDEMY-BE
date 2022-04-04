@@ -1,4 +1,4 @@
-import { getType, getToken, toastsMessage, formatDate } from "../commons/common.js";
+import { getType, getToken, permission } from "../commons/common.js";
 import { Validation } from "../commons/validation.js";
 import { httpsService } from "../commons/httpService.js";
 
@@ -15,8 +15,7 @@ window.onload = function (e) {
     let age = $("#age");
     let role = $("#user-role");
 
-    let modalToasts = $$(".modal-toasts")[0];
-    let content = $$(".toasts-content")[0];
+    let toasts = $$(".modal-toasts")[0];
 
     Validation({
         form: "#users-detail",
@@ -28,7 +27,7 @@ window.onload = function (e) {
             },
             {
                 selector: "#password",
-                guides: [Validation.required(), Validation.minLength(6), Validation.maxLength(10)]
+                guides: [Validation.required(), Validation.minLength(6), Validation.maxLength(12)]
             },
             {
                 selector: "#age",
@@ -85,7 +84,7 @@ window.onload = function (e) {
                     .then((data) => {
                         data.status ?
                             location.href = "/users" :
-                            toastsMessage(modalToasts, content, data);
+                            permission(toasts, data);
                     })
                     .catch((err) => {
                         console.error(err);
@@ -107,7 +106,7 @@ window.onload = function (e) {
                     .then((data) => {
                         data.status ?
                             location.href = "/users" :
-                            toastsMessage(modalToasts, content, data);
+                            permission(toasts, data);
                     })
                     .catch((err) => {
                         console.error(err);

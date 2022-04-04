@@ -1,4 +1,4 @@
-import { getType, getToken } from "../commons/common.js";
+import { getType, getToken, permission } from "../commons/common.js";
 import { httpsService } from "../commons/httpService.js";
 import { Validation } from "../commons/validation.js";
 
@@ -15,6 +15,8 @@ window.onload = function (e) {
     let thumbnail = $("#lesson-thumbanil");
     let createDate = $("#lesson-create-date");
     let editLastDate = $("#lesson-edit-last-date");
+
+    let toasts = $$(".modal-toasts")[0];
 
     $("#go-back").addEventListener("click", function (element) {
         window.history.back();
@@ -87,9 +89,9 @@ window.onload = function (e) {
                         return res.json();
                     })
                     .then((data) => {
-                        if (data.status) {
-                            location.href = `/courses/units/lessons?unitId=${lesson.unitId}`;
-                        }
+                        data.status ?
+                            location.href = `/courses/units/lessons?unitId=${lesson.unitId}` :
+                            permission(toasts, data);
                     })
                     .catch((err) => {
                         console.error(err);
@@ -109,9 +111,9 @@ window.onload = function (e) {
                         return res.json();
                     })
                     .then((data) => {
-                        if (data.status) {
-                            location.href = `/courses/units/lessons?unitId=${lesson.unitId}`;
-                        }
+                        data.status ?
+                            location.href = `/courses/units/lessons?unitId=${lesson.unitId}` :
+                            permission(toasts, data);
                     })
                     .catch((err) => {
                         console.error(err);

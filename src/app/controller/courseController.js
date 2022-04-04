@@ -34,7 +34,7 @@ class CourseController {
             })
     }
 
-    pageCourse(req, res) {
+    course(req, res) {
         courseService.findLimitCourse(req.query.limit, req.query.start)
             .then((data) => {
                 res.status(200).json({

@@ -27,6 +27,9 @@ export function renderHeaderTable(wrapperTemplate, titles) {
  */
 export function renderBodyTable(wrapperTemplate, data, hideProperty, endPoint, pointter, codeName) {
     let undefineData = document.querySelectorAll(".undefine-data")[0];
+
+    console.log(Object.values(data).length);
+
     if (!Object.values(data).length) {
         undefineData.classList.add("active");
     } else {
