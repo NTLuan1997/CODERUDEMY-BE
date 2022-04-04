@@ -16,7 +16,7 @@ window.onload = function (e) {
         rules: [
             {
                 selector: "#user-email",
-                guides: [Validation.required()]
+                guides: [Validation.required(), Validation.isEmail()]
             },
             {
                 selector: "#user-password",

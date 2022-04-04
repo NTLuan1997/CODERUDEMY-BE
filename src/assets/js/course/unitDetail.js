@@ -76,41 +76,45 @@ window.onload = function () {
 
     function createUser(e) {
         e.preventDefault();
-        // let unit = getCourseForm();
-        // if (unit) {
-        //     httpsService("API/unit/unit-new", "POST", unit)
-        //         .then((res) => {
-        //             return res.json();
-        //         })
-        //         .then((data) => {
-        //             if (data.status) {
-        //                 location.href = `/courses/units?course=${unit.courseId}`;
-        //             }
-        //         })
-        //         .catch((err) => {
-        //             console.error(err);
-        //         })
-        // }
+        if (this.valid) {
+            let unit = getCourseForm();
+            if (unit) {
+                httpsService("API/unit/unit-new", "POST", unit)
+                    .then((res) => {
+                        return res.json();
+                    })
+                    .then((data) => {
+                        if (data.status) {
+                            location.href = `/courses/units?course=${unit.courseId}`;
+                        }
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    })
+            }
+        }
     }
 
     function updateUser(e) {
         e.preventDefault();
-        // let unit = getCourseForm();
-        // unit["id"] = getToken();
-        // if (unit) {
-        //     httpsService("API/unit/unit-edit", "PUT", unit)
-        //         .then((res) => {
-        //             return res.json();
-        //         })
-        //         .then((data) => {
-        //             if (data.status) {
-        //                 location.href = `/courses/units?course=${unit.courseId}`;
-        //             }
-        //         })
-        //         .catch((err) => {
-        //             console.error(err);
-        //         })
-        // }
+        if (this.valid) {
+            let unit = getCourseForm();
+            unit["id"] = getToken();
+            if (unit) {
+                httpsService("API/unit/unit-edit", "PUT", unit)
+                    .then((res) => {
+                        return res.json();
+                    })
+                    .then((data) => {
+                        if (data.status) {
+                            location.href = `/courses/units?course=${unit.courseId}`;
+                        }
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    })
+            }
+        }
     }
 
     function getCourseForm() {
@@ -146,4 +150,8 @@ window.onload = function () {
             subButton.innerHTML = "Cập nhật";
         }
     }
+
+    $("#come-back").addEventListener("click", function (e) {
+        window.history.back();
+    })
 }

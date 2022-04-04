@@ -155,4 +155,8 @@ window.onload = function (e) {
             subButton.innerHTML = "Cập nhật";
         }
     }
+
+    $("#come-back").addEventListener("click", function (e) {
+        window.history.back();
+    })
 }
