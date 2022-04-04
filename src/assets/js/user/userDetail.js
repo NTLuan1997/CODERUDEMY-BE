@@ -53,7 +53,6 @@ window.onload = function (e) {
                 })
                 .then((data) => {
                     setUserForm(data);
-                    console.log(data);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -124,7 +123,7 @@ window.onload = function (e) {
             "password": password.value,
             "age": age.value,
             "role": role.value,
-            "status": $("input[name='status']:checked").value,
+            "status": ($("input[name='status']:checked").value) ? $("input[name='status']:checked").value : false,
             "skills": skills.value || []
         }
         return data;
@@ -156,5 +155,9 @@ window.onload = function (e) {
             subButton.innerHTML = "Cập nhật";
         }
     }
+
+    $("#come-back").addEventListener("click", function (e) {
+        window.history.back();
+    })
 
 }
