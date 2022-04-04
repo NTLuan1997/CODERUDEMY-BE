@@ -17,7 +17,7 @@ router.get("/unit", authen.authentication, middleware.unitMapper, unitController
 router.post("/unit-single", authen.authentication, middleware.unitMapper, unitController.findSingleUnit);
 router.post("/unit-new", authen.authentication, authen.permissions, middleware.unitMapper, unitController.newUnit);
 router.put("/unit-edit", authen.authentication, authen.permissions, middleware.unitMapper, unitController.editUnit);
-router.delete("/unit-remove", authen.authentication, authen.permissions, middleware.unitMapper, unitController.removeUnit);
+router.delete("/unit-remove", authen.authentication, authen.permissions, middleware.unitAcceptRemove, middleware.unitMapper, unitController.removeUnit);
 
 // LESSON
 router.get("/lesson-home", middleware.converPageLesson, lessonController.pageLesson);

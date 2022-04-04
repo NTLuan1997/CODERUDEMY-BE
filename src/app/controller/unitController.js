@@ -1,3 +1,4 @@
+const ObjectId = require("mongodb").ObjectId;
 const unitService = require("../services/unitService");
 const courseService = require("../services/courseService");
 
@@ -51,7 +52,7 @@ class UnitController {
                 }
             })
             .then((count) => {
-                if (count) {
+                if (count >= 0) {
                     return courseService.updateCourse(req.courseQuery, { "unit": Number(count) });
                 }
             })
@@ -75,7 +76,25 @@ class UnitController {
     }
 
     removeUnit(req, res) {
-        unitService.deleteUnit(req.unitQuery)
+        let query = null;
+        let courseQuery = null;
+
+        unitService.findOneUnit(req.unitQuery)
+            .then((unit) => {
+                query = { "courseId": { "$eq": unit.courseId } };
+                courseQuery = { "_id": { "$eq": new ObjectId(unit.courseId) } };
+                return unitService.deleteUnit(req.unitQuery);
+            })
+            .then((del) => {
+                if (del.status) {
+                    return unitService.countUnit(query);
+                }
+            })
+            .then((count) => {
+                if (count >= 0) {
+                    return courseService.updateCourse(courseQuery, { "unit": Number(count) });
+                }
+            })
             .then((data) => {
                 res.status(200).json(data);
             })

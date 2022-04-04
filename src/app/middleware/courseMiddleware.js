@@ -1,5 +1,6 @@
 const ObjectId = require("mongodb").ObjectId;
 const courseService = require("../services/courseService");
+const unitService = require("../services/unitService");
 
 let course = {
     courseName: null,
@@ -103,6 +104,30 @@ function unitMapper(req, res, next) {
     next();
 }
 
+function unitAcceptRemove(req, res, next) {
+    if (req.body.id) {
+        let query = { "_id": { "$eq": new ObjectId(req.body.id) } };
+        unitService.findOneUnit(query)
+            .then((unit) => {
+                if (unit) {
+                    if (!unit?.amountLesson) {
+                        next();
+                    } else {
+                        return res.status(405).json({ status: false, message: "Accepted" });
+                    }
+                } else {
+                    return res.status(405).json({ status: false, message: "Missing data" });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+
+    } else {
+        return res.status(405).json({ status: false, message: "Don't have body" });
+    }
+}
+
 // LESSON
 
 function converPageLesson(req, res, next) {
@@ -133,6 +158,7 @@ module.exports = {
     courseMapper,
     courseAcceptRemove,
     unitMapper,
+    unitAcceptRemove,
     converPageLesson,
     converLesson,
     converQueryLesson
