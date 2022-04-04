@@ -1,4 +1,4 @@
-import { getType, getToken } from "../commons/common.js";
+import { getType, getToken, permission } from "../commons/common.js";
 import { Validation } from "../commons/validation.js";
 import { httpsService } from "../commons/httpService.js";
 
@@ -12,12 +12,14 @@ window.onload = function (e) {
     let courseCode = $("#course-code");
     let courseName = $("#course-name");
     let courseType = $("#course-type");
-    let courseLesson = $("#course-lesson");
+    let courseUnit = $("#course-unit");
     let courseAuthor = $("#course-author");
     let courseCreateDate = $("#course-create-date");
     let courseEditLastDate = $("#course-edit-last-date");
     let courseThumbanil = $("#course-thumbnail");
     let courseDescription = $("#course-description");
+
+    let toasts = $$(".modal-toasts")[0];
 
 
     Validation({
@@ -58,7 +60,7 @@ window.onload = function (e) {
 
     if (getType() == "update") {
         (function () {
-            httpsService("API/course/single", "POST", { id: getToken() })
+            httpsService("API/course/course-single", "POST", { id: getToken() })
                 .then((data) => {
                     return data.json();
                 })
@@ -80,23 +82,23 @@ window.onload = function (e) {
         case "create":
         default:
             setTitleForm("create");
-            courseForm.addEventListener("submit", createUser);
+            courseForm.addEventListener("submit", saveCourse);
             break;
     }
 
-    function createUser(e) {
+    function saveCourse(e) {
         e.preventDefault();
         if (this.valid) {
             let data = getCourseForm();
             if (data) {
-                httpsService("API/course/new", "POST", data)
+                httpsService("API/course/course-new", "POST", data)
                     .then((res) => {
                         return res.json();
                     })
                     .then((data) => {
-                        if (data.status) {
-                            location.href = "/courses";
-                        }
+                        data.status ?
+                            location.href = "/courses" :
+                            permission(toasts, data);
                     })
                     .catch((err) => {
                         console.error(err);
@@ -111,14 +113,14 @@ window.onload = function (e) {
             let data = getCourseForm();
             data["id"] = getToken();
             if (data) {
-                httpsService("API/course/edit", "PUT", data)
+                httpsService("API/course/course-edit", "PUT", data)
                     .then((res) => {
                         return res.json();
                     })
                     .then((data) => {
-                        if (data.status) {
-                            location.href = "/courses";
-                        }
+                        data.status ?
+                            location.href = "/courses" :
+                            permission(toasts, data);
                     })
                     .catch((err) => {
                         console.error(err);
@@ -132,7 +134,7 @@ window.onload = function (e) {
             courseName: courseName.value,
             author: courseAuthor.value,
             type: courseType.value,
-            coin: courseLesson.value,
+            unit: (courseUnit.value) ? courseUnit.value : 0,
             createDate: courseCreateDate.value,
             updateDate: courseEditLastDate.value,
             description: courseDescription.value,
@@ -144,7 +146,7 @@ window.onload = function (e) {
     function setCourseForm(course) {
         courseCode.value = course["_id"];
         courseName.value = course.courseName;
-        courseLesson.value = course.coin;
+        courseUnit.value = course.unit;
         courseAuthor.value = course.author;
         courseCreateDate.value = course.createDate.split(".")[0];
         courseEditLastDate.value = course.updateDate.split(".")[0];

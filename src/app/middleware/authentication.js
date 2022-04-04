@@ -5,7 +5,7 @@ const jwt = require("../utils/jwt");
 function authentication(req, res, next) {
     if (req.cookies?.token) {
         try {
-            jwt.verify(req.cookies?.token);
+            req.token = jwt.verify(req.cookies?.token);
             next();
 
         } catch (err) {
@@ -17,12 +17,11 @@ function authentication(req, res, next) {
 }
 
 function permissions(req, res, next) {
-    let user = jwt.verify(req.cookies?.token);
-    let query = { "_id": { "$eq": new ObjectId(user["_id"]) } };
+    let query = { "_id": { "$eq": new ObjectId(req.token["_id"]) } };
     userService.findSingleUser(query)
         .then((user) => {
             if (user.role != "admin") {
-                return res.status(405).json({ status: false, message: "You don't have permissions" });
+                return res.status(405).json({ status: false, message: "Permissions" });
             } else {
                 next();
             }
