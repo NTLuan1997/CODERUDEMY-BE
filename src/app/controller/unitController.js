@@ -1,4 +1,5 @@
 const unitService = require("../services/unitService");
+const courseService = require("../services/courseService");
 
 class UnitController {
 
@@ -26,8 +27,8 @@ class UnitController {
             })
     }
 
-    pageUnit(req, res) {
-        unitService.findLimitUnit(req.unitQuery, req.limit, req.start)
+    unit(req, res) {
+        unitService.findLimitUnit(req.unitQuery, req.query.limit, req.query.start)
             .then((data) => {
                 res.status(200).json({
                     "units": data[0],
@@ -42,7 +43,21 @@ class UnitController {
     newUnit(req, res) {
         unitService.newUnit(req.unitBody)
             .then((data) => {
+                return data;
+            })
+            .then((data) => {
+                if (data.status) {
+                    return unitService.countUnit(req.unitCourseQuery);
+                }
+            })
+            .then((count) => {
+                if (count) {
+                    return courseService.updateCourse(req.courseQuery, { "unit": Number(count) });
+                }
+            })
+            .then((data) => {
                 res.status(200).json(data);
+
             })
             .catch((err) => {
                 throw err;

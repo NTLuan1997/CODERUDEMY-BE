@@ -24,8 +24,7 @@ class CourseService extends Service {
      * @param {*} id condition find single course.
      * @returns One Course document in collection.
      */
-    findOneCourse(id) {
-        let query = { "_id": { "_id": new ObjectId(id) } };
+    findOneCourse(query) {
         return super.documentQuery((resolve, reject) => {
             Course.findOne(query).exec((err, doc) => {
                 if (err) reject(err);

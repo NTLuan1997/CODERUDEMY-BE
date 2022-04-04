@@ -7,17 +7,17 @@ const authen = require("../../app/middleware/authentication");
 
 // COURSE
 router.get("/course", authen.authentication, courseController.course);
-router.post("/course-single", authen.authentication, authen.permissions, middleware.converQuerySingle, courseController.findSingle);
+router.post("/course-single", authen.authentication, middleware.courseMapper, courseController.findSingle);
 router.post("/course-new", authen.authentication, authen.permissions, middleware.courseMapper, courseController.newCourse);
 router.put("/course-edit", authen.authentication, authen.permissions, middleware.courseMapper, courseController.editCourse);
-router.delete("/course-remove", authen.authentication, authen.permissions, middleware.converInforRemove, courseController.removeCourse);
+router.delete("/course-remove", authen.authentication, authen.permissions, middleware.courseAcceptRemove, middleware.courseMapper, courseController.removeCourse);
 
 // UNIT
-router.get("/unit-home", middleware.converPageUnit, unitController.pageUnit);
-router.post("/unit-single", middleware.converQueryUnit, unitController.findSingleUnit);
-router.post("/unit-new", middleware.converUnit, unitController.newUnit);
-router.put("/unit-edit", middleware.converUnit, unitController.editUnit);
-router.delete("/unit-remove", middleware.converQueryUnit, unitController.removeUnit);
+router.get("/unit", authen.authentication, middleware.unitMapper, unitController.unit);
+router.post("/unit-single", authen.authentication, middleware.unitMapper, unitController.findSingleUnit);
+router.post("/unit-new", authen.authentication, authen.permissions, middleware.unitMapper, unitController.newUnit);
+router.put("/unit-edit", authen.authentication, authen.permissions, middleware.unitMapper, unitController.editUnit);
+router.delete("/unit-remove", authen.authentication, authen.permissions, middleware.unitMapper, unitController.removeUnit);
 
 // LESSON
 router.get("/lesson-home", middleware.converPageLesson, lessonController.pageLesson);
