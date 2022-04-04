@@ -22,13 +22,13 @@ window.onload = function (e) {
 
     (function () {
 
-        httpsService(`API/lesson/lesson-home?limit=${pageRequire}&start=0&unitId=${unitId}`, "GET", null)
+        httpsService(`API/lesson/lesson?limit=${pageRequire}&start=0&unitId=${unitId}`, "GET", null)
             .then((data) => {
                 return data.json();
             })
             .then((data) => {
                 renderHeaderTable(wrapperTableHeader, titles);
-                renderPagination(wrapperPagination, 5, data.length, "API/lesson/lesson-home", (e) => {
+                renderPagination(wrapperPagination, 5, data.length, "API/lesson/lesson", (e) => {
                     renderBodyTable(wrapperTablebody, e?.lessons, ["_id", "lessonContent", "thumbnail", "__v"], "courses/units/lessons", "lessons");
                     deleteDocument($$(".btn-delete-document"), "API/lesson/lesson-remove");
                 }, condition);

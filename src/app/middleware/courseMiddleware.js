@@ -129,28 +129,23 @@ function unitAcceptRemove(req, res, next) {
 }
 
 // LESSON
-
-function converPageLesson(req, res, next) {
-    req.limit = req.query.limit;
-    req.start = req.query.start;
-    req.lessonQuery = { "unitId": { "$eq": req.query.unitId } };
-    next();
-}
-
-function converLesson(req, res, next) {
-    Object.assign(lesson, req.body);
+function lessonMapper(req, res, next) {
     if (req.body.id) {
-        req.lessonQuery = { "_id": { "$eq": new ObjectId(req.body.id) } };
-        delete lesson.id;
+        req.lessonQuery = { "_id": { "$eq": new ObjectId(req.body.id) } }
     }
-    lesson.createDate = new Date(lesson.createDate).toISOString();
-    lesson.updateDate = new Date(lesson.updateDate).toISOString();
-    req.lessonBody = lesson;
-    next();
-}
 
-function converQueryLesson(req, res, next) {
-    req.lessonQuery = { "_id": { "$eq": new ObjectId(req.body.id) } }
+    if (req.body.unitId) {
+        req.unitQuery = { "unitId": { "$eq": req.query.unitId } };
+    }
+
+    if (req.body.lessonName) {
+        Object.assign(lesson, req.body);
+        lesson.createDate = new Date(lesson.createDate).toISOString();
+        lesson.updateDate = new Date(lesson.updateDate).toISOString();
+        delete lesson.id;
+        req.lessonBody = lesson;
+    }
+
     next();
 }
 
@@ -159,7 +154,5 @@ module.exports = {
     courseAcceptRemove,
     unitMapper,
     unitAcceptRemove,
-    converPageLesson,
-    converLesson,
-    converQueryLesson
+    lessonMapper
 };
