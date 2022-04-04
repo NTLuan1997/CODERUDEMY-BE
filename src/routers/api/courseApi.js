@@ -20,10 +20,10 @@ router.put("/unit-edit", authen.authentication, authen.permissions, middleware.u
 router.delete("/unit-remove", authen.authentication, authen.permissions, middleware.unitAcceptRemove, middleware.unitMapper, unitController.removeUnit);
 
 // LESSON
-router.get("/lesson-home", middleware.converPageLesson, lessonController.pageLesson);
-router.post("/lesson-single", middleware.converQueryLesson, lessonController.findSingleLessson);
-router.post("/lesson-new", middleware.converLesson, lessonController.newLesson);
-router.put("/lesson-edit", middleware.converLesson, lessonController.editLesson);
-router.delete("/lesson-remove", middleware.converQueryLesson, lessonController.removeLesson);
+router.get("/lesson", authen.authentication, middleware.lessonMapper, lessonController.lesson);
+router.post("/lesson-single", authen.authentication, middleware.lessonMapper, lessonController.findSingleLessson);
+router.post("/lesson-new", authen.authentication, authen.permissions, middleware.lessonMapper, lessonController.newLesson);
+router.put("/lesson-edit", authen.authentication, authen.permissions, middleware.lessonMapper, lessonController.editLesson);
+router.delete("/lesson-remove", authen.authentication, authen.permissions, middleware.lessonMapper, lessonController.removeLesson);
 
 module.exports = router;

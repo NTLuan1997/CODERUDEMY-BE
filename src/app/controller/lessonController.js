@@ -28,8 +28,8 @@ class LessonController {
             })
     }
 
-    pageLesson(req, res) {
-        lessonService.findLimitLesson(req.lessonQuery, req.limit, req.start)
+    lesson(req, res) {
+        lessonService.findLimitLesson(req.unitQuery, req.query.limit, req.query.start)
             .then((data) => {
                 res.status(200).json({
                     "lessons": data[0],
