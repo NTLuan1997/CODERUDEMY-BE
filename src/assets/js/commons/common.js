@@ -26,8 +26,24 @@ export function permission(modal, data) {
 
 function handlePermission(message) {
     let messageError = null;
-    if (message == "Permissions") {
-        messageError = "Đăng nhập với quyền admin";
+
+    switch (message) {
+        case "Accepted":
+            messageError = "Phương thức không thể thực hiện";
+            break;
+
+        case "Missing data":
+            messageError = "Không tìm thấy đối tượng tìm kiếm";
+            break;
+
+        case "Don't have body":
+            messageError = "Không có dữ liệu gửi đến server";
+            break;
+
+        case "Permissions":
+        default:
+            messageError = "Đăng nhập với quyền admin";
+            break;
     }
     return messageError;
 }

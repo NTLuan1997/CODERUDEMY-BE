@@ -19,13 +19,13 @@ window.onload = function (e) {
     (function () {
         routerNew.setAttribute("href", location.href.replace("?", "/detail?type=create&"));
 
-        httpsService(`API/unit/unit-home?limit=${pageRequire}&start=0&courseId=${courseId}`, "GET", null)
+        httpsService(`API/unit/unit?limit=${pageRequire}&start=0&courseId=${courseId}`, "GET", null)
             .then((data) => {
                 return data.json();
             })
             .then((data) => {
                 renderHeaderTable(wrapperTableHeader, titles);
-                renderPagination(wrapperPagination, 5, data.length, "API/unit/unit-home", (e) => {
+                renderPagination(wrapperPagination, 5, data.length, "API/unit/unit", (e) => {
                     renderBodyTable(wrapperTablebody, e?.units, ["_id", "__v"], "courses/units", "lessons", "unitId");
                     deleteDocument($$(".btn-delete-document"), "API/unit/unit-remove");
                 }, condition);

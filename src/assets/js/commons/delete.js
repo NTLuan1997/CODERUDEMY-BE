@@ -28,6 +28,8 @@ function removeDocument(Id, endPoint) {
         .then((data) => {
             if (!data.status) {
                 permission(toasts, data);
+            } else {
+                window.location.reload();
             }
         })
         .catch((err) => {

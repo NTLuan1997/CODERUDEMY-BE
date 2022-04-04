@@ -1,4 +1,5 @@
 const ObjectId = require("mongodb").ObjectId;
+const courseService = require("../services/courseService");
 
 let course = {
     courseName: null,
@@ -33,54 +34,72 @@ let lesson = {
 
 // COURSE
 
-function converQuerySingle(req, res, next) {
-    req.id = req.body.id;
-    next();
-}
-
 function courseMapper(req, res, next) {
-    Object.assign(course, req.body);
     if (req.body.id) {
         req.courseQuery = { "_id": { $eq: new ObjectId(req.body.id) } };
     }
 
-    course.unit = Number(course.unit);
-    course.createDate = new Date(course.createDate).toISOString();
-    course.updateDate = new Date(course.updateDate).toISOString();
-    delete course.id;
+    if (req.body.courseName) {
+        Object.assign(course, req.body);
+        course.unit = Number(course.unit);
+        course.createDate = new Date(course.createDate).toISOString();
+        course.updateDate = new Date(course.updateDate).toISOString();
+        delete course.id;
+        req.courseBody = course;
+    }
 
-    req.courseBody = course;
     next();
 }
 
-function converInforRemove(req, res, next) {
-    req.courseQuery = { "_id": { $eq: new ObjectId(req.body.id) } };
-    next();
+function courseAcceptRemove(req, res, next) {
+    if (req.body.id) {
+        let query = { "_id": { "$eq": new ObjectId(req.body.id) } };
+        courseService.findOneCourse(query)
+            .then((course) => {
+                if (course) {
+                    if (!course?.unit) {
+                        next();
+
+                    } else {
+                        return res.status(405).json({ status: false, message: "Accepted" });
+                    }
+                } else {
+                    return res.status(405).json({ status: false, message: "Missing data" });
+                }
+            })
+            .catch((err) => {
+                throw err;
+            })
+    } else {
+        return res.status(405).json({ status: false, message: "Don't have body" });
+    }
 }
 
 // UNIT
-function converPageUnit(req, res, next) {
-    req.limit = req.query.limit;
-    req.start = req.query.start;
-    req.unitQuery = { "courseId": { "$eq": req.query.courseId } };
-    next();
-}
 
-function converUnit(req, res, next) {
-    Object.assign(unit, req.body);
-    if (req.body.id) {
+function unitMapper(req, res, next) {
+    if (req.body?.id) {
         req.unitQuery = { "_id": { "$eq": new ObjectId(req.body.id) } }
     }
-    unit.amountLesson = Number(unit.amountLesson);
-    unit.createDate = new Date(unit.createDate).toISOString();
-    unit.updateDate = new Date(unit.updateDate).toISOString();
-    delete unit.id;
-    req.unitBody = unit;
-    next();
-}
 
-function converQueryUnit(req, res, next) {
-    req.unitQuery = { "_id": { "$eq": new ObjectId(req.body.id) } }
+    if (req.query.courseId) {
+        req.unitCourseQuery = { "courseId": { "$eq": req.query.courseId } };
+    }
+
+    if (req.body.unitName) {
+        Object.assign(unit, req.body);
+        unit.amountLesson = Number(unit.amountLesson);
+        unit.createDate = new Date(unit.createDate).toISOString();
+        unit.updateDate = new Date(unit.updateDate).toISOString();
+        delete unit.id;
+
+        if (unit.courseId) {
+            req.unitCourseQuery = { "courseId": { "$eq": unit.courseId } };
+            req.courseQuery = { "_id": { "$eq": new ObjectId(unit.courseId) } };
+        }
+
+        req.unitBody = unit;
+    }
     next();
 }
 
@@ -111,12 +130,9 @@ function converQueryLesson(req, res, next) {
 }
 
 module.exports = {
-    converQuerySingle,
     courseMapper,
-    converInforRemove,
-    converPageUnit,
-    converUnit,
-    converQueryUnit,
+    courseAcceptRemove,
+    unitMapper,
     converPageLesson,
     converLesson,
     converQueryLesson
