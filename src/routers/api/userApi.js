@@ -6,6 +6,7 @@ const userController = require("../../app/controller/userController");
 
 router.get("/user-signout", authen.authentication, userController.signout);
 router.get("/home", userController.pageUser);
+router.post("/user-register", userController.register);
 router.post("/user-single", middleware.mapperUserQuery, userController.findSingleUser);
 router.post("/user-login", middleware.mapperUserLogin, siteController.login);
 router.post("/user-new", authen.authentication, authen.permissions, middleware.mapperUser, userController.newUser);
