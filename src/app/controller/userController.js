@@ -1,4 +1,5 @@
 const userService = require("../services/userService");
+const jwt = require("../utils/jwt");
 
 class UserController {
 
@@ -15,8 +16,8 @@ class UserController {
 
     // API
 
-    signout(req, res) {
-        res.status(200).clearCookie("token").json({ status: true });
+    signOut(req, res) {
+        res.status(200).clearCookie("clientToken").json({ status: true });
     }
 
     pageUser(req, res) {
@@ -44,8 +45,29 @@ class UserController {
     }
 
     register(req, res) {
-        console.log(req.body);
-        res.status(200).json({ status: true });
+        let query = { "email": { "$eq": req.body.email } };
+        console.log(query);
+        userService.isUser(query)
+            .then((data) => {
+                if (data) {
+                    res.status(405).json({ "status": false, message: "Email đã được đăng ký" });
+                    return { status: false };
+                } else {
+                    return userService.newUser(req.clientBody);
+                }
+            })
+            .then((data) => {
+                if (data.status) {
+                    res.cookie("clientToken", jwt.generation(data.user["_id"]), { maxAge: 3600, httpOnly: true });
+                    res.status(200).json({ "status": true, message: "Email đã được kích hoạt" });
+
+                } else {
+                    res.status(405).json({ "status": false, message: "Đăng ký không thành công" });
+                }
+            })
+            .catch((err) => {
+                throw err;
+            })
     }
 
     newUser(req, res) {
