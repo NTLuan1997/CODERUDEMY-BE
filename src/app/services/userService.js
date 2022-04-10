@@ -26,8 +26,7 @@ class UserService extends Service {
      * @param {*} password user registry
      * @returns One user registry or []
      */
-    isUser(email, password) {
-        let query = { email: { $eq: email }, password: { $eq: password } };
+    isUser(query) {
         return super.documentQuery((resolve, reject) => {
             User.findOne(query, (err, doc) => {
                 if (err) reject(err);
@@ -95,7 +94,7 @@ class UserService extends Service {
         return super.documentQuery((resolve, reject) => {
             User.create(body, (err, doc) => {
                 if (err) reject(err);
-                resolve({ status: true, message: "Create done" })
+                resolve({ status: true, message: "Create done", user: doc })
             })
         })
     }

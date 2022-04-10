@@ -68,3 +68,11 @@ export function getToken() {
 export function setCookie(cname, cvalue) {
     document.cookie = cname + "=" + cvalue + ";" + ";path=/";
 }
+
+export function mapperDate(date) {
+    let convert = date.split("/");
+    let year = convert[2];
+    let month = (convert[0].length < 2) ? `0${convert[0]}` : convert[0];
+    let day = (convert[1].length < 2) ? `0${convert[1]}` : convert[1];
+    return `${year}-${month}-${day}`;
+}

@@ -1,4 +1,22 @@
 const ObjectId = require("mongodb").ObjectId;
+let client = {
+    "user_name": null,
+    "password": null,
+    "email": null,
+    "status": null,
+    "dateOfBirth": null,
+    "role": null,
+    "courses": null
+}
+
+function clientMapper(req, res, next) {
+    if (req.body) {
+        Object.assign(client, req.body);
+        client.dateOfBirth = new Date(client.dateOfBirth).toISOString();
+        req.clientBody = client;
+        next();
+    }
+}
 
 function mapperUser(req, res, next) {
     let values = Object.values(req.body).length;
@@ -13,10 +31,10 @@ function mapperUser(req, res, next) {
             user_name: null,
             email: null,
             password: null,
-            age: null,
+            dateOfBirth: null,
             role: null,
             status: null,
-            skills: null
+            courses: null
         };
         Object.assign(req.mongoBody, req.body);
         delete req.mongoBody.id;
@@ -37,4 +55,4 @@ function mapperUserLogin(req, res, next) {
     next();
 }
 
-module.exports = { mapperUser, mapperUserQuery, mapperUserLogin };
+module.exports = { mapperUser, clientMapper, mapperUserQuery, mapperUserLogin };

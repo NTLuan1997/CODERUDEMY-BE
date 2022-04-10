@@ -1,4 +1,4 @@
-import { getType, getToken, permission } from "../commons/common.js";
+import { getType, getToken, permission, mapperDate } from "../commons/common.js";
 import { Validation } from "../commons/validation.js";
 import { httpsService } from "../commons/httpService.js";
 
@@ -12,7 +12,7 @@ window.onload = function (e) {
     let password = $("#password");
     let skills = $("#skills");
     let email = $("#email");
-    let age = $("#age");
+    let dateOfBirth = $("#dateOfBirth");
     let role = $("#user-role");
 
     let toasts = $$(".modal-toasts")[0];
@@ -30,7 +30,7 @@ window.onload = function (e) {
                 guides: [Validation.required(), Validation.minLength(6), Validation.maxLength(12)]
             },
             {
-                selector: "#age",
+                selector: "#dateOfBirth",
                 guides: [Validation.required(), Validation.dateOfBirth(0, 80)]
             },
             {
@@ -51,6 +51,7 @@ window.onload = function (e) {
                     return data.json();
                 })
                 .then((data) => {
+                    console.log(data);
                     setUserForm(data);
                 })
                 .catch((err) => {
@@ -120,10 +121,10 @@ window.onload = function (e) {
             "user_name": userName.value,
             "email": email.value,
             "password": password.value,
-            "age": age.value,
+            "dateOfBirth": new Date(dateOfBirth.value).toISOString(),
             "role": role.value,
-            "status": ($("input[name='status']:checked").value) ? $("input[name='status']:checked").value : false,
-            "skills": skills.value || []
+            "status": ($("input[name='status']:checked").value) ? true : false,
+            "courses": [],
         }
         return data;
     }
@@ -132,8 +133,8 @@ window.onload = function (e) {
         userName.value = user["user_name"];
         email.value = user.email;
         password.value = user.password;
-        age.value = user.age;
-        (user.status == "action") ? $(`input[id='action']`).checked = true : $(`input[id='no-action']`).checked = true;
+        dateOfBirth.value = mapperDate(new Date(user.dateOfBirth).toLocaleDateString());
+        (user.status) ? $(`input[id='action']`).checked = true : $(`input[id='no-action']`).checked = true;
         skills.value = user.skills;
         for (let type of role) {
             if (type.value == user.role) {
