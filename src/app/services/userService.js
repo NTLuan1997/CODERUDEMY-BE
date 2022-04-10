@@ -79,6 +79,7 @@ class UserService extends Service {
         return new Promise((resolve, reject) => {
             User.findOne(query).exec((err, doc) => {
                 if (err) reject(err);
+                console.log(doc);
                 resolve(doc);
             })
         })

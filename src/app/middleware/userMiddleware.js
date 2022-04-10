@@ -1,4 +1,7 @@
 const ObjectId = require("mongodb").ObjectId;
+const jwt = require("../utils/jwt");
+const userService = require("../services/userService");
+
 let client = {
     "user_name": null,
     "password": null,
@@ -15,6 +18,28 @@ function clientMapper(req, res, next) {
         client.dateOfBirth = new Date(client.dateOfBirth).toISOString();
         req.clientBody = client;
         next();
+    }
+}
+
+function clientAccept(req, res, next) {
+    if(req.hasOwnProperty('clientBody')) {
+        let query = {"email": { $eq: req.clientBody.email }, "password": { $eq: req.clientBody.password }};
+        userService.isUser(query)
+        .then((user) => {
+            if(user) {
+                req.clientToken = jwt.generation(user["_id"]);
+                next();
+
+            } else {
+                res.status(404).json({status: false, type: "Not Found", message: "Not Find User"});
+            }
+        })
+        .catch((err) => {
+            return res.status(500).json({status: false, type: "Method Failed", message: "Find User Failed"});
+        })
+
+    } else {
+        return res.status(406).json({status: false, type: "Not Accept", message: "Not Client Body Request"});
     }
 }
 
@@ -49,10 +74,4 @@ function mapperUserQuery(req, res, next) {
     next();
 }
 
-function mapperUserLogin(req, res, next) {
-    req.email = req.body.email;
-    req.password = req.body.password;
-    next();
-}
-
-module.exports = { mapperUser, clientMapper, mapperUserQuery, mapperUserLogin };
+module.exports = { mapperUser, clientMapper, clientAccept, mapperUserQuery };
