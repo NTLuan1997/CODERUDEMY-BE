@@ -10,7 +10,8 @@ class SiteController {
     //[POST]
     login(req, res) {
         if (req.email && req.password) {
-            userService.isUser(req.email, req.password)
+            let query = { email: { $eq: req.email }, password: { $eq: req.password } };
+            userService.isUser(query)
                 .then((user) => {
                     if (user) {
                         res.status(200).json({ status: true, token: jwt.generation(user["_id"]) });
