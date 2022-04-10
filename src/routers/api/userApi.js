@@ -5,7 +5,7 @@ const siteController = require("../../app/controller/siteController");
 const userController = require("../../app/controller/userController");
 
 // SERVER
-router.get("/user-signout", authen.authentication, userController.signout);
+router.get("/user-signOut", authen.authentication, userController.signOut);
 router.get("/home", userController.pageUser);
 router.post("/user-single", middleware.mapperUserQuery, userController.findSingleUser);
 router.post("/user-login", middleware.mapperUserLogin, siteController.login);
@@ -15,6 +15,6 @@ router.delete("/user-remove", authen.authentication, authen.permissions, middlew
 
 // CLIENT
 router.post("/client-register", middleware.clientMapper, userController.register);
-router.post("/client-signOut", userController.signOut);
+router.post("/client-signOut", authen.authentication, userController.signOut);
 
 module.exports = router;

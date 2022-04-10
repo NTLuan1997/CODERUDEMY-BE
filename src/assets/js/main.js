@@ -5,7 +5,7 @@ window.onload = function (e) {
 
     $("#user-signout").addEventListener("click", function (e) {
         console.log(Date.now());
-        httpsService("API/user/user-signout", "GET", null)
+        httpsService("API/user/user-signOut", "GET", null)
             .then((res) => {
                 return res.json();
             })
