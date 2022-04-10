@@ -3,9 +3,16 @@ const userService = require("../services/userService");
 const jwt = require("../utils/jwt");
 
 function authentication(req, res, next) {
-    if (req.cookies?.token) {
+    if (req.cookies) {
         try {
-            req.token = jwt.verify(req.cookies?.token);
+            if (req.cookies?.token) {
+                req.token = jwt.verify(req.cookies?.token);
+                req.serverToken = "token";
+            }
+
+            if (req.cookies?.clientToken) {
+                req.clientToken = "clientToken";
+            }
             next();
 
         } catch (err) {

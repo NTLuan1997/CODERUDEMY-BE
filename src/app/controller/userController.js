@@ -17,7 +17,13 @@ class UserController {
     // API
 
     signOut(req, res) {
-        res.status(200).clearCookie("clientToken").json({ status: true });
+        if (req.serverToken) {
+            res.status(200).clearCookie(req.serverToken).json({ status: true });
+        }
+
+        if (req.clientToken) {
+            res.status(200).clearCookie(req.clientToken).json({ status: true });
+        }
     }
 
     pageUser(req, res) {
@@ -58,8 +64,8 @@ class UserController {
             })
             .then((data) => {
                 if (data.status) {
-                    res.cookie("clientToken", jwt.generation(data.user["_id"]), { maxAge: 3600, httpOnly: true });
-                    res.status(200).json({ "status": true, message: "Email đã được kích hoạt" });
+                    console.log(data.user);
+                    res.status(200).json({ "status": true, message: "Email đã được kích hoạt", token: jwt.generation(data.user["_id"]) });
 
                 } else {
                     res.status(405).json({ "status": false, message: "Đăng ký không thành công" });
