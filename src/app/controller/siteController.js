@@ -9,8 +9,8 @@ class SiteController {
 
     //[POST]
     login(req, res) {
-        if (req.email && req.password) {
-            let query = { email: { $eq: req.email }, password: { $eq: req.password } };
+        if (req.body.email && req.body.password) {
+            let query = { email: { $eq: req.body.email }, password: { $eq: req.body.password } };
             userService.isUser(query)
                 .then((user) => {
                     if (user) {

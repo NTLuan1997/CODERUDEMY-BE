@@ -50,32 +50,6 @@ class UserController {
             })
     }
 
-    register(req, res) {
-        let query = { "email": { "$eq": req.body.email } };
-        console.log(query);
-        userService.isUser(query)
-            .then((data) => {
-                if (data) {
-                    res.status(405).json({ "status": false, message: "Email đã được đăng ký" });
-                    return { status: false };
-                } else {
-                    return userService.newUser(req.clientBody);
-                }
-            })
-            .then((data) => {
-                if (data.status) {
-                    console.log(data.user);
-                    res.status(200).json({ "status": true, message: "Email đã được kích hoạt", token: jwt.generation(data.user["_id"]) });
-
-                } else {
-                    res.status(405).json({ "status": false, message: "Đăng ký không thành công" });
-                }
-            })
-            .catch((err) => {
-                throw err;
-            })
-    }
-
     newUser(req, res) {
         userService.newUser(req.mongoBody)
             .then((data) => {
@@ -104,6 +78,36 @@ class UserController {
             .catch((err) => {
                 res.json({ status: false, message: err });
             })
+    }
+
+    // CLIENT
+    register(req, res) {
+        let query = { "email": { "$eq": req.body.email } };
+        userService.isUser(query)
+            .then((data) => {
+                if (data) {
+                    res.status(405).json({ "status": false, message: "Email đã được đăng ký" });
+                    return { status: false };
+                } else {
+                    return userService.newUser(req.clientBody);
+                }
+            })
+            .then((data) => {
+                if (data.status) {
+                    console.log(data.user);
+                    res.status(200).json({ "status": true, message: "Email đã được kích hoạt", token: jwt.generation(data.user["_id"]) });
+
+                } else {
+                    res.status(405).json({ "status": false, message: "Đăng ký không thành công" });
+                }
+            })
+            .catch((err) => {
+                throw err;
+            })
+    }
+
+    signIn(req, res) {
+        res.status(200).json({ "status": true, message: "Email đã được kích hoạt", token: req.clientToken });
     }
 
 }
