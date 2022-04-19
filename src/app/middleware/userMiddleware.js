@@ -31,7 +31,7 @@ function clientAccept(req, res, next) {
                 next();
 
             } else {
-                res.status(404).json({status: false, type: "Not Found", message: "Not Find User"});
+                res.status(404).json({status: false, type: "User Not Found", message: "Not Find User"});
             }
         })
         .catch((err) => {
