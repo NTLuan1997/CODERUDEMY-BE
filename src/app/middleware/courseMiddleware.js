@@ -150,46 +150,10 @@ let lesson = {
         next();
     }
 
-
-// CLIENT
-    function clientCourseMapper(req, res, next) {
-        let clientCourse = {
-            course: {
-                units: []
-            }
-        };
-
-        if(req.body.id) {
-            let query = {"_id": {"$eq": new ObjectId(req.body.id) }};
-            courseService.findOneCourse(query)
-            .then((course) => {
-                Object.assign(clientCourse.course, course);
-                return course;
-
-            })
-            .then((course) => {
-                let unitQuery = {"courseId": {"$eq": String(course._id)}};
-                return unitService.findUnit(unitQuery);
-                
-            })
-            .then((unit) => {
-                console.log(unit);
-                next();
-
-            })
-            .cathc((err) => {
-                return res.status(405).json({status: false, message: err.message});
-            })
-        } else {
-            return res.status(406).json({status: false, message: "Not Found ID Course"});
-        }
-    }
-
 module.exports = {
     courseMapper,
     courseAcceptRemove,
     unitMapper,
     unitAcceptRemove,
-    lessonMapper,
-    clientCourseMapper
+    lessonMapper
 };

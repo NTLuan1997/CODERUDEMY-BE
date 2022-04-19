@@ -39,9 +39,9 @@ class LessonService extends Service {
      * Method find all Units.
      * @returns List all Units of collection.
      */
-    findLesson() {
+    findLesson(query) {
         return super.documentQuery((resolve, reject) => {
-            Lessons.find({}).exec((err, doc) => {
+            Lessons.find(query).exec((err, doc) => {
                 if (err) reject(err);
                 resolve(doc);
             })

@@ -24,15 +24,16 @@ window.onload = function (e) {
                 return data.json();
             })
             .then((data) => {
+                console.log(data.units);
                 renderHeaderTable(wrapperTableHeader, titles);
                 renderPagination(wrapperPagination, 5, data.length, "API/unit/unit", (e) => {
-                    renderBodyTable(wrapperTablebody, e?.units, ["_id", "__v"], "courses/units", "lessons", "unitId");
+                    renderBodyTable(wrapperTablebody, e?.units, ["_id", "__v", "lessons"], "courses/units", "lessons", "unitId");
                     deleteDocument($$(".btn-delete-document"), "API/unit/unit-remove");
                 }, condition);
                 return data;
             })
             .then((data) => {
-                renderBodyTable(wrapperTablebody, data?.units, ["_id", "__v"], "courses/units", "lessons", "unitId");
+                renderBodyTable(wrapperTablebody, data?.units, ["_id", "__v", "lessons"], "courses/units", "lessons", "unitId");
                 deleteDocument($$(".btn-delete-document"), "API/unit/unit-remove");
             })
             .catch((err) => {
