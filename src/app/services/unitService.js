@@ -39,9 +39,9 @@ class UnitService extends Service {
      * Method find all Units.
      * @returns List all Units of collection.
      */
-    findUnit() {
+    findUnit(query) {
         return super.documentQuery((resolve, reject) => {
-            Unit.find({}).exec((err, doc) => {
+            Unit.find(query).exec((err, doc) => {
                 if (err) reject(err);
                 resolve(doc);
             })

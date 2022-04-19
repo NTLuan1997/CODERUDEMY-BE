@@ -33,126 +33,163 @@ let lesson = {
     updateDate: null
 }
 
-// COURSE
+// SERVER
+    // COURSE
 
-function courseMapper(req, res, next) {
-    if (req.body.id) {
-        req.courseQuery = { "_id": { $eq: new ObjectId(req.body.id) } };
-    }
-
-    if (req.body.courseName) {
-        Object.assign(course, req.body);
-        course.unit = Number(course.unit);
-        course.createDate = new Date(course.createDate).toISOString();
-        course.updateDate = new Date(course.updateDate).toISOString();
-        delete course.id;
-        req.courseBody = course;
-    }
-
-    next();
-}
-
-function courseAcceptRemove(req, res, next) {
-    if (req.body.id) {
-        let query = { "_id": { "$eq": new ObjectId(req.body.id) } };
-        courseService.findOneCourse(query)
-            .then((course) => {
-                if (course) {
-                    if (!course?.unit) {
-                        next();
-
-                    } else {
-                        return res.status(405).json({ status: false, message: "Accepted" });
-                    }
-                } else {
-                    return res.status(405).json({ status: false, message: "Missing data" });
-                }
-            })
-            .catch((err) => {
-                throw err;
-            })
-    } else {
-        return res.status(405).json({ status: false, message: "Don't have body" });
-    }
-}
-
-// UNIT
-
-function unitMapper(req, res, next) {
-    if (req.body?.id) {
-        req.unitQuery = { "_id": { "$eq": new ObjectId(req.body.id) } }
-    }
-
-    if (req.query.courseId) {
-        req.unitCourseQuery = { "courseId": { "$eq": req.query.courseId } };
-    }
-
-    if (req.body.unitName) {
-        Object.assign(unit, req.body);
-        unit.amountLesson = Number(unit.amountLesson);
-        unit.createDate = new Date(unit.createDate).toISOString();
-        unit.updateDate = new Date(unit.updateDate).toISOString();
-        delete unit.id;
-
-        if (unit.courseId) {
-            req.unitCourseQuery = { "courseId": { "$eq": unit.courseId } };
-            req.courseQuery = { "_id": { "$eq": new ObjectId(unit.courseId) } };
+    function courseMapper(req, res, next) {
+        if (req.body.id) {
+            req.courseQuery = { "_id": { $eq: new ObjectId(req.body.id) } };
         }
 
-        req.unitBody = unit;
-    }
-    next();
-}
+        if (req.body.courseName) {
+            Object.assign(course, req.body);
+            course.unit = Number(course.unit);
+            course.createDate = new Date(course.createDate).toISOString();
+            course.updateDate = new Date(course.updateDate).toISOString();
+            delete course.id;
+            req.courseBody = course;
+        }
 
-function unitAcceptRemove(req, res, next) {
-    if (req.body.id) {
-        let query = { "_id": { "$eq": new ObjectId(req.body.id) } };
-        unitService.findOneUnit(query)
-            .then((unit) => {
-                if (unit) {
-                    if (!unit?.amountLesson) {
-                        next();
+        next();
+    }
+
+    function courseAcceptRemove(req, res, next) {
+        if (req.body.id) {
+            let query = { "_id": { "$eq": new ObjectId(req.body.id) } };
+            courseService.findOneCourse(query)
+                .then((course) => {
+                    if (course) {
+                        if (!course?.unit) {
+                            next();
+
+                        } else {
+                            return res.status(405).json({ status: false, message: "Accepted" });
+                        }
                     } else {
-                        return res.status(405).json({ status: false, message: "Accepted" });
+                        return res.status(405).json({ status: false, message: "Missing data" });
                     }
-                } else {
-                    return res.status(405).json({ status: false, message: "Missing data" });
-                }
+                })
+                .catch((err) => {
+                    throw err;
+                })
+        } else {
+            return res.status(405).json({ status: false, message: "Don't have body" });
+        }
+    }
+
+    // UNIT
+
+    function unitMapper(req, res, next) {
+        if (req.body?.id) {
+            req.unitQuery = { "_id": { "$eq": new ObjectId(req.body.id) } }
+        }
+
+        if (req.query.courseId) {
+            req.unitCourseQuery = { "courseId": { "$eq": req.query.courseId } };
+        }
+
+        if (req.body.unitName) {
+            Object.assign(unit, req.body);
+            unit.amountLesson = Number(unit.amountLesson);
+            unit.createDate = new Date(unit.createDate).toISOString();
+            unit.updateDate = new Date(unit.updateDate).toISOString();
+            delete unit.id;
+
+            if (unit.courseId) {
+                req.unitCourseQuery = { "courseId": { "$eq": unit.courseId } };
+                req.courseQuery = { "_id": { "$eq": new ObjectId(unit.courseId) } };
+            }
+
+            req.unitBody = unit;
+        }
+        next();
+    }
+
+    function unitAcceptRemove(req, res, next) {
+        if (req.body.id) {
+            let query = { "_id": { "$eq": new ObjectId(req.body.id) } };
+            unitService.findOneUnit(query)
+                .then((unit) => {
+                    if (unit) {
+                        if (!unit?.amountLesson) {
+                            next();
+                        } else {
+                            return res.status(405).json({ status: false, message: "Accepted" });
+                        }
+                    } else {
+                        return res.status(405).json({ status: false, message: "Missing data" });
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+
+        } else {
+            return res.status(405).json({ status: false, message: "Don't have body" });
+        }
+    }
+
+    // LESSON
+    function lessonMapper(req, res, next) {
+        if (req.body.id) {
+            req.lessonQuery = { "_id": { "$eq": new ObjectId(req.body.id) } }
+        }
+
+        if (req.body.unitId) {
+            req.unitQuery = { "unitId": { "$eq": req.query.unitId } };
+        }
+
+        if (req.body.lessonName) {
+            Object.assign(lesson, req.body);
+            lesson.createDate = new Date(lesson.createDate).toISOString();
+            lesson.updateDate = new Date(lesson.updateDate).toISOString();
+            delete lesson.id;
+            req.lessonBody = lesson;
+        }
+
+        next();
+    }
+
+
+// CLIENT
+    function clientCourseMapper(req, res, next) {
+        let clientCourse = {
+            course: {
+                units: []
+            }
+        };
+
+        if(req.body.id) {
+            let query = {"_id": {"$eq": new ObjectId(req.body.id) }};
+            courseService.findOneCourse(query)
+            .then((course) => {
+                Object.assign(clientCourse.course, course);
+                return course;
+
             })
-            .catch((err) => {
-                console.log(err);
+            .then((course) => {
+                let unitQuery = {"courseId": {"$eq": String(course._id)}};
+                return unitService.findUnit(unitQuery);
+                
             })
+            .then((unit) => {
+                console.log(unit);
+                next();
 
-    } else {
-        return res.status(405).json({ status: false, message: "Don't have body" });
+            })
+            .cathc((err) => {
+                return res.status(405).json({status: false, message: err.message});
+            })
+        } else {
+            return res.status(406).json({status: false, message: "Not Found ID Course"});
+        }
     }
-}
-
-// LESSON
-function lessonMapper(req, res, next) {
-    if (req.body.id) {
-        req.lessonQuery = { "_id": { "$eq": new ObjectId(req.body.id) } }
-    }
-
-    if (req.body.unitId) {
-        req.unitQuery = { "unitId": { "$eq": req.query.unitId } };
-    }
-
-    if (req.body.lessonName) {
-        Object.assign(lesson, req.body);
-        lesson.createDate = new Date(lesson.createDate).toISOString();
-        lesson.updateDate = new Date(lesson.updateDate).toISOString();
-        delete lesson.id;
-        req.lessonBody = lesson;
-    }
-
-    next();
-}
 
 module.exports = {
     courseMapper,
     courseAcceptRemove,
     unitMapper,
     unitAcceptRemove,
-    lessonMapper
+    lessonMapper,
+    clientCourseMapper
 };
