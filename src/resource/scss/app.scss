@@ -60,6 +60,7 @@
 
 .document-component {
     .component-items {
+        margin-bottom: 30px;
         overflow: hidden;
         position: relative;
         .component-items--content {
@@ -198,11 +199,54 @@
         .form-group {
             .form-group--label {
                 font-size: 16px;
+                text-transform: capitalize;
             }
         }
         .btn-executed {
             background-color: #f28d0f;
             color: white;
+        }
+    }
+}
+
+// CLIENT BOX REGISTER-COURSE
+.register-course {
+    .course-content {
+        border-radius: 5px;
+        border: 1px solid #dddddd;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        padding: 10px;
+        .course-content--items {
+            &:not(:first-child) {
+                margin-left: 15px;
+            }
+            .course-content--items_name {
+                display: inline-block;
+            }
+            .course-content--items_unRegister {
+                border: none;
+                background-color: transparent;
+                display: inline-block;
+                line-height: 0px;
+                right: 0px;
+                padding: 0px;
+                i.fa {
+                    color: #5e5e5e;
+                }
+                &:focus, &:focus-visible {
+                    border-top-color: transparent;
+                    border-left-color: transparent;
+                    border-right-color: transparent;
+                    border-bottom-color: transparent;
+                    outline-color: transparent;
+                }
+                &:hover {
+                    color: #da4848;
+                }
+            }
         }
     }
 }

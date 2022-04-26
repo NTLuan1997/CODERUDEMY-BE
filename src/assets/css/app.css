@@ -44,6 +44,7 @@
         text-decoration: none; }
 
 .document-component .component-items {
+  margin-bottom: 30px;
   overflow: hidden;
   position: relative; }
   .document-component .component-items .component-items--content {
@@ -147,10 +148,41 @@
     margin-bottom: 15px;
     text-transform: uppercase; }
   .page-detail .page-detail-form .form-group .form-group--label {
-    font-size: 16px; }
+    font-size: 16px;
+    text-transform: capitalize; }
   .page-detail .page-detail-form .btn-executed {
     background-color: #f28d0f;
     color: white; }
+
+.register-course .course-content {
+  border-radius: 5px;
+  border: 1px solid #dddddd;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  padding: 10px; }
+  .register-course .course-content .course-content--items:not(:first-child) {
+    margin-left: 15px; }
+  .register-course .course-content .course-content--items .course-content--items_name {
+    display: inline-block; }
+  .register-course .course-content .course-content--items .course-content--items_unRegister {
+    border: none;
+    background-color: transparent;
+    display: inline-block;
+    line-height: 0px;
+    right: 0px;
+    padding: 0px; }
+    .register-course .course-content .course-content--items .course-content--items_unRegister i.fa {
+      color: #5e5e5e; }
+    .register-course .course-content .course-content--items .course-content--items_unRegister:focus, .register-course .course-content .course-content--items .course-content--items_unRegister:focus-visible {
+      border-top-color: transparent;
+      border-left-color: transparent;
+      border-right-color: transparent;
+      border-bottom-color: transparent;
+      outline-color: transparent; }
+    .register-course .course-content .course-content--items .course-content--items_unRegister:hover {
+      color: #da4848; }
 
 .users-detail--serect {
   margin-top: 10px; }
