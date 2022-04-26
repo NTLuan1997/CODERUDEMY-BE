@@ -6,8 +6,8 @@ function courseDetail(req, res, next) {
     let unitQuery = {"courseId": {"$eq": String(req.body._id)}};
 
     unitService.findUnit(unitQuery)
-    .then((unit) => {
-        req.course.unit = unit;
+    .then((units) => {
+        req.course.units = units;
         next();
 
     })
@@ -17,15 +17,14 @@ function courseDetail(req, res, next) {
 }
 
 function courseLesson(req, res, next) {
-    if(Array.isArray(req.course.unit)) {
-        for(let i = 0; i <= (req.course.unit.length - 1); i++) {
-            req.course.unit[i].lessons = [1,2,3];
-            let lessonQuery = { "unitId": { "$eq": String(req.course.unit[i]._id) } };
+    if(Array.isArray(req.course.units) && req.course.units.length ) {
+        for(let i = 0; i <= (req.course.units.length - 1); i++) {
+            let lessonQuery = { "unitId": { "$eq": String(req.course.units[i]._id) } };
 
             lessonService.findLesson(lessonQuery)
             .then(function(lesson) {
-                req.course.unit[i].lessons = lesson;
-                if(i == (req.course.unit.length - 1)) {
+                req.course.units[i].lessons = lesson;
+                if(i == (req.course.units.length - 1)) {
                     next();
                 }
             })
@@ -33,9 +32,17 @@ function courseLesson(req, res, next) {
                 throw err;
             })
         }
+    } else {
+        req.course.units = [];
+        next();
     }
+}
+
+function client(req, res, next) {
+    console.log(req.body);
+    next();
 }
 
 
 
-module.exports = { courseDetail, courseLesson };
+module.exports = { client, courseDetail, courseLesson };
