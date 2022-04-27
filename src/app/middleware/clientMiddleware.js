@@ -1,4 +1,5 @@
 const unitService = require('../services/unitService');
+const clientService = require('../services/clientService');
 const lessonService = require('../services/lessonService');
 
 function courseDetail(req, res, next) {
@@ -39,8 +40,23 @@ function courseLesson(req, res, next) {
 }
 
 function client(req, res, next) {
-    console.log(req.body);
-    next();
+
+    if(req.body.limit) {
+        clientService.findLimitClient(Number(req.body.limit), Number(req.body.start | 0))
+        .then((clients) => {
+            if(clients[0].length) {
+                req.clients = clients;
+                next();
+
+            } else {
+                return res.status(200).json({ status: false, message: "Not found data", clinets: {} });
+            }
+        })
+        .catch((err) => {
+            return res.status(405).json({status: err, message: 'Method failed'});
+        })
+    }
+
 }
 
 
