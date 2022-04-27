@@ -29,6 +29,7 @@ export function renderBodyTable(wrapperTemplate, data, hideProperty, endPoint, p
     let undefineData = document.querySelectorAll(".undefine-data")[0];
     if (!Object.values(data).length) {
         undefineData.classList.add("active");
+        
     } else {
         if (undefineData.classList.contains("active")) {
             undefineData.classList.remove("active");

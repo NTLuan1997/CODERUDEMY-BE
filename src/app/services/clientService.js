@@ -49,10 +49,10 @@ class ClientService extends Service {
 
     /**
      * 
-     * Method find course with limit.
+     * Method find clients with limit.
      * @param {*} limit number want get
      * @param {*} start location begin get
-     * @returns list courses registry of []
+     * @returns list clients registry of []
      */
     findLimitClient(limit, start) {
         return Promise.all([super.documentQuery((resolve, reject) => {
@@ -60,7 +60,7 @@ class ClientService extends Service {
                 if (err) reject(err);
                 resolve(doc);
             })
-        }), this.countCourse()]);
+        }), this.countClient()]);
     }
 
 
