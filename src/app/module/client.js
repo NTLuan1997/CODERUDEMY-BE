@@ -2,15 +2,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Client = new Schema({
-    Address: String,
-    DateOfBirth: Date,
-    Email: String,
     Name: String,
+    Email: String,
     Password: String,
     Gender: String,
-    registerCourse: Array,
     Phone: String,
-    Thumbnail: String
+    DateOfBirth: Date,
+    Address: String,
+    Thumbnail: String,
+    registerCourse: Array
 })
 
 module.exports = mongoose.model("Client", Client);
