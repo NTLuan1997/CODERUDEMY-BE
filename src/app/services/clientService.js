@@ -74,7 +74,7 @@ class ClientService extends Service {
         return super.documentQuery((resolve, reject) => {
             Client.create(body, (err, doc) => {
                 if (err) reject(err);
-                resolve({ status: true, message: "Create done" })
+                resolve({ status: true, message: "Create done", doc });
             })
         })
     }

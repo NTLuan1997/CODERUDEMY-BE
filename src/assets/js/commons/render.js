@@ -151,3 +151,13 @@ function renderPaginationAction(pageRequire, endPoint, callBack, condition) {
         })
     })
 }
+
+
+/**
+ * 
+ * Method render client register course.
+ */
+
+export function renderCourseRegister() {
+    
+}

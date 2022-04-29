@@ -1,6 +1,20 @@
+const ObjectId = require("mongodb").ObjectId;
 const unitService = require('../services/unitService');
+const bcrypt = require('bcrypt');
 const clientService = require('../services/clientService');
 const lessonService = require('../services/lessonService');
+
+const Client = {
+    Name: String,
+    Email: String,
+    Password: String,
+    Gender: String,
+    DateOfBirth: Date,
+    Phone: String,
+    Address: String,
+    Thumbnail: String,
+    registerCourse: Array
+};
 
 function courseDetail(req, res, next) {
     req.course = req.body;
@@ -40,22 +54,31 @@ function courseLesson(req, res, next) {
 }
 
 function client(req, res, next) {
-
-    if(req.body.limit) {
-        clientService.findLimitClient(Number(req.body.limit), Number(req.body.start | 0))
-        .then((clients) => {
-            if(clients[0].length) {
-                req.clients = clients;
-                next();
-
-            } else {
-                return res.status(200).json({ status: false, message: "Not found data", clinets: {} });
-            }
-        })
-        .catch((err) => {
-            return res.status(405).json({status: err, message: 'Method failed'});
-        })
+    if(req.params.id) {
+        req.findClientById = {"_id": {"$eq": new ObjectId(req.params.id)}};
+        next();
     }
+
+    if(req.body.Type == 'Create') {
+        delete req.body.Code;
+        delete req.body.Type;
+
+        req.body.Password = bcrypt.hashSync(req.body.Password, 10);
+        Object.assign(Client, req.body);
+        req.Client = Client;
+        next();
+    }
+
+    // if(req.body.Type = "Update") {
+    //     delete req.body.Type;
+    //     req.queryUpdate = {"_id": {"$eq": new ObjectId(req.body.Code)}};
+    //     delete req.body.Code;
+
+    //     req.body.Password = bcrypt.hashSync(req.body.Password, 10);
+    //     Object.assigin(Client, req.body);
+    //     req.Client = Client;
+    //     next();
+    // }
 
 }
 

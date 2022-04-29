@@ -1,3 +1,4 @@
+const clientService = require('../services/clientService');
 class ClientController {
 
     constructor() { }
@@ -16,12 +17,65 @@ class ClientController {
         res.status(200).json({ status: true, "course": req.course });
     }
 
-    managerClient(req, res) {
-        console.log(req.clients);
-        res.status(200).json(req.clients);
+    Get(req, res) {
+        clientService.findOneClient(req.findClientById)
+        .then((data) => {
+            res.status(200).json(data);
+            
+        })
+        .catch((err) => {
+            throw err;
+        })
     }
 
-    saveClient(req, res) { }
+    managerClient(req, res) {
+        clientService.findLimitClient(Number(req.body.limit), Number(req.body.start))
+        .then((clients) => {
+            if(clients[0].length) {
+                res.status(200).json({
+                    "clients": clients[0],
+                    "length": clients[1]
+                })
+
+            } else {
+                return res.status(200).json({ status: false, message: "Not found data", clinets: {} });
+            }
+        })
+        .catch((err) => {
+            return res.status(405).json({status: err, message: 'Method failed'});
+        })
+    }
+
+    Save(req, res) {
+        clientService.newClient(req.Client)
+        .then((data) => {
+            res.status(200).json(data);
+        })
+        .catch((err) => {
+            return res.status(405).json({status: err, message: 'Method failed'});
+        })
+    }
+
+    Update(req, res) {
+        ClientService.updateClient(req.queryUpdate, req.client)
+        .then((data) => {
+            res.status(200).json(data);
+            
+        })
+        .catch((err) => {
+            return res.status(405).json({status: err, message: 'Method failed'});
+        })
+    }
+
+    Delete(req, res) {
+        ClientService.deleteClient(req.queryDelete, req.client)
+        .then((data) => {
+            res.status(200).json(data);
+        })
+        .catch((err) => {
+            throw err;
+        })
+    }
 }
 
 module.exports = new ClientController();

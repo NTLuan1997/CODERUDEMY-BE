@@ -74,5 +74,16 @@ export function mapperDate(date) {
     let year = convert[2];
     let month = (convert[0].length < 2) ? `0${convert[0]}` : convert[0];
     let day = (convert[1].length < 2) ? `0${convert[1]}` : convert[1];
+    console.log(`${year}-${month}-${day}`);
+
+    return `${year}-${month}-${day}`;
+}
+
+export function convertDate(date) {
+    let dateString = date.toLocaleString();
+    let expand = dateString.split(",")[0].split("/");
+    let year = expand[2];
+    let month = (expand[0].length < 2) ? `0${expand[0]}` : expand[0];
+    let day = (expand[1].length < 2) ? `0${expand[1]}` : expand[1];
     return `${year}-${month}-${day}`;
 }
