@@ -108,7 +108,6 @@ window.onload = function (e) {
         e.preventDefault();
         if (this.valid) {
             let client = getCourseForm();
-            // client["id"] = getToken();
             client.Type = 'Update';
 
             if (client) {
@@ -117,7 +116,7 @@ window.onload = function (e) {
                         return res.json();
                     })
                     .then((res) => {
-                        data.status ?
+                        res.status ?
                             location.href = "/clients" :
                             permission(toasts, res);
                     })

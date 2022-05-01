@@ -1,6 +1,7 @@
 const ObjectId = require("mongodb").ObjectId;
 const unitService = require('../services/unitService');
 const bcrypt = require('bcrypt');
+const Bcrypt = require("../utils/bcrypt");
 const clientService = require('../services/clientService');
 const lessonService = require('../services/lessonService');
 
@@ -75,17 +76,20 @@ function client(req, res, next) {
         clientService.findOneClient(query)
         .then((client) => {
             if(Object.keys(client).length) {
+                delete req.body.Code;
+                req.Query = query;
+
                 if(req.body.Password === client.Password) {
-                    delete req.body.Code;
                     delete req.body.Password;
                     delete Client.Password;
-
                     Object.assign(Client, req.body);
                     req.Client = Client;
-                    req.Query = query;
 
                 } else {
-                    console.log("Password co su thay doi, thuc hien ma hoa va cap nhat");
+                    Object.assign(Client, req.body);
+                    Client.Password = Bcrypt.hash(Client.Password);
+                    req.Client = Client;
+
                 }
                 next();
 
@@ -97,6 +101,11 @@ function client(req, res, next) {
             throw err;
         })
 
+    }
+
+    if(req.body.Type === "Delete") {
+        req.Query = {"_id": {"$eq": new ObjectId(req.body.id)}};
+        next();
     }
 
     // if(req.body.Type = "Update") {

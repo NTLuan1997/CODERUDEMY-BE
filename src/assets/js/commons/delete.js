@@ -21,7 +21,7 @@ export function deleteDocument(element, endPoint) {
 }
 
 function removeDocument(Id, endPoint) {
-    httpsService(endPoint, "DELETE", { "id": Id })
+    httpsService(endPoint, "DELETE", { "id": Id, "Type": "Delete" })
         .then((res) => {
             return res.json();
         })
