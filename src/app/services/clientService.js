@@ -86,7 +86,7 @@ class ClientService extends Service {
      * @param {*} body information update course 
      * @returns status after update course
      */
-    updateClient(query, body) {
+    update(query, body) {
         return super.documentQuery((resolve, reject) => {
             Client.updateOne(query, body, { upsert: true }).exec((err, doc) => {
                 if (err) reject(err);

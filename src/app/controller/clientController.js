@@ -57,10 +57,9 @@ class ClientController {
     }
 
     Update(req, res) {
-        ClientService.updateClient(req.queryUpdate, req.client)
+        clientService.update(req.Query, req.Client)
         .then((data) => {
             res.status(200).json(data);
-            
         })
         .catch((err) => {
             return res.status(405).json({status: err, message: 'Method failed'});

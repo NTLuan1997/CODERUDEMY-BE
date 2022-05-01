@@ -2,6 +2,7 @@ import { httpsService } from "./commons/httpService.js";
 
 window.onload = function (e) {
     const $ = document.querySelector.bind(document);
+    const $$ = document.querySelectorAll.bind(document);
 
     $("#user-signout").addEventListener("click", function (e) {
         console.log(Date.now());
@@ -17,5 +18,9 @@ window.onload = function (e) {
             .catch((err) => {
                 throw err;
             })
+    })
+
+    $("#toggle-pasword").addEventListener("click", function(e) {
+        console.log("Hello world");
     })
 }

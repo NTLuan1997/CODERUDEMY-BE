@@ -79,6 +79,11 @@ export function mapperDate(date) {
     return `${year}-${month}-${day}`;
 }
 
+/**
+ * Method convert data DateOfBirth client
+ * @param {*} method require parameter new Date(date)
+ * @returns format date yyyy-month-day
+ */
 export function convertDate(date) {
     let dateString = date.toLocaleString();
     let expand = dateString.split(",")[0].split("/");

@@ -95,6 +95,16 @@
       .breadcrumd ul li .go-back {
         cursor: pointer; }
 
+form .form-group .password-control {
+  position: relative; }
+  form .form-group .password-control i.toggle-pasword {
+    color: #323232;
+    cursor: pointer;
+    right: 5px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%); }
+
 .page-main {
   box-shadow: 0 0 2px #00000030;
   margin: 15px 0px;

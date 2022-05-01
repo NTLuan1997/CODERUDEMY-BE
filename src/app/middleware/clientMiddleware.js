@@ -69,6 +69,36 @@ function client(req, res, next) {
         next();
     }
 
+    if(req.body.Type == 'Update') {
+        let query = {"_id": {"$eq": new ObjectId(req.body.Code)}};
+        delete req.body.Type;
+        clientService.findOneClient(query)
+        .then((client) => {
+            if(Object.keys(client).length) {
+                if(req.body.Password === client.Password) {
+                    delete req.body.Code;
+                    delete req.body.Password;
+                    delete Client.Password;
+
+                    Object.assign(Client, req.body);
+                    req.Client = Client;
+                    req.Query = query;
+
+                } else {
+                    console.log("Password co su thay doi, thuc hien ma hoa va cap nhat");
+                }
+                next();
+
+            } else {
+                return res.status(404).json({status: false, message: 'Not Found Client'});
+            }
+        })
+        .catch((err) => {
+            throw err;
+        })
+
+    }
+
     // if(req.body.Type = "Update") {
     //     delete req.body.Type;
     //     req.queryUpdate = {"_id": {"$eq": new ObjectId(req.body.Code)}};
