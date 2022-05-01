@@ -72,17 +72,17 @@ window.onload = function (e) {
     switch (getType()) {
         case "update":
             setTitleForm("update");
-            Client.addEventListener("submit", updateUser);
+            Client.addEventListener("submit", update);
             break;
 
         case "create":
         default:
             setTitleForm("create");
-            Client.addEventListener("submit", saveCourse);
+            Client.addEventListener("submit", save);
             break;
     }
 
-    function saveCourse(e) {
+    function save(e) {
         e.preventDefault();
         if (this.valid) {
             let client = getCourseForm();
@@ -104,20 +104,22 @@ window.onload = function (e) {
         }
     }
 
-    function updateUser(e) {
+    function update(e) {
         e.preventDefault();
         if (this.valid) {
-            let data = getCourseForm();
-            data["id"] = getToken();
-            if (data) {
-                httpsService("API/course/course-edit", "PUT", data)
+            let client = getCourseForm();
+            // client["id"] = getToken();
+            client.Type = 'Update';
+
+            if (client) {
+                httpsService("API/client/client", "PUT", client)
                     .then((res) => {
                         return res.json();
                     })
-                    .then((data) => {
+                    .then((res) => {
                         data.status ?
                             location.href = "/clients" :
-                            permission(toasts, data);
+                            permission(toasts, res);
                     })
                     .catch((err) => {
                         console.error(err);
@@ -144,7 +146,6 @@ window.onload = function (e) {
 
     function setCourseForm(client) {
         let dateOfBirth = new Date(client.DateOfBirth.split(".")[0]);
-
         Code.value = client._id;
         Name.value = client.Name;
         Email.value = client.Email;
