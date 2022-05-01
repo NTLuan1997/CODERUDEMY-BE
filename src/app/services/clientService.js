@@ -101,7 +101,7 @@ class ClientService extends Service {
      * @param {*} query query condition find course when delete
      * @returns tatus after delete course
      */
-    deleteClient(query) {
+    delete(query) {
         return super.documentQuery((resolve, reject) => {
             Client.deleteOne(query).exec((err, doc) => {
                 if (err) reject(err);

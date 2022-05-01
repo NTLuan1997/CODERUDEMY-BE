@@ -67,7 +67,7 @@ class ClientController {
     }
 
     Delete(req, res) {
-        ClientService.deleteClient(req.queryDelete, req.client)
+        clientService.delete(req.Query)
         .then((data) => {
             res.status(200).json(data);
         })
