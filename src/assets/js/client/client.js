@@ -34,5 +34,30 @@ window.onload = function (e) {
             .catch((err) => {
                 throw err;
             })
-    })()
+    })();
+
+    let formData = new FormData();
+    let thumbnail = document.getElementById("thumbnail");
+    $("#test").addEventListener("submit", function(e) {
+        e.preventDefault();
+        console.log(thumbnail.files[0]);
+        
+        formData.append("thumbnail", thumbnail.files[0]);
+
+        fetch("http://localhost/www/CODERUDEMY-IMG/index.php", {
+            "method": "POST",
+            // "headers": {
+            //     "Content-Type": "multipart/form-data; boundary=------WebKitFormBoundaryuFYJB4ncxH2qfDOp",
+            //     "Content-Disposition": "form-data; name='myFile'; filename='foo.txt'",
+            // },
+            "body": formData
+        })
+        // .catch((data) => {
+        //     console.log(data);
+
+        // })
+        .catch((err) => {
+            throw err;
+        })
+    })
 }
