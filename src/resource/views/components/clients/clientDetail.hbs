@@ -18,7 +18,14 @@
             </ul>
         </div>
         <div class="page-detail">
-            <h2 class="page-detail--title">Thông tin khóa học</h2>
+            <div class="page-detail--information">
+                <h2 class="page-detail--title">Thông tin khóa học</h2>
+                <div class="thumbnail-priture">
+                    <img class="priture" src="/static/img/thumbnail_default.jpg" alt="thmbnail"/>
+                    <input type="file" class="client-thumbnail" id="client-thumbnail"/>
+                </div>
+            </div>
+
             <form class="page-detail-form" id="Client">
                 <div class="row">
                     <div class="col-6">
@@ -44,14 +51,7 @@
                             <label class="form-group--label" for="Password">Mật khẩu</label>
                             <div class="password-control">
                                 <input type="password" class="form-control" id="Password">
-                                <i class="fa fa-eye toggle-pasword" id="toggle-pasword" aria-hidden="true"></i>
                             </div>
-                            <span class="form-message"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-group--label" for="Thumbnail">Ảnh đại diện</label>
-                            <input type="text" class="form-control" id="Thumbnail">
                             <span class="form-message"></span>
                         </div>
                     </div>
@@ -84,7 +84,9 @@
                             <input type="text" class="form-control" id="Address">
                             <span class="form-message"></span>
                         </div>
+                    </div>
 
+                    <div class="col-12">
                         <div class="form-group register-course">
                             <label class="form-group--label" for="Address">Khóa học đã đăng ký</label>
                             <div class="course-content" id="course-content">
