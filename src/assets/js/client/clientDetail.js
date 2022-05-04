@@ -1,4 +1,6 @@
 import { getType, getToken, permission, convertDate } from "../commons/common.js";
+import {environment} from "../config/environment.js";
+import {upload} from "../commons/upload.js";
 import { Validation } from "../commons/validation.js";
 import { httpsService } from "../commons/httpService.js";
 
@@ -13,13 +15,15 @@ window.onload = function (e) {
     let Name = $("#Name");
     let Email = $("#Email");
     let Password = $("#Password");
-    let Thumbnail = $("#Thumbnail");
     let Gender = $("#Gender");
     let DateOfBirth = $("#DateOfBirth");
     let Phone = $("#Phone");
     let Address = $("#Address");
 
     let toasts = $$(".modal-toasts")[0];
+    let Priture = $("#thumbnail-priture");
+    let Upload = $("#client-upload");
+    let Thumbnail = $("#priture");
 
 
     Validation({
@@ -55,6 +59,7 @@ window.onload = function (e) {
 
 
     if (getType() == "update") {
+        Priture.classList.add("active");
         (function () {
             httpsService(`API/client/client/${getToken()}`, "GET", null)
                 .then((data) => {
@@ -72,6 +77,7 @@ window.onload = function (e) {
     switch (getType()) {
         case "update":
             setTitleForm("update");
+            Upload.addEventListener("change", uploadThumbnail);
             Client.addEventListener("submit", update);
             break;
 
@@ -137,13 +143,14 @@ window.onload = function (e) {
             DateOfBirth: DateOfBirth.value,
             Phone: Phone.value,
             Address: Address.value,
-            Thumbnail: (Thumbnail.value)? Thumbnail.value : "thumbnail_default.jpg",
             registerCourse: []
         }
         return data;
     }
 
     function setCourseForm(client) {
+        Thumbnail.setAttribute("src", (client.Thumbnail)? `${environment.upload.server}/${client.Thumbnail}`: "/static/img/thumbnail_default.jpg");
+        Object.assign(environment.client, client);
         let dateOfBirth = new Date(client.DateOfBirth.split(".")[0]);
         Code.value = client._id;
         Name.value = client.Name;
@@ -152,12 +159,40 @@ window.onload = function (e) {
         DateOfBirth.value = convertDate(dateOfBirth);
         Phone.value = client.Phone;
         Address.value = client.Address;
-        Thumbnail.value = client.Thumbnail;
         for (let gender of Gender) {
             if (gender.value == client.Gender) {
                 gender.setAttribute("selected", true);
             }
         }
+    }
+
+    function uploadThumbnail() {
+        let form = new FormData();
+        form.append("thumbnail", this?.files[0]);
+        form.append("Type", "Client");
+
+        upload(form)
+        .then((res) => {
+            if(res.status){
+                let body = {
+                    "_id": environment.client._id,
+                    "Type": "Thumbnail",
+                    "Thumbnail": res.destination
+                };
+                return httpsService("API/client/client-thumbnail", "PUT", body);
+            }
+        })
+        .then((res) => {
+            return res.json();
+        })
+        .then((data) => {
+            if(data.status) {
+                window.location.reload();
+            }
+        })
+        .catch((err) => {
+            throw err;
+        })
     }
 
     function setTitleForm(type) {

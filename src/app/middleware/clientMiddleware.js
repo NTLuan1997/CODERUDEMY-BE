@@ -103,21 +103,16 @@ function client(req, res, next) {
 
     }
 
+    if(req.body.Type === "Thumbnail") {
+        req.Query = {"_id": {"$eq": new ObjectId(req.body._id)}};
+        req.Client = {"Thumbnail": req.body.Thumbnail};
+        next();
+    }
+
     if(req.body.Type === "Delete") {
         req.Query = {"_id": {"$eq": new ObjectId(req.body.id)}};
         next();
     }
-
-    // if(req.body.Type = "Update") {
-    //     delete req.body.Type;
-    //     req.queryUpdate = {"_id": {"$eq": new ObjectId(req.body.Code)}};
-    //     delete req.body.Code;
-
-    //     req.body.Password = bcrypt.hashSync(req.body.Password, 10);
-    //     Object.assigin(Client, req.body);
-    //     req.Client = Client;
-    //     next();
-    // }
 
 }
 
