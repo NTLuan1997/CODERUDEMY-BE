@@ -36,28 +36,48 @@ window.onload = function (e) {
             })
     })();
 
-    let formData = new FormData();
-    let thumbnail = document.getElementById("thumbnail");
-    $("#test").addEventListener("submit", function(e) {
-        e.preventDefault();
-        console.log(thumbnail.files[0]);
+    // let thumbnail = document.getElementById("thumbnail");
+    // $("#test").addEventListener("submit", function(e) {
+    //     e.preventDefault();
         
-        formData.append("thumbnail", thumbnail.files[0]);
+    //     let Form = new FormData();
+    //     Form.append("thumbnail", thumbnail.files[0]);
+    //     Form.append("Type", "Client");
 
-        fetch("http://localhost/www/CODERUDEMY-IMG/index.php", {
-            "method": "POST",
-            // "headers": {
-            //     "Content-Type": "multipart/form-data; boundary=------WebKitFormBoundaryuFYJB4ncxH2qfDOp",
-            //     "Content-Disposition": "form-data; name='myFile'; filename='foo.txt'",
-            // },
-            "body": formData
-        })
-        // .catch((data) => {
-        //     console.log(data);
+    //     fetch("http://localhost/www/CODERUDEMY-IMG/index.php", {
+    //         "method": "POST",
+    //         "body": Form
+    //     })
+    //     .then((data) => {
+    //         return data.json();
+    //     })
+    //     .then((data) => {
+    //         console.log(data);
+    //     })
+    //     .catch((err) => {
+    //         throw err;
+    //     })
+    // })
 
-        // })
-        .catch((err) => {
-            throw err;
-        })
-    })
+    // $("#unlink").addEventListener("click", function(e) {
+    //     e.preventDefault();
+    //     let Form = new FormData();
+    //     Form.append("thumbnail", "6271f30c464829.99098916.jpg");
+    //     Form.append("Type", "unlink");
+
+    //     fetch("http://localhost/www/CODERUDEMY-IMG/index.php", {
+    //         "method": "POST",
+    //         "body": Form
+    //     })
+    //     .then((data) => {
+    //         return data.json();
+    //     })
+    //     .then((data) => {
+    //         console.log(data);
+    //     })
+    //     .catch((err) => {
+    //         throw err;
+    //     })
+
+    // })
 }

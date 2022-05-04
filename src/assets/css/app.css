@@ -152,6 +152,43 @@ form .form-group .password-control {
   box-shadow: 0 0 2px #00000030;
   margin-top: 15px;
   padding: 15px; }
+  .page-detail .page-detail--information {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between; }
+    .page-detail .page-detail--information .thumbnail-priture {
+      display: none;
+      position: relative; }
+      .page-detail .page-detail--information .thumbnail-priture .priture {
+        border-radius: 2px;
+        box-shadow: 0 0 2px #00000030;
+        height: 100px;
+        padding: 3px;
+        width: 100px; }
+      .page-detail .page-detail--information .thumbnail-priture .client-thumbnail {
+        bottom: 0px;
+        display: inline-block;
+        left: 0px;
+        height: 25px;
+        overflow: hidden;
+        position: absolute;
+        width: 25px; }
+        .page-detail .page-detail--information .thumbnail-priture .client-thumbnail:before {
+          background-color: #f28d0f;
+          border-radius: 2px;
+          color: #ffffff;
+          font-family: "FontAwesome";
+          font-weight: 500;
+          font-size: 14px;
+          content: "\f044";
+          display: inline-block;
+          height: 25px;
+          line-height: 25px;
+          text-align: center;
+          width: 25px;
+          vertical-align: middle; }
+      .page-detail .page-detail--information .thumbnail-priture.active {
+        display: block; }
   .page-detail .page-detail--title {
     font-size: 25px;
     font-weight: 700;

@@ -64,7 +64,7 @@ window.onload = function (e) {
                     setCourseForm(data);
                 })
                 .catch((err) => {
-                    console.log(err);
+                    throw err;
                 })
         }());
     }
@@ -98,7 +98,7 @@ window.onload = function (e) {
                             permission(toasts, res);
                     })
                     .catch((err) => {
-                        console.error(err);
+                        throw err;
                     })
             }
         }
@@ -121,7 +121,7 @@ window.onload = function (e) {
                             permission(toasts, res);
                     })
                     .catch((err) => {
-                        console.error(err);
+                        throw err;
                     })
             }
         }
@@ -137,7 +137,7 @@ window.onload = function (e) {
             DateOfBirth: DateOfBirth.value,
             Phone: Phone.value,
             Address: Address.value,
-            Thumbnail: (Thumbnail.value)? Thumbnail.value : `${location.origin}/static/img/thumbnail_default.jpg`,
+            Thumbnail: (Thumbnail.value)? Thumbnail.value : "thumbnail_default.jpg",
             registerCourse: []
         }
         return data;
