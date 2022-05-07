@@ -20,14 +20,14 @@ window.onload = function (e) {
             .then((res) => {
                 renderHeaderTable(wrapperTableHeader, titles);
                 renderPagination(wrapperPagination, 5, res.length, "API/client/client-register", (e) => {
-                    renderBodyTable(wrapperTablebody, e?.clients, ["_id","Password", "Gender", "DateOfBirth", "Thumbnail", "registerCourse", "__v"], "clients", null, null);
+                    renderBodyTable(wrapperTablebody, e?.clients, ["_id","Password", "Gender", "DateOfBirth", "Thumbnail", "RegisterCourse", "__v"], "clients", null, null);
                     deleteDocument($$(".btn-delete-document"), "API/client/client");
                 }, null);
                 return res;
 
             })
             .then((res) => {
-                renderBodyTable(wrapperTablebody, res?.clients, ["_id", "Password", "Gender", "DateOfBirth", "Thumbnail", "registerCourse", "__v"], "clients", null, null);
+                renderBodyTable(wrapperTablebody, res?.clients, ["_id", "Password", "Gender", "DateOfBirth", "Thumbnail", "RegisterCourse", "__v"], "clients", null, null);
                 deleteDocument($$(".btn-delete-document"), "API/client/client");
 
             })

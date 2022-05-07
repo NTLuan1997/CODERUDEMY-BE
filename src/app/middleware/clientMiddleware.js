@@ -12,9 +12,7 @@ const Client = {
     Gender: String,
     DateOfBirth: Date,
     Phone: String,
-    Address: String,
-    Thumbnail: String,
-    registerCourse: Array
+    Address: String
 };
 
 function courseDetail(req, res, next) {
@@ -73,6 +71,7 @@ function client(req, res, next) {
     if(req.body.Type == 'Update') {
         let query = {"_id": {"$eq": new ObjectId(req.body.Code)}};
         delete req.body.Type;
+        
         clientService.findOneClient(query)
         .then((client) => {
             if(Object.keys(client).length) {

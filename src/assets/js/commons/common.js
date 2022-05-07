@@ -92,3 +92,13 @@ export function convertDate(date) {
     let day = (expand[1].length < 2) ? `0${expand[1]}` : expand[1];
     return `${year}-${month}-${day}`;
 }
+
+export class Commons {
+    Type = ["text"];
+    get(Form) {
+        console.log("Hello world");
+        for(let item of Form) {
+            console.log([item]);
+        }
+    }
+}

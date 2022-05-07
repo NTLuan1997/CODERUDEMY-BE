@@ -10,7 +10,7 @@ const Client = new Schema({
     DateOfBirth: Date,
     Address: String,
     Thumbnail: String,
-    registerCourse: Array
+    RegisterCourse: Array
 })
 
 module.exports = mongoose.model("Client", Client);
