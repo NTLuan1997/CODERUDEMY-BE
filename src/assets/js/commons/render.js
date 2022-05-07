@@ -155,9 +155,25 @@ function renderPaginationAction(pageRequire, endPoint, callBack, condition) {
 
 /**
  * 
- * Method render client register course.
+ * Method render client course register.
  */
 
-export function renderCourseRegister() {
-    
+export function renderCourseRegister(destination, data) {
+    let template;
+    if(Array.isArray(data) && data.length) {
+        console.log(data);
+        template = ` <div class="course-content--items">
+                        <p class="course-content--items_name">Khóa học 1</p>
+                        <button type="button" class="course-content--items_unRegister">
+                            <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                        </button>
+                    </div>`;
+
+    } else {
+        template = ` <div class="course-content--items">
+                        <h4>Khoa học đăng ký trống</h4>
+                    </div>`;
+    }
+
+    destination.innerHTML = template;
 }

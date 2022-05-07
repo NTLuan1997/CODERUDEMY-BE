@@ -1,11 +1,11 @@
-import { getType, getToken, permission, convertDate } from "../commons/common.js";
+import {getType, getToken, permission, convertDate} from "../commons/common.js";
 import {environment} from "../config/environment.js";
 import {upload} from "../commons/upload.js";
-import { Validation } from "../commons/validation.js";
-import { httpsService } from "../commons/httpService.js";
+import {Validation} from "../commons/validation.js";
+import {httpsService} from "../commons/httpService.js";
+// import {renderCourseRegister} from "../commons/render.js";
 
 window.onload = function (e) {
-
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
 
@@ -21,10 +21,10 @@ window.onload = function (e) {
     let Address = $("#Address");
 
     let toasts = $$(".modal-toasts")[0];
+    
     let Priture = $("#thumbnail-priture");
     let Upload = $("#client-upload");
     let Thumbnail = $("#priture");
-
 
     Validation({
         form: "#Client",
@@ -115,6 +115,7 @@ window.onload = function (e) {
         if (this.valid) {
             let client = getCourseForm();
             client.Type = 'Update';
+            console.log(client);
 
             if (client) {
                 httpsService("API/client/client", "PUT", client)
@@ -142,8 +143,7 @@ window.onload = function (e) {
             Gender: Gender.value,
             DateOfBirth: DateOfBirth.value,
             Phone: Phone.value,
-            Address: Address.value,
-            registerCourse: []
+            Address: Address.value
         }
         return data;
     }
@@ -151,6 +151,10 @@ window.onload = function (e) {
     function setCourseForm(client) {
         Thumbnail.setAttribute("src", (client.Thumbnail)? `${environment.upload.server}/${client.Thumbnail}`: "/static/img/thumbnail_default.jpg");
         Object.assign(environment.client, client);
+        setForm(client);
+    }
+
+    function setForm(client) {
         let dateOfBirth = new Date(client.DateOfBirth.split(".")[0]);
         Code.value = client._id;
         Name.value = client.Name;
