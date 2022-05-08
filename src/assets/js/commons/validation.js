@@ -7,6 +7,7 @@
  *      2) Rules: multiple rule validation.
  */
 let regexEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+let regexPhone = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
 export function Validation(options) {
     let Form = document.querySelector(options?.form);
 
@@ -104,6 +105,14 @@ Validation.maxLength = function (max) {
     return {
         test: function (value) {
             return value.trim().length >= max ? `Mật khẩu ngắn hơn ${max} ký tự` : null;
+        }
+    }
+}
+
+Validation.phone = function() {
+    return {
+        test: function(value) {
+            return (!regexPhone.test(value.trim()))? "Số điện thoại không hợp lệ": null;
         }
     }
 }

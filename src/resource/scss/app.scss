@@ -209,9 +209,11 @@ form {
     .page-detail--information{
         display: flex;
         align-items: flex-start;
-        justify-content: space-between;
+        // justify-content: space-between;
         .thumbnail-priture {
             display: none;
+            margin-left: auto;
+            margin-right: 0px;
             position: relative;
             .priture {
                 border-radius: 2px;
@@ -249,6 +251,14 @@ form {
             }
         }
     }
+    .page-detail--roll-back {
+        margin-right: 5px;
+        i.fa {
+            color: #f28d0f;
+            font-size: 25px;
+            margin-top: 2px;
+        }
+    }
     .page-detail--title {
         font-size: 25px;
         font-weight: 700;
@@ -262,10 +272,14 @@ form {
                 text-transform: capitalize;
             }
         }
-        .btn-executed {
-            background-color: #f28d0f;
-            color: white;
-        }
+    }
+    .page-detail--course-register {
+        box-shadow: 0 0 2px #00000030;
+        padding: 15px;
+    }
+    .btn-executed {
+        background-color: #f28d0f;
+        color: white;
     }
 }
 
