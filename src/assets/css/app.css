@@ -154,10 +154,11 @@ form .form-group .password-control {
   padding: 15px; }
   .page-detail .page-detail--information {
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between; }
+    align-items: flex-start; }
     .page-detail .page-detail--information .thumbnail-priture {
       display: none;
+      margin-left: auto;
+      margin-right: 0px;
       position: relative; }
       .page-detail .page-detail--information .thumbnail-priture .priture {
         border-radius: 2px;
@@ -189,6 +190,12 @@ form .form-group .password-control {
           vertical-align: middle; }
       .page-detail .page-detail--information .thumbnail-priture.active {
         display: block; }
+  .page-detail .page-detail--roll-back {
+    margin-right: 5px; }
+    .page-detail .page-detail--roll-back i.fa {
+      color: #f28d0f;
+      font-size: 25px;
+      margin-top: 2px; }
   .page-detail .page-detail--title {
     font-size: 25px;
     font-weight: 700;
@@ -197,7 +204,10 @@ form .form-group .password-control {
   .page-detail .page-detail-form .form-group .form-group--label {
     font-size: 16px;
     text-transform: capitalize; }
-  .page-detail .page-detail-form .btn-executed {
+  .page-detail .page-detail--course-register {
+    box-shadow: 0 0 2px #00000030;
+    padding: 15px; }
+  .page-detail .btn-executed {
     background-color: #f28d0f;
     color: white; }
 

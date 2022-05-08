@@ -3,28 +3,27 @@ import {environment} from "../config/environment.js";
 import {upload} from "../commons/upload.js";
 import {Validation} from "../commons/validation.js";
 import {httpsService} from "../commons/httpService.js";
-// import {renderCourseRegister} from "../commons/render.js";
 
 window.onload = function (e) {
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
 
     // GET WRAPPER
+    let Address = $("#Address");
     let Client = $('#Client');
     let Code = $("#Code");
-    let Name = $("#Name");
-    let Email = $("#Email");
-    let Password = $("#Password");
-    let Gender = $("#Gender");
     let DateOfBirth = $("#DateOfBirth");
+    let Email = $("#Email");
+    let Name = $("#Name");
+    let Gender = $("#Gender");
     let Phone = $("#Phone");
-    let Address = $("#Address");
+    let Password = $("#Password");
+    
+    let Priture = $("#wrapper-priture");
+    let Upload = $("#upload-priture");
+    let Thumbnail = $("#image-priture");
 
     let toasts = $$(".modal-toasts")[0];
-    
-    let Priture = $("#thumbnail-priture");
-    let Upload = $("#client-upload");
-    let Thumbnail = $("#priture");
 
     Validation({
         form: "#Client",
@@ -48,7 +47,7 @@ window.onload = function (e) {
             },
             {
                 selector: "#Phone",
-                guides: [Validation.required()]
+                guides: [Validation.required(), Validation.phone()]
             },
             {
                 selector: "#Address",
@@ -56,7 +55,6 @@ window.onload = function (e) {
             }
         ]
     });
-
 
     if (getType() == "update") {
         Priture.classList.add("active");
@@ -115,8 +113,6 @@ window.onload = function (e) {
         if (this.valid) {
             let client = getCourseForm();
             client.Type = 'Update';
-            console.log(client);
-
             if (client) {
                 httpsService("API/client/client", "PUT", client)
                     .then((res) => {
@@ -219,7 +215,7 @@ window.onload = function (e) {
         }
     }
 
-    $("#come-back").addEventListener("click", function (e) {
-        window.history.back();
-    })
+    // $("#come-back").addEventListener("click", function (e) {
+    //     window.history.back();
+    // })
 }
