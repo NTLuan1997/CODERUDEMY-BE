@@ -199,6 +199,13 @@ window.onload = function (e) {
         })
     }
 
+    /**
+     * 
+     * Update course register
+     */
+
+    
+
     function setTitleForm(type) {
         let title = $$(".page-detail--title")[0];
         let subButton = $$(".btn-executed")[0];
