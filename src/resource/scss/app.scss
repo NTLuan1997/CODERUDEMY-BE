@@ -273,6 +273,10 @@ form {
             }
         }
     }
+    .page-detail--course-register-now {
+        box-shadow: 0 0 2px #00000030;
+        padding: 15px;
+    }
     .page-detail--course-register {
         box-shadow: 0 0 2px #00000030;
         padding: 15px;
@@ -280,6 +284,13 @@ form {
     .btn-executed {
         background-color: #f28d0f;
         color: white;
+    }
+}
+
+.page-detail-course-register{
+    display: none;
+    &.active {
+        display: block;
     }
 }
 

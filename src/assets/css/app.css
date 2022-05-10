@@ -204,12 +204,20 @@ form .form-group .password-control {
   .page-detail .page-detail-form .form-group .form-group--label {
     font-size: 16px;
     text-transform: capitalize; }
+  .page-detail .page-detail--course-register-now {
+    box-shadow: 0 0 2px #00000030;
+    padding: 15px; }
   .page-detail .page-detail--course-register {
     box-shadow: 0 0 2px #00000030;
     padding: 15px; }
   .page-detail .btn-executed {
     background-color: #f28d0f;
     color: white; }
+
+.page-detail-course-register {
+  display: none; }
+  .page-detail-course-register.active {
+    display: block; }
 
 .register-course .course-content {
   border-radius: 5px;

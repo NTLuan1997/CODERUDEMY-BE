@@ -87,11 +87,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="users-detail--serect btn-executed btn"><button type="submit">Submit</button></div>
+                <div class="users-detail--serect"><button class="btn-executed btn" type="submit">Submit</button></div>
             </form>
         </div>
 
-        <div class="page-detail mb-5 mt-4">
+        <div class="page-detail page-detail-course-register mb-5 mt-4" id="Course-wrapper">
             <div class="page-detail--information">
                 <h2 class="page-detail--title">Khóa học đăng ký 01</h2>
             </div>
@@ -99,32 +99,27 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            <label class="form-group--label" for="Gender">Khóa học</label>
-                            <select class="custom-select" id="Gender">
-                                <option selected value="default">Chọn khóa học đăng ký</option>
-                                <option value="01">khóa học 01</option>
-                                <option value="02">khóa học 02</option>
-                                <option value="03">khoa học 03</option>
-                            </select>
+                            <label class="form-group--label" for="Course">Khóa học</label>
+                            <select class="custom-select" id="Course"></select>
                             <span class="form-message"></span>
                         </div>
                     </div>
                     <div class="col-6">
-                        <label class="form-group--label" for="Gender">Chức năng</label>
+                        <label class="form-group--label" for="Method">Chức năng</label>
                         <div class="form-group">
-                            <button type="button" class="btn-executed btn">Thêm khóa học</button>
-                            <button type="button" class="btn-executed btn">Xóa khóa học</button>
+                            <button type="button" class="btn-executed btn" id="Course-register" disabled="true">Thêm khóa học</button>
+                            <button type="button" class="btn-executed btn" disabled="true">Xóa khóa học</button>
                         </div>
                     </div>
-                    <div class="col-12">
+                    
+                    <div class="col-12 mb-3">
                         <div>
-                            <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-                            <label class="form-group--label" for="Gender">Các khóa đã đăng ký</label>
+                            <label class="form-group--label" for="Gender">Các khóa vừa đăng ký đăng ký</label>
                         </div>
-                        <div class="page-detail--course-register"></div>
+                        <div class="page-detail--course-register-now" id="course-content"></div>
                     </div>
                 </div>
-                <div class="mt-4"><button type="submit" class="btn-executed btn">Cập nhật</button></div>
+                <div class="mt-4"><button type="submit" class="btn-executed btn" id="upload-course-register" disabled="true">Cập nhật khóa học</button></div>
             </div>
         </div>
     </div>

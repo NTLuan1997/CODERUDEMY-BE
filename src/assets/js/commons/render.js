@@ -151,3 +151,33 @@ function renderPaginationAction(pageRequire, endPoint, callBack, condition) {
         })
     })
 }
+
+export class Render {
+    constructor() { }
+
+    option(wrapper, data) {
+        let options = data.reduce((accument, currentValue, currentIndex) => {
+            return accument.concat(`<option name="${currentValue._id}" value="${currentValue?._id}">${currentValue.courseName}</option>`);
+        }, []);
+        options.unshift(`<option name="default" value="default">Chọn khóa học đăng ký</option>`);
+        wrapper.innerHTML = options.join(" ");
+    }
+
+    // RENDER ITEMS CLIENT COURSE REGISTER
+    clientCourseRegister(wrapper, data) {
+        let template = null;
+        if(!data.length) {
+            wrapper.innerHTML = `<h3>Chưa đăng ký khóa học</h3>`;
+            return;
+        }
+        template = data.reduce((accument, currentValue) => {
+            return accument.concat(`
+                <div>
+                    <input type="checkbox" id="test" value="${currentValue?._id}">
+                    <label class="form-group--label" for="Gender">${currentValue?.courseName}</label>
+                </div>`)
+        }, []).join(" ");
+
+        wrapper.innerHTML = template;
+    }
+}
