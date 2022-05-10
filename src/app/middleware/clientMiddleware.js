@@ -68,6 +68,17 @@ function client(req, res, next) {
         next();
     }
 
+    if(req.body.Type === "Delete") {
+        req.Query = {"_id": {"$eq": new ObjectId(req.body.id)}};
+        next();
+    }
+
+    if(req.body.Type === "Register-course") {
+        req.Query = {"_id": {"$eq": new ObjectId(req.body.id)}};
+        req.Client = {RegisterCourse: req.body.register};
+        next();
+    }
+
     if(req.body.Type == 'Update') {
         let query = {"_id": {"$eq": new ObjectId(req.body.Code)}};
         delete req.body.Type;
@@ -105,11 +116,6 @@ function client(req, res, next) {
     if(req.body.Type === "Thumbnail") {
         req.Query = {"_id": {"$eq": new ObjectId(req.body._id)}};
         req.Client = {"Thumbnail": req.body.Thumbnail};
-        next();
-    }
-
-    if(req.body.Type === "Delete") {
-        req.Query = {"_id": {"$eq": new ObjectId(req.body.id)}};
         next();
     }
 

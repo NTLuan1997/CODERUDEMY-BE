@@ -40,12 +40,25 @@ class CourseService extends Service {
      */
     findCourse() {
         return super.documentQuery((resolve, reject) => {
-            Course.find({}).exec((err, doc) => {
+            Course.find().exec((err, doc) => {
                 if (err) reject(err);
                 resolve(doc);
             })
         })
     }
+
+    // findCourseByName(...fields) {
+    //     let query = fields.reduce((accument, currentValue) => {
+    //         return accument.concat(`${currentValue}`);
+    //     }, []).join(",");
+
+    //     return super.documentQuery((resolve, reject) => {
+    //         Course.find(`{${query}}`).exec((err, doc) => {
+    //             if(err) reject(err);
+    //             resolve(doc);
+    //         })
+    //     })
+    // }
 
     /**
      * 

@@ -1,4 +1,5 @@
-const clientService = require('../services/clientService');
+const clientService = require("../services/clientService");
+const courseService = require("../services/courseService");
 class ClientController {
 
     constructor() { }
@@ -13,14 +14,33 @@ class ClientController {
     }
 
     // API
+    CourseRegister(req, res) {
+        console.log(req.body);
+        res.status(200).json({status: true, message: "Cập nhật thành công"});
+    }
+    
     getCourse(req, res) {
         res.status(200).json({ status: true, "course": req.course });
     }
 
     Get(req, res) {
-        clientService.findOneClient(req.findClientById)
-        .then((data) => {
-            res.status(200).json(data);
+        let Courses = [];
+        courseService.findCourse()
+        .then((courses) => {
+            let mapper = courses.reduce((accument, currentValue) => {
+                let obj = {"_id": currentValue?._id, "courseName": currentValue?.courseName};
+                return accument.concat(obj);
+            }, []);
+            return mapper;
+        })
+        .then((courses) => {
+            if(courses.length > 0) {
+                Courses = courses;
+                return clientService.findOneClient(req.findClientById);
+            }
+        })
+        .then((client) => {
+            res.status(200).json({"Client": client, "Courses": Courses});
         })
         .catch((err) => {
             throw err;
