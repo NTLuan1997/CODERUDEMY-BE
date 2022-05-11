@@ -32,7 +32,10 @@ window.onload = function (e) {
     let Course = $("#Course");
     let Register = $("#register");
     let Content = $("#register-content");
+    let UnRegister = $("#unRegister");
     let UploadRegister = $("#upload-register");
+    let CourseAll = $("#check-all-course");
+    let CourseItems = null;
 
     // PERMISSION
     let toasts = $$(".modal-toasts")[0];
@@ -87,6 +90,7 @@ window.onload = function (e) {
                             localStorage.setItem("client-register", JSON.stringify(res.Client.RegisterCourse));
                         }
                         render.clientCourseRegister(Content, res.Client.RegisterCourse);
+                        CourseItems = $$("input[name='course-items']");
                     }
 
                     if(res.hasOwnProperty("Courses")) {
@@ -94,6 +98,38 @@ window.onload = function (e) {
                         render.option(Course, res.Courses);
 
                     }
+                })
+                .then(() => {
+                    if(CourseItems.length) {
+                        // CourseItems
+                        let converCourseItem = new Array();
+                        // converCourseItem = CourseItems;
+                        CourseItems.forEach((e) => converCourseItem.push(e));
+                        
+                        for(let item = 0; item < CourseItems.length; item++) {
+                            CourseItems[item].addEventListener("change", function(checkbox) {
+                                let status = false;
+                                // console.log(checkbox);
+                                if(checkbox.target.checked) {
+                                    UnRegister.removeAttribute("disabled");
+
+                                } else {
+                                    if(converCourseItem.every((item) => item.checked == false)) {
+                                        UnRegister.setAttribute("disabled", false);
+                                    }
+
+                                    if(converCourseItem.some((item) => item.checked == false)) {
+                                        CourseAll.checked = false;
+                                    }
+                                }
+
+                                if(converCourseItem.every((item) => item.checked == true)) {
+                                    CourseAll.checked = true;
+                                }
+                            })
+                        }
+                    }
+
                 })
                 .catch((err) => {
                     throw err;
@@ -310,6 +346,19 @@ window.onload = function (e) {
             } else {
                 alert("Upload không thành công");
             }
+        })
+
+        CourseAll.addEventListener("change", function(e) {
+            let _this = this;
+            if(this.checked) {
+                UnRegister.removeAttribute("disabled");
+            } else {
+                UnRegister.setAttribute("disabled", false);
+            }
+
+            CourseItems.forEach(function(e) {
+                e.checked = _this.checked;
+            })
         })
     }
 
