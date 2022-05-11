@@ -173,7 +173,7 @@ export class Render {
         template = data.reduce((accument, currentValue) => {
             return accument.concat(`
                 <div>
-                    <input type="checkbox" id="test" value="${currentValue?._id}">
+                    <input type="checkbox" name="course-items" value="${currentValue?._id}">
                     <label class="form-group--label" for="Gender">${currentValue?.courseName}</label>
                 </div>`)
         }, []).join(" ");
