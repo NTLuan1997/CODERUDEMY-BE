@@ -155,18 +155,18 @@ form .form-group .password-control {
   .page-detail .page-detail--information {
     display: flex;
     align-items: flex-start; }
-    .page-detail .page-detail--information .thumbnail-priture {
+    .page-detail .page-detail--information .priture {
       display: none;
       margin-left: auto;
       margin-right: 0px;
       position: relative; }
-      .page-detail .page-detail--information .thumbnail-priture .priture {
+      .page-detail .page-detail--information .priture .thumbnail {
         border-radius: 2px;
         box-shadow: 0 0 2px #00000030;
         height: 100px;
         padding: 3px;
         width: 100px; }
-      .page-detail .page-detail--information .thumbnail-priture .client-thumbnail {
+      .page-detail .page-detail--information .priture .upload-thumbnail {
         bottom: 0px;
         display: inline-block;
         left: 0px;
@@ -174,7 +174,7 @@ form .form-group .password-control {
         overflow: hidden;
         position: absolute;
         width: 25px; }
-        .page-detail .page-detail--information .thumbnail-priture .client-thumbnail:before {
+        .page-detail .page-detail--information .priture .upload-thumbnail:before {
           background-color: #f28d0f;
           border-radius: 2px;
           color: #ffffff;
@@ -188,7 +188,7 @@ form .form-group .password-control {
           text-align: center;
           width: 25px;
           vertical-align: middle; }
-      .page-detail .page-detail--information .thumbnail-priture.active {
+      .page-detail .page-detail--information .priture.active {
         display: block; }
   .page-detail .page-detail--roll-back {
     margin-right: 5px; }
@@ -204,19 +204,16 @@ form .form-group .password-control {
   .page-detail .page-detail-form .form-group .form-group--label {
     font-size: 16px;
     text-transform: capitalize; }
-  .page-detail .page-detail--course-register-now {
-    box-shadow: 0 0 2px #00000030;
-    padding: 15px; }
-  .page-detail .page-detail--course-register {
+  .page-detail .page-detail-register .page-detail-register__content {
     box-shadow: 0 0 2px #00000030;
     padding: 15px; }
   .page-detail .btn-executed {
     background-color: #f28d0f;
     color: white; }
 
-.page-detail-course-register {
+.client-course-register {
   display: none; }
-  .page-detail-course-register.active {
+  .client-course-register.active {
     display: block; }
 
 .register-course .course-content {

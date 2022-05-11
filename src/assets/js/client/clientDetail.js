@@ -10,7 +10,7 @@ window.onload = function (e) {
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
 
-    // GET WRAPPER
+    // INFORMATION
     let Address = $("#Address");
     let Client = $('#Client');
     let Code = $("#Code");
@@ -21,23 +21,23 @@ window.onload = function (e) {
     let Phone = $("#Phone");
     let Password = $("#Password");
     
-    // GET WRAPPER UPLOAD THUMBNAIL
-    let Priture = $("#wrapper-priture");
-    let Upload = $("#upload-priture");
-    let Thumbnail = $("#image-priture");
+    // PRITURE
+    let Priture = $("#priture");
+    let UploadThumbnail = $("#upload-thumbnail");
+    let Thumbnail = $("#thumbnail");
 
 
-    // GET WRAPPER UPLOAD COURSE REGISTER
-    let CourseWrapper = $("#Course-wrapper");
+    // COURSE REGISTER
+    let ClientRegister = $("#page-detail-client-register");
     let Course = $("#Course");
-    let CourseRegister = $("#Course-register");
-    let CourseContent = $("#course-content");
-    let CourseUpload = $("#upload-course-register");
-    // let CourseCheckAll = $("#Course-all");
+    let Register = $("#register");
+    let Content = $("#register-content");
+    let UploadRegister = $("#upload-register");
 
-
+    // PERMISSION
     let toasts = $$(".modal-toasts")[0];
 
+    //VALIDATION
     Validation({
         form: "#Client",
         selectorError: ".form-message",
@@ -69,12 +69,11 @@ window.onload = function (e) {
         ]
     });
 
+    // AUTO CALL TO PAGE UPDATE
     if (getType() == "update") {
-        // SHOW SECTION PAGE UPDATE
-        CourseWrapper.classList.add("active");
+        ClientRegister.classList.add("active");
         Priture.classList.add("active");
 
-        // CALL API PAGE UPDATE
         (function () {
             httpsService(`API/client/client/${getToken()}`, "GET", null)
                 .then((res) => {
@@ -83,13 +82,11 @@ window.onload = function (e) {
                 .then((res) => {
                     if(res.hasOwnProperty("Client")) {
                         setCourseForm(res.Client);
+                        localStorage.removeItem("client-register");
                         if(res.Client.RegisterCourse.length) {
                             localStorage.setItem("client-register", JSON.stringify(res.Client.RegisterCourse));
-                            // CourseUpload.removeAttribute("disabled");
-                        } else {
-                            localStorage.removeItem("client-register");
                         }
-                        render.clientCourseRegister(CourseContent, res.Client.RegisterCourse);
+                        render.clientCourseRegister(Content, res.Client.RegisterCourse);
                     }
 
                     if(res.hasOwnProperty("Courses")) {
@@ -104,10 +101,11 @@ window.onload = function (e) {
         }());
     }
 
+    // METHOD UPLOAD INFORMATION
     switch (getType()) {
         case "update":
             setTitleForm("update");
-            Upload.addEventListener("change", uploadThumbnail);
+            UploadThumbnail.addEventListener("change", uploadThumbnail);
             Client.addEventListener("submit", update);
             break;
 
@@ -119,7 +117,6 @@ window.onload = function (e) {
     }
 
     function save(e) {
-        console.log("Save");
         e.preventDefault();
         if (this.valid) {
             let client = getCourseForm();
@@ -163,6 +160,7 @@ window.onload = function (e) {
         }
     }
 
+    // GETTER - SETTER INFORMATION
     function getCourseForm() {
         let data = {
             Code: Code.value,
@@ -199,6 +197,8 @@ window.onload = function (e) {
         }
     }
 
+
+    // UPLOAD PRITURE
     function uploadThumbnail() {
         let form = new FormData();
         form.append("thumbnail", this?.files[0]);
@@ -228,85 +228,92 @@ window.onload = function (e) {
         })
     }
 
-    /**
-     * 
-     * Update course register
-     */
-
+    // UPLOAD COURSE REGISTER
     if(getType() === "update") {
         Course.addEventListener("change", function(e) {
             if(this.value !== "default") {
-                CourseRegister.removeAttribute("disabled", false);
+                Register.removeAttribute("disabled");
 
             } else {
-                CourseRegister.setAttribute("disabled", false);
+                Register.setAttribute("disabled", true);
             }
         })
 
-        CourseRegister.addEventListener("click", function(e) {
+        Register.addEventListener("click", function(e) {
             let Courses = JSON.parse(localStorage.getItem("Courses"));
-            let register = [];
+            let temporary = [];
 
-            if(localStorage.getItem("register")) {
-                CourseUpload.removeAttribute("disabled");
-                register = JSON.parse(localStorage.getItem("register"));
+            if(localStorage.getItem("client-register")) {
+                UploadRegister.removeAttribute("disabled");
+                temporary = JSON.parse(localStorage.getItem("client-register"));
 
-                if(register.some((e) => e?._id === Course.value)) {
-                    alert("Khóa học đã đăng ký");
+                Courses.forEach((e) => {
+                    if(e?._id === Course.value) {
+                        if(!temporary.some(item => item?._id ==  Course.value)) {
+                            temporary?.push(e);
 
-                } else {
-                    Courses.forEach((e) => {
-                        if(e?._id === Course.value) {
-                            register?.push(e);
+                        } else {
+                            alert("Khóa học đã đăng ký");
                         }
-                    })
-                    render.clientCourseRegister(CourseContent, register);
-                    localStorage.setItem("register", JSON.stringify(register));
-                }
+                    }
+                })
+                localStorage.setItem("client-register", JSON.stringify(temporary));
+                render.clientCourseRegister(Content, temporary);
 
             } else {
                 if(localStorage.getItem("client-register")) {
-                    Courses = JSON.parse(localStorage.getItem("client-register"));
+                    temporary = JSON.parse(localStorage.getItem("client-register"));
                 }
 
                 Courses.forEach((e) => {
                     if(e?._id === Course.value) {
-                        register?.push(e);
+                        if(!temporary.length) {
+                            temporary?.push(e);
+
+                        } else {
+                            if(!temporary.some(item => item?._id ==  Course.value)) {
+                                temporary?.push(e);
+
+                            } else {
+                                alert("Khóa học đã đăng ký");
+                            }
+                        }
                     }
                 })
-                render.clientCourseRegister(CourseContent, register);
-                localStorage.setItem("register", JSON.stringify(register));
-                CourseUpload.removeAttribute("disabled");
+
+                render.clientCourseRegister(Content, temporary);
+                localStorage.setItem("client-register", JSON.stringify(temporary));
+                UploadRegister.removeAttribute("disabled");
             }
         })
 
-        CourseUpload.addEventListener("click", function(e) {
-            if(localStorage.getItem("register")) {
-                let client = {};
-                client.register = JSON.parse(localStorage.getItem("register"));
-                client.Type = "Register-course";
-                client.id = getToken();
+        UploadRegister.addEventListener("click", function(e) {
+            if(localStorage.getItem("client-register")) {
+                let body = {};
+                body.register = JSON.parse(localStorage.getItem("client-register"));
+                body.Type = "Register-course";
+                body.id = getToken();
 
-                httpsService("API/client/client-courses", "PUT", client)
+                httpsService("API/client/client-courses", "PUT", body)
                 .then((res) => {
                     return res.json();
                 })
                 .then((data) => {
                     if(data.status) {
-                        localStorage.removeItem("register");
+                        window.location.reload();
                     }
                     
-                })
-                .then(() => {
-                    window.location.reload();
                 })
                 .catch((err) => {
                     throw err;
                 })
+            } else {
+                alert("Upload không thành công");
             }
         })
     }
 
+    // SETTER TITLE FORM
     function setTitleForm(type) {
         let title = $$(".page-detail--title")[0];
         let subButton = $$(".btn-executed")[0];
