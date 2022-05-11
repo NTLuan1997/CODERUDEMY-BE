@@ -206,23 +206,22 @@ form {
     box-shadow: 0 0 2px #00000030;
     margin-top: 15px;
     padding: 15px;
-    .page-detail--information{
+    .page-detail--information {
         display: flex;
         align-items: flex-start;
-        // justify-content: space-between;
-        .thumbnail-priture {
+        .priture {
             display: none;
             margin-left: auto;
             margin-right: 0px;
             position: relative;
-            .priture {
+            .thumbnail {
                 border-radius: 2px;
                 box-shadow: 0 0 2px #00000030;
                 height: 100px;
                 padding: 3px;
                 width: 100px;
             }
-            .client-thumbnail {
+            .upload-thumbnail {
                 bottom: 0px;
                 display: inline-block;
                 left:0px;
@@ -273,13 +272,11 @@ form {
             }
         }
     }
-    .page-detail--course-register-now {
-        box-shadow: 0 0 2px #00000030;
-        padding: 15px;
-    }
-    .page-detail--course-register {
-        box-shadow: 0 0 2px #00000030;
-        padding: 15px;
+    .page-detail-register {
+        .page-detail-register__content {
+            box-shadow: 0 0 2px #00000030;
+            padding: 15px;
+        }
     }
     .btn-executed {
         background-color: #f28d0f;
@@ -287,7 +284,7 @@ form {
     }
 }
 
-.page-detail-course-register{
+.client-course-register {
     display: none;
     &.active {
         display: block;

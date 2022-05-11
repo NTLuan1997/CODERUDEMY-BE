@@ -18,15 +18,17 @@
             </ul>
         </div>
         <div class="page-detail">
+            {{!-- PRICTURE --}}
             <div class="page-detail--information">
                 <div class="page-detail--roll-back"><i class="fa fa-angle-double-left" aria-hidden="true"></i></div>
                 <h2 class="page-detail--title">Thông tin khóa học</h2>
-                <div class="thumbnail-priture" id="wrapper-priture">
-                    <img class="priture" id="image-priture" src="/static/img/thumbnail_default.jpg" alt="thmbnail"/>
-                    <input type="file" class="client-thumbnail" id="upload-priture"/>
+                <div class="priture" id="priture">
+                    <img class="thumbnail" id="thumbnail" src="/static/img/thumbnail_default.jpg" alt="thumbnail"/>
+                    <input type="file" class="upload-thumbnail" id="upload-thumbnail"/>
                 </div>
             </div>
 
+            {{!-- INFORMATION --}}
             <form class="page-detail-form" id="Client">
                 <div class="row">
                     <div class="col-6">
@@ -91,11 +93,10 @@
             </form>
         </div>
 
-        <div class="page-detail page-detail-course-register mb-5 mt-4" id="Course-wrapper">
-            <div class="page-detail--information">
-                <h2 class="page-detail--title">Khóa học đăng ký 01</h2>
-            </div>
-            <div class="course-infor">
+        {{!-- COURSE REGISTER --}}
+        <div class="page-detail client-course-register mb-5 mt-4" id="page-detail-client-register">
+            <div class="page-detail--information"><h2 class="page-detail--title">Khóa học đăng ký</h2></div>
+            <div class="page-detail-register">
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
@@ -107,7 +108,7 @@
                     <div class="col-6">
                         <label class="form-group--label" for="Method">Chức năng</label>
                         <div class="form-group">
-                            <button type="button" class="btn-executed btn" id="Course-register" disabled="true">Thêm khóa học</button>
+                            <button type="button" class="btn-executed btn" id="register" disabled="true">Thêm khóa học</button>
                             <button type="button" class="btn-executed btn" disabled="true">Xóa khóa học</button>
                         </div>
                     </div>
@@ -116,10 +117,10 @@
                         <div>
                             <label class="form-group--label" for="Gender">Các khóa vừa đăng ký đăng ký</label>
                         </div>
-                        <div class="page-detail--course-register-now" id="course-content"></div>
+                        <div class="page-detail-register__content" id="register-content"></div>
                     </div>
                 </div>
-                <div class="mt-4"><button type="submit" class="btn-executed btn" id="upload-course-register" disabled="true">Cập nhật khóa học</button></div>
+                <div class="mt-4"><button type="submit" class="btn-executed btn" id="upload-register" disabled="true">Cập nhật khóa học</button></div>
             </div>
         </div>
     </div>
