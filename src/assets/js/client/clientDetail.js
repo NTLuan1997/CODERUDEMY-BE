@@ -23,9 +23,10 @@ window.onload = function (e) {
     let Password = $("#Password");
     
     // PRITURE
-    let WrapperPriture = $("#wrapper-priture");
-    let UploadThumbnail = $("#upload-thumbnail");
+    // let ThumbnailRes = "";
+    let ThumbnailUpload = $("#upload-thumbnail");
     let Thumbnail = $("#thumbnail");
+    let WrapperPriture = $("#wrapper-priture");
 
 
     // COURSE REGISTER
@@ -86,6 +87,8 @@ window.onload = function (e) {
                 })
                 .then((res) => {
                     if(res.hasOwnProperty("Client")) {
+                        console.log(res.Client);
+
                         setCourseForm(res.Client);
                         localStorage.removeItem("client-register");
                         if(res.Client.RegisterCourse.length) {
@@ -138,7 +141,7 @@ window.onload = function (e) {
     switch (getType()) {
         case "update":
             setTitleForm("update");
-            UploadThumbnail.addEventListener("change", uploadThumbnail);
+            ThumbnailUpload.addEventListener("change", pritureUpload);
             Client.addEventListener("submit", update);
             break;
 
@@ -209,7 +212,7 @@ window.onload = function (e) {
     }
 
     function setCourseForm(client) {
-        Thumbnail.setAttribute("src", (client.Thumbnail)? `${environment.upload.server}/${client.Thumbnail}`: "/static/img/thumbnail_default.jpg");
+        Thumbnail.setAttribute("src", (client.Thumbnail)? `${environment.priture.client.url}/${client.Thumbnail}`: "/static/img/thumbnail_default.jpg");
         Object.assign(environment.client, client);
         setForm(client);
     }
@@ -232,8 +235,8 @@ window.onload = function (e) {
 
 
     // UPLOAD PRITURE
-    function uploadThumbnail() {
-        priture.clientThumbnail(this?.files[0])
+    function pritureUpload() {
+        priture.clientThumbnail(this?.files[0], (environment.client?.Thumbnail)? environment.client?.Thumbnail : null)
         .then((res) => {
             if(res.status){
                 let body = {
