@@ -1,12 +1,13 @@
 import {getType, getToken, permission, convertDate} from "../commons/common.js";
 import {environment} from "../config/environment.js";
-import {upload} from "../commons/upload.js";
 import {Validation} from "../commons/validation.js";
 import {httpsService} from "../commons/httpService.js";
+import {Priture} from "../commons/priture.js";
 import {Render} from "../commons/render.js";
 
 window.onload = function (e) {
     const render = new Render();
+    const priture = new Priture();
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
 
@@ -22,7 +23,7 @@ window.onload = function (e) {
     let Password = $("#Password");
     
     // PRITURE
-    let Priture = $("#priture");
+    let WrapperPriture = $("#wrapper-priture");
     let UploadThumbnail = $("#upload-thumbnail");
     let Thumbnail = $("#thumbnail");
 
@@ -38,6 +39,7 @@ window.onload = function (e) {
     let CourseItems = null;
 
     // PERMISSION
+    let rollBack = $("#roll-back");
     let toasts = $$(".modal-toasts")[0];
 
     //VALIDATION
@@ -75,7 +77,7 @@ window.onload = function (e) {
     // AUTO CALL TO PAGE UPDATE
     if (getType() == "update") {
         ClientRegister.classList.add("active");
-        Priture.classList.add("active");
+        WrapperPriture.classList.add("active");
 
         (function () {
             httpsService(`API/client/client/${getToken()}`, "GET", null)
@@ -96,7 +98,6 @@ window.onload = function (e) {
                     if(res.hasOwnProperty("Courses")) {
                         localStorage.setItem("Courses", JSON.stringify(res.Courses));
                         render.option(Course, res.Courses);
-
                     }
                 })
                 .then(() => {
@@ -106,7 +107,6 @@ window.onload = function (e) {
                         
                         for(let item = 0; item < CourseItems.length; item++) {
                             CourseItems[item].addEventListener("change", function(checkbox) {
-                                let status = false;
                                 if(checkbox.target.checked) {
                                     UnRegister.removeAttribute("disabled");
 
@@ -233,11 +233,7 @@ window.onload = function (e) {
 
     // UPLOAD PRITURE
     function uploadThumbnail() {
-        let form = new FormData();
-        form.append("thumbnail", this?.files[0]);
-        form.append("Type", "Client");
-
-        upload(form)
+        priture.clientThumbnail(this?.files[0])
         .then((res) => {
             if(res.status){
                 let body = {
@@ -313,19 +309,14 @@ window.onload = function (e) {
                         }
                     }
                 })
-
                 render.clientCourseRegister(Content, temporary);
                 localStorage.setItem("client-register", JSON.stringify(temporary));
                 UploadRegister.removeAttribute("disabled");
             }
-        })
+            Register.setAttribute("disabled", true);
+            CourseItems = $$("input[name='course-items']");
+            toggleRegister(CourseItems);
 
-        UploadRegister.addEventListener("click", function(e) {
-            if(localStorage.getItem("client-register")) {
-                uploadCourseRegister();
-            } else {
-                alert("Upload không thành công");
-            }
         })
 
         CourseAll.addEventListener("change", function(e) {
@@ -366,6 +357,34 @@ window.onload = function (e) {
             render.clientCourseRegister(Content, JSON.parse(localStorage.getItem("client-register")));
         })
 
+        function toggleRegister(CourseItems) {
+            if(CourseItems.length) {
+                let converCourseItem = new Array();
+                CourseItems.forEach((e) => converCourseItem.push(e));
+                
+                for(let item = 0; item < CourseItems.length; item++) {
+                    CourseItems[item].addEventListener("change", function(checkbox) {
+                        if(checkbox.target.checked) {
+                            UnRegister.removeAttribute("disabled");
+
+                        } else {
+                            if(converCourseItem.every((item) => item.checked == false)) {
+                                UnRegister.setAttribute("disabled", false);
+                            }
+
+                            if(converCourseItem.some((item) => item.checked == false)) {
+                                CourseAll.checked = false;
+                            }
+                        }
+
+                        if(converCourseItem.every((item) => item.checked == true)) {
+                            CourseAll.checked = true;
+                        }
+                    })
+                }
+            }
+        }
+
         function uploadCourseRegister() {
             let body = {};
             body.register = JSON.parse(localStorage.getItem("client-register"));
@@ -385,6 +404,14 @@ window.onload = function (e) {
                 throw err;
             })
         }
+
+        UploadRegister.addEventListener("click", function(e) {
+            if(localStorage.getItem("client-register")) {
+                uploadCourseRegister();
+            } else {
+                alert("Upload không thành công");
+            }
+        })
     }
 
     // SETTER TITLE FORM
@@ -401,7 +428,7 @@ window.onload = function (e) {
         }
     }
 
-    // $("#come-back").addEventListener("click", function (e) {
-    //     window.history.back();
-    // })
+    rollBack.addEventListener("click", function (e) {
+        window.history.back();
+    })
 }
