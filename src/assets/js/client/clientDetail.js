@@ -101,15 +101,12 @@ window.onload = function (e) {
                 })
                 .then(() => {
                     if(CourseItems.length) {
-                        // CourseItems
                         let converCourseItem = new Array();
-                        // converCourseItem = CourseItems;
                         CourseItems.forEach((e) => converCourseItem.push(e));
                         
                         for(let item = 0; item < CourseItems.length; item++) {
                             CourseItems[item].addEventListener("change", function(checkbox) {
                                 let status = false;
-                                // console.log(checkbox);
                                 if(checkbox.target.checked) {
                                     UnRegister.removeAttribute("disabled");
 
@@ -325,24 +322,7 @@ window.onload = function (e) {
 
         UploadRegister.addEventListener("click", function(e) {
             if(localStorage.getItem("client-register")) {
-                let body = {};
-                body.register = JSON.parse(localStorage.getItem("client-register"));
-                body.Type = "Register-course";
-                body.id = getToken();
-
-                httpsService("API/client/client-courses", "PUT", body)
-                .then((res) => {
-                    return res.json();
-                })
-                .then((data) => {
-                    if(data.status) {
-                        window.location.reload();
-                    }
-                    
-                })
-                .catch((err) => {
-                    throw err;
-                })
+                uploadCourseRegister();
             } else {
                 alert("Upload không thành công");
             }
@@ -360,6 +340,51 @@ window.onload = function (e) {
                 e.checked = _this.checked;
             })
         })
+
+        UnRegister.addEventListener("click", function(e) {
+            let team = [];
+            let clientCourseRegisters = JSON.parse(localStorage.getItem("client-register"));
+
+            if(CourseAll.checked) {
+                localStorage.setItem("client-register", JSON.stringify([]));
+                UploadRegister.removeAttribute("disabled");
+
+            } else {
+                CourseItems.forEach((e, index) => {
+                    if(e.checked) {
+                        team = clientCourseRegisters.reduce((accument, currentValue) => {
+                            if(currentValue._id !== e.value) {
+                                return accument.concat(currentValue);
+                            }
+                            return accument;
+                        }, [])
+                        localStorage.setItem("client-register", JSON.stringify(team));
+                    }
+                })
+                UploadRegister.removeAttribute("disabled");
+            }
+            render.clientCourseRegister(Content, JSON.parse(localStorage.getItem("client-register")));
+        })
+
+        function uploadCourseRegister() {
+            let body = {};
+            body.register = JSON.parse(localStorage.getItem("client-register"));
+            body.Type = "Register-course";
+            body.id = getToken();
+
+            httpsService("API/client/client-courses", "PUT", body)
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                if(data.status) {
+                    window.location.reload();
+                }
+            })
+            .catch((err) => {
+                throw err;
+            })
+        }
     }
 
     // SETTER TITLE FORM
