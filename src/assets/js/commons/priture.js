@@ -4,7 +4,7 @@ export class Priture {
 
     constrcutor() {}
 
-    clientThumbnail(file, oldPriture) {
+    clientThumbnail(url, file, oldPriture) {
         if(oldPriture) {
             this.form.append("Priture", oldPriture);
         }
@@ -14,7 +14,7 @@ export class Priture {
         let _this = this;
 
         return new Promise(function(resolve, reject) {
-            fetch(environment.priture.client.url, {
+            fetch(url, {
                 "method": "post",
                 "body": _this.form
             })

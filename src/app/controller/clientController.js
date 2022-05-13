@@ -14,11 +14,6 @@ class ClientController {
     }
 
     // API
-    CourseRegister(req, res) {
-        console.log(req.body);
-        res.status(200).json({status: true, message: "Cập nhật thành công"});
-    }
-    
     getCourse(req, res) {
         res.status(200).json({ status: true, "course": req.course });
     }
