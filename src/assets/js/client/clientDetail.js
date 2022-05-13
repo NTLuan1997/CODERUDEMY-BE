@@ -24,6 +24,7 @@ window.onload = function (e) {
     
     // PRITURE
     // let ThumbnailRes = "";
+    let Url = environment.priture.client.url;
     let ThumbnailUpload = $("#upload-thumbnail");
     let Thumbnail = $("#thumbnail");
     let WrapperPriture = $("#wrapper-priture");
@@ -236,7 +237,7 @@ window.onload = function (e) {
 
     // UPLOAD PRITURE
     function pritureUpload() {
-        priture.clientThumbnail(this?.files[0], (environment.client?.Thumbnail)? environment.client?.Thumbnail : null)
+        priture.clientThumbnail(Url, this?.files[0], (environment.client?.Thumbnail)? environment.client?.Thumbnail : null)
         .then((res) => {
             if(res.status){
                 let body = {

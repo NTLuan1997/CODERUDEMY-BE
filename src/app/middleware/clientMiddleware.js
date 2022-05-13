@@ -12,7 +12,8 @@ const Client = {
     Gender: String,
     DateOfBirth: Date,
     Phone: String,
-    Address: String
+    Address: String,
+    Thumbnail: String
 };
 
 function courseDetail(req, res, next) {
@@ -70,6 +71,15 @@ function client(req, res, next) {
 
     if(req.body.Type === "Delete") {
         req.Query = {"_id": {"$eq": new ObjectId(req.body.id)}};
+        next();
+    }
+
+    if(req.body.Type === "Register-account") {
+        delete req.body.Type;
+        Client.Thumbnail = "";
+        req.body.Password = bcrypt.hashSync(req.body.Password, 10);
+        Object.assign(Client, req.body);
+        req.Client = Client;
         next();
     }
 
