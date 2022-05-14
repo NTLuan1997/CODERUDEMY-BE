@@ -20,6 +20,22 @@ class ClientService extends Service {
 
     /**
      * 
+     * Method check Client existing.
+     * @Query find client by email.
+     * @Returns status true - false.
+     */
+    exists(query) {
+        return super.documentQuery((resolve, reject) => {
+            Client.exists(query, (err, doc) => {
+                if (err) reject(err);
+                let status = (doc?._id)? true : false;
+                resolve(status);
+            })
+        })
+    }
+
+    /**
+     * 
      * Method find one Course.
      * @param {*} id condition find single course.
      * @returns One Course document in collection.
@@ -70,7 +86,7 @@ class ClientService extends Service {
      * @param {*} body information new course
      * @returns status after create course
      */
-    newClient(body) {
+    new(body) {
         return super.documentQuery((resolve, reject) => {
             Client.create(body, (err, doc) => {
                 if (err) reject(err);

@@ -164,7 +164,7 @@ window.onload = function (e) {
                         return res.json();
                     })
                     .then((res) => {
-                        res.status ?
+                        res.client.status ?
                             location.href = "/clients" :
                             permission(toasts, res);
                     })

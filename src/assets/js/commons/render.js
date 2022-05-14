@@ -127,7 +127,8 @@ export function renderPagination(wrapperTemplate, pageRequire, totalDocument, en
 }
 
 function renderPaginationAction(pageRequire, endPoint, callBack, condition) {
-    console.log(condition);
+    console.log(endPoint);
+
     let url = `${endPoint}?limit=${pageRequire}&start=Start`;
     if (condition) {
         condition.forEach((e) => {
@@ -135,10 +136,14 @@ function renderPaginationAction(pageRequire, endPoint, callBack, condition) {
         })
     }
 
+    let typePaging = endPoint.split("/").some((point) => point === "manager-client");
+
     $$(".page-items").forEach(function (item) {
         item.addEventListener("click", function (e) {
             let start = pageRequire * (this.dataset.id - 1);
-            httpsService(url.replace("Start", start), "GET", null)
+            if(typePaging) {
+                let body = {limit: `${pageRequire}`, start: start};
+                httpsService(endPoint, "POST", body)
                 .then((res) => {
                     return res.json();
                 })
@@ -148,8 +153,27 @@ function renderPaginationAction(pageRequire, endPoint, callBack, condition) {
                 .catch((err) => {
                     console.log(err);
                 })
+
+            } else {
+                httpsService(url.replace("Start", start), "GET", null)
+                .then((res) => {
+                    return res.json();
+                })
+                .then((data) => {
+                    callBack(data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+            }
         })
     })
+
+    // if(breakPage) {
+    //     console.log("Phan trang chua hoang thien");
+
+    // } else {
+    // }
 }
 
 export class Render {

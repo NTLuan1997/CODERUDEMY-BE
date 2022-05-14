@@ -1,5 +1,6 @@
 const clientService = require("../services/clientService");
 const courseService = require("../services/courseService");
+const jwt = require("../utils/jwt");
 class ClientController {
 
     constructor() { }
@@ -61,9 +62,17 @@ class ClientController {
     }
 
     Save(req, res) {
-        clientService.newClient(req.Client)
+        clientService.new(req.Client)
         .then((data) => {
-            res.status(200).json(data);
+            if(data.status) {
+                return data;
+
+            } else {
+                res.status(405).json({status: false, message: 'Create account failed'});
+            }
+        })
+        .then((data) => {
+            res.status(200).json({client: data, token: jwt.generation(data.doc._id)});
         })
         .catch((err) => {
             return res.status(405).json({status: err, message: 'Method failed'});
