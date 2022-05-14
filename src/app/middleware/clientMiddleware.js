@@ -1,19 +1,19 @@
 const ObjectId = require("mongodb").ObjectId;
 const unitService = require('../services/unitService');
-const bcrypt = require('bcrypt');
-const Bcrypt = require("../utils/bcrypt");
+const JWT = require("../utils/jwt");
+const BCRYPT = require("../utils/bcrypt");
 const clientService = require('../services/clientService');
 const lessonService = require('../services/lessonService');
 
 const Client = {
-    Name: String,
-    Email: String,
-    Password: String,
-    Gender: String,
-    DateOfBirth: Date,
-    Phone: String,
-    Address: String,
-    Thumbnail: String
+    Name: "",
+    Email: "",
+    Password: "",
+    Gender: "",
+    DateOfBirth: "",
+    Phone: "",
+    Address: "",
+    Thumbnail: ""
 };
 
 function courseDetail(req, res, next) {
@@ -63,7 +63,7 @@ function client(req, res, next) {
         delete req.body.Code;
         delete req.body.Type;
 
-        req.body.Password = bcrypt.hashSync(req.body.Password, 10);
+        req.body.Password = BCRYPT.hash(req.body.Password, 10);
         Object.assign(Client, req.body);
         req.Client = Client;
         next();
@@ -76,11 +76,23 @@ function client(req, res, next) {
 
     if(req.body.Type === "Register-account") {
         delete req.body.Type;
-        Client.Thumbnail = "";
-        req.body.Password = bcrypt.hashSync(req.body.Password, 10);
-        Object.assign(Client, req.body);
-        req.Client = Client;
-        next();
+        let query = {"Email": {$eq: req.body.Email}};
+
+        clientService.exists(query)
+        .then((status) => {
+            if(status) {
+                return res.status(404).json({status: false, type: "Email_register_already", message: "Account already exist"});
+
+            } else {
+                req.body.Password = BCRYPT.hash(req.body.Password, 10);
+                Object.assign(Client, req.body);
+                req.Client = Client;
+                next();
+            }
+        })
+        .catch((err) => {
+            throw err;
+        })
     }
 
     if(req.body.Type === "Register-course") {
