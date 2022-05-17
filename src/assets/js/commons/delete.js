@@ -21,7 +21,13 @@ export function deleteDocument(element, endPoint) {
 }
 
 function removeDocument(Id, endPoint) {
-    httpsService(endPoint, "DELETE", { "id": Id, "Type": "Delete" })
+    let body = { "id": Id, "Type": "Delete" };
+
+    if(endPoint.split("/").some((e) => e === "client")) {
+        body.Func = "Remove";
+    }
+
+    httpsService(endPoint, "DELETE", body)
         .then((res) => {
             return res.json();
         })

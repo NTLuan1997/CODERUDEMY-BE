@@ -1,13 +1,15 @@
-const clientApi = require('./clientApi');
-const courseApi = require("./courseApi");
-const userApi = require("./userApi");
+const Authen = require("./authen");
+const Client = require('./client');
+const Course = require("./course");
+const User = require("./user");
 
 function routerApiModule(app) {
-    app.use("/API/client", clientApi);
-    app.use("/API/course", courseApi);
-    app.use("/API/unit", courseApi);
-    app.use("/API/lesson", courseApi);
-    app.use("/API/user", userApi);
+    app.use("/API/authen", Authen);
+    app.use("/API/client", Client);
+    app.use("/API/course", Course);
+    app.use("/API/unit", Course);
+    app.use("/API/lesson", Course);
+    app.use("/API/user", User);
 }
 
 module.exports = routerApiModule;

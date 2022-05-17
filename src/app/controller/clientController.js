@@ -61,42 +61,66 @@ class ClientController {
         })
     }
 
-    Save(req, res) {
-        clientService.new(req.Client)
-        .then((data) => {
-            if(data.status) {
-                return data;
+    Functions(req, res) {
+        function Authentication(req, res) {
+            console.log(req?.body);
+            console.log(req?.Test);
+            req.status(200).json({stats: true});
+        }
 
-            } else {
-                res.status(405).json({status: false, message: 'Create account failed'});
-            }
-        })
-        .then((data) => {
-            res.status(200).json({client: data, token: jwt.generation(data.doc._id)});
-        })
-        .catch((err) => {
-            return res.status(405).json({status: err, message: 'Method failed'});
-        })
-    }
+        function Save(req, res) {
+            clientService.new(req.Client)
+            .then((data) => {
+                if(data.status) {
+                    return data;
 
-    Update(req, res) {
-        clientService.update(req.Query, req.Client)
-        .then((data) => {
-            res.status(200).json(data);
-        })
-        .catch((err) => {
-            return res.status(405).json({status: err, message: 'Method failed'});
-        })
-    }
+                } else {
+                    res.status(405).json({status: false, message: 'Create account failed'});
+                }
+            })
+            .then((data) => {
+                res.status(200).json({client: data, token: jwt.generation(data.doc._id)});
+            })
+            .catch((err) => {
+                return res.status(405).json({status: err, message: 'Method failed'});
+            })
+        }
 
-    Delete(req, res) {
-        clientService.delete(req.Query)
-        .then((data) => {
-            res.status(200).json(data);
-        })
-        .catch((err) => {
-            throw err;
-        })
+        function Update(req, res) {
+            clientService.update(req.Query, req.Client)
+            .then((data) => {
+                res.status(200).json(data);
+            })
+            .catch((err) => {
+                return res.status(405).json({status: err, message: 'Method failed'});
+            })
+        }
+
+        function Delete(req, res) {
+            clientService.delete(req.Query)
+            .then((data) => {
+                res.status(200).json(data);
+            })
+            .catch((err) => {
+                throw err;
+            })
+        }
+
+        if(req.Func === "Edit") {
+            Update(req, res);
+        }
+
+        if(req.body.Func === "SignIn") {
+            Authentication(req. res);
+        }
+
+        if(req.Func === "Remove") {
+            Delete(req, res);
+        }
+
+        if(req.Func === "Register") {
+            Save(req, res);
+        }
     }
 }
 
