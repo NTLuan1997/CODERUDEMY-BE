@@ -59,24 +59,22 @@ function client(req, res, next) {
         next();
     }
 
-    if(req.body.Type == 'Create') {
-        delete req.body.Code;
-        delete req.body.Type;
-
-        req.body.Password = BCRYPT.hash(req.body.Password, 10);
-        Object.assign(Client, req.body);
-        req.Client = Client;
-        next();
-    }
-
     if(req.body.Type === "Delete") {
+        req.Func = req.body.Func;
         req.Query = {"_id": {"$eq": new ObjectId(req.body.id)}};
         next();
     }
 
     if(req.body.Type === "Register-account") {
-        delete req.body.Type;
+        if(req.body.hasOwnProperty("Code")) {
+            delete req.body.Code;
+        }
+
         let query = {"Email": {$eq: req.body.Email}};
+        req.Func = req.body.Func;
+
+        delete req.body.Func;
+        delete req.body.Type;
 
         clientService.exists(query)
         .then((status) => {
@@ -103,6 +101,9 @@ function client(req, res, next) {
 
     if(req.body.Type == 'Update') {
         let query = {"_id": {"$eq": new ObjectId(req.body.Code)}};
+        req.Func = req.body.Func;
+
+        delete req.body.Func;
         delete req.body.Type;
         
         clientService.findOneClient(query)

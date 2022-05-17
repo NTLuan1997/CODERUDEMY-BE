@@ -157,7 +157,8 @@ window.onload = function (e) {
         e.preventDefault();
         if (this.valid) {
             let client = getCourseForm();
-            client.Type = 'Create';
+            client.Type = 'Register-account';
+            client.Func = "Register";
             if (client) {
                 httpsService("API/client/client", "POST", client)
                     .then((res) => {
@@ -180,6 +181,7 @@ window.onload = function (e) {
         if (this.valid) {
             let client = getCourseForm();
             client.Type = 'Update';
+            client.Func = "Edit";
             if (client) {
                 httpsService("API/client/client", "PUT", client)
                     .then((res) => {
