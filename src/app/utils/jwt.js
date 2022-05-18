@@ -1,16 +1,13 @@
 const jwt = require("jsonwebtoken");
-
-function generation(token) {
-    return jwt.sign({ "_id": token }, "authentication", { algorithm: "HS256", expiresIn: 3600 });
-}
-
-function verify(token) {
-    return jwt.verify(token, "authentication");
-}
-
 class JWT {
-    
+    generation(token) {
+        return jwt.sign({"token": token}, "authentication", { algorithm: "HS256", expiresIn: 3600});
+    }
+
+    verify(token) {
+        return jwt.verify(token, "authentication");
+    }
 }
 
 
-module.exports = { generation, verify };
+module.exports = new JWT;

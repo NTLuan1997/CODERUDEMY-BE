@@ -14,7 +14,7 @@ class SiteController {
             userService.isUser(query)
                 .then((user) => {
                     if (user) {
-                        res.status(200).json({ status: true, token: jwt.generation(user["_id"]) });
+                        res.status(200).json({ status: true, token: jwt.generation(user._id) });
 
                     } else {
                         res.status(400).json({ status: false, type: "no-found", message: "User not found" });
