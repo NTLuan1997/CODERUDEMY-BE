@@ -2,30 +2,44 @@ const ObjectId = require("mongodb").ObjectId;
 const passport = require('passport');
 const localStrategy = require("passport-local").Strategy;
 const Bcrypt = require("../utils/bcrypt");
+const JWT = require("../utils/jwt");
 const clientService = require("../services/clientService");
 
 passport.use(new localStrategy({
     usernameField: "Email",
-    passwordField: "Password"
+    passwordField: "Password",
+    passReqToCallback: true
 }, verify));
 
-function verify(Email, Password, done) {
+function verify(req, Email, Password, done) {
     let query = {"Email": {"$eq": Email}};
+
+    if(req.body.Type === "Client") {
+        client(query, Password, done);
+    }
+}
+
+function client(query, Password, done) {
         clientService.exists(query)
         .then((result) => {
             if(result?.status) {
-                return result.doc;
+                return result;
+
+            } else {
+                done({status: false, type: "accountUnregister"});
             }
         })
         .then((doc) => {
-            let find = {"_id": {"$eq": doc._id}};
-            return clientService.find(find);
+            let condtion = {"_id": {"$eq": doc.client}};
+            return clientService.find(condtion);
         })
         .then((result) => {
             if(result.length) {
-                result = result[0];
-                if(Bcrypt.compare(Password, result.Password)) {
-                    done(null, result);
+                if(Bcrypt.compare(Password, result[0].Password)) {
+                    done(null, {token: JWT.generation(result[0]._id)});
+
+                } else {
+                    done({status: false, type:"passwordIncorrect"});
                 }
             }
         })
@@ -39,9 +53,10 @@ class Authentication {
     constructor() { }
 
     local(req, res, next) {
-        passport.authenticate("local", function(err, data) {
-            if(err) return res.status(405).json({status: false, message: "Method passport failed"});
-
+        passport.authenticate("local", function(err, token) {
+            if(err) return res.status(405).json(err);
+            res.status(200).json(token);
+            
         })(req, res, next);
     }
 

@@ -27,7 +27,11 @@ class ClientService extends Service {
             return super.documentQuery((resolve, reject) => {
                 Client.exists(query, (err, doc) => {
                     if (err) reject(err);
-                    let client = {status: (doc?._id)? true : false, doc};
+                    console.log(doc);
+                    let client = doc;
+                    if(doc) {
+                        client = {status: (doc?._id)? true : false, client: doc?._id};
+                    }
                     resolve(client);
                 })
             })
