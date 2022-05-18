@@ -20,20 +20,33 @@ class ClientService extends Service {
 
     /**
      * 
-     * Method check Client existing.
-     * @Query find client by email.
-     * @Returns status true - false.
+     * @param {*} query 
+     * @returns 
      */
-    exists(query) {
-        return super.documentQuery((resolve, reject) => {
-            Client.exists(query, (err, doc) => {
-                if (err) reject(err);
-                // let status = (doc?._id)? true : false;
-                console.log(doc);
-                resolve(true);
+        exists(query) {
+            return super.documentQuery((resolve, reject) => {
+                Client.exists(query, (err, doc) => {
+                    if (err) reject(err);
+                    let client = {status: (doc?._id)? true : false, doc};
+                    resolve(client);
+                })
             })
-        })
-    }
+        }
+
+    /**
+     * 
+     * @returns
+     */
+        find(condition) {
+            let query = (condition)? condition : {};
+            return super.documentQuery((resolve, reject) => {
+                Client.find(query).exec((err, doc) => {
+                    if (err) reject(err);
+                    resolve(doc);
+                })
+            })
+        }
+
 
     /**
      * 
@@ -44,20 +57,6 @@ class ClientService extends Service {
     findOneClient(query) {
         return super.documentQuery((resolve, reject) => {
             Client.findOne(query).exec((err, doc) => {
-                if (err) reject(err);
-                resolve(doc);
-            })
-        })
-    }
-
-    /**
-     * 
-     * Method find all Courses.
-     * @returns List all Courses of collection.
-     */
-    findClient() {
-        return super.documentQuery((resolve, reject) => {
-            Client.find({}).exec((err, doc) => {
                 if (err) reject(err);
                 resolve(doc);
             })

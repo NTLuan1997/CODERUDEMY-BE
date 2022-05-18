@@ -3,8 +3,8 @@ const { engine } = require("express-handlebars");
 const session = require("express-session");
 const cookieParser = require('cookie-parser');
 const corsMiddleware = require("./app/middleware/corsMiddleware");
-const routerApiModule = require("./routers/api/routerModule");
-const routerRenderModule = require("./routers/render/routerModule");
+const API = require("./routers/api/router");
+const Render = require("./routers/render/router");
 
 // const morgan = require('morgan');
 const path = require('path');
@@ -75,9 +75,9 @@ app.use(session({
 }));
 
 
-// Router init
-routerRenderModule(app);
-routerApiModule(app);
+//Router
+Render(app);
+API(app);
 
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`, app.settings.env);
