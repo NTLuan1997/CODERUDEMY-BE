@@ -62,12 +62,6 @@ class ClientController {
     }
 
     Functions(req, res) {
-        function Authentication(req, res) {
-            console.log(req?.body);
-            console.log(req?.Test);
-            req.status(200).json({stats: true});
-        }
-
         function Save(req, res) {
             clientService.new(req.Client)
             .then((data) => {
@@ -108,10 +102,6 @@ class ClientController {
 
         if(req.Func === "Edit") {
             Update(req, res);
-        }
-
-        if(req.body.Func === "SignIn") {
-            Authentication(req. res);
         }
 
         if(req.Func === "Remove") {

@@ -3,7 +3,7 @@ const Client = require('./client');
 const Course = require("./course");
 const User = require("./user");
 
-function routerApiModule(app) {
+function router(app) {
     app.use("/API/authen", Authen);
     app.use("/API/client", Client);
     app.use("/API/course", Course);
@@ -12,4 +12,4 @@ function routerApiModule(app) {
     app.use("/API/user", User);
 }
 
-module.exports = routerApiModule;
+module.exports = router;

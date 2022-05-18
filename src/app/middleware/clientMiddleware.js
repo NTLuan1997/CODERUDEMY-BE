@@ -120,7 +120,7 @@ function client(req, res, next) {
 
                 } else {
                     Object.assign(Client, req.body);
-                    Client.Password = Bcrypt.hash(Client.Password);
+                    Client.Password = BCRYPT.hash(Client.Password);
                     req.Client = Client;
 
                 }
