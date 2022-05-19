@@ -4,6 +4,7 @@ const session = require("express-session");
 const cookieParser = require('cookie-parser');
 const corsMiddleware = require("./app/middleware/corsMiddleware");
 const API = require("./routers/api/router");
+const Authentication = require("./app/oauth2/authentication");
 const Render = require("./routers/render/router");
 
 // const morgan = require('morgan');
@@ -78,6 +79,9 @@ app.use(session({
 //Router
 Render(app);
 API(app);
+
+//Authentication
+Authentication.init(app);
 
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`, app.settings.env);

@@ -162,4 +162,12 @@
                         4 * (3 - 1) = 8;        => Select * from <name_table> limit 8,4;
                         ....
         
+
+    Xác thực người dùng: PASSPORTJS
+        - có 5 chức năng chính:
+            + initialize();         => dùng để khởi tạo passport.
+            + session();            => dùng để khởi tạo passport.
+            + authenticate();       => chứng thực người dùng.
+            + serializeUser();      => Sau khi chứng thực thành công hàm sẽ được gọi ghi giá trị vào cookies.
+            + deserializeUser();    => Trong lần đăng nhập sau thì hàm được gọi và lấy infor từ đây.
 -->

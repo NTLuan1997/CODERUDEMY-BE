@@ -48,9 +48,18 @@ function client(query, Password, done) {
         })
 }
 
+passport.serializeUser((result, done) => { });
+passport.deserializeUser((result, done) => { });
+
+
 class Authentication {
 
     constructor() { }
+
+    init(app) {
+        app.use(passport.initialize());
+        app.use(passport.session());
+    }
 
     local(req, res, next) {
         passport.authenticate("local", function(err, token) {
