@@ -62,55 +62,56 @@ class ClientController {
     }
 
     Functions(req, res) {
-        function Save(req, res) {
-            clientService.new(req.Client)
-            .then((data) => {
-                if(data.status) {
-                    return data;
+        res.status(200).json({status: true, message: "Check"});
+        // function Save(req, res) {
+        //     clientService.new(req.Client)
+        //     .then((data) => {
+        //         if(data.status) {
+        //             return data;
 
-                } else {
-                    res.status(405).json({status: false, message: 'Create account failed'});
-                }
-            })
-            .then((data) => {
-                res.status(200).json({client: data, token: jwt.generation(data.doc._id)});
-            })
-            .catch((err) => {
-                return res.status(405).json({status: err, message: 'Method failed'});
-            })
-        }
+        //         } else {
+        //             res.status(405).json({status: false, message: 'Create account failed'});
+        //         }
+        //     })
+        //     .then((data) => {
+        //         res.status(200).json({client: data, token: jwt.generation(data.doc._id)});
+        //     })
+        //     .catch((err) => {
+        //         return res.status(405).json({status: err, message: 'Method failed'});
+        //     })
+        // }
 
-        function Update(req, res) {
-            clientService.update(req.Query, req.Client)
-            .then((data) => {
-                res.status(200).json(data);
-            })
-            .catch((err) => {
-                return res.status(405).json({status: err, message: 'Method failed'});
-            })
-        }
+        // function Update(req, res) {
+        //     clientService.update(req.Query, req.Client)
+        //     .then((data) => {
+        //         res.status(200).json(data);
+        //     })
+        //     .catch((err) => {
+        //         return res.status(405).json({status: err, message: 'Method failed'});
+        //     })
+        // }
 
-        function Delete(req, res) {
-            clientService.delete(req.Query)
-            .then((data) => {
-                res.status(200).json(data);
-            })
-            .catch((err) => {
-                throw err;
-            })
-        }
+        // function Delete(req, res) {
+        //     clientService.delete(req.Query)
+        //     .then((data) => {
+        //         res.status(200).json(data);
+        //     })
+        //     .catch((err) => {
+        //         throw err;
+        //     })
+        // }
 
-        if(req.Func === "Edit") {
-            Update(req, res);
-        }
+        // if(req.Func === "Edit") {
+        //     Update(req, res);
+        // }
 
-        if(req.Func === "Remove") {
-            Delete(req, res);
-        }
+        // if(req.Func === "Remove") {
+        //     Delete(req, res);
+        // }
 
-        if(req.Func === "Register") {
-            Save(req, res);
-        }
+        // if(req.Func === "Register") {
+        //     Save(req, res);
+        // }
     }
 }
 

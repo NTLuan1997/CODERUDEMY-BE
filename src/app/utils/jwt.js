@@ -7,6 +7,10 @@ class JWT {
     verify(token) {
         return jwt.verify(token, "authentication");
     }
+
+    decoded(token) {
+        return jwt.decode(token, {complete: true});
+    }
 }
 
 
