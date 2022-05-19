@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 class JWT {
     generation(token) {
-        return jwt.sign({"token": token}, "authentication", { algorithm: "HS256", expiresIn: 3600});
+        return jwt.sign({"token": token}, "authentication", { algorithm: "HS256", expiresIn: ((60*60) * 24)});
     }
 
     verify(token) {

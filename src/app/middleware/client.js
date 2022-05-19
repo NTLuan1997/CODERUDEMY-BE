@@ -44,8 +44,7 @@ class Client {
         next();
     }
 
-    find(model, req, res, next) {
-        console.log(model);
+    find(req, res, next) {
         req.type = "Find";
         next();
     }
