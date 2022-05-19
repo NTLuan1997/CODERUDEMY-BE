@@ -23,9 +23,9 @@ class ClientService extends Service {
      * @param {*} query 
      * @returns 
      */
-        exists(query) {
+        exists(condition) {
             return super.documentQuery((resolve, reject) => {
-                Client.exists(query, (err, doc) => {
+                Client.exists(condition, (err, doc) => {
                     if (err) reject(err);
                     let client = doc;
                     if(doc) {
