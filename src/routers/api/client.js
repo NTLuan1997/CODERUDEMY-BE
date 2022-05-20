@@ -10,7 +10,7 @@ router.post('/client', middleware.client, controller.functions);
 // router.post('/manager-client', clientController.managerClient);
 // router.put('/client-courses', middleware.client, clientController.Update);
 // router.put('/client-thumbnail', middleware.client, clientController.Update);
-// router.put('/client',  middleware.client, clientController.Functions);
+router.put('/client',  middleware.client, controller.functions);
 // router.delete('/client', middleware.client, clientController.Functions);
 
 module.exports = router;
