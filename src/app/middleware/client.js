@@ -27,7 +27,7 @@ class Client {
     edit(model, req, res, next) {
         if(model?.token) {
             let clientId = JWT.decoded(model.token).payload._id;
-            this.condition = {"_id": {"$eq": new ObjectId(clientId)}}
+            this.condition = {"_id": {"$eq": new ObjectId(clientId)}};
         }
 
         if(model.Func === "Information") {
@@ -41,11 +41,6 @@ class Client {
         if(model.Func === "Thumbnail") { }
 
         if(model.Func === "RegisterCourse") { }
-        next();
-    }
-
-    find(req, res, next) {
-        req.type = "Find";
         next();
     }
 }

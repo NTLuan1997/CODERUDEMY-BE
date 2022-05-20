@@ -15,7 +15,7 @@ class Middleware {
                     Client.edit(req.body, req, res, next);
                 }
 
-                if(req.method === "GET") { 
+                if(req.method === "GET") {
                     req.type = "Find";
                     req.condition = {"_id": {"$eq": new ObjectId(JWT.decoded(token).payload.token)}};
                 }

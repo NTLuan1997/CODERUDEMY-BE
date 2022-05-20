@@ -8,7 +8,6 @@ class Client {
             clientService.find(req.condition)
             .then((result) => {
                 res.status(200).json(result);
-
             })
             .catch((err) => {
                 throw err;
