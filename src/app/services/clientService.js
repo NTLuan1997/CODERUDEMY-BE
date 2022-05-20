@@ -50,6 +50,15 @@ class ClientService extends Service {
             })
         }
 
+        update(condition, body) {
+            return super.documentQuery((resolve, reject) => {
+                Client.updateOne(condition, body, (err, doc) => {
+                    if(err) reject(err);
+                    resolve({status: true, message: "update done", doc});
+                })
+            })
+        }
+
 
     /**
      * 
@@ -105,14 +114,14 @@ class ClientService extends Service {
      * @param {*} body information update course 
      * @returns status after update course
      */
-    update(query, body) {
-        return super.documentQuery((resolve, reject) => {
-            Client.updateOne(query, body, { upsert: true }).exec((err, doc) => {
-                if (err) reject(err);
-                resolve({ status: true, message: "Update done" });
-            })
-        })
-    }
+    // update(condition, body) {
+    //     return super.documentQuery((resolve, reject) => {
+    //         Client.updateOne(condition, body, { upsert: true }).exec((err, doc) => {
+    //             if (err) reject(err);
+    //             resolve({ status: true, message: "Update done" });
+    //         })
+    //     })
+    // }
 
     /**
      * 

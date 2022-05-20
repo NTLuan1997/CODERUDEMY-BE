@@ -4,7 +4,6 @@ const JWT = require("../utils/jwt");
 const Obj = {
     Name: "",
     Email: "",
-    Password: "",
     Gender: "",
     DateOfBirth: "",
     Phone: "",
@@ -25,17 +24,11 @@ class Client {
     constructor() { }
 
     edit(model, req, res, next) {
-        if(model?.token) {
-            let clientId = JWT.decoded(model.token).payload._id;
-            this.condition = {"_id": {"$eq": new ObjectId(clientId)}};
-        }
 
         if(model.Func === "Information") {
             delete model.Func;
-            Object.assign(Obj, model);
-            req.client = Obj;
-            req.condition = this.condition;
             req.type = "Edit";
+            req.client = model;
         }
 
         if(model.Func === "Thumbnail") { }
