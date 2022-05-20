@@ -4,6 +4,7 @@ class Client {
     constructor() { }
 
     functions(req, res) {
+
         function find() {
             clientService.find(req.condition)
             .then((result) => {
@@ -19,12 +20,14 @@ class Client {
             .then((result) => {
                 res.status(200).json(result);
             })
-            .cacth((err) => {
+            .catch((err) => {
                 throw err;
             })
         }
 
-        if(req.type === "Edit") { edit() }
+        if(req.type === "Edit") { 
+            edit();
+        }
 
         if(req.type === "Find") { find() }
     }

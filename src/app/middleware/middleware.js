@@ -12,14 +12,15 @@ class Middleware {
             if(JWT.verify(token)) {
                 if(req.body.Type === "Edit") {
                     delete req.body.Type;
+                    req.condition = {"_id": {"$eq": new ObjectId(JWT.decoded(token).payload.token)}};
                     Client.edit(req.body, req, res, next);
                 }
 
                 if(req.method === "GET") {
                     req.type = "Find";
                     req.condition = {"_id": {"$eq": new ObjectId(JWT.decoded(token).payload.token)}};
+                    next();
                 }
-                next();
 
             } else {
                 res.status(401).json({status: false, type:"authorizedExperience"});
