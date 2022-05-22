@@ -1,22 +1,28 @@
 const ObjectId = require("mongodb").ObjectId;
 const JWT = require("../utils/jwt");
+const BCRYPT = require("../utils/bcrypt");
 
-const Obj = {
+const client = {
     Name: "",
     Email: "",
     Gender: "",
     DateOfBirth: "",
     Phone: "",
+    Password: "",
     Address: ""
 };
 
-const Thumbnail = {
-    Thumbnail: ""
-}
+// const Password = {
+//     Password: ""
+// }
 
-const RegisterCourse = {
-    RegisterCourse: []
-}
+// const Thumbnail = {
+//     Thumbnail: ""
+// }
+
+// const RegisterCourse = {
+//     RegisterCourse: []
+// }
 
 class Client {
     condition;
@@ -24,16 +30,26 @@ class Client {
     constructor() { }
 
     edit(model, req, res, next) {
+        req.type = "Edit";
 
         if(model.Func === "Information") {
             delete model.Func;
-            req.type = "Edit";
             req.client = model;
         }
 
-        if(model.Func === "Thumbnail") { }
+        if(model.Func === "Password") {
+            delete model.Func;
+            req.client = { Password: BCRYPT.hash(model.Password) };
+        }
 
-        if(model.Func === "RegisterCourse") { }
+        if(model.Func === "Thumbnail") { }
+        next();
+    }
+
+    register(model, req, res, next) {
+        Object.assign(client, model);
+        client.Password = BCRYPT.hash(model.Password);
+        req.client = client;
         next();
     }
 }
