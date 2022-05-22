@@ -36,16 +36,21 @@ class ClientService extends Service {
             })
         }
 
-    /**
-     * 
-     * @returns
-     */
         find(condition) {
             let query = (condition)? condition : {};
             return super.documentQuery((resolve, reject) => {
                 Client.find(query).exec((err, doc) => {
                     if (err) reject(err);
                     resolve(doc);
+                })
+            })
+        }
+
+        save(body) {
+            return super.documentQuery((resolve, reject) => {
+                Client.create(body, (err, doc) => {
+                    if (err) reject(err);
+                    resolve({ status: true, doc });
                 })
             })
         }
@@ -90,38 +95,6 @@ class ClientService extends Service {
             })
         }), this.countClient()]);
     }
-
-
-    /**
-     * 
-     * Method create course.
-     * @param {*} body information new course
-     * @returns status after create course
-     */
-    new(body) {
-        return super.documentQuery((resolve, reject) => {
-            Client.create(body, (err, doc) => {
-                if (err) reject(err);
-                resolve({ status: true, message: "Create done", doc });
-            })
-        })
-    }
-
-    /**
-     * 
-     * Method update course.
-     * @param {*} query condition find course when update
-     * @param {*} body information update course 
-     * @returns status after update course
-     */
-    // update(condition, body) {
-    //     return super.documentQuery((resolve, reject) => {
-    //         Client.updateOne(condition, body, { upsert: true }).exec((err, doc) => {
-    //             if (err) reject(err);
-    //             resolve({ status: true, message: "Update done" });
-    //         })
-    //     })
-    // }
 
     /**
      * 
