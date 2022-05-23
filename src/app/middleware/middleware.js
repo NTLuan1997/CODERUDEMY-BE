@@ -36,12 +36,25 @@ class Middleware {
             } else {
                 res.status(401).json({status: false, type:"authorizedExperience"});
             }
+
         } else {
             if(req.body.Type === "Register") {
-                req.type = "Register";
-                delete req.body.Type;
-                delete req.body.Func;
-                Client.register(req.body, req, res, next);
+                let condition = {"Email": {"$eq": req.body.Email}};
+                clientService.exists(condition)
+                .then((result) => {
+                    if(result?.status) {
+                        return res.status(404).json({status: false, type: "emailRegisterAlready"});
+
+                    } else {
+                        req.type = "Register";
+                        delete req.body.Type;
+                        delete req.body.Func;
+                        Client.register(req.body, req, res, next);
+                    }
+                })
+                .catch((err) => {
+                    throw err;
+                })
             }
         }
     }
