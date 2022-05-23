@@ -26,7 +26,7 @@ class Middleware {
                         }
 
                     } else {
-                        res.status(401).json({status: false, type:"authorizedInconrrect"});
+                        return res.status(401).json({status: false, type:"authorizedInconrrect"});
                     }
                 })
                 .catch((err) => {
@@ -34,7 +34,7 @@ class Middleware {
                 })
 
             } else {
-                res.status(401).json({status: false, type:"authorizedExperience"});
+                return res.status(401).json({status: false, type:"authorizedExperience"});
             }
 
         } else {

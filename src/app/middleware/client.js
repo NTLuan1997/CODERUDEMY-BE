@@ -42,7 +42,10 @@ class Client {
             req.client = { Password: BCRYPT.hash(model.Password) };
         }
 
-        if(model.Func === "Thumbnail") { }
+        if(model.Func === "Thumbnail") {
+            delete model.Func;
+            req.client = model;
+        }
         next();
     }
 
