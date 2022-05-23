@@ -26,14 +26,10 @@ class Client {
             })
         }
 
-        if(req.body.type === "Register") {
-            res.status(200).json({status: true});
+        function save() {
             clientService.save(req.client)
             .then((result) => {
-                return result.token = JWT.generation(result.doc._id);
-            })
-            .then((result) => {
-                res.status(200).json(result);
+                res.status(200).json({status: true, token: JWT.generation(result.doc._id)});
             })
             .catch((err) => {
                 throw err;
@@ -43,6 +39,8 @@ class Client {
         if(req.type === "Edit") { edit() }
 
         if(req.type === "Find") { find() }
+
+        if(req.type === "Register") { save() }
     }
 }
 
