@@ -5,12 +5,12 @@ const middleware = require('../../app/middleware/middleware');
 const controller = require("../../app/controller/client");
 
 // router.get("/client/:id", middleware.client, clientController.Get);
-router.get("/client", middleware.client, controller.functions);
-router.post('/client', middleware.client, controller.functions);
+router.get("/client", middleware.transaction, controller.functions);
+router.post('/client', middleware.transaction, controller.functions);
 // router.post('/manager-client', clientController.managerClient);
 // router.put('/client-courses', middleware.client, clientController.Update);
 // router.put('/client-thumbnail', middleware.client, clientController.Update);
-router.put('/client',  middleware.client, controller.functions);
+router.put('/client',  middleware.transaction, controller.functions);
 // router.delete('/client', middleware.client, clientController.Functions);
 
 module.exports = router;
