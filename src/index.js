@@ -80,9 +80,6 @@ app.use(session({
 Render(app);
 API(app);
 
-//Authentication
-Authentication.init(app);
-
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`, app.settings.env);
 });

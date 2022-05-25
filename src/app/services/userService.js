@@ -35,6 +35,29 @@ class UserService extends Service {
         })
     }
 
+        exists(condition) {
+            return super.documentQuery((resolve, reject) => {
+                User.exists(condition, (err, doc) => {
+                    if(err) reject(err);
+                    let user = doc;
+                    if(doc) {
+                        user = { "status": (doc?._id)? true : false, user: doc._id };
+                    }
+                    resolve(user);
+                })
+            })
+        }
+
+        find(condition) {
+            let query = (condition)? condition : {};
+            return super.documentQuery((resolve, reject) => {
+                User.find(query).exec((err, doc) => {
+                    if (err) reject(err);
+                    resolve(doc);
+                })
+            })
+        }
+
     /**
      * 
      * Method find one user by id or email and password.

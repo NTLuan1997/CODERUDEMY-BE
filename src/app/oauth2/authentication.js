@@ -1,9 +1,9 @@
-const ObjectId = require("mongodb").ObjectId;
 const passport = require('passport');
 const localStrategy = require("passport-local").Strategy;
 const Bcrypt = require("../utils/bcrypt");
 const JWT = require("../utils/jwt");
 const clientService = require("../services/clientService");
+const userService = require("../services/userService");
 
 passport.use(new localStrategy({
     usernameField: "Email",
@@ -16,6 +16,10 @@ function verify(req, Email, Password, done) {
 
     if(req.body.Type === "Client") {
         client(query, Password, done);
+    }
+
+    if(req.body.Type === "Manager") {
+        manager(query, Password, done);
     }
 }
 
@@ -46,6 +50,34 @@ function client(query, Password, done) {
         .catch((err) => {
             done(err);
         })
+}
+
+function manager(query, Password, done) {
+    userService.exists(query)
+    .then((result) => {
+        if(result?.status) {
+            return result;
+
+        } else {
+            done({status: false, type: "accountUnregister"});
+        }
+    })
+    .then((doc) => {
+        let condition = {"_id": {"$eq": doc?.user}};
+        return userService.find(condition);
+
+    })
+    .then((result) => {
+        if(result[0].Password === Password) {
+            done(null, JWT.roleEncode(result[0]._id, result[0].Role));
+
+        } else {
+            done({status: false, type:"passwordIncorrect"});
+        }
+    })
+    .catch((err) => {
+        throw err;
+    })
 }
 
 passport.serializeUser((result, done) => { });
