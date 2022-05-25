@@ -20,7 +20,7 @@ window.onload = function (e) {
             })
     })
 
-    $("#toggle-pasword").addEventListener("click", function(e) {
-        console.log("Hello world");
-    })
+    // $("#toggle-pasword").addEventListener("click", function(e) {
+    //     console.log("Hello world");
+    // })
 }

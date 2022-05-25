@@ -17,5 +17,8 @@ export const environment = {
         "Type": "",
         Thumbnail: "",
         registerCourse: []
+    },
+    "endpoint": {
+        "authentication": "/API/authen/manager"
     }
 }

@@ -2,7 +2,7 @@ const router = require("express").Router();
 const courseController = require("../../app/controller/courseController");
 const unitController = require("../../app/controller/unitController");
 const lessonController = require("../../app/controller/lessonController");
-const clientController = require("../../app/controller/clientController");
+// const clientController = require("../../app/controller/clientController");
 const middleware = require("../../app/middleware/courseMiddleware");
 const clientMiddleware = require("../../app/middleware/clientMiddleware");
 const authen = require("../../app/middleware/authentication");
@@ -30,6 +30,6 @@ const authen = require("../../app/middleware/authentication");
     router.delete("/lesson-remove", authen.authentication, authen.permissions, middleware.lessonMapper, lessonController.removeLesson);
 
 // CLIENT
-    router.post("/course-detail", clientMiddleware.courseDetail, clientMiddleware.courseLesson, clientController.getCourse);
+    // router.post("/course-detail", clientMiddleware.courseDetail, clientMiddleware.courseLesson, clientController.getCourse);
 
 module.exports = router;
