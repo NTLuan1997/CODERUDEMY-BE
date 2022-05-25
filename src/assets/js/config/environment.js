@@ -19,6 +19,7 @@ export const environment = {
         registerCourse: []
     },
     "endpoint": {
-        "authentication": "/API/authen/manager"
+        "authentication": "/API/authen/manager",
+        "client": "/API/client/client",
     }
 }
