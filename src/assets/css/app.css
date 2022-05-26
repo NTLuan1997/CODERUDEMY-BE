@@ -122,20 +122,20 @@ form .form-group .password-control {
     padding: 10px; }
   .page-main .page-main-body {
     margin-bottom: 0px; }
+    .page-main .page-main-body .thead-dark {
+      border-top: 1px solid #343a40;
+      border-left: 1px solid #343a40;
+      border-right: 1px solid #343a40; }
     .page-main .page-main-body tbody {
       border: 1px solid #00000014; }
-      .page-main .page-main-body tbody .btn-edit {
+      .page-main .page-main-body tbody .btn-method {
+        border: none;
         border-radius: 5px;
         background-color: #f28d0f;
         color: white;
         padding: 10px; }
-      .page-main .page-main-body tbody .router-child {
-        margin-right: 4px; }
-      .page-main .page-main-body tbody .btn-delete {
-        border-radius: 5px;
-        background-color: #f28d0f;
-        color: white;
-        padding: 10px; }
+        .page-main .page-main-body tbody .btn-method:focus {
+          outline-width: 0px; }
   .page-main .undefine-data {
     border: 1px solid #ddd;
     display: none;

@@ -21,5 +21,10 @@ export const environment = {
     "endpoint": {
         "authentication": "/API/authen/manager",
         "client": "/API/client/client",
+    },
+    "payload": {
+        type: "",
+        start: "",
+        limited: ""
     }
 }

@@ -41,6 +41,15 @@ class ClientService extends Service {
             })
         }
 
+        limit(limit, start) {
+            return super.documentQuery((resolve, reject) => {
+                Client.find({}).limit(limit).skip(start).exec((err, doc) => {
+                    if(err) reject(err);
+                    resolve(doc);
+                })
+            })
+        }
+
         save(body) {
             return super.documentQuery((resolve, reject) => {
                 Client.create(body, (err, doc) => {
