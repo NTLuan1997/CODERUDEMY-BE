@@ -9,6 +9,7 @@ const Client = new Schema({
     Phone: String,
     DateOfBirth: Date,
     Address: String,
+    Status: Boolean,
     Thumbnail: String,
     RegisterCourse: [
         {

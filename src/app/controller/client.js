@@ -16,6 +16,16 @@ class Client {
             })
         }
 
+        function limit() {
+            clientService.limit(req.limited, req.start)
+            .then((result) => {
+                res.status(200).json(result);
+            })
+            .catch((err) => {
+                throw err;
+            })
+        }
+
         function edit() {
             clientService.update(req.condition, req.client)
             .then((result) => {
@@ -39,6 +49,8 @@ class Client {
         if(req.type === "Edit") { edit() }
 
         if(req.type === "Find") { find() }
+
+        if(req.type === "limited") { limit() }
 
         if(req.type === "Register") { save() }
     }

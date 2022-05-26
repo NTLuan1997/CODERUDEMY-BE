@@ -167,22 +167,22 @@ form {
     }
     .page-main-body {
         margin-bottom: 0px;
+        .thead-dark {
+            border-top: 1px solid #343a40;
+            border-left: 1px solid #343a40;
+            border-right: 1px solid #343a40;
+        }
         tbody {
             border: 1px solid #00000014;
-            .btn-edit {
+            .btn-method {
+                border: none;
                 border-radius: 5px;
                 background-color: #f28d0f;
                 color: white;
                 padding: 10px;
-            }
-            .router-child {
-                margin-right: 4px;
-            }
-            .btn-delete {
-                border-radius: 5px;
-                background-color: #f28d0f;
-                color: white;
-                padding: 10px;
+                &:focus {
+                    outline-width: 0px;
+                }
             }
         }
     }

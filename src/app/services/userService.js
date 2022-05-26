@@ -58,6 +58,15 @@ class UserService extends Service {
             })
         }
 
+        limit(limit, start) {
+            return super.documentQuery((resolve, reject) => {
+                User.find({}).limit(limit).skip(start).exec((err, doc) => {
+                    if(err) reject(err);
+                    resolve(doc);
+                })
+            })
+        }
+
     /**
      * 
      * Method find one user by id or email and password.

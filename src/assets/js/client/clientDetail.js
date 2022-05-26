@@ -1,15 +1,19 @@
-import {getType, getToken, permission, convertDate} from "../commons/common.js";
-import {environment} from "../config/environment.js";
-import {Validation} from "../commons/validation.js";
-import {httpsService} from "../commons/httpService.js";
-import {Priture} from "../commons/priture.js";
-import {Render} from "../commons/render.js";
+import { Cookie } from "../lib/cookie.js";
+import { getType, getToken, permission, convertDate } from "../commons/common.js";
+import { environment } from "../config/environment.js";
+import { Validation } from "../commons/validation.js";
+import { httpsService, HTTPS } from "../commons/httpService.js";
+import { Priture } from "../commons/priture.js";
+import { Render } from "../commons/render.js";
 
 window.onload = function (e) {
+    const cookie = new Cookie();
+    const https = new HTTPS();
     const render = new Render();
     const priture = new Priture();
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
+    const token = `Bearer ${cookie.get("Authentic")}`;
 
     // INFORMATION
     let Address = $("#Address");
@@ -157,22 +161,29 @@ window.onload = function (e) {
         e.preventDefault();
         if (this.valid) {
             let client = getCourseForm();
-            client.Type = 'Register-account';
+            client.Type = 'Register';
             client.Func = "Register";
-            if (client) {
-                httpsService("API/client/client", "POST", client)
-                    .then((res) => {
-                        return res.json();
-                    })
-                    .then((res) => {
-                        res.client.status ?
-                            location.href = "/clients" :
-                            permission(toasts, res);
-                    })
-                    .catch((err) => {
-                        throw err;
-                    })
-            }
+            // https.POST(token, client, environment.endpoint.client)
+            // .then((res) => {
+            //     console.log(res);
+
+            // })
+            // .catch((err) => {
+            //     throw err;
+            // })
+
+            //     httpsService("API/client/client", "POST", client)
+            //         .then((res) => {
+            //             return res.json();
+            //         })
+            //         .then((res) => {
+            //             res.client.status ?
+            //                 location.href = "/clients" :
+            //                 permission(toasts, res);
+            //         })
+            //         .catch((err) => {
+            //             throw err;
+            //         })
         }
     }
 
@@ -201,13 +212,14 @@ window.onload = function (e) {
 
     // GETTER - SETTER INFORMATION
     function getCourseForm() {
+        let date = new Date(DateOfBirth.value);
         let data = {
             Code: Code.value,
             Name: Name.value,
             Email: Email.value,
             Password: (Password.value)? Password.value : 'P@ssword12345',
             Gender: Gender.value,
-            DateOfBirth: DateOfBirth.value,
+            DateOfBirth: date.toISOString(),
             Phone: Phone.value,
             Address: Address.value
         }
