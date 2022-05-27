@@ -33,7 +33,7 @@ export class HTTPS {
 
     constructor() { }
 
-    LIMIT(payload, token, endPoint) {
+    FIND(payload, token, endPoint) {
         return new Promise((resolve, reject) => {
             fetch(endPoint, {
                 "method": "GET",

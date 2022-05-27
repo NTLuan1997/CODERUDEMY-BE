@@ -24,6 +24,7 @@ export const environment = {
     },
     "payload": {
         type: "",
+        token: "",
         start: "",
         limited: ""
     }

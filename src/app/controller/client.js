@@ -39,7 +39,11 @@ class Client {
         function save() {
             clientService.save(req.client)
             .then((result) => {
-                res.status(200).json({status: true, token: JWT.generation(result.doc._id)});
+                if(req?.system === "manager") {
+                    res.status(200).json({status: true});
+                } else {
+                    res.status(200).json({status: true, token: JWT.generation(result.doc._id)});
+                }
             })
             .catch((err) => {
                 throw err;

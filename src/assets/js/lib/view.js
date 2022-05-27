@@ -27,14 +27,14 @@ export class View {
             if(KeyView.includes(current)) { return accument.concat(`<td>${Result[current]}</td>`) }
             return accument;
         }, []).join(" ");
-        template += this.templateMethod();
+        template += this.templateMethod(Result?._id);
         return template;
     }
 
-    templateMethod() {
+    templateMethod(token) {
         return `
             <td class="d-flex">
-                <a href="" class="btn-method mr-2">Sửa</a>
+                <a href="/web/client/detail?type=update&token=${token}" class="btn-method mr-2">Sửa</a>
                 <button class="btn-method" type="button">Xóa</button>
             </td>
         `;
