@@ -3,6 +3,7 @@ import { getType, getToken, permission, convertDate } from "../commons/common.js
 import { environment } from "../config/environment.js";
 import { Validation } from "../commons/validation.js";
 import { httpsService, HTTPS } from "../commons/httpService.js";
+import { Origin } from "../lib/lib-origin.js";
 import { Priture } from "../commons/priture.js";
 import { Render } from "../commons/render.js";
 
@@ -11,6 +12,8 @@ window.onload = function (e) {
     const https = new HTTPS();
     const render = new Render();
     const priture = new Priture();
+    const origin = new Origin();
+
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
     const token = `Bearer ${cookie.get("Authentic")}`;
@@ -81,65 +84,80 @@ window.onload = function (e) {
     });
 
     // AUTO CALL TO PAGE UPDATE
-    if (getType() == "update") {
+    if (origin.parameter().type == "update") {
         ClientRegister.classList.add("active");
         WrapperPriture.classList.add("active");
 
-        (function () {
-            httpsService(`API/client/client/${getToken()}`, "GET", null)
-                .then((res) => {
-                    return res.json();
-                })
-                .then((res) => {
-                    if(res.hasOwnProperty("Client")) {
-                        console.log(res.Client);
+        environment.payload.type = "findClientByID";
+        environment.payload.token = origin.parameter().token;
 
-                        setCourseForm(res.Client);
-                        localStorage.removeItem("client-register");
-                        if(res.Client.RegisterCourse.length) {
-                            localStorage.setItem("client-register", JSON.stringify(res.Client.RegisterCourse));
-                        }
-                        render.clientCourseRegister(Content, res.Client.RegisterCourse);
-                        CourseItems = $$("input[name='course-items']");
-                    }
+        (function(){
+            https.FIND(environment.payload, token, environment.endpoint.client)
+            .then((res) => {
+                if(res.length) {
+                    setCourseForm(res.at(0));
+                }
+            })
+            .catch((err) => {
+                throw err;
+            })
 
-                    if(res.hasOwnProperty("Courses")) {
-                        localStorage.setItem("Courses", JSON.stringify(res.Courses));
-                        render.option(Course, res.Courses);
-                    }
-                })
-                .then(() => {
-                    if(CourseItems.length) {
-                        let converCourseItem = new Array();
-                        CourseItems.forEach((e) => converCourseItem.push(e));
+        })()
+
+        // (function () {
+        //     httpsService(`API/client/client/${getToken()}`, "GET", null)
+        //         .then((res) => {
+        //             return res.json();
+        //         })
+        //         .then((res) => {
+        //             if(res.hasOwnProperty("Client")) {
+
+        //                 setCourseForm(res.Client);
+        //                 localStorage.removeItem("client-register");
+        //                 if(res.Client.RegisterCourse.length) {
+        //                     localStorage.setItem("client-register", JSON.stringify(res.Client.RegisterCourse));
+        //                 }
+        //                 render.clientCourseRegister(Content, res.Client.RegisterCourse);
+        //                 CourseItems = $$("input[name='course-items']");
+        //             }
+
+        //             if(res.hasOwnProperty("Courses")) {
+        //                 localStorage.setItem("Courses", JSON.stringify(res.Courses));
+        //                 render.option(Course, res.Courses);
+        //             }
+        //         })
+        //         .then(() => {
+        //             if(CourseItems.length) {
+        //                 let converCourseItem = new Array();
+        //                 CourseItems.forEach((e) => converCourseItem.push(e));
                         
-                        for(let item = 0; item < CourseItems.length; item++) {
-                            CourseItems[item].addEventListener("change", function(checkbox) {
-                                if(checkbox.target.checked) {
-                                    UnRegister.removeAttribute("disabled");
+        //                 for(let item = 0; item < CourseItems.length; item++) {
+        //                     CourseItems[item].addEventListener("change", function(checkbox) {
+        //                         if(checkbox.target.checked) {
+        //                             UnRegister.removeAttribute("disabled");
 
-                                } else {
-                                    if(converCourseItem.every((item) => item.checked == false)) {
-                                        UnRegister.setAttribute("disabled", false);
-                                    }
+        //                         } else {
+        //                             if(converCourseItem.every((item) => item.checked == false)) {
+        //                                 UnRegister.setAttribute("disabled", false);
+        //                             }
 
-                                    if(converCourseItem.some((item) => item.checked == false)) {
-                                        CourseAll.checked = false;
-                                    }
-                                }
+        //                             if(converCourseItem.some((item) => item.checked == false)) {
+        //                                 CourseAll.checked = false;
+        //                             }
+        //                         }
 
-                                if(converCourseItem.every((item) => item.checked == true)) {
-                                    CourseAll.checked = true;
-                                }
-                            })
-                        }
-                    }
+        //                         if(converCourseItem.every((item) => item.checked == true)) {
+        //                             CourseAll.checked = true;
+        //                         }
+        //                     })
+        //                 }
+        //             }
 
-                })
-                .catch((err) => {
-                    throw err;
-                })
-        }());
+        //         })
+        //         .catch((err) => {
+        //             throw err;
+        //         })
+        // }());
     }
 
     // METHOD UPLOAD INFORMATION
@@ -161,29 +179,16 @@ window.onload = function (e) {
         e.preventDefault();
         if (this.valid) {
             let client = getCourseForm();
+            delete client.Code;
             client.Type = 'Register';
             client.Func = "Register";
-            // https.POST(token, client, environment.endpoint.client)
-            // .then((res) => {
-            //     console.log(res);
-
-            // })
-            // .catch((err) => {
-            //     throw err;
-            // })
-
-            //     httpsService("API/client/client", "POST", client)
-            //         .then((res) => {
-            //             return res.json();
-            //         })
-            //         .then((res) => {
-            //             res.client.status ?
-            //                 location.href = "/clients" :
-            //                 permission(toasts, res);
-            //         })
-            //         .catch((err) => {
-            //             throw err;
-            //         })
+            https.POST(token, client, environment.endpoint.client)
+            .then((res) => {
+                (res?.status) ? location.href = "/web/client" : permission(toasts, res);
+            })
+            .catch((err) => {
+                throw err;
+            })
         }
     }
 

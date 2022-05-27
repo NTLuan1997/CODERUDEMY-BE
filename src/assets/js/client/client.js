@@ -23,7 +23,7 @@ window.onload = function (e) {
     let KeyHeader = ["Họ và tên", "Email", "Giới tính", "Điện thoại", "Ngày/Tháng/Năm sinh", "Địa chỉ", "Chúc năng"];
 
     (function () {
-        https.LIMIT(environment.payload, token, environment.endpoint.client)
+        https.FIND(environment.payload, token, environment.endpoint.client)
         .then((res) => {
             view.setUrl(environment.endpoint.client);
             view.render(res, ComponentHeader, KeyHeader, ComponentView, KeyComponent);
