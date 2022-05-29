@@ -12,18 +12,6 @@ const client = {
     Address: ""
 };
 
-// const Password = {
-//     Password: ""
-// }
-
-// const Thumbnail = {
-//     Thumbnail: ""
-// }
-
-// const RegisterCourse = {
-//     RegisterCourse: []
-// }
-
 class Client {
     condition;
 

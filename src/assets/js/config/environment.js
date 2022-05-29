@@ -14,13 +14,17 @@ export const environment = {
         DateOfBirth: "",
         Phone: "",
         Address: "",
-        "Type": "",
+        Type: "",
         Thumbnail: "",
         registerCourse: []
     },
     "endpoint": {
         "authentication": "/API/authen/manager",
         "client": "/API/client/client",
+        "course": "/API/course/course",
+        "lesson": "",
+        "unit": "",
+        "user": "/API/user/user",
     },
     "payload": {
         type: "",
