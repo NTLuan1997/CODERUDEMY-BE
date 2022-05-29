@@ -7,7 +7,8 @@ class Middleware {
 
     constructor() { }
 
-    transaction(req, res, next) {
+    clientTransaction(req, res, next) {
+
         function checkExists(condition) {
             return new Promise((resolve, reject) => {
                 clientService.exists(condition)
@@ -41,8 +42,13 @@ class Middleware {
                             req.condition = {"_id": {"$eq": token}};
                             next();
                         }
+                    }
 
-
+                    if(req.body.Type === "Thumbnail") {
+                        req.condition = {"_id": {"$eq": req.body.Token}};
+                        delete req.body.Type;
+                        delete req.body.Token;
+                        Client.edit(req.body, req, res, next);
                     }
 
                     if(req.body.Type === "Register") {
@@ -111,6 +117,22 @@ class Middleware {
                     throw err;
                 })
             }
+        }
+    }
+
+    userTransaction(req, res, next) {
+        if(req.headers.authorization && req.headers.authorization !== "Empty") {
+            if(JWT.verify(req.headers.authorization.split(' ')[1])) {
+                let { token, role } = JWT.decoded(req.headers.authorization.split(' ')[1]).payload;
+                console.log(role);
+                console.log(token);
+                next();
+
+            } else {
+                return res.status(404).json({status: false, type: "tokenExperience"});
+            }
+        } else {
+            return res.status(404).json({status: false, type: "tokenBlank"});
         }
     }
 }

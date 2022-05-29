@@ -23,6 +23,14 @@ class Template {
             case "/web/course/detail":
                 break;
 
+            case "/web/user":
+                res.status(200).render("components/user-component/user-component", {show: true});
+                break;
+
+            case "/web/user/detail":
+                res.status(200).render("components/user-component/user-detail-component", {show: true});
+                break;
+
             case"/":
             default:
                 res.render("components/users/user-signin-component", { show: false });

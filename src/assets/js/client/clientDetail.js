@@ -161,7 +161,7 @@ window.onload = function (e) {
     }
 
     // METHOD UPLOAD INFORMATION
-    switch (getType()) {
+    switch (origin.parameter().type) {
         case "update":
             setTitleForm("update");
             ThumbnailUpload.addEventListener("change", pritureUpload);
@@ -260,20 +260,16 @@ window.onload = function (e) {
         .then((res) => {
             if(res.status){
                 let body = {
-                    "_id": environment.client._id,
+                    "Func": "Thumbnail",
+                    "Token": origin.parameter().token,
                     "Type": "Thumbnail",
                     "Thumbnail": res.destination
                 };
-                return httpsService("API/client/client-thumbnail", "PUT", body);
+                return https.PUT(token, body, environment.endpoint.client);
             }
         })
         .then((res) => {
-            return res.json();
-        })
-        .then((data) => {
-            if(data.status) {
-                window.location.reload();
-            }
+            if(res?.status) { window.location.reload() }
         })
         .catch((err) => {
             throw err;
