@@ -1,36 +1,32 @@
-import { httpsService } from "../commons/httpService.js";
-import { deleteDocument } from "../commons/delete.js";
-import { renderHeaderTable, renderBodyTable, renderPagination } from "../commons/render.js";
+import { Cookie } from "../lib/cookie.js";
+import { environment } from "../config/environment.js";
+import { HTTPS } from "../commons/httpService.js";
+import { View } from "../lib/view.js";
 
 window.onload = function (e) {
+    const cookie = new Cookie();
+    const https = new HTTPS();
+    const view = new View();
     let $ = document.querySelector.bind(document);
     let $$ = document.querySelectorAll.bind(document);
 
-    let pageRequire = 5;
-    let wrapperPagination = $$(".pagination")[0];
-    let wrapperTableHeader = $("#course-table-header");
-    let wrapperTablebody = $("#course-table-body");
-    let titles = ["STT", "Tên khóa học", "Tác giả", "Loại khóa học", "Số bài giảng", "Ngày tạo", "Lần cập nhật cuối", "Chức năng"];
+    let token = `Bearer ${cookie.get("Authentic")}`;
+    environment.payload.type = "limited";
+    environment.payload.start = 0;
+    environment.payload.limited = 5;
+
+    let ComponentHeader = $("#Header");
+    let ComponentView = $("#Body");
+    let KeyComponent = ["Name", "Author", "Type", "Unit", "CreateDate"];
+    let KeyHeader = ["Họ và tên", "Tác giả", "Loại khóa học", "Học phần", "Ngày tạo", "Chúc năng"];
 
     (function () {
-        httpsService(`API/course/course?limit=${pageRequire}&start=0`, "GET", null)
-            .then((data) => {
-                return data.json();
-            })
-            .then((data) => {
-                renderHeaderTable(wrapperTableHeader, titles);
-                renderPagination(wrapperPagination, 5, data.length, "API/course/course", (e) => {
-                    renderBodyTable(wrapperTablebody, e?.courses, ["_id", "description", "thumbnail", "__v"], "courses", "units", "courseId");
-                    deleteDocument($$(".btn-delete-document"), "API/course/course-remove");
-                }, null);
-                return data;
-            })
-            .then((data) => {
-                renderBodyTable(wrapperTablebody, data?.courses, ["_id", "description", "thumbnail", "__v"], "courses", "units", "courseId");
-                deleteDocument($$(".btn-delete-document"), "API/course/course-remove");
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        https.FIND(environment.payload, token, environment.endpoint.course)
+        .then((res) => {
+            view.render(res, ComponentHeader, KeyHeader, ComponentView, KeyComponent);
+        })
+        .catch((err) => {
+            throw err;
+        })
     })()
 }

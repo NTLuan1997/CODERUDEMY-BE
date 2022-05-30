@@ -1,5 +1,3 @@
-const ObjectId = require("mongodb").ObjectId;
-const JWT = require("../utils/jwt");
 const BCRYPT = require("../utils/bcrypt");
 
 const client = {

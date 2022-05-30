@@ -18,6 +18,17 @@ class CourseService extends Service {
         })
     }
 
+
+    
+        limit(limit, start) {
+            return super.documentQuery((resolve, reject) => {
+                Course.find({}).limit(limit).skip(start).exec((err, doc) => {
+                    if(err) reject(err);
+                    resolve(doc);
+                })
+            })
+        }
+
     /**
      * 
      * Method find one Course.
