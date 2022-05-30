@@ -1,4 +1,4 @@
-export class Origin {
+export default class Origin {
 
     constructor() { }
 
@@ -14,5 +14,11 @@ export class Origin {
             main.type = search.slice(search.indexOf("type"), search.indexOf("&")).split("=")[1];
         }
         return main;
+    }
+
+    checkTypePage() {
+        let {host, hostname, href, origin, pathname, port, protocol, search} = window.location;
+        let endPoint = href.substring((href.lastIndexOf("/") + 1));
+        return endPoint;
     }
 }

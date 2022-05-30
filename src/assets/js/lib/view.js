@@ -1,12 +1,18 @@
+import Origin from "./lib-origin.js";
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 export class View {
     BlankView = $("#Blank-data");
-    urlMethod = "";
+    URLMethod = "";
+    Origin = "";
+    Pages = ["course", "unit"];
 
-    constructor() { }
 
-    setUrl(url) { this.urlMethod = url }
+    constructor() {
+        this.Origin = new Origin();
+    }
+
+    setUrl(url) { this.URLMethod = url }
 
     render(Result, ComponentHeader, KeyHeader, ComponentView, KeyComponent) {
         this.BlankView.classList.remove("active");
@@ -23,18 +29,35 @@ export class View {
     }
 
     templateView(Result, KeyView) {
-        let template = Object.keys(Result).reduce((accument, current) => {
-            if(KeyView.includes(current)) { return accument.concat(`<td>${Result[current]}</td>`) }
-            return accument;
-        }, []).join(" ");
-        template += this.templateMethod(Result?._id);
-        return template;
+        let template = [];
+        let resultKey = Object.keys(Result);
+        for(let i = 0; i < KeyView.length; i++) {
+            for(let j = 0; j < resultKey.length; j++) {
+                if(KeyView[i] === resultKey[j]) {
+                    template.push(`<td>${Result[resultKey[j]]}</td>`);
+                }
+            }
+        }
+        template.push(this.templateMethod(Result?._id));
+        return template.join(" ");
     }
 
     templateMethod(token) {
+        let type = this.Origin.checkTypePage();
+        let title = (this.Origin.checkTypePage() === "course") ? "Học phần" : "Khóa học";
+
+        if(this.Pages.includes(this.Origin.checkTypePage())) {
+            return `
+                <td class="d-flex">
+                    <a href="/web/${type}/unit?token=${token}" class="btn-method mr-2">${title}</a>
+                    <a href="/web/${type}/detail?type=update&token=${token}" class="btn-method mr-2">Sửa</a>
+                    <button class="btn-method" type="button">Xóa</button>
+                </td>
+            `;
+        }
         return `
             <td class="d-flex">
-                <a href="/web/client/detail?type=update&token=${token}" class="btn-method mr-2">Sửa</a>
+                <a href="/web/${type}/detail?type=update&token=${token}" class="btn-method mr-2">Sửa</a>
                 <button class="btn-method" type="button">Xóa</button>
             </td>
         `;

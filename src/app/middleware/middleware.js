@@ -120,13 +120,45 @@ class Middleware {
         }
     }
 
+    courseTransaction(req, res, next) {
+        if(req.headers.authorization && req.headers.authorization !== "Empty") {
+            if(JWT.verify(req.headers.authorization.split(' ')[1])) {
+                let { token, role } = JWT.decoded(req.headers.authorization.split(' ')[1]).payload;
+                req.condition = {"_id": {"$eq": token}};
+
+                if(role) {
+                    if(req.headers.comment) {
+                        let {type, token, limited, start} = JSON.parse(req.headers.comment);
+                        req.type = "limited";
+                        req.limited = limited;
+                        req.start = start;
+                    }
+                    next();
+                }
+
+            } else {
+                return res.status(404).json({status: false, type: "tokenExperience"});
+            }
+        } else {
+            return res.status(404).json({status: false, type: "tokenBlank"});
+        }
+    }
+
     userTransaction(req, res, next) {
         if(req.headers.authorization && req.headers.authorization !== "Empty") {
             if(JWT.verify(req.headers.authorization.split(' ')[1])) {
                 let { token, role } = JWT.decoded(req.headers.authorization.split(' ')[1]).payload;
-                console.log(role);
-                console.log(token);
-                next();
+                req.condition = {"_id": {"$eq": token}};
+
+                if(role) {
+                    let {type, token, limited, start} = JSON.parse(req.headers.comment);
+                    if(type === "limited") {
+                        req.type = "limited";
+                        req.limited = limited;
+                        req.start = start;
+                        next();
+                    }
+                }
 
             } else {
                 return res.status(404).json({status: false, type: "tokenExperience"});

@@ -1,23 +1,23 @@
-const userService = require("../services/userService");
-class User {
+const courseService = require("../services/courseService");
+
+class Course {
 
     constructor() { }
 
     functions(req, res) {
-
-        function limited() {
-            userService.limit(req.limited, req.start)
+        function limit() {
+            courseService.limit(req.limited, req.start)
             .then((result) => {
                 res.status(200).json(result);
-
             })
             .catch((err) => {
                 throw err;
             })
         }
 
-        if(req.type === "limited") { limited() }
+        if(req.type === "limited") { limit() }
     }
+
 }
 
-module.exports = new User;
+module.exports = new Course;

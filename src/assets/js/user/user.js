@@ -1,12 +1,14 @@
 import { Cookie } from "../lib/cookie.js";
 import { environment } from "../config/environment.js";
 import { HTTPS } from "../commons/httpService.js";
+import { View } from "../lib/view.js";
 // import { deleteDocument } from "../commons/delete.js";
 // import { renderHeaderTable, renderBodyTable, renderPagination } from "../commons/render.js";
 
 window.onload = function (e) {
     const cookie = new Cookie();
     const https = new HTTPS();
+    const view = new View();
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
 
@@ -17,14 +19,16 @@ window.onload = function (e) {
 
     // let pageRequire = 5;
     // let wrapperPagination = $$(".pagination")[0];
-    // let wrapperTableHeader = $("#user-table-header");
-    // let wrapperTablebody = $("#user-table-body");
-    // let titles = ["STT", "Tên người dùng", "Email", "Trạng thái", "Quyền", "Chức năng"];
+
+    let ComponentHeader = $("#Header");
+    let ComponentView = $("#Body");
+    let KeyComponent = ["Name", "Email", "DateOfBirth", "Role", "Status"];
+    let KeyHeader = ["Họ và tên", "Email", "Ngày/Tháng/Năm sinh", "Quyền", "Trạng thái", "Chúc năng"];
 
     (function () {
         https.FIND(environment.payload, token, environment.endpoint.user)
         .then((res) => {
-            console.log(res);
+            view.render(res, ComponentHeader, KeyHeader, ComponentView, KeyComponent);
         })
         .catch((err) => {
             throw err;

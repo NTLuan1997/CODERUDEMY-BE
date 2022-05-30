@@ -3,18 +3,21 @@ const Template = require("../../app/controller/web/template");
 
 // VIEWS
     // COMMON
-    router.get("/", Template.render);
+        router.get("/", Template.render);
 
     // CLIENT
-    router.get("/client/detail", Template.render);
-    router.get("/client", Template.render);
+        router.get("/client/detail", Template.render);
+        router.get("/client", Template.render);
 
     // COURSE
-    router.get("/course/detail", Template.render);
-    router.get("/course", Template.render);
+        router.get("/course/detail", Template.render);
+        router.get("/course", Template.render);
+
+    // UNIT
+        router.get("/course/unit", Template.render);
 
     // USER
-    router.get("/user/detail", Template.render);
-    router.get("/user", Template.render);
+        router.get("/user/detail", Template.render);
+        router.get("/user", Template.render);
 
 module.exports = router;
