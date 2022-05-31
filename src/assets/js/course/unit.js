@@ -1,20 +1,37 @@
-// import { httpsService } from "../commons/httpService.js";
-// import { deleteDocument } from "../commons/delete.js";
-// import { renderHeaderTable, renderBodyTable, renderPagination } from "../commons/render.js";
+import { Cookie } from "../lib/cookie.js";
+import { environment } from "../config/environment.js";
+import { HTTPS } from "../commons/httpService.js";
+import { View } from "../lib/view.js";
+import Origin from "../lib/lib-origin.js";
 
-// window.onload = function (e) {
-//     const $ = document.querySelector.bind(document);
-//     const $$ = document.querySelectorAll.bind(document);
+window.onload = function (e) {
+    const cookie = new Cookie();
+    const https = new HTTPS();
+    const origin = new Origin();
+    const view = new View();
+    const $ = document.querySelector.bind(document);
+    const $$ = document.querySelectorAll.bind(document);
 
-//     let pageRequire = 5;
-//     let routerNew = $$(".header-router-link-detail")[0];
-//     let wrapperPagination = $$(".pagination")[0];
-//     let wrapperTableHeader = $("#unit-table-header");
-//     let wrapperTablebody = $("#unit-table-body");
-//     let titles = ["STT", "Mã khóa học", "Chương học", "Bài học", "Trang thái", "Ngày tạo", "Lần cập nhật cuối", "Chức năng"];
+        let token = `Bearer ${cookie.get("Authentic")}`;
+        environment.payload.type = "limited";
+        environment.payload.start = 0;
+        environment.payload.limited = 5;
+        environment.payload.id = origin.parameter().token;
 
-//     let courseId = location.search.split("=")[1];
-//     let condition = [`courseId=${courseId}`];
+        let ComponentHeader = $("#Header");
+        let ComponentView = $("#Body");
+        let KeyComponent = ["Name", "AmountLesson", "Status", "CreateDate"];
+        let KeyHeader = ["Tên học phần", "Số khóa học", "Trạng thái", "Ngày tạo", "Chúc năng"];
+
+        (function() {
+            https.FIND(environment.payload, token, environment.endpoint.unit)
+            .then((res) => {
+                view.render(res, ComponentHeader, KeyHeader, ComponentView, KeyComponent);
+            })
+            .catch((err) => {
+                throw err;
+            })
+        }());
 
 //     (function () {
 //         routerNew.setAttribute("href", location.href.replace("?", "/detail?type=create&"));
@@ -40,4 +57,4 @@
 //                 console.log(err);
 //             })
 //     })()
-// }
+}

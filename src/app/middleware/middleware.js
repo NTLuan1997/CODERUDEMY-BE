@@ -144,6 +144,32 @@ class Middleware {
         }
     }
 
+    unitTransactions(req, res, next) {
+        if(req.headers.authorization && req.headers.authorization !== "Empty") {
+            if(JWT.verify(req.headers.authorization.split(' ')[1])) {
+                let { token, role } = JWT.decoded(req.headers.authorization.split(' ')[1]).payload;
+                req.condition = {"_id": {"$eq": new ObjectId(token)}};
+
+                if(req.headers.comment) {
+                    let {type, token, id, limited, start} = JSON.parse(req.headers.comment);
+                    req.type = "limited";
+                    req.limited = limited;
+                    req.start = start;
+                    req.courseCondition = {"CourseId": {"$eq": id}};
+                    console.log( req.courseCondition);
+
+                }
+                next();
+
+            } else {
+                return res.status(404).json({status: false, type: "tokenExperience"});
+            }
+
+        } else {
+            return res.status(404).json({status: false, type: "tokenBlank"});
+        }
+    }
+
     userTransaction(req, res, next) {
         if(req.headers.authorization && req.headers.authorization !== "Empty") {
             if(JWT.verify(req.headers.authorization.split(' ')[1])) {

@@ -8,6 +8,16 @@ class UnitService extends Service {
         super();
     }
 
+        limit(condition, limit, start) {
+            let query = (condition)? condition: {};
+            return super.documentQuery((resolve, reject) => {
+                Unit.find(query).limit(limit).skip(start).exec((err, doc) => {
+                    if(err) reject(err);
+                    resolve(doc);
+                })
+            })
+        }
+
     /**
      * 
      * Method count Unit.

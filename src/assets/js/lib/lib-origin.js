@@ -19,6 +19,12 @@ export default class Origin {
     checkTypePage() {
         let {host, hostname, href, origin, pathname, port, protocol, search} = window.location;
         let endPoint = href.substring((href.lastIndexOf("/") + 1));
+        let tam = "";
+        console.log(endPoint.includes("?"));
+        if(endPoint.includes("?")) {
+            endPoint = endPoint.substring(0, endPoint.indexOf("?"));
+        }
+        
         return endPoint;
     }
 }
