@@ -12,6 +12,9 @@ const Template = require("../../app/controller/web/template");
     // COURSE
         router.get("/course/detail", Template.render);
         router.get("/course", Template.render);
+        
+    // LESSON
+        router.get("course/unit/lesson", Template.render);
 
     // UNIT
         router.get("/course/unit", Template.render);

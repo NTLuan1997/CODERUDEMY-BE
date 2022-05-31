@@ -10,8 +10,14 @@ const middleware = require("../../app/middleware/middleware");
 const courseController = require("../../app/controller/course");
 
 // SERVER
+    // LESSON
+        // router.get("/unit/lesson", )
+
+    // UNIT
+        router.get("/unit", middleware.unitTransactions, courseController.functionsUnit);
+
     // COURSE
-    router.get("/course", middleware.courseTransaction, courseController.functions);
+        router.get("/course", middleware.courseTransaction, courseController.functionsCourse);
         // router.get("/course", courseController.course);
         // router.post("/course-single", authen.authentication, middleware.courseMapper, courseController.findSingle);
         // router.post("/course-new", authen.authentication, authen.permissions, middleware.courseMapper, courseController.newCourse);
