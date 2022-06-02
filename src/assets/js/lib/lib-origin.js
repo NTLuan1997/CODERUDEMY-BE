@@ -11,7 +11,11 @@ export default class Origin {
         }
 
         if(search.includes("type")) {
-            main.type = search.slice(search.indexOf("type"), search.indexOf("&")).split("=")[1];
+            if(search.includes("&")) {
+                main.type = search.slice(0, search.indexOf("&")).split("=")[1];
+            } else {
+                main.type = search.slice(search.indexOf("type")).split("=")[1];
+            }
         }
         return main;
     }
@@ -19,12 +23,9 @@ export default class Origin {
     checkTypePage() {
         let {host, hostname, href, origin, pathname, port, protocol, search} = window.location;
         let endPoint = href.substring((href.lastIndexOf("/") + 1));
-        let tam = "";
-        console.log(endPoint.includes("?"));
         if(endPoint.includes("?")) {
             endPoint = endPoint.substring(0, endPoint.indexOf("?"));
         }
-        
         return endPoint;
     }
 }

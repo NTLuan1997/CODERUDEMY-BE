@@ -3,12 +3,15 @@ const Schema = mongoose.Schema;
 
 const Users = new Schema(
     {
-        "Name": String,
-        "Password": String,
-        "Email": String,
-        "Status": Boolean,
-        "DateOfBirth": Date,
-        "Role": String,
+        Name: String,
+        DateOfBirth: Date,
+        Email: String,
+        Password: String,
+        Gender: String,
+        Phone: String,
+        Address: String,
+        Role: String,
+        Status: Boolean
     });
 
 module.exports = mongoose.model("Users", Users);

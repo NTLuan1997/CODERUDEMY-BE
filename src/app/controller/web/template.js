@@ -3,7 +3,6 @@ class Template {
     constructor() { }
 
     render(req, res) {
-        console.log(req);
         switch(req._parsedOriginalUrl.pathname) {
             case"/web":
                 res.render("components/web-component", { show: true });

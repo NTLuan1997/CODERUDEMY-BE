@@ -2,6 +2,7 @@ const ObjectId = require("mongodb").ObjectId;
 const clientService = require("../services/clientService");
 const userService = require("../services/userService");
 const JWT = require("../utils/jwt");
+const BCRYPT = require("../utils/bcrypt");
 const Client = require("./client");
 class Middleware {
 
@@ -177,12 +178,61 @@ class Middleware {
                 req.condition = {"_id": {"$eq": token}};
 
                 if(role) {
-                    let {type, token, limited, start} = JSON.parse(req.headers.comment);
-                    if(type === "limited") {
-                        req.type = "limited";
-                        req.limited = limited;
-                        req.start = start;
-                        next();
+                    if(req.body.Type) {
+                        if(role === "admin") {
+                            if(req.body.Type === "Register") {
+                                delete req.body.Type;
+                                req.type = "Register";
+
+                                userService.exists({"Email": {"$eq": req.body.Email}})
+                                .then((result) => {
+                                    if(!result) {
+                                        req.user = req.body;
+                                        next();
+                                    } else {
+                                        return res.status(404).json({status: false, type: "emailRegisterAlready"});
+                                    }
+                                })
+                                .catch((err) => {
+                                    throw err;
+                                })
+                            }
+
+                            if(req.body.Type === "Edit") {
+                                delete req.body.Type;
+                                req.type = "Edit";
+
+                                userService.find({"Email": {"$eq": req.body.Email}})
+                                .then((result) => {
+                                    let obj = result[0].toObject();
+                                    req.condition = {"_id": {"$eq": obj._id}};
+                                    if(!BCRYPT.compare(req.body.Password, obj.Password)) {
+                                        req.body.Password = BCRYPT.hash(req.body.Password);
+                                    }
+                                    req.user = req.body;
+                                    next();
+                                })
+                                .catch((err) => {
+                                    throw err;
+                                })
+                            }
+
+                        }
+
+                    } else {
+                        let {type, token, limited, id, start} = JSON.parse(req.headers.comment);
+                        if(type === "limited") {
+                            req.type = "limited";
+                            req.limited = limited;
+                            req.start = start;
+                            next();
+                        }
+
+                        if(type === "Find") {
+                            req.type = "Find";
+                            req.condition = {"_id": {"$eq": id}};
+                            next();
+                        }
                     }
                 }
 

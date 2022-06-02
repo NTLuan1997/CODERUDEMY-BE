@@ -12,15 +12,19 @@ passport.use(new localStrategy({
 }, verify));
 
 function verify(req, Email, Password, done) {
-    let query = {"Email": {"$eq": Email}};
 
-    if(req.body.Type === "Client") {
-        client(query, Password, done);
-    }
+    console.log(req.body);
+    console.log(req.headers);
 
-    if(req.body.Type === "Manager") {
-        manager(query, Password, done);
-    }
+    // let query = {"Email": {"$eq": Email}};
+
+    // if(req.body.Type === "Client") {
+    //     client(query, Password, done);
+    // }
+
+    // if(req.body.Type === "Manager") {
+    //     manager(query, Password, done);
+    // }
 }
 
 function client(query, Password, done) {
@@ -68,8 +72,9 @@ function manager(query, Password, done) {
 
     })
     .then((result) => {
-        if(result[0].Password === Password) {
-            done(null, JWT.roleEncode(result[0]._id, result[0].Role));
+        let objResult = result[0].toObject();
+        if(Bcrypt.compare(Password, objResult.Password)) {
+            done(null, JWT.roleEncode(objResult._id, objResult.Role));
 
         } else {
             done({status: false, type:"passwordIncorrect"});
@@ -94,6 +99,9 @@ class Authentication {
     }
 
     local(req, res, next) {
+        console.log("Check Authentication");
+        console.log(req);
+        
         passport.authenticate("local", function(err, token) {
             if(err) return res.status(405).json(err);
             res.status(200).json(token);

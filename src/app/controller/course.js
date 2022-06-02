@@ -31,7 +31,12 @@ class Course {
             })
         }
 
+        function save() {
+            res.status(200).json({status: true});
+        }
+
         if(req.type === "limited") { limit() }
+        if(req.type === "Register") { save() }
     }
 
 }

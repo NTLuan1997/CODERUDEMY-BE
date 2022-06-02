@@ -20,35 +20,56 @@
         </div>
         <div class="users-detail my-3">
             <h2 class="users-detail--title">User detail title</h2>
-            <form id="users-detail">
+            <form id="User">
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            <label class="title--input" for="user-name">Tên người dùng</label>
-                            <input type="text" class="form-control" id="user-name" placeholder="Họ và tên">
+                            <label class="title--input" for="user-name">Họ và tên</label>
+                            <input type="text" class="form-control" id="Name" placeholder="Họ và tên">
+                            <span class="form-message"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="title--input" for="dateOfBirth">Ngày/Tháng/Năm sinh</label>
+                            <input type="date" class="form-control" id="DateOfBirth" placeholder="Tuổi">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label class="title--input" for="email">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="Địa chỉ email">
+                            <input type="email" class="form-control" id="Email" placeholder="Địa chỉ email">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
-                            <label class="title--input" for="password">Mật khẩu</label>
-                            <input type="password" class="form-control" id="password" placeholder="Mật khẩu">
+                            <label class="title--input" for="Password">Mật khẩu</label>
+                            <input type="password" class="form-control" id="Password" placeholder="Mật khẩu">
                             <span class="form-message"></span>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label class="title--input" for="dateOfBirth">Tuổi</label>
-                            <input type="date" class="form-control" id="dateOfBirth" placeholder="Tuổi">
+                            <label class="title--input" for="Gender">Giới tính</label>
+                            <select class="custom-select" id="Gender">
+                                <option selected value="default">Chọn thông tin</option>
+                                <option value="male">Nam</option>
+                                <option value="female">Nữ</option>
+                                <option value="other">Khác</option>
+                            </select>
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
-                            <label class="title--input" for="user-role">Loại tài khoản</label>
-                            <select class="custom-select" id="user-role">
-                                <option selected value="default">Chọn loại tài khoản</option>
+                            <label class="title--input" for="Phone">Số điện thoại</label>
+                            <input type="phone" class="form-control" id="Phone" placeholder="+84">
+                            <span class="form-message"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="title--input" for="Address">Địa chỉ</label>
+                            <input type="text" class="form-control" id="Address" placeholder="Địa chỉ">
+                            <span class="form-message"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="title--input" for="Role">Loại tài khoản</label>
+                            <select class="custom-select" id="Role">
+                                <option selected value="default">Quyền tài khoản</option>
                                 <option value="user">Khách hàng</option>
                                 <option value="member">Học viên</option>
                                 <option value="admin">Quản trị</option>
@@ -59,30 +80,21 @@
                             <label class="title--input" for="exampleInputPassword1">Trạng thái</label>
                             <div class="wrapper-status d-flex align-items-center">
                                 <div class="custom-control custom-radio mr-3">
-                                    <input type="radio" id="action" name="status" value="action"
-                                        class="custom-control-input">
-                                    <label class="custom-control-label input--status-title" for="action">Hoạt
-                                        động</label>
+                                    <input type="radio" id="action" name="status" value="action" class="custom-control-input">
+                                    <label class="custom-control-label input--status-title" for="action">Hoạt động</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" id="no-action" name="status" value="no-action"
-                                        class="custom-control-input">
-                                    <label class="custom-control-label input--status-title" for="no-action">Không hoạt
-                                        động</label>
+                                    <input type="radio" id="no-action" name="status" value="no-action" class="custom-control-input">
+                                    <label class="custom-control-label input--status-title" for="no-action">Không hoạt động</label>
                                 </div>
                                 <span class="form-message"></span>
                             </div>
-                        </div>
-                        <div class="form-group d-none">
-                            <label class="title--input" for="skills">Chuyên môn</label>
-                            <textarea class="form-control" id="skills" rows="5">{{user.skills}}</textarea>
-                            <span class="form-message"></span>
                         </div>
                     </div>
                 </div>
                 <div class="users-detail--serect">
                     <button type="submit" class="btn users-detail--btn">Submit</button>
-                    <button type="button" id="come-back" class="btn">Quay lại</button>
+                    <button type="button" id="roll-back" class="btn">Quay lại</button>
                 </div>
             </form>
         </div>
