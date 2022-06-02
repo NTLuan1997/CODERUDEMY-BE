@@ -35,8 +35,13 @@ window.onload = function (e) {
             https.POST("Empty", setInputAuthentication(), environment.endpoint.authentication)
             .then((res) => {
                 if(res) {
-                    cookie.set("Authentic", `${res}`);
-                    location.href = "/web";
+                    if(!res.hasOwnProperty("status")) {
+                        cookie.set("Authentic", `${res}`);
+                        window.location.href = "/web";
+                        
+                    } else {
+                        console.log("Dang nhap khong thanh cong");
+                    }
                     
                 } else {
                     console.log(res);

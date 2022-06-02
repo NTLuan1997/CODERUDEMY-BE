@@ -18,6 +18,10 @@ class JWT {
     decoded(token) {
         return jwt.decode(token, {complete: true});
     }
+
+    destroy(token) {
+        jwt.destroy(token, {complete: true});
+    }
 }
 
 

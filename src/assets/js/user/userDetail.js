@@ -1,145 +1,147 @@
-import { getType, getToken, permission, mapperDate } from "../commons/common.js";
+// import { getType, getToken, permission, mapperDate } from "../commons/common.js";
+import { Cookie } from "../lib/cookie.js";
+import DateTimes from "../lib/date.js";
+import { HTTPS } from "../commons/httpService.js";
+import Origin  from "../lib/lib-origin.js";
+import { environment } from "../config/environment.js";
 import { Validation } from "../commons/validation.js";
-import { httpsService } from "../commons/httpService.js";
 
 window.onload = function (e) {
+    const cookie = new Cookie();
+    const date = new DateTimes();
+    const https = new HTTPS();
+    const origin = new Origin();
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
 
-    // GET WRAPPER
-    let userForm = $("#users-detail");
-    let userName = $("#user-name");
-    let password = $("#password");
-    let skills = $("#skills");
-    let email = $("#email");
-    let dateOfBirth = $("#dateOfBirth");
-    let role = $("#user-role");
-
-    let toasts = $$(".modal-toasts")[0];
+    // INTERACTION
+    const token = `Bearer ${cookie.get("Authentic")}`;
+    const type = origin.parameter().type;
+    const User = $("#User");
+    const Name = $("#Name");
+    const DateOfBirth = $("#DateOfBirth");
+    const Email = $("#Email");
+    const Password = $("#Password");
+    const Gender = $("#Gender");
+    const Phone = $("#Phone");
+    const Address = $("#Address");
+    const Role = $("#Role");
 
     Validation({
-        form: "#users-detail",
+        form: "#User",
         selectorError: ".form-message",
         rules: [
             {
-                selector: "#user-name",
+                selector: "#Name",
                 guides: [Validation.required()]
             },
             {
-                selector: "#password",
-                guides: [Validation.required(), Validation.minLength(6), Validation.maxLength(12)]
-            },
-            {
-                selector: "#dateOfBirth",
+                selector: "#DateOfBirth",
                 guides: [Validation.required(), Validation.dateOfBirth(0, 80)]
             },
             {
-                selector: "#email",
+                selector: "#Email",
                 guides: [Validation.required(), Validation.isEmail()]
             },
             {
-                selector: "#user-role",
+                selector: "#Gender",
+                guides: [Validation.required()]
+            },
+            {
+                selector: "#Phone",
+                guides: [Validation.required()]
+            },
+            {
+                selector: "#Address",
+                guides: [Validation.required()]
+            },
+            {
+                selector: "#Role",
                 guides: [Validation.required()]
             }
         ]
     });
 
-    if (getType() == "update") {
+    if (type == "update") {
         (function () {
-            httpsService("API/user/user-single", "POST", { id: getToken() })
-                .then((data) => {
-                    return data.json();
-                })
-                .then((data) => {
-                    console.log(data);
-                    setUserForm(data);
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
+            environment.payload.type = "Find";
+            environment.payload.id = origin.parameter().token;
+            https.FIND(environment.payload, token, environment.endpoint.user)
+            .then((result) => {
+                if(result.length) {
+                    binding(result.at(0));
+                }
+            })
+            .catch((err) => {
+                throw err;
+            })
         }());
     }
 
-    switch (getType()) {
+    switch (type) {
         case "update":
             setTitleForm("update");
-            userForm.addEventListener("submit", updateUser);
+            User.addEventListener("submit", update);
             break;
 
         case "create":
         default:
             setTitleForm("create");
-            userForm.addEventListener("submit", createUser);
+            User.addEventListener("submit", create);
             break;
     }
 
-    function createUser(e) {
+    function create(e) {
         e.preventDefault();
-        if (userForm.valid) {
-            let data = getUserForm();
-            if (data) {
-                httpsService("API/user/user-new", "POST", data)
-                    .then((res) => {
-                        return res.json();
-                    })
-                    .then((data) => {
-                        data.status ?
-                            location.href = "/users" :
-                            permission(toasts, data);
-                    })
-                    .catch((err) => {
-                        console.error(err);
-                    })
+        https.POST(token, setValue(), environment.endpoint.user)
+        .then((result) => {
+            if(result?.status) { 
+                window.location.href = "/web/user";
             }
-        }
+        })
+        .catch((err) => {
+            throw err;
+        })
     }
 
-    function updateUser(e) {
+    function update(e) {
         e.preventDefault();
-        if (userForm.valid) {
-            let data = getUserForm();
-            data["id"] = getToken();
-            if (data) {
-                httpsService("API/user/user-edit", "PUT", data)
-                    .then((res) => {
-                        return res.json();
-                    })
-                    .then((data) => {
-                        data.status ?
-                            location.href = "/users" :
-                            permission(toasts, data);
-                    })
-                    .catch((err) => {
-                        console.error(err);
-                    })
+        https.PUT(token, setValue(), environment.endpoint.user)
+        .then((result) => {
+            if(result?.status) {
+                window.location.href = "/web/user";
             }
-        }
+        })
+        .catch((err) => {
+            throw err;
+        })
     }
 
-    function getUserForm() {
-        let data = {
-            "user_name": userName.value,
-            "email": email.value,
-            "password": password.value,
-            "dateOfBirth": new Date(dateOfBirth.value).toISOString(),
-            "role": role.value,
-            "status": ($("input[name='status']:checked").value) ? true : false,
-            "courses": [],
-        }
-        return data;
+    function binding(result) {
+        Name.value = result?.Name;
+        DateOfBirth.value =  date.bindingToTemplate(result?.DateOfBirth);
+        Email.value = result?.Email;
+        Password.value = result?.Password;
+        Gender.value = result?.Gender;
+        Phone.value = result?.Phone;
+        Address.value = result?.Address;
+        Role.value = result?.Role;
+        (result?.Status)? $("#action").checked = true : $("#no-action").checked = true;
     }
 
-    function setUserForm(user) {
-        userName.value = user["user_name"];
-        email.value = user.email;
-        password.value = user.password;
-        dateOfBirth.value = mapperDate(new Date(user.dateOfBirth).toLocaleDateString());
-        (user.status) ? $(`input[id='action']`).checked = true : $(`input[id='no-action']`).checked = true;
-        skills.value = user.skills;
-        for (let type of role) {
-            if (type.value == user.role) {
-                type.setAttribute("selected", true);
-            }
+    function setValue() {
+        let date = new Date(DateOfBirth.value);
+        return {
+            Type: (type === "create")? "Register" : "Edit",
+            Name: Name.value,
+            DateOfBirth: date.toISOString(),
+            Email: Email.value,
+            Password: (Password.value)? Password.value : "P@ssword123",
+            Gender:Gender.value,
+            Phone: Phone.value,
+            Address: Address.value,
+            Role: Role.value,
+            Status: ($("input[name='status']:checked")?.value === "action") ? true : false,
         }
     }
 
@@ -156,7 +158,7 @@ window.onload = function (e) {
         }
     }
 
-    $("#come-back").addEventListener("click", function (e) {
+    $("#roll-back").addEventListener("click", function (e) {
         window.history.back();
     })
 
