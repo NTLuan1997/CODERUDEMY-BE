@@ -46,10 +46,21 @@ class User {
             })
         }
 
-        if(req.type === "Edit") { update() }
-        if(req.type === "limited") { limited() }
-        if(req.type === "Find") { find() }
-        if(req.type === "Register") { saved() }
+        function remove() {
+            userService.remove(req.condition)
+            .then((result) => {
+                res.status(200).json(result);
+            })
+            .catch((err) =>  {
+                throw err;
+            })
+        }
+
+        if(req.type === "Delete"){remove()}
+        if(req.type === "Edit"){update()}
+        if(req.type === "limited"){limited()}
+        if(req.type === "Find"){find()}
+        if(req.type === "Register"){saved()}
     }
 }
 

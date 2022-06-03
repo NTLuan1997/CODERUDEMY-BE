@@ -86,6 +86,15 @@ class UserService extends Service {
             })
         }
 
+        remove(query) {
+            return super.documentQuery((resolve, reject) => {
+                User.deleteOne(query).exec((err, doc) => {
+                    if (err) reject(err);
+                    resolve({ status: true, message: "Delete done" });
+                })
+            })
+        }
+
     // NEW FUNCTION
 
     /**

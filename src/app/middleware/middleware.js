@@ -217,6 +217,12 @@ class Middleware {
                                 })
                             }
 
+                            if(req.body.Type === "Delete") {
+                                req.type = "Delete";
+                                req.condition = {"_id": {"$eq": req.body.Id}};
+                                next();
+                            }
+
                         }
 
                     } else {
