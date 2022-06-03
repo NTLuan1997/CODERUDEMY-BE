@@ -9,7 +9,8 @@ const Courses = new Schema({
     "CreateDate": Date,
     "UpdateDate": Date,
     "Description": String,
-    "Thumbnail": String
+    "Thumbnail": String,
+    "Status": Boolean
 })
 
 module.exports = mongoose.model("Course", Courses);
