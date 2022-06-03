@@ -46,21 +46,21 @@ export class View {
         let type = this.Origin.checkTypePage();
         let title = (this.Origin.checkTypePage() === "course") ? "Học phần" : "Khóa học";
         let nextPage = (this.Origin.checkTypePage() === "course")? "course/unit" : "course/unit/lesson";
-        console.log(nextPage);
+        console.log(this.URLMethod);
 
         if(this.Pages.includes(this.Origin.checkTypePage())) {
             return `
                 <td class="d-flex">
                     <a href="/web/${nextPage}?token=${token}" class="btn-method mr-2">${title}</a>
                     <a href="/web/${type}/detail?type=update&token=${token}" class="btn-method mr-2">Sửa</a>
-                    <button class="btn-method" type="button">Xóa</button>
+                    <button class="btn-method delete" data-id="${token}" type="button">Xóa</button>
                 </td>
             `;
         }
         return `
             <td class="d-flex">
                 <a href="/web/${type}/detail?type=update&token=${token}" class="btn-method mr-2">Sửa</a>
-                <button class="btn-method" type="button">Xóa</button>
+                <button class="btn-method delete" data-id="${token}" type="button">Xóa</button>
             </td>
         `;
     }
