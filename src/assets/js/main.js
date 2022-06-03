@@ -1,6 +1,6 @@
 import { environment } from "./config/environment.js";
 import { Cookie } from "./lib/cookie.js";
-import { HTTPS } from "./commons/httpService.js";
+import { HTTPS } from "./commons/https.js";
 
 window.onload = function (e) {
     const https = new HTTPS();

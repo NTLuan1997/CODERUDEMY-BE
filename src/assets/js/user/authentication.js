@@ -1,4 +1,4 @@
-import { HTTPS } from "../commons/httpService.js";
+import { HTTPS } from "../commons/https.js";
 import { Cookie } from "../lib/cookie.js";
 import { Validation } from "../commons/validation.js";
 import { environment } from "../config/environment.js";

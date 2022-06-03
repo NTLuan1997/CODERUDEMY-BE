@@ -1,7 +1,6 @@
-// import { getType, getToken, permission, mapperDate } from "../commons/common.js";
 import { Cookie } from "../lib/cookie.js";
 import DateTimes from "../lib/date.js";
-import { HTTPS } from "../commons/httpService.js";
+import { HTTPS } from "../commons/https.js";
 import Origin  from "../lib/lib-origin.js";
 import { environment } from "../config/environment.js";
 import { Validation } from "../commons/validation.js";
@@ -93,28 +92,32 @@ window.onload = function (e) {
 
     function create(e) {
         e.preventDefault();
-        https.POST(token, setValue(), environment.endpoint.user)
-        .then((result) => {
-            if(result?.status) { 
-                window.location.href = "/web/user";
-            }
-        })
-        .catch((err) => {
-            throw err;
-        })
+        if(User.valid) {
+            https.POST(token, setValue(), environment.endpoint.user)
+            .then((result) => {
+                if(result?.status) { 
+                    window.location.href = "/web/user";
+                }
+            })
+            .catch((err) => {
+                throw err;
+            })
+        }
     }
 
     function update(e) {
         e.preventDefault();
-        https.PUT(token, setValue(), environment.endpoint.user)
-        .then((result) => {
-            if(result?.status) {
-                window.location.href = "/web/user";
-            }
-        })
-        .catch((err) => {
-            throw err;
-        })
+        if(User.valid) {
+            https.PUT(token, setValue(), environment.endpoint.user)
+            .then((result) => {
+                if(result?.status) {
+                    window.location.href = "/web/user";
+                }
+            })
+            .catch((err) => {
+                throw err;
+            })
+        }
     }
 
     function binding(result) {
