@@ -46,7 +46,6 @@ export class View {
         let type = this.Origin.checkTypePage();
         let title = (this.Origin.checkTypePage() === "course") ? "Học phần" : "Khóa học";
         let nextPage = (this.Origin.checkTypePage() === "course")? "course/unit" : "course/unit/lesson";
-        console.log(this.URLMethod);
 
         if(this.Pages.includes(this.Origin.checkTypePage())) {
             return `
