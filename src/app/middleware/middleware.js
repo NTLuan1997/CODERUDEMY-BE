@@ -128,13 +128,28 @@ class Middleware {
                 req.condition = {"_id": {"$eq": token}};
 
                 if(role) {
-                    if(req.headers.comment) {
-                        let {type, token, limited, start} = JSON.parse(req.headers.comment);
-                        req.type = "limited";
-                        req.limited = limited;
-                        req.start = start;
+                    if(req.body.Func) {
+                        if(role === "admin") {
+                            if(req.body.Func === "Register") {
+                                delete req.body.Func;
+                                req.type = "Register";
+                                req.course = req.body;
+                                next();
+                            }
+
+                        } else {
+                            console.log("permission");
+                        }
+
+                    } else {
+                        if(req.headers.comment) {
+                            let {type, token, limited, start} = JSON.parse(req.headers.comment);
+                            req.type = "limited";
+                            req.limited = limited;
+                            req.start = start;
+                        }
+                        next();
                     }
-                    next();
                 }
 
             } else {

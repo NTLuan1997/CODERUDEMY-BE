@@ -204,6 +204,8 @@ form .form-group .password-control {
   .page-detail .page-detail-form .form-group .form-group--label {
     font-size: 16px;
     text-transform: capitalize; }
+  .page-detail .page-detail-form .hidden-group {
+    display: none; }
   .page-detail .page-detail-register .page-detail-register__content {
     box-shadow: 0 0 2px #00000030;
     padding: 15px; }

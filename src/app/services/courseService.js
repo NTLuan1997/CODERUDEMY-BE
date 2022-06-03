@@ -12,14 +12,15 @@ class CourseService extends Service {
      * Method count Course.
      * @Returns Number all Courses of collection.
      */
-    countCourse() {
-        return super.documentQuery((resolve, reject) => {
-            resolve(Course.count({}));
-        })
-    }
+    // countCourse() {
+    //     return super.documentQuery((resolve, reject) => {
+    //         resolve(Course.count({}));
+    //     })
+    // }
 
 
     
+    // NEW FUNCTIONS
         limit(limit, start) {
             return super.documentQuery((resolve, reject) => {
                 Course.find({}).limit(limit).skip(start).exec((err, doc) => {
@@ -29,34 +30,45 @@ class CourseService extends Service {
             })
         }
 
+        saved(course) {
+            return super.documentQuery((resolve, reject) => {
+                Course.create(course, (err, doc) => {
+                    if (err) reject(err);
+                    resolve({ status: true, message: "Create done", course: doc });
+                })
+            })
+        }
+
+    // NEW FUNCTIONS
+
     /**
      * 
      * Method find one Course.
      * @param {*} id condition find single course.
      * @returns One Course document in collection.
      */
-    findOneCourse(query) {
-        return super.documentQuery((resolve, reject) => {
-            Course.findOne(query).exec((err, doc) => {
-                if (err) reject(err);
-                resolve(doc);
-            })
-        })
-    }
+    // findOneCourse(query) {
+    //     return super.documentQuery((resolve, reject) => {
+    //         Course.findOne(query).exec((err, doc) => {
+    //             if (err) reject(err);
+    //             resolve(doc);
+    //         })
+    //     })
+    // }
 
     /**
      * 
      * Method find all Courses.
      * @returns List all Courses of collection.
      */
-    findCourse() {
-        return super.documentQuery((resolve, reject) => {
-            Course.find().exec((err, doc) => {
-                if (err) reject(err);
-                resolve(doc);
-            })
-        })
-    }
+    // findCourse() {
+    //     return super.documentQuery((resolve, reject) => {
+    //         Course.find().exec((err, doc) => {
+    //             if (err) reject(err);
+    //             resolve(doc);
+    //         })
+    //     })
+    // }
 
     // findCourseByName(...fields) {
     //     let query = fields.reduce((accument, currentValue) => {
@@ -78,14 +90,14 @@ class CourseService extends Service {
      * @param {*} start location begin get
      * @returns list courses registry of []
      */
-    findLimitCourse(limit, start) {
-        return Promise.all([super.documentQuery((resolve, reject) => {
-            Course.find({}).limit(limit).skip(start).exec((err, doc) => {
-                if (err) reject(err);
-                resolve(doc);
-            })
-        }), this.countCourse()]);
-    }
+    // findLimitCourse(limit, start) {
+    //     return Promise.all([super.documentQuery((resolve, reject) => {
+    //         Course.find({}).limit(limit).skip(start).exec((err, doc) => {
+    //             if (err) reject(err);
+    //             resolve(doc);
+    //         })
+    //     }), this.countCourse()]);
+    // }
 
 
     /**
@@ -94,14 +106,14 @@ class CourseService extends Service {
      * @param {*} body information new course
      * @returns status after create course
      */
-    newCourse(body) {
-        return super.documentQuery((resolve, reject) => {
-            Course.create(body, (err, doc) => {
-                if (err) reject(err);
-                resolve({ status: true, message: "Create done" })
-            })
-        })
-    }
+    // newCourse(body) {
+    //     return super.documentQuery((resolve, reject) => {
+    //         Course.create(body, (err, doc) => {
+    //             if (err) reject(err);
+    //             resolve({ status: true, message: "Create done" })
+    //         })
+    //     })
+    // }
 
     /**
      * 
@@ -110,14 +122,14 @@ class CourseService extends Service {
      * @param {*} body information update course 
      * @returns status after update course
      */
-    updateCourse(query, body) {
-        return super.documentQuery((resolve, reject) => {
-            Course.updateOne(query, body, { upsert: true }).exec((err, doc) => {
-                if (err) reject(err);
-                resolve({ status: true, message: "Update done" });
-            })
-        })
-    }
+    // updateCourse(query, body) {
+    //     return super.documentQuery((resolve, reject) => {
+    //         Course.updateOne(query, body, { upsert: true }).exec((err, doc) => {
+    //             if (err) reject(err);
+    //             resolve({ status: true, message: "Update done" });
+    //         })
+    //     })
+    // }
 
     /**
      * 
@@ -125,14 +137,14 @@ class CourseService extends Service {
      * @param {*} query query condition find course when delete
      * @returns tatus after delete course
      */
-    deleteCourse(query) {
-        return super.documentQuery((resolve, reject) => {
-            Course.deleteOne(query).exec((err, doc) => {
-                if (err) reject(err);
-                resolve({ status: true, message: "Delete done" });
-            })
-        })
-    }
+    // deleteCourse(query) {
+    //     return super.documentQuery((resolve, reject) => {
+    //         Course.deleteOne(query).exec((err, doc) => {
+    //             if (err) reject(err);
+    //             resolve({ status: true, message: "Delete done" });
+    //         })
+    //     })
+    // }
 
 }
 
