@@ -19,6 +19,9 @@ const courseController = require("../../app/controller/course");
     // COURSE
         router.get("/course", middleware.courseTransaction, courseController.functionsCourse);
         router.post("/course", middleware.courseTransaction, courseController.functionsCourse);
+        router.put("/course", middleware.courseTransaction, courseController.functionsCourse);
+        router.delete("/course", middleware.courseTransaction, courseController.functionsCourse);
+
         // router.get("/course", courseController.course);
         // router.post("/course-single", authen.authentication, middleware.courseMapper, courseController.findSingle);
         // router.post("/course-new", authen.authentication, authen.permissions, middleware.courseMapper, courseController.newCourse);

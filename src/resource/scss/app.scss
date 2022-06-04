@@ -273,6 +273,9 @@ form {
         }
         .hidden-group {
             display: none;
+            &.active {
+                display: block;
+            }
         }
     }
     .page-detail-register {

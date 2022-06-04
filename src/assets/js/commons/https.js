@@ -89,14 +89,15 @@ export class HTTPS {
         })
     }
 
-    DELETE(token, endPoint) {
+    DELETE(token, body, endPoint) {
         return new Promise((resolve, reject) => {
             fetch(endPoint, {
                 "method": "DELETE",
                 "headers": {
                     "Content-Type": "application/json",
                     "Authorization": token
-                }
+                },
+                "body": JSON.stringify(body)
             })
             .then((res) => {
                 return res.json();

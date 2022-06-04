@@ -21,7 +21,7 @@ export default class Delete {
                     "Id": this.dataset.id
                 };
 
-                https.PUT(token, payload, endPoint)
+                https.DELETE(token, payload, endPoint)
                 .then((result) => {
                     if(result?.status) {
                         window.location.reload();
