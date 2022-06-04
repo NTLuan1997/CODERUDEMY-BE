@@ -16,16 +16,17 @@ window.onload = function (e) {
     const type = origin.parameter().type;
 
     // GET WRAPPER
-    let Course = $("#Course");
-    let Name = $("#Name");
-    let Type = $("#Type");
-    let Author = $("#Author");
-    let CreateDate = $("#CreateDate");
-    let EditDate = $("#EditDate");
-    let AmountUnit = $("#AmountUnit");
-    let Thumbnail = $("#Thumbnail");
-    let Description = $("#Description");
+    const Course = $("#Course");
+    const Name = $("#Name");
+    const Type = $("#Type");
+    const Author = $("#Author");
+    const CreateDate = $("#CreateDate");
+    const UpdateDate = $("#UpdateDate");
+    const Unit = $("#Unit");
+    const Thumbnail = $("#Thumbnail");
+    const Description = $("#Description");
 
+    const hiddenGroup = $$(".hidden-group");
 
     Validation({
         form: "#Course",
@@ -62,21 +63,27 @@ window.onload = function (e) {
         ]
     });
 
+    if(type === "update") {
+        (function() {
+            hiddenGroup.forEach((group) => {
+                group.classList.add("active");
+            })
 
-//     if (getType() == "update") {
-//         (function () {
-//             httpsService("API/course/course-single", "POST", { id: getToken() })
-//                 .then((data) => {
-//                     return data.json();
-//                 })
-//                 .then((data) => {
-//                     setCourseForm(data);
-//                 })
-//                 .catch((err) => {
-//                     console.log(err);
-//                 })
-//         }());
-//     }
+            environment.payload.type = "Find";
+            environment.payload.id = origin.parameter().token;
+
+            https.FIND(environment.payload, token, environment.endpoint.course)
+            .then((result) => {
+                if(result?.length) {
+                    binding(result[0]);
+                }
+            })
+            .catch((err) => {
+                throw err;
+            })
+
+        }())
+    }
 
     switch (type) {
         case "update":
@@ -106,85 +113,46 @@ window.onload = function (e) {
         }
     }
 
-//     function updateUser(e) {
-//         e.preventDefault();
-//         if (this.valid) {
-//             let data = getCourseForm();
-//             data["id"] = getToken();
-//             if (data) {
-//                 httpsService("API/course/course-edit", "PUT", data)
-//                     .then((res) => {
-//                         return res.json();
-//                     })
-//                     .then((data) => {
-//                         data.status ?
-//                             location.href = "/courses" :
-//                             permission(toasts, data);
-//                     })
-//                     .catch((err) => {
-//                         console.error(err);
-//                     })
-//             }
-//         }
-//     }
+    function update(e) {
+        e.preventDefault();
+        if (this.valid) {
+            https.PUT(token, setValue(), environment.endpoint.course)
+            .then((result) => {
+                if(result?.status) {
+                    window.location.reload();
+                }
+            })
+            .catch((err) => {
+                throw err;
+            })
+        }
+    }
 
     function binding(result) {
-        // Name.value = result?.Name;
-        // DateOfBirth.value =  date.bindingToTemplate(result?.DateOfBirth);
-        // Email.value = result?.Email;
-        // Password.value = result?.Password;
-        // Gender.value = result?.Gender;
-        // Phone.value = result?.Phone;
-        // Address.value = result?.Address;
-        // Role.value = result?.Role;
-        // (result?.Status)? $("#action").checked = true : $("#no-action").checked = true;
+        Name.value = result?.Name;
+        Author.value = result?.Author;
+        Type.value = result?.Type;
+        Unit.value = result?.Unit;
+        CreateDate.value = result?.CreateDate.split(".")[0];
+        UpdateDate.value = (result?.UpdateDate)? result?.UpdateDate.split(".")[0] : "";
+        Description.value = result?.Description;
     }
 
     function setValue() {
         let date = new Date();
         return {
+            Id: (origin.parameter().type === "create")? "" : origin.parameter().token,
             Func: (type === "create")? "Register" : "Edit",
             Name: Name.value,
             Author: Author.value,
             Type: Type.value,
-            Unit: 0,
+            Unit: (type === "create")? 0 : Unit.value,
             CreateDate: (type === "create")? date.toISOString() : CreateDate.value,
-            UpdateDate: "",
+            UpdateDate: (type === "create")? "" : date.toISOString(),
             Description: Description.value,
-            Thumbnail: "",
-            Status: true
+            Status: false
         }
     }
-
-//     function getCourseForm() {
-//         let data = {
-//             courseName: courseName.value,
-//             author: courseAuthor.value,
-//             type: courseType.value,
-//             unit: (courseUnit.value) ? courseUnit.value : 0,
-//             createDate: courseCreateDate.value,
-//             updateDate: courseEditLastDate.value,
-//             description: courseDescription.value,
-//             thumbnail: courseThumbanil.value,
-//         }
-//         return data;
-//     }
-
-//     function setCourseForm(course) {
-//         courseCode.value = course["_id"];
-//         courseName.value = course.courseName;
-//         courseUnit.value = course.unit;
-//         courseAuthor.value = course.author;
-//         courseCreateDate.value = course.createDate.split(".")[0];
-//         courseEditLastDate.value = course.updateDate.split(".")[0];
-//         courseThumbanil.value = course.thumbnail;
-//         courseDescription.value = course.description;
-//         for (let type of courseType) {
-//             if (type.value == course.type) {
-//                 type.setAttribute("selected", true);
-//             }
-//         }
-//     }
 
     function setTitleForm(type) {
         let title = $$(".page-detail--title")[0];

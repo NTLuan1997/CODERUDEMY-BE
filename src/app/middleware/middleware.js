@@ -128,12 +128,27 @@ class Middleware {
                 req.condition = {"_id": {"$eq": token}};
 
                 if(role) {
-                    if(req.body.Func) {
+                    if(req.body.Func || req.body.Type) {
                         if(role === "admin") {
                             if(req.body.Func === "Register") {
                                 delete req.body.Func;
                                 req.type = "Register";
                                 req.course = req.body;
+                                next();
+                            }
+
+                            if(req.body.Func === "Edit") {
+                                req.condition = {"_id": {"$eq": req.body.Id}};
+                                delete req.body.Func;
+                                delete req.body.Id;
+                                req.type = "Edit";
+                                req.course = req.body;
+                                next();
+                            }
+
+                            if(req.body.Type === "Delete") {
+                                req.type = "Delete";
+                                req.condition = {"_id": {"$eq": req.body.Id}};
                                 next();
                             }
 
@@ -143,12 +158,20 @@ class Middleware {
 
                     } else {
                         if(req.headers.comment) {
-                            let {type, token, limited, start} = JSON.parse(req.headers.comment);
-                            req.type = "limited";
-                            req.limited = limited;
-                            req.start = start;
+                            let {type, token, id, limited, start} = JSON.parse(req.headers.comment);
+                            if(type === "Limited") {
+                                req.type = "Limited";
+                                req.limited = limited;
+                                req.start = start;
+                            }
+
+                            if(type === "Find") {
+                                req.type = "Find";
+                                req.condition = {"_id": {"$eq": id}};
+                            }
+
+                            next();
                         }
-                        next();
                     }
                 }
 
