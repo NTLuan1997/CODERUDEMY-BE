@@ -2,6 +2,7 @@ import { Cookie } from "../lib/cookie.js";
 import DateTimes from "../lib/date.js";
 import { HTTPS } from "../commons/https.js";
 import Origin  from "../lib/lib-origin.js";
+import { Priture } from "../commons/priture.js";
 import { environment } from "../config/environment.js";
 import { Validation } from "../commons/validation.js";
 
@@ -10,6 +11,7 @@ window.onload = function (e) {
     const date = new DateTimes();
     const https = new HTTPS();
     const origin = new Origin();
+    const priture = new Priture();
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
 
@@ -25,6 +27,11 @@ window.onload = function (e) {
     const Phone = $("#Phone");
     const Address = $("#Address");
     const Role = $("#Role");
+
+    // PRITURE
+    let ThumbnailOld = "";
+    const wrapper = $("#wrapper-priture");
+    const ThumbnailUpload = $("#upload-thumbnail");
 
     Validation({
         form: "#User",
@@ -63,6 +70,7 @@ window.onload = function (e) {
 
     if (type == "update") {
         (function () {
+            wrapper.classList.add("active");
             environment.payload.type = "Find";
             environment.payload.id = origin.parameter().token;
             https.FIND(environment.payload, token, environment.endpoint.user)
@@ -80,6 +88,7 @@ window.onload = function (e) {
     switch (type) {
         case "update":
             setTitleForm("update");
+            ThumbnailUpload.addEventListener("change", upload);
             User.addEventListener("submit", update);
             break;
 
@@ -120,7 +129,19 @@ window.onload = function (e) {
         }
     }
 
+    function upload(e) {
+        priture.upload(environment.priture.url, this?.files[0], "users", ThumbnailOld)
+        .then((result) => {
+            console.log(result);
+        })
+        .catch((err) => {
+            throw err;
+        })
+    }
+
     function binding(result) {
+        ThumbnailOld = result?.Thumbnail;
+
         Name.value = result?.Name;
         DateOfBirth.value =  date.bindingToTemplate(result?.DateOfBirth);
         Email.value = result?.Email;
@@ -144,6 +165,7 @@ window.onload = function (e) {
             Phone: Phone.value,
             Address: Address.value,
             Role: Role.value,
+            Thumbnail: "",
             Status: ($("input[name='status']:checked")?.value === "action") ? true : false,
         }
     }

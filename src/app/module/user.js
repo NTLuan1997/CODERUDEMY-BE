@@ -11,6 +11,7 @@ const Users = new Schema(
         Phone: String,
         Address: String,
         Role: String,
+        Thumbnail: String,
         Status: Boolean
     });
 

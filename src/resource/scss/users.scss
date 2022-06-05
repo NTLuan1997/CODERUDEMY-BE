@@ -35,7 +35,58 @@
         margin-bottom: 30px;
         text-transform: uppercase;
     }
-
+    .page-detail--information {
+        display: flex;
+        align-items: flex-start;
+        .priture {
+            display: none;
+            margin-left: auto;
+            margin-right: 0px;
+            position: relative;
+            .thumbnail {
+                border-radius: 2px;
+                box-shadow: 0 0 2px #00000030;
+                height: 100px;
+                padding: 3px;
+                width: 100px;
+            }
+            .upload-thumbnail {
+                bottom: 0px;
+                display: inline-block;
+                left:0px;
+                height: 25px;
+                overflow: hidden;
+                position: absolute;
+                width:25px;
+                &:before {
+                    background-color: #f28d0f;
+                    border-radius: 2px;
+                    color: #ffffff;
+                    font-family: "FontAwesome";
+                    font-weight: 500;
+                    font-size: 14px;
+                    content: "\f044";
+                    display: inline-block;
+                    height: 25px;
+                    line-height: 25px;
+                    text-align: center;
+                    width:25px;
+                    vertical-align: middle;
+                }
+            }
+            &.active {
+                display: block;
+            }
+        }
+    }
+    .page-detail--roll-back {
+        margin-right: 5px;
+        i.fa {
+            color: #f28d0f;
+            font-size: 25px;
+            margin-top: 2px;
+        }
+    }
     #users-detail--info {
         .title--input {
             font-size: 13px;
