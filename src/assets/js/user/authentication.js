@@ -35,8 +35,9 @@ window.onload = function (e) {
             https.POST("Empty", setInputAuthentication(), environment.endpoint.authentication)
             .then((res) => {
                 if(res) {
-                    if(!res.hasOwnProperty("status")) {
-                        cookie.set("Authentic", `${res}`);
+                    let {status, token} = res;
+                    if(token) {
+                        cookie.set("Authentic", `${token}`);
                         window.location.href = "/web";
                         
                     } else {

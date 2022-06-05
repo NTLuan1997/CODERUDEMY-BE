@@ -65,7 +65,8 @@
       .users-detail .page-detail--information .priture.active {
         display: block; }
   .users-detail .page-detail--roll-back {
-    margin-right: 5px; }
+    margin-right: 5px;
+    cursor: pointer; }
     .users-detail .page-detail--roll-back i.fa {
       color: #f28d0f;
       font-size: 25px;

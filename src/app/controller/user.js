@@ -61,6 +61,7 @@ class User {
         if(req.type === "limited"){limited()}
         if(req.type === "Find"){find()}
         if(req.type === "Register"){saved()}
+        if(req.type === "Thumbnail"){update()};
     }
 }
 

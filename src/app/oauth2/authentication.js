@@ -28,7 +28,6 @@ function client(query, Password, done) {
         .then((result) => {
             if(result?.status) {
                 return result;
-
             } else {
                 done({status: false, type: "accountUnregister"});
             }
@@ -41,7 +40,6 @@ function client(query, Password, done) {
             if(result.length) {
                 if(Bcrypt.compare(Password, result[0].Password)) {
                     done(null, {token: JWT.generation(result[0]._id)});
-
                 } else {
                     done({status: false, type:"passwordIncorrect"});
                 }
@@ -69,8 +67,10 @@ function manager(query, Password, done) {
     })
     .then((result) => {
         let objResult = result[0].toObject();
+        // console.log(Bcrypt.compare(Password, objResult.Password));
+
         if(Bcrypt.compare(Password, objResult.Password)) {
-            done(null, JWT.roleEncode(objResult._id, objResult.Role));
+            done(null, {token: JWT.roleEncode(objResult._id, objResult.Role)});
 
         } else {
             done({status: false, type:"passwordIncorrect"});

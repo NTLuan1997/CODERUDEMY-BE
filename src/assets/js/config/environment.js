@@ -1,7 +1,7 @@
 export const environment = {
     "priture": {
-        // "url": "https://nguyenphuongduy.000webhostapp.com",
-        "url": "http://localhost/www/CODERUDEMY-IMG/index.php",
+        "url": "https://nguyenphuongduy.000webhostapp.com",
+        // "url": "http://localhost/www/CODERUDEMY-IMG/index.php",
         "client": {
             "url": "https://nguyenphuongduy.000webhostapp.com",
             "location": "http://localhost/www/CODERUDEMY-IMG/index.php",
