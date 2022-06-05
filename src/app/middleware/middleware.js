@@ -244,6 +244,8 @@ class Middleware {
                                 .then((result) => {
                                     let obj = result[0].toObject();
                                     req.condition = {"_id": {"$eq": obj._id}};
+                                    console.log(req.body.Password);
+                                    
                                     if(!BCRYPT.compare(req.body.Password, obj.Password)) {
                                         req.body.Password = BCRYPT.hash(req.body.Password);
                                     }
@@ -255,12 +257,18 @@ class Middleware {
                                 })
                             }
 
+                            if(req.body.Type === "Thumbnail") {
+                                req.type = "Thumbnail";
+                                req.condition = {"_id": {"$eq": req.body.Id}};
+                                req.user = {"Thumbnail": req.body.Destination};
+                                next();
+                            }
+
                             if(req.body.Type === "Delete") {
                                 req.type = "Delete";
                                 req.condition = {"_id": {"$eq": req.body.Id}};
                                 next();
                             }
-
                         }
 
                     } else {

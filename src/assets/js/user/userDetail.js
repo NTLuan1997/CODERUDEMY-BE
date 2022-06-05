@@ -32,6 +32,7 @@ window.onload = function (e) {
     let ThumbnailOld = "";
     const wrapper = $("#wrapper-priture");
     const ThumbnailUpload = $("#upload-thumbnail");
+    const Thumbnail = $("#thumbnail");
 
     Validation({
         form: "#User",
@@ -130,17 +131,34 @@ window.onload = function (e) {
     }
 
     function upload(e) {
-        priture.upload(environment.priture.url, this?.files[0], "users", ThumbnailOld)
-        .then((result) => {
-            console.log(result);
-        })
-        .catch((err) => {
-            throw err;
-        })
+        if(token) {
+            priture.upload(environment.priture.url, this?.files[0], "users", ThumbnailOld)
+            .then((result) => {
+                let {status, message, destination} = result;
+                if(status) {
+                    let payload = {
+                        Id: origin.parameter().token,
+                        Type: "Thumbnail",
+                        Destination: destination
+                    }
+                    return https.PUT(token, payload, environment.endpoint.user);
+                }
+            })
+            .then((result) => {
+                if(result?.status) {
+                    window.location.reload();
+                }
+            })
+            .catch((err) => {
+                throw err;
+            })
+        }
     }
 
     function binding(result) {
         ThumbnailOld = result?.Thumbnail;
+        let thumbnail = (ThumbnailOld)? `${environment.priture.url}/${ThumbnailOld}` : "/static/img/thumbnail_default.jpg";
+        Thumbnail.setAttribute("src", thumbnail);
 
         Name.value = result?.Name;
         DateOfBirth.value =  date.bindingToTemplate(result?.DateOfBirth);
@@ -183,8 +201,7 @@ window.onload = function (e) {
         }
     }
 
-    $("#roll-back").addEventListener("click", function (e) {
+    $("#roll-back").addEventListener("click", function(e) {
         window.history.back();
     })
-
 }
