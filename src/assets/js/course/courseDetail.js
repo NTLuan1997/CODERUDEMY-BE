@@ -2,6 +2,7 @@ import { Cookie } from "../lib/cookie.js";
 import { environment } from "../config/environment.js";
 import { HTTPS } from "../commons/https.js";
 import Origin  from "../lib/lib-origin.js";
+import { Priture } from "../commons/priture.js";
 import { Validation } from "../commons/validation.js";
 
 window.onload = function (e) {
@@ -9,6 +10,7 @@ window.onload = function (e) {
     const cookie = new Cookie();
     const https = new HTTPS();
     const origin = new Origin();
+    const priture = new Priture();
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
 
@@ -26,6 +28,10 @@ window.onload = function (e) {
     const Thumbnail = $("#Thumbnail");
     const Description = $("#Description");
 
+    // PRITURE
+    const wrapper = $("#wrapper-priture");
+
+    // HIDDEN INPUT
     const hiddenGroup = $$(".hidden-group");
 
     Validation({
@@ -65,6 +71,7 @@ window.onload = function (e) {
 
     if(type === "update") {
         (function() {
+            // wrapper.classList.add("active");
             hiddenGroup.forEach((group) => {
                 group.classList.add("active");
             })
@@ -88,6 +95,7 @@ window.onload = function (e) {
     switch (type) {
         case "update":
             setTitleForm("update");
+            
             Course.addEventListener("submit", update);
             break;
 
@@ -167,7 +175,7 @@ window.onload = function (e) {
         }
     }
 
-//     $("#come-back").addEventListener("click", function (e) {
-//         window.history.back();
-//     })
+    $("#roll-back").addEventListener("click", function (e) {
+        window.history.back();
+    })
 }
