@@ -20,7 +20,14 @@
         </div>
         <div class="users-detail my-3">
             <div class="page-detail--information">
-                <h2 class="users-detail--title">User detail title</h2>
+                <div class="title">
+                    <h2 class="title-page">User detail title</h2>
+                    <div class="custom-control custom-switch" id="switched">
+                        <input type="checkbox" class="custom-control-input" id="Status">
+                        <label class="custom-control-label" for="Status">Trạng thái người dùng</label>
+                    </div>
+                </div>
+
                 <div class="priture" id="wrapper-priture">
                     <img class="thumbnail" id="thumbnail" src="/static/img/thumbnail_default.jpg" alt="thumbnail"/>
                     <input type="file" class="upload-thumbnail" id="upload-thumbnail"/>
@@ -45,8 +52,13 @@
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
-                            <label class="title--input" for="Password">Mật khẩu</label>
-                            <input type="password" class="form-control" id="Password" placeholder="Mật khẩu">
+                            <label class="title--input" for="Role">Loại tài khoản</label>
+                            <select class="custom-select" id="Role">
+                                <option selected value="default">Quyền tài khoản</option>
+                                <option value="user">Khách hàng</option>
+                                <option value="member">Học viên</option>
+                                <option value="admin">Quản trị</option>
+                            </select>
                             <span class="form-message"></span>
                         </div>
                     </div>
@@ -71,35 +83,39 @@
                             <input type="text" class="form-control" id="Address" placeholder="Địa chỉ">
                             <span class="form-message"></span>
                         </div>
-
-                        <div class="form-group">
-                            <label class="title--input" for="Role">Loại tài khoản</label>
-                            <select class="custom-select" id="Role">
-                                <option selected value="default">Quyền tài khoản</option>
-                                <option value="user">Khách hàng</option>
-                                <option value="member">Học viên</option>
-                                <option value="admin">Quản trị</option>
-                            </select>
-                            <span class="form-message"></span>
-                        </div>
-                        <div class="form-group">
-                            <label class="title--input" for="exampleInputPassword1">Trạng thái</label>
-                            <div class="wrapper-status d-flex align-items-center">
-                                <div class="custom-control custom-radio mr-3">
-                                    <input type="radio" id="action" name="status" value="action" class="custom-control-input">
-                                    <label class="custom-control-label input--status-title" for="action">Hoạt động</label>
-                                </div>
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" id="no-action" name="status" value="no-action" class="custom-control-input">
-                                    <label class="custom-control-label input--status-title" for="no-action">Không hoạt động</label>
-                                </div>
-                                <span class="form-message"></span>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="users-detail--serect">
                     <button type="submit" class="btn users-detail--btn">Submit</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="users-detail my-4">
+            <div class="page-detail--information">
+                <div class="title">
+                    <h2 class="title-common-page">Thông tin bảo mật</h2>
+                </div>
+            </div>
+            <form id="Security">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="title--input" for="password">Mật khẩu</label>
+                            <input type="password" class="form-control" id="password" placeholder="">
+                            <span class="form-message"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="title--input" for="comform-password">Nhập lại mật khẩu</label>
+                            <input type="password" class="form-control" id="comform-password" placeholder="">
+                            <span class="form-message"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="users-detail--serect">
+                    <button type="submit" class="btn users-detail--btn">Đặt lại mật khẩu</button>
                     <button type="button" id="roll-back" class="btn">Quay lại</button>
                 </div>
             </form>

@@ -68,6 +68,9 @@ function manager(query, Password, done) {
     .then((result) => {
         let objResult = result[0].toObject();
         // console.log(Bcrypt.compare(Password, objResult.Password));
+        // if(Password === objResult.Password) {
+        //     done(null, {token: JWT.roleEncode(objResult._id, objResult.Role)});
+        // }
 
         if(Bcrypt.compare(Password, objResult.Password)) {
             done(null, {token: JWT.roleEncode(objResult._id, objResult.Role)});

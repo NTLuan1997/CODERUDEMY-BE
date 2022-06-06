@@ -57,11 +57,10 @@ class User {
         }
 
         if(req.type === "Delete"){remove()}
-        if(req.type === "Edit"){update()}
         if(req.type === "limited"){limited()}
         if(req.type === "Find"){find()}
         if(req.type === "Register"){saved()}
-        if(req.type === "Thumbnail"){update()};
+        if((req.type === "Edit") || (req.type === "Thumbnail") || (req.type === "Status")){update()};
     }
 }
 
