@@ -29,6 +29,22 @@
   .users-detail .page-detail--information {
     display: flex;
     align-items: flex-start; }
+    .users-detail .page-detail--information .title .title-common-page {
+      font-size: 25px;
+      font-weight: 700;
+      letter-spacing: .3px;
+      margin-bottom: 5px;
+      text-transform: uppercase; }
+    .users-detail .page-detail--information .title .title-page {
+      font-size: 25px;
+      font-weight: 700;
+      letter-spacing: .3px;
+      margin-bottom: 5px;
+      text-transform: uppercase; }
+    .users-detail .page-detail--information .title .custom-switch {
+      display: none; }
+      .users-detail .page-detail--information .title .custom-switch.active {
+        display: block; }
     .users-detail .page-detail--information .priture {
       display: none;
       margin-left: auto;

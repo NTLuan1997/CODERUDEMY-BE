@@ -38,6 +38,28 @@
     .page-detail--information {
         display: flex;
         align-items: flex-start;
+        .title {
+            .title-common-page {
+                font-size: 25px;
+                font-weight: 700;
+                letter-spacing: .3px;
+                margin-bottom: 5px;
+                text-transform: uppercase;
+            }
+            .title-page {
+                font-size: 25px;
+                font-weight: 700;
+                letter-spacing: .3px;
+                margin-bottom: 5px;
+                text-transform: uppercase;
+            }
+            .custom-switch {
+                display: none;
+                &.active {
+                    display: block;
+                }
+            }
+        }
         .priture {
             display: none;
             margin-left: auto;

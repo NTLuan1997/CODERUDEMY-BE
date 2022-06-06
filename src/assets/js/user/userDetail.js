@@ -34,6 +34,13 @@ window.onload = function (e) {
     const ThumbnailUpload = $("#upload-thumbnail");
     const Thumbnail = $("#thumbnail");
 
+    // SWITCH
+    const switched = $("#switched");
+    const Status = $("#Status");
+
+    // SECURITY
+    const Security = $("#Security");
+
     Validation({
         form: "#User",
         selectorError: ".form-message",
@@ -71,6 +78,7 @@ window.onload = function (e) {
 
     if (type == "update") {
         (function () {
+            switched.classList.add("active");
             wrapper.classList.add("active");
             environment.payload.type = "Find";
             environment.payload.id = origin.parameter().token;
@@ -89,6 +97,7 @@ window.onload = function (e) {
     switch (type) {
         case "update":
             setTitleForm("update");
+            Status.addEventListener("change", stated);
             ThumbnailUpload.addEventListener("change", upload);
             User.addEventListener("submit", update);
             break;
@@ -130,6 +139,24 @@ window.onload = function (e) {
         }
     }
 
+    function stated(e) {
+        let payload = {
+            Id: origin.parameter().token,
+            Type: "Status",
+            Status: this.checked
+        }
+
+        https.PUT(token, payload, environment.endpoint.user)
+        .then((result) => {
+            if(result?.status) {
+                window.location.reload();
+            }
+        })
+        .catch((err) => {
+            throw err;
+        })
+    }
+
     function upload(e) {
         if(token) {
             priture.upload(environment.priture.url, this?.files[0], "users", ThumbnailOld)
@@ -163,33 +190,44 @@ window.onload = function (e) {
         Name.value = result?.Name;
         DateOfBirth.value =  date.bindingToTemplate(result?.DateOfBirth);
         Email.value = result?.Email;
-        Password.value = result?.Password;
         Gender.value = result?.Gender;
         Phone.value = result?.Phone;
         Address.value = result?.Address;
         Role.value = result?.Role;
-        (result?.Status)? $("#action").checked = true : $("#no-action").checked = true;
+        Status.checked = result?.Status;
     }
 
     function setValue() {
         let date = new Date(DateOfBirth.value);
-        return {
-            Type: (type === "create")? "Register" : "Edit",
-            Name: Name.value,
+        let payload = {
+            Address: Address.value,
             DateOfBirth: date.toISOString(),
             Email: Email.value,
-            Password: (Password.value)? Password.value : "P@ssword123",
             Gender:Gender.value,
+            Name: Name.value,
             Phone: Phone.value,
-            Address: Address.value,
+            Status: false,
             Role: Role.value,
-            Thumbnail: "",
-            Status: ($("input[name='status']:checked")?.value === "action") ? true : false,
+            Type: "",
+        };
+
+        if(type === "create") {
+            payload.Password = "P@ssword123";
+            payload.Type = "Register";
+            payload.Thumbnail = "";
         }
+
+        if(type === "update") {
+            payload.Status = Status.checked;
+            payload.Id = origin.parameter().token;
+            payload.Type = "Edit";
+        }
+
+        return payload;
     }
 
     function setTitleForm(type) {
-        let title = $$(".users-detail--title")[0];
+        let title = $$(".title-page")[0];
         let subButton = $$(".users-detail--btn")[0];
 
         if (type == "create") {
@@ -197,11 +235,11 @@ window.onload = function (e) {
             subButton.innerHTML = "Thêm mới";
         } else {
             title.innerHTML = "Chỉnh sửa thông tin";
-            subButton.innerHTML = "Cập nhật";
+            subButton.innerHTML = "Cập nhật thông tin";
         }
     }
 
     $("#roll-back").addEventListener("click", function(e) {
-        window.history.back();
+        window.location.href = "/web/user";
     })
 }

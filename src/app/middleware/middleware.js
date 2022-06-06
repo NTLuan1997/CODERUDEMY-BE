@@ -218,6 +218,29 @@ class Middleware {
                 if(role) {
                     if(req.body.Type) {
                         if(role === "admin") {
+                            if(req.body.Type === "Delete") {
+                                req.type = "Delete";
+                                req.condition = {"_id": {"$eq": req.body.Id}};
+                                next();
+                            }
+
+                            if(req.body.Type === "Edit") {
+                                req.type = "Edit";
+                                req.condition = {"_id": {"$eq": req.body.Id}};
+                                delete req.body.Type;
+                                delete req.body.Id;
+
+                                req.user = req.body;
+                                next();
+                            }
+
+                            if(req.body.Type === "Status") {
+                                req.type = "Status";
+                                req.condition = {"_id": {"$eq": req.body.Id}};
+                                req.user = {"Status": req.body.Status};
+                                next();
+                            }
+
                             if(req.body.Type === "Register") {
                                 delete req.body.Type;
                                 req.type = "Register";
@@ -225,6 +248,7 @@ class Middleware {
                                 userService.exists({"Email": {"$eq": req.body.Email}})
                                 .then((result) => {
                                     if(!result) {
+                                        req.body.Password = BCRYPT.hash(req.body.Password);
                                         req.user = req.body;
                                         next();
                                     } else {
@@ -236,37 +260,10 @@ class Middleware {
                                 })
                             }
 
-                            if(req.body.Type === "Edit") {
-                                delete req.body.Type;
-                                req.type = "Edit";
-
-                                userService.find({"Email": {"$eq": req.body.Email}})
-                                .then((result) => {
-                                    let obj = result[0].toObject();
-                                    req.condition = {"_id": {"$eq": obj._id}};
-                                    console.log(req.body.Password);
-                                    
-                                    if(!BCRYPT.compare(req.body.Password, obj.Password)) {
-                                        req.body.Password = BCRYPT.hash(req.body.Password);
-                                    }
-                                    req.user = req.body;
-                                    next();
-                                })
-                                .catch((err) => {
-                                    throw err;
-                                })
-                            }
-
                             if(req.body.Type === "Thumbnail") {
                                 req.type = "Thumbnail";
                                 req.condition = {"_id": {"$eq": req.body.Id}};
                                 req.user = {"Thumbnail": req.body.Destination};
-                                next();
-                            }
-
-                            if(req.body.Type === "Delete") {
-                                req.type = "Delete";
-                                req.condition = {"_id": {"$eq": req.body.Id}};
                                 next();
                             }
                         }
