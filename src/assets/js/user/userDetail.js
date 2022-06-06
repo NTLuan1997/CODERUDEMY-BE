@@ -20,9 +20,9 @@ window.onload = function (e) {
     const type = origin.parameter().type;
     const User = $("#User");
     const Name = $("#Name");
+    const CreateDate = $("#CreateDate");
     const DateOfBirth = $("#DateOfBirth");
     const Email = $("#Email");
-    const Password = $("#Password");
     const Gender = $("#Gender");
     const Phone = $("#Phone");
     const Address = $("#Address");
@@ -39,7 +39,9 @@ window.onload = function (e) {
     const Status = $("#Status");
 
     // SECURITY
+    const SecurityInformation = $("#security-information");
     const Security = $("#Security");
+    const Password = $("#Password");
 
     Validation({
         form: "#User",
@@ -76,10 +78,26 @@ window.onload = function (e) {
         ]
     });
 
+    Validation({
+        form: "#Security",
+        selectorError: ".form-message",
+        rules: [
+            {
+                selector: "#Password",
+                guides: [Validation.required(), Validation.minLength(6), Validation.maxLength(15), Validation.password()]
+            },
+            {
+                selector: "#ComformPassword",
+                guides: [Validation.required(), Validation.comformPassword(Password)]
+            }
+        ]
+    })
+
     if (type == "update") {
         (function () {
             switched.classList.add("active");
             wrapper.classList.add("active");
+            SecurityInformation.classList.add("active");
             environment.payload.type = "Find";
             environment.payload.id = origin.parameter().token;
             https.FIND(environment.payload, token, environment.endpoint.user)
@@ -100,6 +118,7 @@ window.onload = function (e) {
             Status.addEventListener("change", stated);
             ThumbnailUpload.addEventListener("change", upload);
             User.addEventListener("submit", update);
+            Security.addEventListener("submit", update);
             break;
 
         case "create":
@@ -126,16 +145,38 @@ window.onload = function (e) {
 
     function update(e) {
         e.preventDefault();
-        if(User.valid) {
-            https.PUT(token, setValue(), environment.endpoint.user)
-            .then((result) => {
-                if(result?.status) {
-                    window.location.href = "/web/user";
-                }
-            })
-            .catch((err) => {
-                throw err;
-            })
+        if(this.id === "User") {
+            if(User.valid) {
+                https.PUT(token, setValue(), environment.endpoint.user)
+                .then((result) => {
+                    if(result?.status) {
+                        window.location.href = "/web/user";
+                    }
+                })
+                .catch((err) => {
+                    throw err;
+                })
+            }
+        }
+
+        if(this.id === "Security") {
+            if(Security.valid) {
+                let payload = {
+                    Id: origin.parameter().token,
+                    Type: "Security",
+                    Password: Password.value
+                };
+
+                https.PUT(token, payload, environment.endpoint.user)
+                .then((result) => {
+                    if(result?.status) {
+                        window.location.reload();
+                    }
+                })
+                .catch((err) => {
+                    throw err;
+                })
+            }
         }
     }
 
@@ -188,6 +229,7 @@ window.onload = function (e) {
         Thumbnail.setAttribute("src", thumbnail);
 
         Name.value = result?.Name;
+        CreateDate.value = date.bindingToTemplate(result?.CreateDate);
         DateOfBirth.value =  date.bindingToTemplate(result?.DateOfBirth);
         Email.value = result?.Email;
         Gender.value = result?.Gender;
@@ -201,6 +243,7 @@ window.onload = function (e) {
         let date = new Date(DateOfBirth.value);
         let payload = {
             Address: Address.value,
+            CreateDate: CreateDate.value,
             DateOfBirth: date.toISOString(),
             Email: Email.value,
             Gender:Gender.value,
@@ -212,6 +255,8 @@ window.onload = function (e) {
         };
 
         if(type === "create") {
+            let createDate = new Date();
+            payload.CreateDate = createDate.toISOString();
             payload.Password = "P@ssword123";
             payload.Type = "Register";
             payload.Thumbnail = "";
@@ -238,8 +283,4 @@ window.onload = function (e) {
             subButton.innerHTML = "Cập nhật thông tin";
         }
     }
-
-    $("#roll-back").addEventListener("click", function(e) {
-        window.location.href = "/web/user";
-    })
 }

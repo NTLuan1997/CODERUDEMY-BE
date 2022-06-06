@@ -80,21 +80,10 @@
           vertical-align: middle; }
       .users-detail .page-detail--information .priture.active {
         display: block; }
-  .users-detail .page-detail--roll-back {
-    margin-right: 5px;
-    cursor: pointer; }
-    .users-detail .page-detail--roll-back i.fa {
-      color: #f28d0f;
-      font-size: 25px;
-      margin-top: 2px; }
-  .users-detail #users-detail--info .title--input {
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: .3px;
-    text-transform: uppercase; }
-  .users-detail #users-detail--info .input--status-title {
-    font-size: 14px; }
-  .users-detail #users-detail--info .form-control {
-    font-size: 14px; }
+
+.security-information {
+  display: none; }
+  .security-information.active {
+    display: block; }
 
 /*# sourceMappingURL=../../../false/users.css.map */

@@ -43,7 +43,7 @@
                         </div>
                         <div class="form-group">
                             <label class="title--input" for="dateOfBirth">Ngày/Tháng/Năm sinh</label>
-                            <input type="date" class="form-control" id="DateOfBirth" placeholder="Tuổi">
+                            <input type="date" class="form-control" id="DateOfBirth">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
@@ -83,6 +83,11 @@
                             <input type="text" class="form-control" id="Address" placeholder="Địa chỉ">
                             <span class="form-message"></span>
                         </div>
+                        <div class="form-group">
+                            <label class="title--input" for="CreateDate">Ngày tạo tài khoản</label>
+                            <input type="date" class="form-control" id="CreateDate" disabled>
+                            <span class="form-message"></span>
+                        </div>
                     </div>
                 </div>
                 <div class="users-detail--serect">
@@ -91,7 +96,7 @@
             </form>
         </div>
 
-        <div class="users-detail my-4">
+        <div class="users-detail security-information my-4" id="security-information">
             <div class="page-detail--information">
                 <div class="title">
                     <h2 class="title-common-page">Thông tin bảo mật</h2>
@@ -101,22 +106,21 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            <label class="title--input" for="password">Mật khẩu</label>
-                            <input type="password" class="form-control" id="password" placeholder="">
+                            <label class="title--input" for="Password">Mật khẩu</label>
+                            <input type="password" class="form-control" id="Password" placeholder="">
                             <span class="form-message"></span>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label class="title--input" for="comform-password">Nhập lại mật khẩu</label>
-                            <input type="password" class="form-control" id="comform-password" placeholder="">
+                            <input type="password" class="form-control" id="ComformPassword" placeholder="">
                             <span class="form-message"></span>
                         </div>
                     </div>
                 </div>
                 <div class="users-detail--serect">
-                    <button type="submit" class="btn users-detail--btn">Đặt lại mật khẩu</button>
-                    <button type="button" id="roll-back" class="btn">Quay lại</button>
+                    <button type="submit" class="btn users-detail--btn" id="SecurityBTN">Đặt lại mật khẩu</button>
                 </div>
             </form>
         </div>
