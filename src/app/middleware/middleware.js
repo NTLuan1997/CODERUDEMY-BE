@@ -241,6 +241,13 @@ class Middleware {
                                 next();
                             }
 
+                            if(req.body.Type === "Security") {
+                                req.type = "Security";
+                                req.condition = {"_id": {"$eq": req.body.Id}};
+                                req.user = {"Password": BCRYPT.hash(req.body.Password)};
+                                next();
+                            }
+
                             if(req.body.Type === "Register") {
                                 delete req.body.Type;
                                 req.type = "Register";

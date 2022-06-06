@@ -7,6 +7,7 @@
  *      2) Rules: multiple rule validation.
  */
 let regexEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+let regexPassword = /([A-Za-z]){1,}([#?!@$%^&*]){1,}([A-Za-z]{1,})|([\d]{1,})$/g;
 let regexPhone = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
 export function Validation(options) {
     let Form = document.querySelector(options?.form);
@@ -21,6 +22,7 @@ export function Validation(options) {
             if (Input) {
                 Input.addEventListener("blur", function (e) {
                     for (let i = 0; i < rule.guides.length; i++) {
+                        console.log(rule.guides[i]);
                         messageContent = rule.guides[i].test(this.value);
                         if (this.tagName == "SELECT" && this.value == "default") {
                             messageContent = rule.guides[i].test("");
@@ -113,6 +115,33 @@ Validation.phone = function() {
     return {
         test: function(value) {
             return (!regexPhone.test(value.trim()))? "Số điện thoại không hợp lệ": null;
+        }
+    }
+}
+
+Validation.password = function() {
+    return {
+        test: function(value) {
+            return (!regexPassword.test(value.trim()))? "Password không hợp lệ" : null;
+        }
+    }
+}
+
+Validation.comformPassword = function(password) {
+    return {
+        test: function(value) {
+            let message = null;
+            if(!password?.value) {
+                Password.focus();
+                message = null;
+            } else {
+                if(Password.value !== value) {
+                    message = "Password nhập lại không hợp lệ";
+                } else {
+                    message = null;
+                }
+            }
+            return message;
         }
     }
 }

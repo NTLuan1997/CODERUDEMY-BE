@@ -60,7 +60,9 @@ class User {
         if(req.type === "limited"){limited()}
         if(req.type === "Find"){find()}
         if(req.type === "Register"){saved()}
-        if((req.type === "Edit") || (req.type === "Thumbnail") || (req.type === "Status")){update()};
+        if((req.type === "Edit") || (req.type === "Thumbnail") || (req.type === "Status") || (req.type === "Security")){
+            update()
+        };
     }
 }
 

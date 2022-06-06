@@ -101,27 +101,11 @@
             }
         }
     }
-    .page-detail--roll-back {
-        margin-right: 5px;
-        cursor: pointer;
-        i.fa {
-            color: #f28d0f;
-            font-size: 25px;
-            margin-top: 2px;
-        }
-    }
-    #users-detail--info {
-        .title--input {
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: .3px;
-            text-transform: uppercase;
-        }
-        .input--status-title {
-            font-size: 14px;
-        }
-        .form-control {
-            font-size: 14px;
-        }
+}
+
+.security-information {
+    display: none;
+    &.active {
+        display: block;
     }
 }
