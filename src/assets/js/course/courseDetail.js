@@ -2,7 +2,7 @@ import { Cookie } from "../lib/cookie.js";
 import { environment } from "../config/environment.js";
 import { HTTPS } from "../commons/https.js";
 import Origin  from "../lib/lib-origin.js";
-import { Priture } from "../commons/priture.js";
+import { Priture } from "../lib/priture.js";
 import { Validation } from "../commons/validation.js";
 
 window.onload = function (e) {
@@ -25,14 +25,20 @@ window.onload = function (e) {
     const CreateDate = $("#CreateDate");
     const UpdateDate = $("#UpdateDate");
     const Unit = $("#Unit");
-    const Thumbnail = $("#Thumbnail");
     const Description = $("#Description");
-
-    // PRITURE
-    const wrapper = $("#wrapper-priture");
+    let date = new Date();
+    let ThumbnailOld = "";
 
     // HIDDEN INPUT
+    const Switched = $("#switched");
+    const Status = $("#Status");
     const hiddenGroup = $$(".hidden-group");
+
+    // PRITURE
+    const pageThumbnail = $("#page-thumbnail");
+    const Thumbnail = $("#thumbnail");
+    const ContentThumbnail = $("#content-thumbnail");
+    const BlankThumbnail = $("#blank-thumbnail");
 
     Validation({
         form: "#Course",
@@ -71,7 +77,8 @@ window.onload = function (e) {
 
     if(type === "update") {
         (function() {
-            // wrapper.classList.add("active");
+            pageThumbnail.classList.add("active");
+            Switched.classList.add("active");
             hiddenGroup.forEach((group) => {
                 group.classList.add("active");
             })
@@ -95,7 +102,8 @@ window.onload = function (e) {
     switch (type) {
         case "update":
             setTitleForm("update");
-            
+            Status.addEventListener("change", uploadStatus);
+            Thumbnail.addEventListener("change", uploadThumbnail);
             Course.addEventListener("submit", update);
             break;
 
@@ -136,6 +144,48 @@ window.onload = function (e) {
         }
     }
 
+    function uploadStatus(e) {
+        let payload = {
+            Id: origin.parameter().token,
+            Func: "Status",
+            Status: this.checked
+        }
+
+        return https.PUT(token, payload, environment.endpoint.course)
+        .then((result) => {
+            if(result?.status) {
+                window.location.reload();
+            }
+        })
+        .catch((err) => {
+            throw err;
+        })
+    }
+
+    function uploadThumbnail(e) {
+        priture.upload(environment.priture.url, this.files[0], "courses", ThumbnailOld)
+        .then((result) => {
+            let {status, message, destination} = result;
+            if(status) {
+                let payload = {
+                    Id: origin.parameter().token,
+                    Type: "Thumbnail",
+                    Destination: destination,
+                    UpdateDate: date.toISOString()
+                }
+                return https.PUT(token, payload, environment.endpoint.course);
+            }
+        })
+        .then((result) => {
+            if(result?.status) {
+                window.location.reload();
+            }
+        })
+        .catch((err) => {
+            throw err;
+        })
+    }
+
     function binding(result) {
         Name.value = result?.Name;
         Author.value = result?.Author;
@@ -144,38 +194,56 @@ window.onload = function (e) {
         CreateDate.value = result?.CreateDate.split(".")[0];
         UpdateDate.value = (result?.UpdateDate)? result?.UpdateDate.split(".")[0] : "";
         Description.value = result?.Description;
-    }
+        Status.checked = result?.Status;
+        if(result?.Thumbnail) {
+            ThumbnailOld = result?.Thumbnail;
+            ContentThumbnail.lastElementChild.setAttribute("src", `${environment.priture.url}/${ThumbnailOld}`);
+            ContentThumbnail.style.display = "block";
+            BlankThumbnail.style.display = "none";
 
-    function setValue() {
-        let date = new Date();
-        return {
-            Id: (origin.parameter().type === "create")? "" : origin.parameter().token,
-            Func: (type === "create")? "Register" : "Edit",
-            Name: Name.value,
-            Author: Author.value,
-            Type: Type.value,
-            Unit: (type === "create")? 0 : Unit.value,
-            CreateDate: (type === "create")? date.toISOString() : CreateDate.value,
-            UpdateDate: (type === "create")? "" : date.toISOString(),
-            Description: Description.value,
-            Status: false
+        } else {
+            ContentThumbnail.style.display = "none";
+            BlankThumbnail.style.display = "block";
         }
     }
 
+    function setValue() {
+        let payload = {
+            Author: Author.value,
+            Description: Description.value,
+            Name: Name.value,
+            Status: false,
+            Type: Type.value,
+        }
+
+        if(type === "create") {
+            payload.CreateDate = date.toISOString();
+            payload.Func = "Register";
+            payload.Unit = 0;
+            payload.UpdateDate = "";
+            payload.Thumbnail = "";
+        }
+
+        if(type === "update") {
+            payload.Func = "Edit";
+            payload.Id = origin.parameter().token;
+            payload.Unit = Unit.value;
+            payload.UpdateDate = date.toISOString();
+        }
+        
+        return payload;
+    }
+
     function setTitleForm(type) {
-        let title = $$(".page-detail--title")[0];
+        let title = $$(".information-title")[0];
         let subButton = $$(".btn-executed")[0];
 
         if (type == "create") {
             title.innerHTML = "Thêm mới khóa học";
             subButton.innerHTML = "Thêm mới";
         } else {
-            title.innerHTML = "Chỉnh sửa thông tin";
+            title.innerHTML = "Thông tin khóa học";
             subButton.innerHTML = "Cập nhật";
         }
     }
-
-    $("#roll-back").addEventListener("click", function (e) {
-        window.history.back();
-    })
 }

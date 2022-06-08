@@ -18,7 +18,14 @@
             </ul>
         </div>
         <div class="page-detail">
-            <h2 class="page-detail--title">Thông tin khóa học</h2>
+            <div class="title-information">
+                <h2 class="information-title">title</h2>
+                <div class="custom-control custom-switch information-status" id="switched">
+                    <input type="checkbox" class="custom-control-input" id="Status">
+                    <label class="custom-control-label" for="Status">Trạng thái</label>
+                </div>
+            </div>
+
             <form class="page-detail-form" id="Course">
                 <div class="row">
                     <div class="col-6">
@@ -69,9 +76,17 @@
                 </div>
                 <div class="users-detail--serect">
                     <button type="submit" class="btn-executed btn">Submit</button>
-                    <button type="button" id="roll-back" class="btn">Quay lại</button>
                 </div>
             </form>
+        </div>
+
+        <div class="page-detail my-4" id="page-thumbnail">
+            <div class="title-information">
+                <h2>Ảnh khóa học</h2>
+                <div class="information-thumbnail"><input type="file" id="thumbnail"></div>
+            </div>
+            <div id="content-thumbnail"><img src="#" alt="thumbnail"></div>
+            <div class="course-thumbnail" id="blank-thumbnail">Chưa có thông tin...</div>
         </div>
     </div>
 

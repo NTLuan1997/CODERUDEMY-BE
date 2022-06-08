@@ -57,7 +57,7 @@ class Course {
         }
 
         if(req.type === "Delete"){remove()}
-        if(req.type === "Edit"){edit()}
+        if(req.type === "Edit" || req.type === "Thumbnail" || req.type === "Status"){edit()}
         if(req.type === "Find"){find()}
         if(req.type === "Register"){save()}
         if(req.type === "Limited") {limited()}

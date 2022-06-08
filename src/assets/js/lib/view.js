@@ -46,11 +46,12 @@ export class View {
         let type = this.Origin.checkTypePage();
         let title = (this.Origin.checkTypePage() === "course") ? "Học phần" : "Khóa học";
         let nextPage = (this.Origin.checkTypePage() === "course")? "course/unit" : "course/unit/lesson";
+        let ID = (this.Origin.checkTypePage() === "course")? "unit" : "lesson";
 
         if(this.Pages.includes(this.Origin.checkTypePage())) {
             return `
                 <td class="d-flex">
-                    <a href="/web/${nextPage}?token=${token}" class="btn-method mr-2">${title}</a>
+                    <a href="/web/${nextPage}" class="btn-method mr-2 ${ID}" data-id="${token}">${title}</a>
                     <a href="/web/${type}/detail?type=update&token=${token}" class="btn-method mr-2">Sửa</a>
                     <button class="btn-method delete" data-id="${token}" type="button">Xóa</button>
                 </td>

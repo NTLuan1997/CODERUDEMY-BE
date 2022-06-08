@@ -206,6 +206,53 @@ form {
     box-shadow: 0 0 2px #00000030;
     margin-top: 15px;
     padding: 15px;
+
+    .title-information {
+        display: flex;
+        align-items: center;
+        .information-title {
+            font-size: 25px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        .information-status {
+            display: none;
+            margin-left: auto;
+            &.active {
+                display: block;
+            }
+        }
+        .information-thumbnail {
+            margin-left: auto;
+            position: relative;
+            #thumbnail {
+                bottom: 0px;
+                display: inline-block;
+                right: 0px;
+                height: 35px;
+                overflow: hidden;
+                position: absolute;
+                width:35px;
+                &:before {
+                    background-color: #f28d0f;
+                    border-radius: 2px;
+                    color: #ffffff;
+                    font-family: "FontAwesome";
+                    font-weight: 500;
+                    font-size: 17px;
+                    content: "\f1c5";
+                    display: inline-block;
+                    height: 35px;
+                    line-height: 35px;
+                    text-align: center;
+                    width: 35px;
+                    vertical-align: middle;
+                }
+            }
+        }
+    }
+
     .page-detail--information {
         display: flex;
         align-items: flex-start;
@@ -250,20 +297,14 @@ form {
             }
         }
     }
-    .page-detail--roll-back {
-        margin-right: 5px;
-        i.fa {
-            color: #f28d0f;
-            font-size: 25px;
-            margin-top: 2px;
-        }
-    }
-    .page-detail--title {
-        font-size: 25px;
-        font-weight: 700;
-        margin-bottom: 15px;
-        text-transform: uppercase;
-    }
+    // .page-detail--roll-back {
+    //     margin-right: 5px;
+    //     i.fa {
+    //         color: #f28d0f;
+    //         font-size: 25px;
+    //         margin-top: 2px;
+    //     }
+    // }
     .page-detail-form {
         .form-group {
             .form-group--label {
@@ -287,6 +328,13 @@ form {
     .btn-executed {
         background-color: #f28d0f;
         color: white;
+    }
+}
+
+#page-thumbnail {
+    display: none;
+    &.active {
+        display: block;
     }
 }
 

@@ -22,7 +22,6 @@ export function Validation(options) {
             if (Input) {
                 Input.addEventListener("blur", function (e) {
                     for (let i = 0; i < rule.guides.length; i++) {
-                        console.log(rule.guides[i]);
                         messageContent = rule.guides[i].test(this.value);
                         if (this.tagName == "SELECT" && this.value == "default") {
                             messageContent = rule.guides[i].test("");

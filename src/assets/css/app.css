@@ -152,6 +152,44 @@ form .form-group .password-control {
   box-shadow: 0 0 2px #00000030;
   margin-top: 15px;
   padding: 15px; }
+  .page-detail .title-information {
+    display: flex;
+    align-items: center; }
+    .page-detail .title-information .information-title {
+      font-size: 25px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-transform: uppercase; }
+    .page-detail .title-information .information-status {
+      display: none;
+      margin-left: auto; }
+      .page-detail .title-information .information-status.active {
+        display: block; }
+    .page-detail .title-information .information-thumbnail {
+      margin-left: auto;
+      position: relative; }
+      .page-detail .title-information .information-thumbnail #thumbnail {
+        bottom: 0px;
+        display: inline-block;
+        right: 0px;
+        height: 35px;
+        overflow: hidden;
+        position: absolute;
+        width: 35px; }
+        .page-detail .title-information .information-thumbnail #thumbnail:before {
+          background-color: #f28d0f;
+          border-radius: 2px;
+          color: #ffffff;
+          font-family: "FontAwesome";
+          font-weight: 500;
+          font-size: 17px;
+          content: "\f1c5";
+          display: inline-block;
+          height: 35px;
+          line-height: 35px;
+          text-align: center;
+          width: 35px;
+          vertical-align: middle; }
   .page-detail .page-detail--information {
     display: flex;
     align-items: flex-start; }
@@ -190,17 +228,6 @@ form .form-group .password-control {
           vertical-align: middle; }
       .page-detail .page-detail--information .priture.active {
         display: block; }
-  .page-detail .page-detail--roll-back {
-    margin-right: 5px; }
-    .page-detail .page-detail--roll-back i.fa {
-      color: #f28d0f;
-      font-size: 25px;
-      margin-top: 2px; }
-  .page-detail .page-detail--title {
-    font-size: 25px;
-    font-weight: 700;
-    margin-bottom: 15px;
-    text-transform: uppercase; }
   .page-detail .page-detail-form .form-group .form-group--label {
     font-size: 16px;
     text-transform: capitalize; }
@@ -214,6 +241,11 @@ form .form-group .password-control {
   .page-detail .btn-executed {
     background-color: #f28d0f;
     color: white; }
+
+#page-thumbnail {
+  display: none; }
+  #page-thumbnail.active {
+    display: block; }
 
 .client-course-register {
   display: none; }

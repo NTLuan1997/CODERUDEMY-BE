@@ -4,7 +4,7 @@ import { environment } from "../config/environment.js";
 import { Validation } from "../commons/validation.js";
 import { httpsService, HTTPS } from "../commons/httpService.js";
 import { Origin } from "../lib/lib-origin.js";
-import { Priture } from "../commons/priture.js";
+import { Priture } from "../lib/priture.js";
 import { Render } from "../commons/render.js";
 
 window.onload = function (e) {
@@ -256,24 +256,25 @@ window.onload = function (e) {
 
     // UPLOAD PRITURE
     function pritureUpload() {
-        priture.clientThumbnail(Url, this?.files[0], (environment.client?.Thumbnail)? environment.client?.Thumbnail : null)
-        .then((res) => {
-            if(res.status){
-                let body = {
-                    "Func": "Thumbnail",
-                    "Token": origin.parameter().token,
-                    "Type": "Thumbnail",
-                    "Thumbnail": res.destination
-                };
-                return https.PUT(token, body, environment.endpoint.client);
-            }
-        })
-        .then((res) => {
-            if(res?.status) { window.location.reload() }
-        })
-        .catch((err) => {
-            throw err;
-        })
+        console.log("Test");
+        // priture.clientThumbnail(Url, this?.files[0], (environment.client?.Thumbnail)? environment.client?.Thumbnail : null)
+        // .then((res) => {
+        //     if(res.status){
+        //         let body = {
+        //             "Func": "Thumbnail",
+        //             "Token": origin.parameter().token,
+        //             "Type": "Thumbnail",
+        //             "Thumbnail": res.destination
+        //         };
+        //         return https.PUT(token, body, environment.endpoint.client);
+        //     }
+        // })
+        // .then((res) => {
+        //     if(res?.status) { window.location.reload() }
+        // })
+        // .catch((err) => {
+        //     throw err;
+        // })
     }
 
     // UPLOAD COURSE REGISTER
