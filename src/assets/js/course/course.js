@@ -30,8 +30,21 @@ window.onload = function (e) {
         .then(() => {
             deleted.method('delete', environment.endpoint.course);
         })
+        .then(() => {
+            redirect();
+        })
         .catch((err) => {
             throw err;
         })
     })()
+
+    function redirect() {
+        $$(".unit").forEach((unit) => {
+            unit.addEventListener("click", function(e) {
+                e.preventDefault();
+                localStorage.setItem("UnitToken", this.dataset.id);
+                window.location.href = "course/unit";
+            })
+        })
+    }
 }

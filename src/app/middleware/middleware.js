@@ -121,6 +121,7 @@ class Middleware {
         }
     }
 
+    // COURSE TRANSACTION
     courseTransaction(req, res, next) {
         if(req.headers.authorization && req.headers.authorization !== "Empty") {
             if(JWT.verify(req.headers.authorization.split(' ')[1])) {
@@ -130,12 +131,6 @@ class Middleware {
                 if(role) {
                     if(req.body.Func || req.body.Type) {
                         if(role === "admin") {
-                            if(req.body.Func === "Register") {
-                                delete req.body.Func;
-                                req.type = "Register";
-                                req.course = req.body;
-                                next();
-                            }
 
                             if(req.body.Func === "Edit") {
                                 req.condition = {"_id": {"$eq": req.body.Id}};
@@ -149,6 +144,27 @@ class Middleware {
                             if(req.body.Type === "Delete") {
                                 req.type = "Delete";
                                 req.condition = {"_id": {"$eq": req.body.Id}};
+                                next();
+                            }
+
+                            if(req.body.Func === "Register") {
+                                delete req.body.Func;
+                                req.type = "Register";
+                                req.course = req.body;
+                                next();
+                            }
+
+                            if(req.body.Func === "Status") {
+                                req.type = "Status";
+                                req.condition = {"_id": {"$eq": req.body.Id}};
+                                req.course = {"Status": req.body.Status};
+                                next();
+                            }
+
+                            if(req.body.Type === "Thumbnail") {
+                                req.type = "Thumbnail";
+                                req.condition = {"_id": {"$eq": req.body.Id}};
+                                req.course = {"Thumbnail": req.body.Destination, "UpdateDate": req.body.UpdateDate};
                                 next();
                             }
 
@@ -209,6 +225,7 @@ class Middleware {
         }
     }
 
+    // USER TRANSACTION
     userTransaction(req, res, next) {
         if(req.headers.authorization && req.headers.authorization !== "Empty") {
             if(JWT.verify(req.headers.authorization.split(' ')[1])) {

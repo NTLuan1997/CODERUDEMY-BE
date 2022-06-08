@@ -2,7 +2,7 @@ import { Cookie } from "../lib/cookie.js";
 import DateTimes from "../lib/date.js";
 import { HTTPS } from "../commons/https.js";
 import Origin  from "../lib/lib-origin.js";
-import { Priture } from "../commons/priture.js";
+import { Priture } from "../lib/priture.js";
 import { environment } from "../config/environment.js";
 import { Validation } from "../commons/validation.js";
 
