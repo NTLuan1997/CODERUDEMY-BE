@@ -1,4 +1,4 @@
-import { Cookie } from "../lib/cookie.js";
+import { Cookie } from "./cookie.js";
 import { environment } from "../config/environment.js";
 import { HTTPS } from "./https.js";
 

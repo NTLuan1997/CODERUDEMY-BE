@@ -1,73 +1,87 @@
 const courseService = require("../services/courseService");
 const unitService = require("../services/unitService");
 
-class CourseController {
+class Course {
 
     constructor() { }
 
-    // Method render template.
-    renderCourse(req, res) {
-        res.render('components/courses/course', { show: true });
-    }
-
-    renderCourseDetail(req, res) {
-        res.render('components/courses/courseDetail', { show: true });
-    }
-
-    // Method support api Course.
-    findSingle(req, res) {
-        courseService.findOneCourse(req.courseQuery)
-            .then((data) => {
-                res.status(200).json(data);
+    Functions(req, res) {
+        function edit() {
+            courseService.edit(req.condition, req.course)
+            .then((result) => {
+                res.status(200).json(result);
             })
             .catch((err) => {
                 throw err;
             })
-    }
+        }
 
-    course(req, res) {
-        courseService.findLimitCourse(req.query.limit, req.query.start)
-            .then((data) => {
-                res.status(200).json({
-                    "courses": data[0],
-                    "length": data[1]
-                })
+        function find() {
+            courseService.find(req.condition)
+            .then((result) => {
+                res.status(200).json(result);
             })
             .catch((err) => {
                 throw err;
             })
-    }
+        }
 
-    newCourse(req, res) {
-        courseService.newCourse(req.courseBody)
-            .then((data) => {
-                res.status(200).json(data);
+        function limited() {
+            courseService.limit(req.limited, req.start)
+            .then((result) => {
+                res.status(200).json(result);
             })
             .catch((err) => {
                 throw err;
             })
-    }
+        }
 
-    editCourse(req, res) {
-        courseService.updateCourse(req.courseQuery, req.courseBody)
-            .then((data) => {
-                res.status(200).json(data);
+        function save() {
+            courseService.saved(req.course)
+            .then((result) => {
+                res.status(200).json(result);
             })
             .catch((err) => {
                 throw err;
             })
-    }
+        }
 
-    removeCourse(req, res) {
-        courseService.deleteCourse(req.courseQuery)
-            .then((data) => {
-                res.status(200).json(data);
+        function remove() {
+            courseService.delete(req.condition)
+            .then((result) => {
+                res.status(200).json(result);
             })
             .catch((err) => {
                 throw err;
             })
+        }
+
+        if(req.type === "Delete"){remove()}
+        if(req.type === "Edit" || req.type === "Thumbnail" || req.type === "Status"){edit()}
+        if(req.type === "Find"){find()}
+        if(req.type === "Register"){save()}
+        if(req.type === "Limited") {limited()}
+    }
+
+    functionsUnit(req, res) {
+        function limit() {
+            unitService.limit(req.courseCondition, req.limited, req.start)
+            .then((result) => {
+                res.status(200).json(result);
+            })
+            .catch((err) => {
+                throw err;
+            })
+        }
+
+        function save() {
+            res.status(200).json({status: true});
+        }
+
+        if(req.type === "limited") { limit() }
+        if(req.type === "Register") { save() }
     }
 
 }
 
-module.exports = new CourseController;
+module.exports = new Course;
