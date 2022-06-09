@@ -1,6 +1,6 @@
-import { HTTPS } from "../commons/https.js";
+import { HTTPS } from "../lib/https.js";
 import { Cookie } from "../lib/cookie.js";
-import { Validation } from "../commons/validation.js";
+import { Validation } from "../lib/validation.js";
 import { environment } from "../config/environment.js";
 
 

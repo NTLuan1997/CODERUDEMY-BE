@@ -1,7 +1,7 @@
 import { Cookie } from "../lib/cookie.js";
-import Delete from "../commons/delete.js";
+import Delete from "../lib/delete.js";
 import { environment } from "../config/environment.js";
-import { HTTPS } from "../commons/https.js";
+import { HTTPS } from "../lib/https.js";
 import { View } from "../lib/view.js";
 
 window.onload = function (e) {

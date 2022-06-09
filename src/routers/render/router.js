@@ -1,6 +1,3 @@
-// const Course = require("./course");
-const News = require("./new");
-const User = require("./user");
 const Template = require("./template");
 
 function router(app) {
