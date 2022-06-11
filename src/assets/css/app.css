@@ -231,6 +231,18 @@ form .form-group .password-control {
   .page-detail .page-detail-form .form-group .form-group--label {
     font-size: 16px;
     text-transform: capitalize; }
+  .page-detail .page-detail-form .form-group .description {
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+    display: block;
+    height: 145px;
+    width: 100%; }
+    .page-detail .page-detail-form .form-group .description:focus-visible {
+      color: #495057;
+      background-color: #fff;
+      border-color: #80bdff;
+      outline: 0;
+      box-shadow: 0 0 1px 2px #80bdff6e; }
   .page-detail .page-detail-form .hidden-group {
     display: none; }
     .page-detail .page-detail-form .hidden-group.active {

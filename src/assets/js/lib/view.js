@@ -43,7 +43,7 @@ export class View {
     }
 
     templateMethod(token) {
-        let type = this.Origin.checkTypePage();
+        let type = (this.Origin.checkTypePage() === "course") ? this.Origin.checkTypePage() : `course/${this.Origin.checkTypePage()}`;
         let title = (this.Origin.checkTypePage() === "course") ? "Học phần" : "Khóa học";
         let nextPage = (this.Origin.checkTypePage() === "course")? "course/unit" : "course/unit/lesson";
         let ID = (this.Origin.checkTypePage() === "course")? "unit" : "lesson";

@@ -297,19 +297,25 @@ form {
             }
         }
     }
-    // .page-detail--roll-back {
-    //     margin-right: 5px;
-    //     i.fa {
-    //         color: #f28d0f;
-    //         font-size: 25px;
-    //         margin-top: 2px;
-    //     }
-    // }
     .page-detail-form {
         .form-group {
             .form-group--label {
                 font-size: 16px;
                 text-transform: capitalize;
+            }
+            .description {
+                border-radius: 0.25rem;
+                border: 1px solid #ced4da;
+                display: block;
+                height: 145px;
+                width: 100%;
+                &:focus-visible {
+                    color: #495057;
+                    background-color: #fff;
+                    border-color: #80bdff;
+                    outline: 0;
+                    box-shadow: 0 0 1px 2px #80bdff6e;
+                }
             }
         }
         .hidden-group {

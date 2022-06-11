@@ -63,25 +63,6 @@ class Course {
         if(req.type === "Limited") {limited()}
     }
 
-    functionsUnit(req, res) {
-        function limit() {
-            unitService.limit(req.courseCondition, req.limited, req.start)
-            .then((result) => {
-                res.status(200).json(result);
-            })
-            .catch((err) => {
-                throw err;
-            })
-        }
-
-        function save() {
-            res.status(200).json({status: true});
-        }
-
-        if(req.type === "limited") { limit() }
-        if(req.type === "Register") { save() }
-    }
-
 }
 
 module.exports = new Course;

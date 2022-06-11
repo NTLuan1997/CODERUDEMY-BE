@@ -1,9 +1,9 @@
 import { Cookie } from "../lib/cookie.js";
 import { environment } from "../config/environment.js";
-import { HTTPS } from "../commons/https.js";
+import { HTTPS } from "../lib/https.js";
 import Origin  from "../lib/lib-origin.js";
 import { Priture } from "../lib/priture.js";
-import { Validation } from "../commons/validation.js";
+import { Validation } from "../lib/validation.js";
 
 window.onload = function (e) {
 

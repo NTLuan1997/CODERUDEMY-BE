@@ -206,35 +206,65 @@ class Middleware {
                 req.condition = {"_id": {"$eq": new ObjectId(token)}};
 
                 if(role) {
-                    if(role === "amin") {
-                        console.log(role);
-                        console.log(body);
+                    if(req.body.Func || req.body.Type) {
+                        if(role === "admin") {
+
+                            if(req.body.Type === "CreateCourse") {
+                                req.type = "CreateCourse";
+                                req.courseId = req.body.CourseId;
+                                req.condition = {"CourseId": {"$eq": req.body.CourseId}};
+                                req.unit = req.body;
+                                next();
+                            }
+
+                            if(req.body.Type === "Edit") {
+                                delete req.body.Type;
+                                delete req.body.CreateDate;
+
+                                req.type = "Edit";
+                                req.condition = {"_id": {"$eq": req.body.Id}};
+                                delete req.body.Id;
+
+                                req.unit = req.body;
+                                next();
+                            }
+
+                            if(req.body.Type === "Status") {
+                                delete req.body.Type;
+                                req.condition = {"_id": {"$eq": req.body.Id}};
+                                delete req.body.Id;
+
+                                req.type = "Status";
+                                req.unit = req.body;
+                                next();
+                            }
+
+                        } else {
+                            console.log("permission");
+                        }
 
                     } else {
                         if(req.headers.comment) {
                             let {type, token, id, limited, start} = JSON.parse(req.headers.comment);
-
                             if(type === "Find") {
                                 req.type = "Find";
-                                req.condition = {"CourseId": req.id};
+                                req.condition = {"_id": {"$eq": id}};
                             }
+
+                            if(type === "FindAll") {
+                                req.type = "Find";
+                                req.condition = {"CourseId": {"$eq": id}};
+                            }
+
                             next();
-        
                         }
                     }
-
                 } else {
                     console.log("Not Find Role");
-
                 }
-
-                
-                // next();
-
             } else {
                 return res.status(404).json({status: false, type: "tokenExperience"});
             }
-
         } else {
             return res.status(404).json({status: false, type: "tokenBlank"});
         }
