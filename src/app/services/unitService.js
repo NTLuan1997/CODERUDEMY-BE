@@ -1,5 +1,4 @@
 const Service = require("./service");
-const ObjectId = require("mongodb").ObjectId;
 const Unit = require("../module/unit");
 
 class UnitService extends Service {
@@ -8,96 +7,43 @@ class UnitService extends Service {
         super();
     }
 
-        limit(condition, limit, start) {
-            let query = (condition)? condition: {};
-            return super.documentQuery((resolve, reject) => {
-                Unit.find(query).limit(limit).skip(start).exec((err, doc) => {
-                    if(err) reject(err);
-                    resolve(doc);
-                })
-            })
-        }
-
-    /**
-     * 
-     * Method count Unit.
-     * @Returns Number all Units of collection.
-     */
-    countUnit(query) {
+    count(condition) {
+        let query = (condition)? condition: {};
         return super.documentQuery((resolve, reject) => {
             resolve(Unit.count(query));
         })
     }
 
-    /**
-     * 
-     * Method find one Unit.
-     * @param {*} id condition find single Unit.
-     * @returns One Unit document in collection.
-     */
-    findOneUnit(query) {
-        return super.documentQuery((resolve, reject) => {
-            Unit.findOne(query).exec((err, doc) => {
-                if (err) reject(err);
-                resolve(doc);
-            })
-        })
-    }
-
-    /**
-     * 
-     * Method find all Units.
-     * @returns List all Units of collection.
-     */
-    findUnit(query) {
+    find(condition) {
+        let query = (condition)? condition: {};
         return super.documentQuery((resolve, reject) => {
             Unit.find(query).exec((err, doc) => {
-                if (err) reject(err);
+                if(err) reject(err);
                 resolve(doc);
             })
         })
     }
 
-    /**
-     * 
-     * Method find unit with limit.
-     * @param {*} limit number want get
-     * @param {*} start location begin get
-     * @returns list units registry of []
-     */
-    findLimitUnit(query, limit, start) {
-        return Promise.all([super.documentQuery((resolve, reject) => {
+    limit(condition, limit, start) {
+        let query = (condition)? condition: {};
+        return super.documentQuery((resolve, reject) => {
             Unit.find(query).limit(limit).skip(start).exec((err, doc) => {
-                if (err) reject(err);
+                if(err) reject(err);
                 resolve(doc);
             })
-        }), this.countUnit(query)]);
+        })
     }
 
-
-    /**
-     * 
-     * Method create unit.
-     * @param {*} body information new unit
-     * @returns status after create unit
-     */
-    newUnit(body) {
+    saved(body) {
         return super.documentQuery((resolve, reject) => {
             Unit.create(body, (err, doc) => {
                 if (err) reject(err);
-                resolve({ status: true, message: "Create done" })
+                resolve({ status: true, message: "Create done", unit: doc });
             })
         })
     }
 
-    /**
-     * 
-     * Method update unit.
-     * @param {*} query condition find unit when update
-     * @param {*} body information update unit 
-     * @returns status after update unit
-     */
-    updateUnit(query, body) {
+    update(query, body) {
         return super.documentQuery((resolve, reject) => {
             Unit.updateOne(query, body, { upsert: true }).exec((err, doc) => {
                 if (err) reject(err);
@@ -105,22 +51,6 @@ class UnitService extends Service {
             })
         })
     }
-
-    /**
-     * 
-     * Method delete not sort
-     * @param {*} query query condition find unit when delete
-     * @returns tatus after delete unit
-     */
-    deleteUnit(query) {
-        return super.documentQuery((resolve, reject) => {
-            Unit.deleteOne(query).exec((err, doc) => {
-                if (err) reject(err);
-                resolve({ status: true, message: "Delete done" });
-            })
-        })
-    }
-
 }
 
 module.exports = new UnitService;

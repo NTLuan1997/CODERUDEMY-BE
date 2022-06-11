@@ -42,7 +42,7 @@ window.onload = function (e) {
         $$(".unit").forEach((unit) => {
             unit.addEventListener("click", function(e) {
                 e.preventDefault();
-                localStorage.setItem("UnitToken", this.dataset.id);
+                localStorage.setItem("CourseToken", this.dataset.id);
                 window.location.href = "course/unit";
             })
         })

@@ -28,6 +28,10 @@ class Template {
                 res.status(200).render('components/course-component/unit-component/unit-component', {show: true});
                 break;
 
+            case "/web/course/unit/detail":
+                res.status(200).render('components/course-component/unit-component/unit-detail-component', {show: true});
+                break;
+
             case "/web/course/unit/lesson":
                 res.status(200).render('components/course-component/lesson-component/lesson-component', {show: true});
                 break;
