@@ -7,6 +7,7 @@ const LessonController = require("../../app/controller/lessonController");
     // LESSON
         router.get("/unit/lesson", middleware.LessonTransaction, LessonController.Functions);
         router.post("/unit/lesson", middleware.LessonTransaction, LessonController.Functions);
+        router.put("/unit/lesson", middleware.LessonTransaction, LessonController.Functions);
 
     // UNIT
         router.get("/unit", middleware.UnitTransactions, UnitController.Functions);

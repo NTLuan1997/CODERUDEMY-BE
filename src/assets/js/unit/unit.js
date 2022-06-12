@@ -27,6 +27,7 @@ window.onload = function (e) {
 
             https.FIND(payload, token, environment.endpoint.unit)
             .then((result) => {
+                view.setType("Nội bài học", "lesson");
                 view.render(result, ComponentHeader, KeyHeader, ComponentView, KeyComponent);
             })
             .then(() => {

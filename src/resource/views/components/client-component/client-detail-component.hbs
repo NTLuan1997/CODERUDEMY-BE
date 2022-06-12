@@ -92,38 +92,6 @@
                 <div class="users-detail--serect"><button class="btn-executed btn" type="submit">Submit</button></div>
             </form>
         </div>
-
-        {{!-- COURSE REGISTER --}}
-        <div class="page-detail client-course-register mb-5 mt-4" id="page-detail-client-register">
-            <div class="page-detail--information"><h2 class="page-detail--title">Khóa học đăng ký</h2></div>
-            <div class="page-detail-register">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label class="form-group--label" for="Course">Khóa học</label>
-                            <select class="custom-select" id="Course"></select>
-                            <span class="form-message"></span>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <label class="form-group--label" for="Method">Chức năng</label>
-                        <div class="form-group">
-                            <button type="button" class="btn-executed btn" id="register" disabled="true">Thêm khóa học</button>
-                            <button type="button" class="btn-executed btn" id="unRegister" disabled="true">Xóa khóa học</button>
-                        </div>
-                    </div>
-                    
-                    <div class="col-12 mb-3">
-                        <div>
-                            <input class="align-middle" type="checkbox" id="check-all-course">
-                            <label class="form-group--label" for="Gender">Chọn tất cả</label>
-                        </div>
-                        <div class="page-detail-register__content" id="register-content"></div>
-                    </div>
-                </div>
-                <div class="mt-4"><button type="submit" class="btn-executed btn" id="upload-register" disabled="true">Cập nhật khóa học</button></div>
-            </div>
-        </div>
     </div>
 
     <script type="module" src="/static/js/client/clientDetail.js"></script>
