@@ -277,7 +277,6 @@ class Middleware {
                 req.condition = {"_id": {"$eq": token}};
 
                 if(role) {
-
                     if(req.body.Type || req.body.Func) {
                         if(role === "admin") {
                             if(req.body.Type === "CreateLesson") {
@@ -285,7 +284,26 @@ class Middleware {
                                 req.type = "CreateLesson";
                                 req.condition = {"_id": {"$eq": req.body.UnitId}};
                                 req.UnitId = {"UnitId": {"$eq": req.body.UnitId}};
-                                req.unit = req.body;
+                                req.lesson = req.body;
+                                next();
+                            }
+
+                            if(req.body.Type === "Edit") {
+                                delete req.body.Type;
+                                req.type = "Edit";
+
+                                req.condition = {"_id": {"$eq": req.body.LessonId}};
+                                delete req.body.LessonId;
+                                req.lesson = req.body;
+                                next();
+                            }
+
+                            if(req.body.Type === "Status") {
+                                req.type = "Edit";
+                                req.condition = {"_id": {"$eq": req.body.LessonId}};
+                                delete req.body.Type;
+                                delete req.body.LessonId;
+                                req.lesson = req.body;
                                 next();
                             }
 
@@ -298,6 +316,11 @@ class Middleware {
                         if(type === "FindAll") {
                             req.type = "Find";
                             req.condition = {"UnitId": {"$eq": id}};
+                        }
+
+                        if(type === "Find") {
+                            req.type = "Find";
+                            req.condition = {"_id": {"$eq": id}};
                         }
                         next();
                     }

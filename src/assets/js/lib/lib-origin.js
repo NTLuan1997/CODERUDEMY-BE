@@ -1,6 +1,20 @@
 export default class Origin {
 
-    constructor() { }
+    Host = "";
+    HostName = "";
+    Href = "";
+    Origin = "";
+    PathName = "";
+    Port = "";
+
+    constructor() {
+        this.Host = window.location.host;
+        this.HostName = window.location.hostname;
+        this.Href = window.location.href;
+        this.Origin = window.location.origin;
+        this.PathName = window.location.pathname;
+        this.Port = window.location.port;
+    }
 
     parameter() {
         let main = {};
@@ -28,4 +42,18 @@ export default class Origin {
         }
         return endPoint;
     }
+
+    page() {
+        if(this.PathName.includes("course" || "unit")) {
+            console.log(this.PathName);
+        }
+
+        let payload = {
+            type: "",
+            pathname: this.PathName
+        }
+        return this.PathName;
+    }
+
+
 }

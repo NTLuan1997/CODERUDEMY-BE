@@ -6,6 +6,8 @@ export class View {
     URLMethod = "";
     Origin = "";
     Pages = ["course", "unit"];
+    Title = "";
+    Type = "";
 
 
     constructor() {
@@ -13,6 +15,10 @@ export class View {
     }
 
     setUrl(url) { this.URLMethod = url }
+    setType(title, type) {
+        this.Title = title;
+        this.Type = type
+    }
 
     render(Result, ComponentHeader, KeyHeader, ComponentView, KeyComponent) {
         this.BlankView.classList.remove("active");
@@ -43,23 +49,20 @@ export class View {
     }
 
     templateMethod(token) {
-        let type = (this.Origin.checkTypePage() === "course") ? this.Origin.checkTypePage() : `course/${this.Origin.checkTypePage()}`;
-        let title = (this.Origin.checkTypePage() === "course") ? "Học phần" : "Khóa học";
-        let nextPage = (this.Origin.checkTypePage() === "course")? "course/unit" : "course/unit/lesson";
-        let ID = (this.Origin.checkTypePage() === "course")? "unit" : "lesson";
+        let page = this.Origin.page();
 
         if(this.Pages.includes(this.Origin.checkTypePage())) {
             return `
                 <td class="d-flex">
-                    <a class="btn-method mr-2 ${ID}" style="cursor: pointer" data-id="${token}">${title}</a>
-                    <a href="/web/${type}/detail?type=update&token=${token}" class="btn-method mr-2">Sửa</a>
+                    <a class="btn-method mr-2 ${this.Type}" style="cursor: pointer" data-id="${token}">${this.Title}</a>
+                    <a class="btn-method mr-2" href="${page}/detail?type=update&token=${token}">Sửa</a>
                     <button class="btn-method delete" data-id="${token}" type="button">Xóa</button>
                 </td>
             `;
         }
         return `
             <td class="d-flex">
-                <a href="/web/${type}/detail?type=update&token=${token}" class="btn-method mr-2">Sửa</a>
+                <a class="btn-method mr-2" href="${page}/detail?type=update&token=${token}">Sửa</a>
                 <button class="btn-method delete" data-id="${token}" type="button">Xóa</button>
             </td>
         `;

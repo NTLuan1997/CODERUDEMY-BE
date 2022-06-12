@@ -33,6 +33,15 @@ class LessonService extends Service {
         })
     }
 
+    update(query, body) {
+        return super.documentQuery((resolve, reject) => {
+            Lesson.updateOne(query, body, { upsert: true }).exec((err, doc) => {
+                if (err) reject(err);
+                resolve({ status: true, message: "Update done" });
+            })
+        })
+    }
+
 }
 
 module.exports = new LessonService;

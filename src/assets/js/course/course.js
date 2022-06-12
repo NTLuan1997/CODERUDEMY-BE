@@ -25,10 +25,8 @@ window.onload = function (e) {
     (function () {
         https.FIND(environment.payload, token, environment.endpoint.course)
         .then((res) => {
+            view.setType("Nội học phần", "unit");
             view.render(res, ComponentHeader, KeyHeader, ComponentView, KeyComponent);
-        })
-        .then(() => {
-            deleted.method('delete', environment.endpoint.course);
         })
         .then(() => {
             redirect();

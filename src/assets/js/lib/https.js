@@ -68,8 +68,6 @@ export class HTTPS {
     }
 
     PUT(token, body, endPoint) {
-        console.log(body);
-        
         return new Promise((resolve, reject) => {
             fetch(endPoint, {
                 "method": "PUT",

@@ -14,12 +14,19 @@ window.onload = function (e) {
     const $$ = document.querySelectorAll.bind(document);
 
     const Lesson = $("#Lesson");
-    const Name = $("#Name");
+    const Code = $("#Code");
     const Content = $("#Textarea");
+    const CreateDate = $("#CreateDate");
+    const Name = $("#Name");
+
+    const Switched = $("#switched");
+    const Status = $("#Status");
 
     const date = new Date();
+    const hiddenGroup = $$(".hidden-group");
     const token = `Bearer ${cookie.get("Authentic")}`;
     const type = origin.parameter().type;
+    let lessonId = "";
     let unitToken = "";
 
 //     Validation({
@@ -52,15 +59,38 @@ window.onload = function (e) {
         (function () {
             if(localStorage.getItem("UnitToken")) {
                 unitToken = localStorage.getItem("UnitToken");
+                Code.value = unitToken;
             }
 
-            if(type === "update") { }
+            if(type === "update") {
+                Switched.classList.add("active");
+
+                hiddenGroup.forEach((group) => {
+                    group.classList.add("active");
+                })
+
+                lessonId = origin.parameter().token;
+
+                let payload = {
+                    id: lessonId,
+                    type: "Find"
+                }
+
+                https.FIND(payload, token, environment.endpoint.lesson)
+                .then((result) => {
+                    binding(result.at(0));
+                })
+                .catch((err) => {
+                    throw err;
+                })
+            }
         }());
 
     switch(type) {
         case "update":
             setTitleForm("update");
-            Lesson.addEventListener("submit", updateLesson);
+            Status.addEventListener("change", updateStatus);
+            Lesson.addEventListener("submit", update);
             break;
 
         case "create":
@@ -84,9 +114,47 @@ window.onload = function (e) {
         })
     }
 
-//     function updateLesson(e) {
-//         e.preventDefault();
-//     }
+    function update(e) {
+        e.preventDefault();
+        // if (this.valid) { }
+        https.PUT(token, setValue(), environment.endpoint.lesson)
+        .then((result) => {
+            if(result?.status) {
+                window.location.href = "/web/course/unit/lesson";
+            }
+        })
+        .catch((err) => {
+            throw err;
+        })
+    }
+
+    function updateStatus(e) {
+        e.preventDefault();
+
+        let payload = {
+            Type: "Status",
+            LessonId: lessonId,
+            Status: this.checked,
+            UpdateDate: date.toISOString(),
+        }
+
+        https.PUT(token, payload, environment.endpoint.lesson)
+        .then((result) => {
+            if(result?.status) {
+                window.location.href = "/web/course/unit/lesson";
+            }
+        })
+        .catch((err) => {
+            throw err;
+        })
+    }
+
+    function binding(result) {
+        CreateDate.value = result?.CreateDate.split(".")[0];
+        Name.value = result?.Name;
+        UpdateDate.value = (result?.UpdateDate) ? result?.UpdateDate.split(".")[0] : null;
+        tinymce.activeEditor.setContent(result?.Content);
+    }
 
     function setValue() {
         let payload = {
@@ -94,17 +162,20 @@ window.onload = function (e) {
             CreateDate: date.toISOString(),
             Name: Name.value,
             Status: false,
-            Thumbnail: "",
             UnitId: unitToken,
             UpdateDate: "",
         }
 
-        if(type === "update") {
-            payload.Type = "Edit";
-        }
-
         if(type === "create") {
             payload.Type = "CreateLesson";
+            payload.Thumbnail = "";
+        }
+
+        if(type === "update") {
+            payload.LessonId = lessonId;
+            payload.Status = Status.checked;
+            payload.UpdateDate = date.toISOString();
+            payload.Type = "Edit";
         }
 
         return payload;
