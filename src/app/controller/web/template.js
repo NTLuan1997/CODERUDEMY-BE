@@ -4,6 +4,7 @@ class Template {
 
     render(req, res) {
         switch(req._parsedOriginalUrl.pathname) {
+
             case"/web":
                 res.render("components/web-component", { show: true });
                 break;
@@ -34,6 +35,10 @@ class Template {
 
             case "/web/course/unit/lesson":
                 res.status(200).render('components/course-component/lesson-component/lesson-component', {show: true});
+                break;
+
+            case "/web/course/unit/lesson/detail":
+                res.status(200).render('components/course-component/lesson-component/lesson-detail-component', {show: true});
                 break;
 
             case "/web/user":

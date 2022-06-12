@@ -218,7 +218,7 @@ window.onload = function (e) {
 
         if(type === "create") {
             payload.CreateDate = date.toISOString();
-            payload.Func = "Register";
+            payload.Func = "CreateCourse";
             payload.Unit = 0;
             payload.UpdateDate = "";
             payload.Thumbnail = "";

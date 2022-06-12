@@ -162,7 +162,7 @@ window.onload = function () {
         };
 
         if(type === "create") {
-            payload.Type = "CreateCourse";
+            payload.Type = "CreateUnit";
             payload.CreateDate = date.toISOString();
         }
 

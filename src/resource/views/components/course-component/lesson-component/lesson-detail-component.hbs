@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="breadcrumd">
+            <ul class="list-unstyled">
+                <li><a href="/web">Trang chủ</a></li>
+                <li><a href="/web/course">Khóa học</a></li>
+                <li><a href="/web/course/unit">Chương học</a></li>
+                <li><a href="/web/course/unit/lesson">Học phần</a></li>
+                <li><span>Chi tiết học phần</span></li>
+            </ul>
+        </div>
+        <div class="page-detail">
+            <div class="title-information">
+                <h2 class="information-title">Thông tin khóa học</h2>
+                <div class="custom-control custom-switch information-status" id="switched">
+                    <input type="checkbox" class="custom-control-input" id="Status">
+                    <label class="custom-control-label" for="Status">Trạng thái</label>
+                </div>
+            </div>
+
+            <form class="page-detail-form" id="Lesson">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-group--label" for="Code">Mã Chương học</label>
+                            <input type="text" class="form-control" id="Code" disabled placeholder="Mã code">
+                            <span class="form-message"></span>
+                        </div>
+                        <div class="form-group hidden-group">
+                            <label class="form-group--label" for="CreateDate">Ngày tạo</label>
+                            <input type="datetime-local" step="0.001" class="form-control" disabled id="CreateDate">
+                            <span class="form-message"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-group--label" for="Name">Tên bài học</label>
+                            <input type="text" class="form-control" id="Name">
+                            <span class="form-message"></span>
+                        </div>
+                        <div class="form-group hidden-group">
+                            <label class="form-group--label" for="UpdateDate">Cập nhật gần đây</label>
+                            <input type="datetime-local" step="0.001" class="form-control" disabled id="UpdateDate">
+                            <span class="form-message"></span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="form-group--label" for="lesson-content">Nội dung khóa học</label>
+                            <textarea id="Textarea"></textarea>
+                            <span class="form-message"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="users-detail--serect"><button type="submit" class="btn-executed btn">Submit</button></div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="/static/js/lesson/lessonDetail.js"></script>
+    <script src="/static/js/lib/tinymce.js"></script>
+</body>
+
+</html>

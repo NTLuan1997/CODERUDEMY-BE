@@ -1,116 +1,45 @@
-const lessonService = require("../services/lessonService");
-const unitService = require("../services/unitService");
-const ObjectId = require("mongodb").ObjectId;
+const LessonService = require("../services/lessonService");
+const UnitService = require("../services/unitService");
 
 class LessonController {
 
     constructor() { }
 
-    // Method render template.
+    Functions(req, res) {
 
-    renderLesson(req, res) {
-        res.render("components/courses/lesson", { show: true });
-    }
-
-    renderLessonDetail(req, res) {
-        res.render("components/courses/lessonDetail", { show: true });
-    }
-
-    // Method support api Unit.
-
-    findSingleLessson(req, res) {
-        lessonService.findOneLesson(req.lessonQuery)
-            .then((data) => {
-                res.status(200).json(data);
+        function find() {
+            LessonService.find(req.condition)
+            .then((result) => {
+                res.status(200).json(result);
             })
             .catch((err) => {
                 throw err;
             })
-    }
+        }
 
-    lesson(req, res) {
-        lessonService.findLimitLesson(req.unitQuery, req.query.limit, req.query.start)
-            .then((data) => {
-                res.status(200).json({
-                    "lessons": data[0],
-                    "length": data[1]
-                })
-            })
-            .catch((err) => {
-                throw err;
-            })
-    }
-
-    newLesson(req, res) {
-        lessonService.newLesson(req.lessonBody)
-            .then((data) => {
-                return data;
-            })
-            .then((state) => {
-                if (state.status) {
-                    let query = { "unitId": { "$eq": req.lessonBody.unitId } };
-                    return lessonService.countLesson(query);
-                } else {
-                    state.message = "Count failed";
-                    res.status(200).json(state);
+        function saved() {
+            LessonService.saved(req.unit)
+            .then((result) => {
+                if(result?.status) {
+                    return LessonService.count(req.UnitId);
                 }
             })
             .then((count) => {
-                if (count >= 0) {
-                    let query = { "_id": { "$eq": new ObjectId(req.lessonBody.unitId) } };
-                    let unitBody = { "amountLesson": Number(count) };
-                    return unitService.updateUnit(query, unitBody);
+                if(count) {
+                    let unit = {"Lesson": count};
+                    return UnitService.update(req.condition, unit);
                 }
             })
-            .then((data) => {
-                res.status(200).json(data);
+            .then((result) => {
+                res.status(200).json(result);
             })
             .catch((err) => {
                 throw err;
             })
-    }
+        }
 
-    editLesson(req, res) {
-        lessonService.updateLesson(req.lessonQuery, req.lessonBody)
-            .then((data) => {
-                res.status(200).json(data);
-            })
-            .catch((err) => {
-                throw err;
-            })
-    }
-
-    removeLesson(req, res) {
-        let unitId = null;
-        lessonService.findOneLesson(req.lessonQuery)
-            .then((data) => {
-                unitId = data.unitId;
-                return data;
-            })
-            .then((data) => {
-                let query = { "_id": { "$eq": data["_id"] } };
-                return lessonService.deleteLesson(query);
-            })
-            .then((state) => {
-                if (state.status) {
-                    let query = { "unitId": { "$eq": unitId } };
-                    return lessonService.countLesson(query);
-                }
-                return 0;
-            })
-            .then((count) => {
-                if (count >= 0) {
-                    let query = { "_id": { "$eq": new ObjectId(unitId) } };
-                    let unitBody = { "amountLesson": Number(count) };
-                    return unitService.updateUnit(query, unitBody);
-                }
-            })
-            .then((state) => {
-                res.status(200).json(state);
-            })
-            .catch((err) => {
-                throw err;
-            })
+        if(req.type === "CreateLesson"){saved()}
+        if(req.type === "Find"){find()}
     }
 
 }
