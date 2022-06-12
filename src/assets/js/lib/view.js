@@ -51,7 +51,7 @@ export class View {
         if(this.Pages.includes(this.Origin.checkTypePage())) {
             return `
                 <td class="d-flex">
-                    <a href="/web/${nextPage}" class="btn-method mr-2 ${ID}" data-id="${token}">${title}</a>
+                    <a class="btn-method mr-2 ${ID}" style="cursor: pointer" data-id="${token}">${title}</a>
                     <a href="/web/${type}/detail?type=update&token=${token}" class="btn-method mr-2">Sửa</a>
                     <button class="btn-method delete" data-id="${token}" type="button">Xóa</button>
                 </td>

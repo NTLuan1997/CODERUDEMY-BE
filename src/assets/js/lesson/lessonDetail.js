@@ -1,26 +1,26 @@
-// import { getType, getToken, permission } from "../commons/common.js";
-// import { httpsService } from "../commons/httpService.js";
-// import { Validation } from "../commons/validation.js";
+import { Cookie } from "../lib/cookie.js";
+import { environment } from "../config/environment.js";
+import { HTTPS } from "../lib/https.js";
+import { View } from "../lib/view.js";
+import Origin from "../lib/lib-origin.js";
 
-// window.onload = function (e) {
-//     const $ = document.querySelector.bind(document);
-//     const $$ = document.querySelectorAll.bind(document);
+window.onload = function (e) {
 
-//     // GET WRAPPER
-//     let lessonForm = $("#lesson-detail");
-//     let unitCode = $("#unit-code");
-//     let name = $("#lesson-name");
-//     let content = $("#lesson-content");
-//     let status = $("input[name='status']:checked");
-//     let thumbnail = $("#lesson-thumbanil");
-//     let createDate = $("#lesson-create-date");
-//     let editLastDate = $("#lesson-edit-last-date");
+    const cookie = new Cookie();
+    const https = new HTTPS();
+    const origin = new Origin();
+    const view = new View();
+    const $ = document.querySelector.bind(document);
+    const $$ = document.querySelectorAll.bind(document);
 
-//     let toasts = $$(".modal-toasts")[0];
+    const Lesson = $("#Lesson");
+    const Name = $("#Name");
+    const Content = $("#Textarea");
 
-//     $("#go-back").addEventListener("click", function (element) {
-//         window.history.back();
-//     })
+    const date = new Date();
+    const token = `Bearer ${cookie.get("Authentic")}`;
+    const type = origin.parameter().type;
+    let unitToken = "";
 
 //     Validation({
 //         form: "#lesson-detail",
@@ -49,116 +49,79 @@
 //         ]
 //     });
 
-//     if (getType() == "update") {
-//         (function () {
-//             console.log(getToken());
-//             httpsService("API/lesson/lesson-single", "POST", { id: getToken() })
-//                 .then((data) => {
-//                     return data.json();
-//                 })
-//                 .then((data) => {
-//                     setCourseForm(data);
-//                 })
-//                 .catch((err) => {
-//                     console.log(err);
-//                 })
-//         }());
-//     }
+        (function () {
+            if(localStorage.getItem("UnitToken")) {
+                unitToken = localStorage.getItem("UnitToken");
+            }
 
-//     switch (getType()) {
-//         case "update":
-//             setTitleForm("update");
-//             lessonForm.addEventListener("submit", updateLesson);
-//             break;
+            if(type === "update") { }
+        }());
 
-//         case "create":
-//         default:
-//             unitCode.value = getToken();
-//             setTitleForm("create");
-//             lessonForm.addEventListener("submit", createLesson);
-//             break;
-//     }
+    switch(type) {
+        case "update":
+            setTitleForm("update");
+            Lesson.addEventListener("submit", updateLesson);
+            break;
 
-//     function createLesson(e) {
-//         e.preventDefault();
-//         if (this.valid) {
-//             let lesson = getLesson();
-//             if (lesson) {
-//                 httpsService("API/lesson/lesson-new", "POST", lesson)
-//                     .then((res) => {
-//                         return res.json();
-//                     })
-//                     .then((data) => {
-//                         data.status ?
-//                             location.href = `/courses/units/lessons?unitId=${lesson.unitId}` :
-//                             permission(toasts, data);
-//                     })
-//                     .catch((err) => {
-//                         console.error(err);
-//                     })
-//             }
-//         }
-//     }
+        case "create":
+        default:
+            setTitleForm("create");
+            Lesson.addEventListener("submit", create);
+            break;
+    }
+
+    function create(e) {
+        e.preventDefault();
+        // if (this.valid) { }
+        https.POST(token, setValue(), environment.endpoint.lesson)
+        .then((result) => {
+            if(result?.status) {
+                window.location.href = "/web/course/unit/lesson";
+            }
+        })
+        .catch((err) => {
+            throw err;
+        })
+    }
 
 //     function updateLesson(e) {
 //         e.preventDefault();
-//         if (this.valid) {
-//             let lesson = getLesson();
-//             lesson["id"] = getToken();
-//             if (lesson) {
-//                 httpsService("API/lesson/lesson-edit", "PUT", lesson)
-//                     .then((res) => {
-//                         return res.json();
-//                     })
-//                     .then((data) => {
-//                         data.status ?
-//                             location.href = `/courses/units/lessons?unitId=${lesson.unitId}` :
-//                             permission(toasts, data);
-//                     })
-//                     .catch((err) => {
-//                         console.error(err);
-//                     })
-//             }
-//         }
 //     }
 
-//     function getLesson() {
-//         let data = {
-//             unitId: unitCode.value,
-//             lessonName: name.value,
-//             lessonContent: content.value,
-//             status: ($("input[name='status']:checked").value == "action") ? true : false,
-//             thumbnail: thumbnail.value,
-//             createDate: createDate.value,
-//             updateDate: editLastDate.value
-//         }
-//         return data;
-//     }
+    function setValue() {
+        let payload = {
+            Content: Content.value,
+            CreateDate: date.toISOString(),
+            Name: Name.value,
+            Status: false,
+            Thumbnail: "",
+            UnitId: unitToken,
+            UpdateDate: "",
+        }
 
-//     function setCourseForm(lesson) {
-//         unitCode.value = lesson.unitId;
-//         name.value = lesson.lessonName;
-//         content.value = lesson.lessonContent;
-//         (lesson.status) ? $(`input[id='active']`).checked = true : $(`input[id='no-active']`).checked = true;
-//         thumbnail.value = lesson.thumbnail;
-//         createDate.value = lesson.createDate.split(".")[0];
-//         editLastDate.value = lesson.updateDate.split(".")[0];
-//     }
+        if(type === "update") {
+            payload.Type = "Edit";
+        }
 
-//     function setTitleForm(type) {
-//         let title = $$(".page-detail--title")[0];
-//         let subButton = $$(".btn-executed")[0];
+        if(type === "create") {
+            payload.Type = "CreateLesson";
+        }
 
-//         if (type == "create") {
-//             title.innerHTML = "Thêm mới bài học";
-//             subButton.innerHTML = "Thêm mới";
-//         } else {
-//             title.innerHTML = "Chỉnh sửa thông tin";
-//             subButton.innerHTML = "Cập nhật";
-//         }
-//     }
+        return payload;
+    }
 
-//     $("#come-back").addEventListener("click", function (e) {
-//         window.history.back();
-//     })
-// }
+
+    function setTitleForm(type) {
+        let title = $$(".information-title")[0];
+        let subButton = $$(".btn-executed")[0];
+
+        if (type == "create") {
+            title.innerHTML = "Thêm mới bài học";
+            subButton.innerHTML = "Thêm mới";
+        } else {
+            title.innerHTML = "Chỉnh sửa thông tin";
+            subButton.innerHTML = "Cập nhật";
+        }
+    }
+
+}

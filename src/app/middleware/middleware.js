@@ -147,9 +147,9 @@ class Middleware {
                                 next();
                             }
 
-                            if(req.body.Func === "Register") {
+                            if(req.body.Func === "CreateCourse") {
                                 delete req.body.Func;
-                                req.type = "Register";
+                                req.type = "CreateCourse";
                                 req.course = req.body;
                                 next();
                             }
@@ -209,8 +209,8 @@ class Middleware {
                     if(req.body.Func || req.body.Type) {
                         if(role === "admin") {
 
-                            if(req.body.Type === "CreateCourse") {
-                                req.type = "CreateCourse";
+                            if(req.body.Type === "CreateUnit") {
+                                req.type = "CreateUnit";
                                 req.courseId = req.body.CourseId;
                                 req.condition = {"CourseId": {"$eq": req.body.CourseId}};
                                 req.unit = req.body;
@@ -261,6 +261,49 @@ class Middleware {
                     }
                 } else {
                     console.log("Not Find Role");
+                }
+            } else {
+                return res.status(404).json({status: false, type: "tokenExperience"});
+            }
+        } else {
+            return res.status(404).json({status: false, type: "tokenBlank"});
+        }
+    }
+
+    LessonTransaction(req, res, next) {
+        if(req.headers.authorization && req.headers.authorization !== "Empty") {
+            if(JWT.verify(req.headers.authorization.split(' ')[1])) {
+                let { token, role } = JWT.decoded(req.headers.authorization.split(' ')[1]).payload;
+                req.condition = {"_id": {"$eq": token}};
+
+                if(role) {
+
+                    if(req.body.Type || req.body.Func) {
+                        if(role === "admin") {
+                            if(req.body.Type === "CreateLesson") {
+                                delete req.body.Type;
+                                req.type = "CreateLesson";
+                                req.condition = {"_id": {"$eq": req.body.UnitId}};
+                                req.UnitId = {"UnitId": {"$eq": req.body.UnitId}};
+                                req.unit = req.body;
+                                next();
+                            }
+
+                        } else {
+                            console.log("permission");
+                        }
+
+                    } else {
+                        let {type, token, limited, id, start} = JSON.parse(req.headers.comment);
+                        if(type === "FindAll") {
+                            req.type = "Find";
+                            req.condition = {"UnitId": {"$eq": id}};
+                        }
+                        next();
+                    }
+
+                } else {
+                    return res.status(404).json({status: false, type: "roleBlank"});
                 }
             } else {
                 return res.status(404).json({status: false, type: "tokenExperience"});
@@ -335,8 +378,10 @@ class Middleware {
                                 req.user = {"Thumbnail": req.body.Destination};
                                 next();
                             }
-                        }
 
+                        } else {
+                            console.log("permission");
+                        }
                     } else {
                         let {type, token, limited, id, start} = JSON.parse(req.headers.comment);
                         if(type === "limited") {

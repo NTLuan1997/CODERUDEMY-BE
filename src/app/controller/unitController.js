@@ -47,7 +47,7 @@ class UnitController {
         
         if(req.type === "Edit" || req.type === "Status"){edit()}
         if(req.type === "Find"){find()}
-        if(req.type === "CreateCourse"){saved()}
+        if(req.type === "CreateUnit"){saved()}
     }
 
 }

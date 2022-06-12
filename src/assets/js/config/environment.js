@@ -24,7 +24,7 @@ export const environment = {
         "authentication": "/API/authen/manager",
         "client": "/API/client/client",
         "course": "/API/course/course",
-        "lesson": "",
+        "lesson": "/API/course/unit/lesson",
         "unit": "/API/course/unit",
         "user": "/API/user/user",
     },

@@ -29,9 +29,22 @@ window.onload = function (e) {
             .then((result) => {
                 view.render(result, ComponentHeader, KeyHeader, ComponentView, KeyComponent);
             })
+            .then(() => {
+                redirect();
+            })
             .catch((err) => {
                 throw err;
             })
         }
     }())
+
+    function redirect() {
+        $$(".lesson").forEach((unit) => {
+            unit.addEventListener("click", function(e) {
+                e.preventDefault();
+                localStorage.setItem("UnitToken", this.dataset.id);
+                window.location.href = "unit/lesson";
+            })
+        })
+    }
 }

@@ -1,46 +1,41 @@
-// import { httpsService } from "../commons/httpService.js";
-// import { deleteDocument } from "../commons/delete.js";
-// import { renderHeaderTable, renderBodyTable, renderPagination } from "../commons/render.js";
+import { Cookie } from "../lib/cookie.js";
+import { environment } from "../config/environment.js";
+import { HTTPS } from "../lib/https.js";
+import { View } from "../lib/view.js";
+import Origin from "../lib/lib-origin.js";
 
-// window.onload = function (e) {
-//     const $ = document.querySelector.bind(document);
-//     const $$ = document.querySelectorAll.bind(document);
+window.onload = function (e) {
 
-//     let pageRequire = 5;
-//     let routerLessonNew = $("#lesson-new");
-//     let wrapperPagination = $$(".pagination")[0];
-//     let wrapperTableHeader = $("#lesson-table-header");
-//     let wrapperTablebody = $("#lesson-table-body");
-//     let titles = ["STT", "Mã Chương học", "Tên bài học", "Trang thái", "Ngày tạo", "Lần cập nhật cuối", "Chức năng"];
+    const cookie = new Cookie();
+    const https = new HTTPS();
+    const origin = new Origin();
+    const view = new View();
+    const $ = document.querySelector.bind(document);
+    const $$ = document.querySelectorAll.bind(document);
 
-//     let unitId = location.search.split("=")[1];
-//     let condition = [`unitId=${unitId}`];
+    let token = `Bearer ${cookie.get("Authentic")}`;
+    let ComponentHeader = $("#Header");
+    let ComponentView = $("#Body");
+    let KeyComponent = ["Name", "Status", "CreateDate"];
+    let KeyHeader = ["Tên học phần", "Trạng thái", "Ngày tạo", "Chúc năng"];
+    let unitId = "";
 
-//     let id = localStorage.getItem("courseId") ? JSON.parse(localStorage.getItem("courseId")) : 0;
-//     $("#go-back").setAttribute("href", `/courses/units?courseId=${id}`);
-//     routerLessonNew.setAttribute("href", location.href.replace("?", "/detail?type=create&"));
+    (function() {
+        if(localStorage.getItem("UnitToken")) {
+            unitId = localStorage.getItem("UnitToken");
 
-//     (function () {
+            let payload = {
+                id: localStorage.getItem("UnitToken"),
+                type: "FindAll"
+            }
 
-//         httpsService(`API/lesson/lesson?limit=${pageRequire}&start=0&unitId=${unitId}`, "GET", null)
-//             .then((data) => {
-//                 return data.json();
-//             })
-//             .then((data) => {
-//                 renderHeaderTable(wrapperTableHeader, titles);
-//                 renderPagination(wrapperPagination, 5, data.length, "API/lesson/lesson", (e) => {
-//                     renderBodyTable(wrapperTablebody, e?.lessons, ["_id", "lessonContent", "thumbnail", "__v"], "courses/units/lessons", "lessons");
-//                     deleteDocument($$(".btn-delete-document"), "API/lesson/lesson-remove");
-//                 }, condition);
-//                 return data;
-//             })
-//             .then((data) => {
-//                 renderBodyTable(wrapperTablebody, data?.lessons, ["_id", "lessonContent", "thumbnail", "__v"], "courses/units/lessons", "lessons");
-//                 deleteDocument($$(".btn-delete-document"), "API/lesson/lesson-remove");
-//             })
-//             .catch((err) => {
-//                 console.log(err);
-//             })
-//     })()
-
-// }
+            https.FIND(payload, token, environment.endpoint.lesson)
+            .then((result) => {
+                view.render(result, ComponentHeader, KeyHeader, ComponentView, KeyComponent);
+            })
+            .catch((err) => {
+                throw err;
+            })
+        }
+    }());
+}
