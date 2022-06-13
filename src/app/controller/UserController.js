@@ -3,13 +3,12 @@ class User {
 
     constructor() { }
 
-    functions(req, res) {
+    Functions(req, res) {
 
         function limited() {
             userService.limit(req.limited, req.start)
             .then((result) => {
                 res.status(200).json(result);
-
             })
             .catch((err) => {
                 throw err;
@@ -36,7 +35,7 @@ class User {
             })
         }
 
-        function update() {
+        function updated() {
             userService.update(req.condition, req.user)
             .then((result) => {
                 res.status(200).json(result);
@@ -60,9 +59,8 @@ class User {
         if(req.type === "limited"){limited()}
         if(req.type === "Find"){find()}
         if(req.type === "Register"){saved()}
-        if((req.type === "Edit") || (req.type === "Thumbnail") || (req.type === "Status") || (req.type === "Security")){
-            update()
-        };
+
+        if((req.type === "Edit")){updated()}
     }
 }
 

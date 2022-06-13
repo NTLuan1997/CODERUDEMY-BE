@@ -130,7 +130,7 @@ class Middleware {
 
                 if(role) {
                     if(req.body.Func || req.body.Type) {
-                        if(role === "admin") {
+                        if(role === "Admin") {
 
                             if(req.body.Func === "Edit") {
                                 req.condition = {"_id": {"$eq": req.body.Id}};
@@ -207,7 +207,7 @@ class Middleware {
 
                 if(role) {
                     if(req.body.Func || req.body.Type) {
-                        if(role === "admin") {
+                        if(role === "Admin") {
 
                             if(req.body.Type === "CreateUnit") {
                                 req.type = "CreateUnit";
@@ -278,7 +278,7 @@ class Middleware {
 
                 if(role) {
                     if(req.body.Type || req.body.Func) {
-                        if(role === "admin") {
+                        if(role === "Admin") {
                             if(req.body.Type === "CreateLesson") {
                                 delete req.body.Type;
                                 req.type = "CreateLesson";
@@ -288,19 +288,10 @@ class Middleware {
                                 next();
                             }
 
-                            if(req.body.Type === "Edit") {
-                                delete req.body.Type;
-                                req.type = "Edit";
-
-                                req.condition = {"_id": {"$eq": req.body.LessonId}};
-                                delete req.body.LessonId;
-                                req.lesson = req.body;
-                                next();
-                            }
-
-                            if(req.body.Type === "Status") {
+                            if((req.body.Type === "Edit") || (req.body.Type === "Status")) {
                                 req.type = "Edit";
                                 req.condition = {"_id": {"$eq": req.body.LessonId}};
+                                
                                 delete req.body.Type;
                                 delete req.body.LessonId;
                                 req.lesson = req.body;
@@ -337,73 +328,59 @@ class Middleware {
     }
 
     // USER TRANSACTION
-    userTransaction(req, res, next) {
+    UserTransaction(req, res, next) {
         if(req.headers.authorization && req.headers.authorization !== "Empty") {
             if(JWT.verify(req.headers.authorization.split(' ')[1])) {
                 let { token, role } = JWT.decoded(req.headers.authorization.split(' ')[1]).payload;
                 req.condition = {"_id": {"$eq": token}};
 
                 if(role) {
-                    if(req.body.Type) {
-                        if(role === "admin") {
-                            if(req.body.Type === "Delete") {
-                                req.type = "Delete";
-                                req.condition = {"_id": {"$eq": req.body.Id}};
-                                next();
-                            }
-
+                    if(req.body.Type || req.body.Func) {
+                        if(role === "Admin" || role === "Editer") {
                             if(req.body.Type === "Edit") {
                                 req.type = "Edit";
-                                req.condition = {"_id": {"$eq": req.body.Id}};
-                                delete req.body.Type;
-                                delete req.body.Id;
+                                    req.condition = {"_id": {"$eq": req.body.Id}};
+                                    delete req.body.Type;
+                                    delete req.body.Id;
 
-                                req.user = req.body;
-                                next();
-                            }
-
-                            if(req.body.Type === "Status") {
-                                req.type = "Status";
-                                req.condition = {"_id": {"$eq": req.body.Id}};
-                                req.user = {"Status": req.body.Status};
-                                next();
-                            }
-
-                            if(req.body.Type === "Security") {
-                                req.type = "Security";
-                                req.condition = {"_id": {"$eq": req.body.Id}};
-                                req.user = {"Password": BCRYPT.hash(req.body.Password)};
-                                next();
-                            }
-
-                            if(req.body.Type === "Register") {
-                                delete req.body.Type;
-                                req.type = "Register";
-
-                                userService.exists({"Email": {"$eq": req.body.Email}})
-                                .then((result) => {
-                                    if(!result) {
-                                        req.body.Password = BCRYPT.hash(req.body.Password);
-                                        req.user = req.body;
-                                        next();
-                                    } else {
-                                        return res.status(404).json({status: false, type: "emailRegisterAlready"});
+                                    if(role === "Editer") { delete req.body.Role; }
+                                    if(role === "Admin") {
+                                        if(req.body.hasOwnProperty("Password")) {
+                                            req.body.Password = BCRYPT.hash(req.body.Password);
+                                        }
                                     }
-                                })
-                                .catch((err) => {
-                                    throw err;
-                                })
+                                    req.user = req.body;
+                                    next();
                             }
 
-                            if(req.body.Type === "Thumbnail") {
-                                req.type = "Thumbnail";
-                                req.condition = {"_id": {"$eq": req.body.Id}};
-                                req.user = {"Thumbnail": req.body.Destination};
-                                next();
-                            }
+                            if(role === "Admin") {
+                                if(req.body.Type === "Delete") {
+                                    req.type = "Delete";
+                                    req.condition = {"_id": {"$eq": req.body.Id}};
+                                    next();
+                                }
 
+                                if(req.body.Type === "Register") {
+                                    delete req.body.Type;
+                                    req.type = "Register";
+    
+                                    userService.exists({"Email": {"$eq": req.body.Email}})
+                                    .then((result) => {
+                                        if(!result) {
+                                            req.body.Password = BCRYPT.hash(req.body.Password);
+                                            req.user = req.body;
+                                            next();
+                                        } else {
+                                            return res.status(404).json({status: false, type: "emailRegisterAlready"});
+                                        }
+                                    })
+                                    .catch((err) => {
+                                        throw err;
+                                    })
+                                }
+                            }
                         } else {
-                            console.log("permission");
+                            res.status(405).json({status: false, type: "don't-permission"});
                         }
                     } else {
                         let {type, token, limited, id, start} = JSON.parse(req.headers.comment);
@@ -421,7 +398,6 @@ class Middleware {
                         }
                     }
                 }
-
             } else {
                 return res.status(404).json({status: false, type: "tokenExperience"});
             }

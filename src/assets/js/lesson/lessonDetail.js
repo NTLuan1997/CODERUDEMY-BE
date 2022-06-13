@@ -1,7 +1,6 @@
 import { Cookie } from "../lib/cookie.js";
 import { environment } from "../config/environment.js";
 import { HTTPS } from "../lib/https.js";
-import { View } from "../lib/view.js";
 import Origin from "../lib/lib-origin.js";
 
 window.onload = function (e) {
@@ -9,7 +8,6 @@ window.onload = function (e) {
     const cookie = new Cookie();
     const https = new HTTPS();
     const origin = new Origin();
-    const view = new View();
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
 

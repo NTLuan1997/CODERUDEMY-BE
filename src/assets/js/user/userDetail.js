@@ -115,8 +115,8 @@ window.onload = function (e) {
     switch (type) {
         case "update":
             setTitleForm("update");
-            Status.addEventListener("change", stated);
-            ThumbnailUpload.addEventListener("change", upload);
+            Status.addEventListener("change", updateStated);
+            ThumbnailUpload.addEventListener("change", updateThumbnail);
             User.addEventListener("submit", update);
             Security.addEventListener("submit", update);
             break;
@@ -161,11 +161,7 @@ window.onload = function (e) {
 
         if(this.id === "Security") {
             if(Security.valid) {
-                let payload = {
-                    Id: origin.parameter().token,
-                    Type: "Security",
-                    Password: Password.value
-                };
+                let payload = { Id: origin.parameter().token, Type: "Edit", Password: Password.value };
 
                 https.PUT(token, payload, environment.endpoint.user)
                 .then((result) => {
@@ -180,12 +176,8 @@ window.onload = function (e) {
         }
     }
 
-    function stated(e) {
-        let payload = {
-            Id: origin.parameter().token,
-            Type: "Status",
-            Status: this.checked
-        }
+    function updateStated(e) {
+        let payload = { Id: origin.parameter().token, Type: "Edit", Status: this.checked }
 
         https.PUT(token, payload, environment.endpoint.user)
         .then((result) => {
@@ -198,7 +190,7 @@ window.onload = function (e) {
         })
     }
 
-    function upload(e) {
+    function updateThumbnail(e) {
         if(token) {
             priture.upload(environment.priture.url, this?.files[0], "users", ThumbnailOld)
             .then((result) => {
@@ -206,8 +198,8 @@ window.onload = function (e) {
                 if(status) {
                     let payload = {
                         Id: origin.parameter().token,
-                        Type: "Thumbnail",
-                        Destination: destination
+                        Type: "Edit",
+                        Thumbnail: destination
                     }
                     return https.PUT(token, payload, environment.endpoint.user);
                 }
