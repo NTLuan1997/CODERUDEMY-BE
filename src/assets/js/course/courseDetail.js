@@ -40,49 +40,48 @@ window.onload = function (e) {
     const ContentThumbnail = $("#content-thumbnail");
     const BlankThumbnail = $("#blank-thumbnail");
 
-    Validation({
-        form: "#Course",
-        selectorError: ".form-message",
-        rules: [
-            {
-                selector: "#Name",
-                guides: [Validation.required()]
-            },
-            {
-                selector: "#Type",
-                guides: [Validation.required()]
-            },
-            {
-                selector: "#Author",
-                guides: [Validation.required()]
-            },
-            // {
-            //     selector: "#CreateDate",
-            //     guides: [Validation.required()]
-            // },
-            // {
-            //     selector: "#EditDate",
-            //     guides: [Validation.required()]
-            // },
-            // {
-            //     selector: "#Thumbnail",
-            //     guides: [Validation.required()]
-            // },
-            {
-                selector: "#Description",
-                guides: [Validation.required()]
-            }
-        ]
-    });
+    const rules = [
+        {
+            selector: "#Name",
+            guides: [Validation.required()]
+        },
+        {
+            selector: "#Type",
+            guides: [Validation.required()]
+        },
+        {
+            selector: "#Author",
+            guides: [Validation.required()]
+        },
+        {
+            selector: "#Description",
+            guides: [Validation.required()]
+        }
+    ];
 
     if(type === "update") {
-        (function() {
-            pageThumbnail.classList.add("active");
-            Switched.classList.add("active");
-            hiddenGroup.forEach((group) => {
-                group.classList.add("active");
-            })
+        pageThumbnail.classList.add("active");
+        Switched.classList.add("active");
+        hiddenGroup.forEach((group) => {
+            group.classList.add("active");
+        })
 
+        rules.concat([
+            {
+                selector: "#CreateDate",
+                guides: [Validation.required()]
+            },
+            {
+                selector: "#EditDate",
+                guides: [Validation.required()]
+            },
+            {
+                selector: "#Thumbnail",
+                guides: [Validation.required()]
+            }
+        ]);
+
+        (function() {
             environment.payload.type = "Find";
             environment.payload.id = origin.parameter().token;
 
@@ -98,6 +97,12 @@ window.onload = function (e) {
 
         }())
     }
+
+    Validation({
+        form: "#Course",
+        selectorError: ".form-message",
+        rules: rules
+    });
 
     switch (type) {
         case "update":

@@ -1,10 +1,11 @@
 const router = require('express').Router();
 const middleware = require("../../app/middleware/middleware");
-const controller = require("../../app/controller/user");
+const UserController = require("../../app/controller/UserController");
 
-router.get("/user", middleware.userTransaction, controller.functions);
-router.post("/user", middleware.userTransaction, controller.functions);
-router.put("/user", middleware.userTransaction, controller.functions);
-router.delete("/user", middleware.userTransaction, controller.functions);
+router.get("/user", middleware.UserTransaction, UserController.Functions);
+router.post("/user", middleware.UserTransaction, UserController.Functions);
+router.put("/user", middleware.UserTransaction, UserController.Functions);
+router.delete("/user", middleware.UserTransaction, UserController.Functions);
 
 module.exports = router;
+
