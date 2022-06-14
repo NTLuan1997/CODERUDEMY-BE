@@ -6,7 +6,7 @@ class User {
     Functions(req, res) {
 
         function limited() {
-            userService.limit(req.limited, req.start)
+            userService.limit(req.condition, req.limited, req.start)
             .then((result) => {
                 res.status(200).json(result);
             })
@@ -55,11 +55,11 @@ class User {
             })
         }
 
-        if(req.type === "Delete"){remove()}
-        if(req.type === "limited"){limited()}
+        // if(req.type === "Delete"){remove()}
         if(req.type === "Find"){find()}
         if(req.type === "Register"){saved()}
 
+        if(req.type === "limited"){limited()}
         if((req.type === "Edit")){updated()}
     }
 }

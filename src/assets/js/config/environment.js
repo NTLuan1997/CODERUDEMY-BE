@@ -20,6 +20,9 @@ export const environment = {
         Thumbnail: "",
         registerCourse: []
     },
+    "error": {
+        "password-Incorrect": "Password không chính xác.",
+    },
     "endpoint": {
         "authentication": "/API/authen/manager",
         "client": "/API/client/client",
@@ -33,6 +36,13 @@ export const environment = {
         token: "",
         id: "",
         start: "",
-        limited: ""
+        status: false,
+        limited: "",
+    },
+    "permission": {
+        "registerAlready": "Email đã được đăng ký.",
+        "missingPermission": "Không đủ quyền thực thi chức năng.",
+        "tokenBlank": "Mã xác thực trống.",
+        "tokenExpired": "Mã xác thực quá hạn.",
     }
 }

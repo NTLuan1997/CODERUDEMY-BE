@@ -1,3 +1,4 @@
+import {environment} from "../config/environment.js";
 /**
  * 
  * @param {*} options 
@@ -168,9 +169,9 @@ Validation.dateOfBirth = function (minAge, maxAge) {
 
 Validation.data = function (data) {
     let message = '';
-    if (data && data.hasOwnProperty("message")) {
-        if (data.type == "no-found") {
-            message = "Không tìm thấy tài khoản";
+    if (!data?.status) {
+        if (data.type == "password-Incorrect") {
+            message = environment.error[`password-Incorrect`];
         }
     }
     return {

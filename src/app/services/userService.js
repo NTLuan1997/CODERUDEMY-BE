@@ -37,9 +37,10 @@ class UserService extends Service {
         })
     }
 
-    limit(limit, start) {
+    limit(condition, limit, start) {
+        let query = (condition)? condition : {};
         return super.documentQuery((resolve, reject) => {
-            User.find({}).limit(limit).skip(start).exec((err, doc) => {
+            User.find(query).limit(limit).skip(start).exec((err, doc) => {
                 if(err) reject(err);
                 resolve(doc);
             })

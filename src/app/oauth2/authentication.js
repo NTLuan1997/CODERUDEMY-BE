@@ -57,7 +57,7 @@ function manager(query, Password, done) {
             return result;
 
         } else {
-            done({status: false, type: "accountUnregister"});
+            done({status: false, type: "account-unregister"});
         }
     })
     .then((doc) => {
@@ -76,7 +76,7 @@ function manager(query, Password, done) {
             done(null, {token: JWT.roleEncode(objResult._id, objResult.Role)});
 
         } else {
-            done({status: false, type:"passwordIncorrect"});
+            done({status: false, type:"password-Incorrect"});
         }
     })
     .catch((err) => {

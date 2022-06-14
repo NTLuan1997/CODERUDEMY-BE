@@ -339,27 +339,21 @@ class Middleware {
                         if(role === "Admin" || role === "Editer") {
                             if(req.body.Type === "Edit") {
                                 req.type = "Edit";
-                                    req.condition = {"_id": {"$eq": req.body.Id}};
-                                    delete req.body.Type;
-                                    delete req.body.Id;
+                                req.condition = {"_id": {"$eq": req.body.Id}};
+                                delete req.body.Type;
+                                delete req.body.Id;
 
-                                    if(role === "Editer") { delete req.body.Role; }
-                                    if(role === "Admin") {
-                                        if(req.body.hasOwnProperty("Password")) {
-                                            req.body.Password = BCRYPT.hash(req.body.Password);
-                                        }
+                                if(role !== "Admin") { delete req.body.Role; }
+                                if(role === "Admin") {
+                                    if(req.body.hasOwnProperty("Password")) {
+                                        req.body.Password = BCRYPT.hash(req.body.Password);
                                     }
-                                    req.user = req.body;
-                                    next();
+                                }
+                                req.user = req.body;
+                                next();
                             }
 
                             if(role === "Admin") {
-                                if(req.body.Type === "Delete") {
-                                    req.type = "Delete";
-                                    req.condition = {"_id": {"$eq": req.body.Id}};
-                                    next();
-                                }
-
                                 if(req.body.Type === "Register") {
                                     delete req.body.Type;
                                     req.type = "Register";
@@ -370,39 +364,54 @@ class Middleware {
                                             req.body.Password = BCRYPT.hash(req.body.Password);
                                             req.user = req.body;
                                             next();
+
                                         } else {
-                                            return res.status(404).json({status: false, type: "emailRegisterAlready"});
+                                            return res.status(404).json({status: false, type: "register-already"});
                                         }
                                     })
                                     .catch((err) => {
                                         throw err;
                                     })
                                 }
+                            } else {
+                                return res.status(405).json({status: false, type: "missing-permission"});
                             }
+
                         } else {
-                            res.status(405).json({status: false, type: "don't-permission"});
+                            return res.status(405).json({status: false, type: "missing-permission"});
                         }
                     } else {
-                        let {type, token, limited, id, start} = JSON.parse(req.headers.comment);
+                        let {type, token, limited, id, start, status} = JSON.parse(req.headers.comment);
                         if(type === "limited") {
                             req.type = "limited";
                             req.limited = limited;
                             req.start = start;
+                            req.condition = {Status: {"$eq": true}};
                             next();
                         }
 
                         if(type === "Find") {
                             req.type = "Find";
-                            req.condition = {"_id": {"$eq": id}};
+                            req.condition = "";
+                            
+                            if(id && status) {
+                                req.condition = {"_id": {"$eq": id}, "Status": status};
+
+                            } else if(id) {
+                                req.condition = {"_id": {"$eq": id}};
+
+                            } else {
+                                req.condition = {"Status": status};
+                            }
                             next();
                         }
                     }
                 }
             } else {
-                return res.status(404).json({status: false, type: "tokenExperience"});
+                return res.status(404).json({status: false, type: "token-expired"});
             }
         } else {
-            return res.status(404).json({status: false, type: "tokenBlank"});
+            return res.status(404).json({status: false, type: "token-blank"});
         }
     }
 }
