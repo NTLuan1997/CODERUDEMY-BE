@@ -32,7 +32,7 @@ window.onload = function (e) {
     Authentication.addEventListener("submit", function (e) {
         e.preventDefault();
         if (this.valid) {
-            https.POST("Empty", setInputAuthentication(), environment.endpoint.authentication)
+            https.POST("Empty", setValue(), environment.endpoint.authentication)
             .then((res) => {
                 if(res) {
                     let {status, token} = res;
@@ -41,9 +41,8 @@ window.onload = function (e) {
                         window.location.href = "/web";
                         
                     } else {
-                        console.log("Dang nhap khong thanh cong");
+                        valid(res);
                     }
-                    
                 } else {
                     console.log(res);
                 }
@@ -54,7 +53,7 @@ window.onload = function (e) {
         }
     })
 
-    function setInputAuthentication() {
+    function setValue() {
         return {
             "Email": Email.value,
             "Password": Password.value,

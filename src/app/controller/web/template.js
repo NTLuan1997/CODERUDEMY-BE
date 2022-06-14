@@ -49,6 +49,10 @@ class Template {
                 res.status(200).render("components/user-component/user-detail-component", {show: true});
                 break;
 
+            case "/web/user/recycle":
+                res.status(200).render("components/user-component/user-recycle-component", {show: true});
+                break;
+
             case"/":
             default:
                 res.render("components/user-component/user-signin-component", { show: false });

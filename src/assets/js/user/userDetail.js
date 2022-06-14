@@ -3,6 +3,7 @@ import DateTimes from "../lib/date.js";
 import { HTTPS } from "../lib/https.js";
 import Origin  from "../lib/lib-origin.js";
 import { Priture } from "../lib/priture.js";
+import { Permission } from "../lib/permission.js";
 import { environment } from "../config/environment.js";
 import { Validation } from "../lib/validation.js";
 
@@ -12,6 +13,7 @@ window.onload = function (e) {
     const https = new HTTPS();
     const origin = new Origin();
     const priture = new Priture();
+    const permission = new Permission();
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
 
@@ -135,6 +137,9 @@ window.onload = function (e) {
             .then((result) => {
                 if(result?.status) { 
                     window.location.href = "/web/user";
+
+                } else {
+                    permission.setState(result);
                 }
             })
             .catch((err) => {

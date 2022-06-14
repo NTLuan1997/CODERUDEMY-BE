@@ -23,6 +23,7 @@ const Template = require("../../app/controller/web/template");
 
     // USER
         router.get("/user/detail", Template.render);
+        router.get("/user/recycle", Template.render);
         router.get("/user", Template.render);
 
 module.exports = router;
