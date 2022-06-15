@@ -8,15 +8,19 @@
     <link rel="stylesheet" href="/static/css/users.css">
 </head>
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <div class="breadcrumd">
             <ul class="list-unstyled">
                 <li><a href="/web">Trang chủ</a></li>
                 <li><a href="/web/user">Thông tin quản trị</a></li>
-                <li><span>Chi tiết</span></li>
+                <li><span>Sọt rác</span></li>
             </ul>
         </div>
         <div class="page-main">
+            <div class="page-main--header d-flex align-items-center">
+                <h3 class="header-title">Thông tin quản trị viên</h3>
+                <a class="header-btn ml-auto" id="restore" disabled="true">Phục hồi</a>
+            </div>
             <table class="page-main-body table">
                 <thead class="thead-dark">
                     <tr id="Header"></tr>
