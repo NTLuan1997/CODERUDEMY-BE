@@ -1,36 +1,60 @@
 import { Cookie } from "./cookie.js";
-import { environment } from "../config/environment.js";
+// import { environment } from "../config/environment.js";
 import { HTTPS } from "./https.js";
+import Origin from "./lib-origin.js";
+import { Permission } from "./permission.js";
 
-const $ = document.querySelector.bind(document);
-const $$ = document.querySelectorAll.bind(document);
 const cookie = new Cookie();
 const https = new HTTPS();
+const origin = new Origin();
+const permission = new Permission();
+const $ = document.querySelector.bind(document);
+const $$ = document.querySelectorAll.bind(document);
 
+let date = new Date();
 let token = `Bearer ${cookie.get("Authentic")}`;
 export default class Delete {
+    payload = {
+        Id: "",
+        Status: false,
+        Type: "",
+        Func: ""
+    }
+    pathname = origin.page().pathname;
 
     constructor() { }
 
-    // method(parameter, endPoint) {
-    //     let deletesBTN = $$(`.${parameter}`);
-    //     for(let i = 0; i < deletesBTN.length; i++) {
-    //         deletesBTN[i].addEventListener("click", function(e) {
-    //             let payload = {
-    //                 Type: "Delete",
-    //                 "Id": this.dataset.id
-    //             };
+    virtual(element, endpoint, type) {
+        let _this = this;
+        this.payload.Type = "Virtual";
+        this.payload.Func = "Delete"
 
-    //             https.DELETE(token, payload, endPoint)
-    //             .then((result) => {
-    //                 if(result?.status) {
-    //                     window.location.reload();
-    //                 }
-    //             })
-    //             .catch((err) => {
-    //                 throw err;
-    //             })
-    //         })
-    //     }
-    // }
+        element.forEach(function(btn) {
+            btn.addEventListener("click", function(e) {
+                _this.payload.Id = this.dataset.id;
+                https.DELETE(token, _this.payload, endpoint)
+                .then((result) => {
+                    if(result?.status) {
+                        window.location.href = `${_this.pathname}/recycle?type=${type}`;
+                    } else {
+                        permission.setState(result);
+                    }
+                })
+                .catch((err) => {
+                    throw err;
+                })
+            })
+        })
+    }
+
+    really(element, endpoint, type) {
+        let _this = this;
+        element.forEach(function(btn) {
+            btn.addEventListener("click", function() {
+                console.log(endpoint);
+                console.log(type);
+                console.log(_this.pathname);
+            })
+        })
+    }
 }

@@ -344,9 +344,12 @@ class Middleware {
                                 delete req.body.Id;
 
                                 if(role !== "Admin") { delete req.body.Role; }
-                                if(role === "Admin") {
-                                    if(req.body.hasOwnProperty("Password")) {
+                                if(req.body.hasOwnProperty("Password") || req.body.hasOwnProperty("Status")) {
+                                    if(role === "Admin") {
                                         req.body.Password = BCRYPT.hash(req.body.Password);
+
+                                    } else {
+                                        return res.status(405).json({status: false, type: "missing-permission"});
                                     }
                                 }
                                 req.user = req.body;
@@ -354,6 +357,17 @@ class Middleware {
                             }
 
                             if(role === "Admin") {
+
+                                if(req.body.Func === "Delete") {
+                                    delete req.body.Func;
+                                    req.condition = {"_id": {"$eq": req.body.Id}};
+                                    if(req.body.Type === "Virtual") {
+                                        req.type = "Edit";
+                                        req.user = {"Status": req.body.Status};
+                                    }
+                                    next();
+                                }
+
                                 if(req.body.Type === "Register") {
                                     delete req.body.Type;
                                     req.type = "Register";
@@ -376,7 +390,6 @@ class Middleware {
                             } else {
                                 return res.status(405).json({status: false, type: "missing-permission"});
                             }
-
                         } else {
                             return res.status(405).json({status: false, type: "missing-permission"});
                         }

@@ -50,7 +50,7 @@ class Template {
                 break;
 
             case "/web/user/recycle":
-                res.status(200).render("components/user-component/user-recycle-component", {show: true});
+                res.status(200).render("components/common-component/recycle-component", {show: true});
                 break;
 
             case"/":

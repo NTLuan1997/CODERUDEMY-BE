@@ -17,32 +17,38 @@ window.onload = function (e) {
     environment.payload.start = 0;
     environment.payload.limited = 10;
 
-    // let ComponentHeader = $("#Header");
-    // let ComponentView = $("#Body");
-    // let KeyComponent = ["Name", "Email", "DateOfBirth", "Role", "Status"];
-    // let KeyHeader = ["Họ và tên", "Email", "Ngày/Tháng/Năm sinh", "Quyền", "Trạng thái", "Chúc năng"];
+    const user = (function () {
+        let endpoint = "";
+        let options = {};
 
-    (function () {
-        https.FIND(environment.payload, token, environment.endpoint.user)
-        .then((result) => {
-            // view.setUrl(environment.endpoint.user);
-            // view.render(res, ComponentHeader, KeyHeader, ComponentView, KeyComponent);
-            view.Render({
-                Body: "#Body",
-                Blank: "#Blank",
-                DocumentKeys: ["Name", "Email", "DateOfBirth", "Role", "Status"],
-                Header: "#Header",
-                HeaderTitles: ["Họ và tên", "Email", "Ngày/Tháng/Năm sinh", "Quyền", "Trạng thái"],
-                Result: result,
-                Type: "Basic"
-            });
-        })
-        .then(() => {
-            
-        })
-        .catch((err) => {
-            throw err;
-        })
+        return {
+            config: function() {
+                endpoint = environment.endpoint.user;
+                Object.assign(options, environment.options.user);
+            },
+
+            render: function() {
+                https.FIND(environment.payload, token, endpoint)
+                .then((result) => {
+                    view.Render({
+                        ...options,
+                        Body: "#Body",
+                        Blank: "#Blank",
+                        Header: "#Header",
+                        Result: result,
+                        Type: "Basic",
+                    });
+                })
+                .then(() => {
+                    deleted.virtual($$(".delete"), environment.endpoint.user, "user");
+                })
+                .catch((err) => {
+                    throw err;
+                })
+            }
+        }
     })();
 
+    user.config();
+    user.render();
 }

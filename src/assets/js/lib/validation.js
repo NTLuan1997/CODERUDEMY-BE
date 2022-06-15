@@ -171,7 +171,7 @@ Validation.data = function (data) {
     let message = '';
     if (!data?.status) {
         if (data.type == "password-Incorrect") {
-            message = environment.error[`password-Incorrect`];
+            message = environment.error.passwordIncorrect;
         }
     }
     return {

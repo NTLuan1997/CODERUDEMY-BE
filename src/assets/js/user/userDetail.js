@@ -156,6 +156,9 @@ window.onload = function (e) {
                 .then((result) => {
                     if(result?.status) {
                         window.location.href = "/web/user";
+
+                    } else {
+                        permission.setState(result);
                     }
                 })
                 .catch((err) => {
@@ -172,6 +175,9 @@ window.onload = function (e) {
                 .then((result) => {
                     if(result?.status) {
                         window.location.reload();
+
+                    } else {
+                        permission.setState(result);
                     }
                 })
                 .catch((err) => {
@@ -183,11 +189,13 @@ window.onload = function (e) {
 
     function updateStated(e) {
         let payload = { Id: origin.parameter().token, Type: "Edit", Status: this.checked }
-
         https.PUT(token, payload, environment.endpoint.user)
         .then((result) => {
             if(result?.status) {
                 window.location.reload();
+
+            } else {
+                permission.setState(result);
             }
         })
         .catch((err) => {
@@ -212,6 +220,9 @@ window.onload = function (e) {
             .then((result) => {
                 if(result?.status) {
                     window.location.reload();
+
+                } else {
+                    permission.setState(result);
                 }
             })
             .catch((err) => {

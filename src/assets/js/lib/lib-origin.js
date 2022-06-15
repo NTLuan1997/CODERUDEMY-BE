@@ -44,15 +44,10 @@ export default class Origin {
     }
 
     page() {
-        if(this.PathName.includes("course" || "unit")) {
-            console.log(this.PathName);
-        }
-
         let payload = {
-            type: "",
-            pathname: this.PathName
+            pathname: this.PathName,
         }
-        return this.PathName;
+        return payload;
     }
 
 

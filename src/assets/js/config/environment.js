@@ -21,7 +21,7 @@ export const environment = {
         registerCourse: []
     },
     "error": {
-        "password-Incorrect": "Password không chính xác.",
+        "passwordIncorrect": "Password không chính xác.",
     },
     "endpoint": {
         "authentication": "/API/authen/manager",
@@ -44,5 +44,11 @@ export const environment = {
         "missingPermission": "Không đủ quyền thực thi chức năng.",
         "tokenBlank": "Mã xác thực trống.",
         "tokenExpired": "Mã xác thực quá hạn.",
+    },
+    "options": {
+        "user": {
+            DocumentKeys: ["Name", "Email", "DateOfBirth", "Role", "Status"],
+            HeaderTitles: ["Họ và tên", "Email", "Ngày/Tháng/Năm sinh", "Quyền", "Trạng thái"],
+        }
     }
 }
