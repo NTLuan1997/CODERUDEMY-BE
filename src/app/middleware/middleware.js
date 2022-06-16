@@ -344,20 +344,18 @@ class Middleware {
                                 delete req.body.Id;
 
                                 if(role !== "Admin") { delete req.body.Role; }
-                                if(req.body.hasOwnProperty("Password") || req.body.hasOwnProperty("Status")) {
-                                    if(role === "Admin") {
+                                if(role === "Admin") {
+                                    if(req.body.hasOwnProperty("Password")) {
                                         req.body.Password = BCRYPT.hash(req.body.Password);
-
-                                    } else {
-                                        return res.status(405).json({status: false, type: "missing-permission"});
                                     }
+                                } else {
+                                    return res.status(405).json({status: false, type: "missing-permission"});
                                 }
                                 req.user = req.body;
                                 next();
                             }
 
                             if(role === "Admin") {
-
                                 if(req.body.Func === "Delete") {
                                     delete req.body.Func;
                                     req.condition = {"_id": {"$eq": req.body.Id}};
@@ -365,6 +363,21 @@ class Middleware {
                                         req.type = "Edit";
                                         req.user = {"Status": req.body.Status};
                                     }
+
+                                    if(req.body.Type === "Really") {
+                                        req.type = "Delete";
+                                        req.condition = {"_id": req.body.Id};
+                                    }
+                                    next();
+                                }
+
+                                if(req.body.Type === "Restore") {
+                                    req.type = "Restore";
+                                    req.condition = {"_id": {"$in": req.body.Tokens}};
+
+                                    delete req.body.Type;
+                                    delete req.body.Tokens;
+                                    req.user = req.body;
                                     next();
                                 }
 

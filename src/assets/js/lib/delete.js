@@ -49,11 +49,23 @@ export default class Delete {
 
     really(element, endpoint, type) {
         let _this = this;
+        this.payload.Type = "Really";
+        this.payload.Func = "Delete"
+
         element.forEach(function(btn) {
             btn.addEventListener("click", function() {
-                console.log(endpoint);
-                console.log(type);
-                console.log(_this.pathname);
+                _this.payload.Id = this.dataset.id;
+                https.DELETE(token, _this.payload, endpoint)
+                .then((result) => {
+                    if(result?.status) {
+                        window.location.reload();
+                    } else {
+                        permission.setState(result);
+                    }
+                })
+                .catch((err) => {
+                    throw err;
+                })
             })
         })
     }

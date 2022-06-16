@@ -65,6 +65,15 @@ class UserService extends Service {
         })
     }
 
+    restore(query, body) {
+        return super.documentQuery((resolve, reject) => {
+            User.updateMany(query, body, { upsert: true }).exec((err, doc) => {
+                if (err) reject(err);
+                resolve({ status: true, message: "Update done" });
+            })
+        })
+    }
+
     remove(query) {
         return super.documentQuery((resolve, reject) => {
             User.deleteOne(query).exec((err, doc) => {

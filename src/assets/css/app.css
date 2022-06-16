@@ -139,14 +139,16 @@ form .form-group .password-control {
     font-weight: 700;
     margin-bottom: 10px;
     padding: 10px; }
-  .page-main .page-main--header .header-btn {
+  .page-main .page-main--header .recycle-btn {
     border-radius: 5px;
     background-color: #f28d0f;
     color: white;
     cursor: pointer;
+    display: none;
     font-weight: 700;
-    margin-bottom: 10px;
     padding: 10px; }
+    .page-main .page-main--header .recycle-btn.active {
+      display: inline-block; }
   .page-main .page-main-body {
     margin-bottom: 0px; }
     .page-main .page-main-body .thead-dark {

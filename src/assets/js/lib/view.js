@@ -2,22 +2,11 @@ import Origin from "./lib-origin.js";
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 export class View {
-    BlankView = $("#Blank-data");
-    URLMethod = "";
     Origin = "";
-    Pages = ["course", "unit"];
-    Title = "";
-    Type = "";
 
 
     constructor() {
         this.Origin = new Origin();
-    }
-
-    setUrl(url) { this.URLMethod = url }
-    setType(title, type) {
-        this.Title = title;
-        this.Type = type
     }
 
     Render(options) {
