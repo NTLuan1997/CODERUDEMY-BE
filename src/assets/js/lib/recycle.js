@@ -26,6 +26,7 @@ window.onload = function(e) {
         let options = {};
         let ParentRecycle;
         let ItemsRecycle;
+        let Thumbnail = "";
 
         function stated() {
             ParentRecycle = $("#parent-recycle");
@@ -114,7 +115,7 @@ window.onload = function(e) {
                 })
                 .then(() => {
                     restored();
-                    deleted.really($$(".delete"), endpoint, type);
+                    deleted.really($$(".delete"), endpoint);
                 })
                 .catch((err) => {
                     throw err;

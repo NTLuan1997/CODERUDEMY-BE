@@ -27,4 +27,26 @@ export class Priture {
         })
     }
 
+    delete(url, destination) {
+        this.form.append("type", "delete");
+        this.form.append("destination", destination);
+        let _this = this;
+
+        return new Promise(function(resolve, reject) {
+            fetch(url, {
+                "method": "post",
+                "body": _this.form
+            })
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                resolve(data);
+            })
+            .catch((err) => {
+                throw err;
+            })
+        })
+    }
+
 }

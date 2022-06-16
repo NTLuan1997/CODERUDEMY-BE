@@ -53,19 +53,20 @@ export class View {
                 }
             }
         }
-        template.push(this.methodView(type, currentValue._id));
+        template.push(this.methodView(type, currentValue, currentValue._id));
         return template.join(" ");
     }
 
-    methodView(type, token) {
+    methodView(type, currentValue, token) {
         let template = "";
         let page = this.Origin.page();
+        let Thumbnail = (type === "Recycle" && currentValue?.Thumbnail)? currentValue?.Thumbnail : "";
 
         switch (type) {
             case "Recycle":
                 template = `
                     <td class="d-flex">
-                        <button class="btn btn-danger delete" data-id="${token}" type="button">Xóa</button>
+                        <button class="btn btn-danger delete" data-id="${token}" data-thumbnail="${Thumbnail}" type="button">Xóa</button>
                     </td>
                 `;
                 break;
