@@ -45,6 +45,16 @@ class User {
             })
         }
 
+        function restore() {
+            userService.restore(req.condition, req.user)
+            .then((result) => {
+                res.status(200).json(result);
+            })
+            .catch((err) => {
+                throw err;
+            })
+        }
+
         function remove() {
             userService.remove(req.condition)
             .then((result) => {
@@ -55,8 +65,9 @@ class User {
             })
         }
 
-        // if(req.type === "Delete"){remove()}
+        if(req.type === "Delete"){remove()}
         if(req.type === "Find"){find()}
+        if(req.type === "Restore"){restore()}
         if(req.type === "Register"){saved()}
 
         if(req.type === "limited"){limited()}

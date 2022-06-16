@@ -257,7 +257,7 @@ window.onload = function (e) {
             Gender:Gender.value,
             Name: Name.value,
             Phone: Phone.value,
-            Status: false,
+            Status: true,
             Role: Role.value,
             Type: "",
         };
@@ -271,11 +271,10 @@ window.onload = function (e) {
         }
 
         if(type === "update") {
-            payload.Status = Status.checked;
+            delete payload.Status;
             payload.Id = origin.parameter().token;
             payload.Type = "Edit";
         }
-
         return payload;
     }
 

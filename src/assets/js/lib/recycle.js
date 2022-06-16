@@ -20,17 +20,20 @@ window.onload = function(e) {
     environment.payload.type = "Find";
 
     const recycle = (function() {
+        const Restore = $("#restore");
+        let backpage = "";
         let endpoint = "";
         let options = {};
+        let ParentRecycle;
+        let ItemsRecycle;
 
-        function setChecked() {
-            const Restore = $("#restore");
-            const ParentRecycle = $("#parent-recycle");
-            const ItemsRecycle = Array.from($$(".childrens-recycle"));
+        function stated() {
+            ParentRecycle = $("#parent-recycle");
+            ItemsRecycle = Array.from($$(".childrens-recycle"));
 
             ParentRecycle.addEventListener("change", function(e) {
                 let _this = this;
-                (_this.checked)? Restore.removeAttribute("disabled") : Restore.setAttribute("disabled", true);
+                (_this.checked)? Restore.classList.add("active") : Restore.classList.remove("active");
                 ItemsRecycle.forEach((recycle) => {
                     recycle.checked = _this.checked;
                 })
@@ -39,15 +42,45 @@ window.onload = function(e) {
             ItemsRecycle.forEach((recycle) => {
                 recycle.addEventListener("change", function(e) {
                     if(ItemsRecycle.every((item) => item.checked === false)) {
-                        Restore.setAttribute("disabled", true);
+                        Restore.classList.remove("active");
 
                     } else if(ItemsRecycle.some((item) => item.checked === false)) {
                         ParentRecycle.checked = false;
-                        Restore.removeAttribute("disabled");
+                        Restore.classList.add("active");
 
                     } else {
-                        ParentRecycle.checked = true;
+                        if(ItemsRecycle.every((item) => item.checked === true)) {
+                            ParentRecycle.checked = true;
+                            Restore.classList.add("active");
+                        }
                     }
+                })
+            })
+        }
+
+        function restored() {
+            Restore.addEventListener("click", function(e) {
+                let Tokens = [];
+                ItemsRecycle.forEach(function(item) {
+                    if(item.checked) {
+                        Tokens.push(item.dataset.id);
+                    }
+                })
+
+                let payload = {
+                    Type: "Restore",
+                    Tokens: Tokens,
+                    Status: true,
+                }
+
+                https.PUT(token, payload, endpoint)
+                .then((result) => {
+                    if(result?.status) {
+                        window.location.href = backpage;
+                    }
+                })
+                .catch((err) => {
+                    throw err;
                 })
             })
         }
@@ -57,6 +90,7 @@ window.onload = function(e) {
                 switch(type) {
                     case "user":
                     default:
+                        backpage = "/web/user";
                         endpoint = environment.endpoint.user;
                         Object.assign(options, environment.options.user);
                         break;
@@ -76,10 +110,11 @@ window.onload = function(e) {
                     });
                 })
                 .then(() => {
-                    deleted.really($$(".delete"), endpoint, type);
+                    stated();
                 })
                 .then(() => {
-                    setChecked();
+                    restored();
+                    deleted.really($$(".delete"), endpoint, type);
                 })
                 .catch((err) => {
                     throw err;
