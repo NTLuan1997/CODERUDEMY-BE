@@ -58,11 +58,22 @@ export class View {
     }
 
     methodView(type, currentValue, token) {
+        let Amount = (currentValue?.Unit)? currentValue?.Unit : 0;
         let template = "";
-        let page = this.Origin.page();
         let Thumbnail = (type === "Recycle" && currentValue?.Thumbnail)? currentValue?.Thumbnail : "";
+        let page = this.Origin.page();
 
         switch (type) {
+            case "LoadChildren":
+                template = `
+                    <td class="d-flex">
+                        <a class="btn-method mr-2 redirect" data-id="${token}">Redirect</a>
+                        <a class="btn-method mr-2" href="${page.pathname}/detail?type=update&token=${token}">Sửa</a>
+                        <button class="btn-method delete" data-id="${token}" data-amount="${Amount}" type="button">Xóa</button>
+                    </td>
+                `;
+                break;
+
             case "Recycle":
                 template = `
                     <td class="d-flex">

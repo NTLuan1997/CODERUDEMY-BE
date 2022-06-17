@@ -21,6 +21,9 @@ export class Permission {
     mapper(type) {
         let message = "";
         switch(type) {
+            case "content-Linked":
+                message = environment.permission.contentLinked;
+                break;
 
             case "register-already":
                 message = environment.permission.registerAlready;

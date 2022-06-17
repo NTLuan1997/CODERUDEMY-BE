@@ -34,14 +34,19 @@ export default class Delete {
 
         element.forEach(function(btn) {
             btn.addEventListener("click", function(e) {
-                _this.payload.Id = this.dataset.id;
-                _this.exec(endpoint)
-                .then((result) => {
-                    (result?.status)? window.location.href = `${_this.pathname}/recycle?type=${type}` : permission.setState(result);
-                })
-                .catch((err) => {
-                    throw err;
-                })
+                if(this.dataset.hasOwnProperty("amount") && !!(Number(this.dataset?.amount))) {
+                    permission.setState({type: "content-Linked"});
+
+                } else {
+                    _this.payload.Id = this.dataset.id;
+                    _this.exec(endpoint)
+                    .then((result) => {
+                        (result?.status)? window.location.href = `${_this.pathname}/recycle?type=${type}` : permission.setState(result);
+                    })
+                    .catch((err) => {
+                        throw err;
+                    })
+                }
             })
         })
     }
