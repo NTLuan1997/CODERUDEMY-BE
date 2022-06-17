@@ -1,125 +1,122 @@
-const ObjectId = require("mongodb").ObjectId;
-const clientService = require("../services/clientService");
-const userService = require("../services/UserService");
+const UserService = require("../services/UserService");
 const JWT = require("../utils/jwt");
 const BCRYPT = require("../utils/bcrypt");
-const Client = require("./client");
 class Middleware {
 
     constructor() { }
 
-    clientTransaction(req, res, next) {
+    // clientTransaction(req, res, next) {
 
-        function checkExists(condition) {
-            return new Promise((resolve, reject) => {
-                clientService.exists(condition)
-                .then((result) => {
-                    resolve(result);
-                })
-                .catch((err) => {
-                    reject(err);
-                })
-            })
-        }
+    //     function checkExists(condition) {
+    //         return new Promise((resolve, reject) => {
+    //             clientService.exists(condition)
+    //             .then((result) => {
+    //                 resolve(result);
+    //             })
+    //             .catch((err) => {
+    //                 reject(err);
+    //             })
+    //         })
+    //     }
 
-        if(req.headers.authorization && req.headers.authorization !== "Empty") {
-            if(JWT.verify(req.headers.authorization.split(' ')[1])) {
-                let { token, role } = JWT.decoded(req.headers.authorization.split(' ')[1]).payload;
-                req.condition = {"_id": {"$eq": new ObjectId(token)}};
+    //     if(req.headers.authorization && req.headers.authorization !== "Empty") {
+    //         if(JWT.verify(req.headers.authorization.split(' ')[1])) {
+    //             let { token, role } = JWT.decoded(req.headers.authorization.split(' ')[1]).payload;
+    //             req.condition = {"_id": {"$eq": new ObjectId(token)}};
 
-                if(role) {
-                    if(req.headers.comment) {
-                        let {type, token, limited, start} = JSON.parse(req.headers.comment);
+    //             if(role) {
+    //                 if(req.headers.comment) {
+    //                     let {type, token, limited, start} = JSON.parse(req.headers.comment);
 
-                        if(type && type === "limited") {
-                            req.type = type;
-                            req.limited = limited;
-                            req.start = start;
-                            next();
-                        }
+    //                     if(type && type === "limited") {
+    //                         req.type = type;
+    //                         req.limited = limited;
+    //                         req.start = start;
+    //                         next();
+    //                     }
 
-                        if(type && type === "findClientByID") {
-                            req.type = "Find";
-                            req.condition = {"_id": {"$eq": token}};
-                            next();
-                        }
-                    }
+    //                     if(type && type === "findClientByID") {
+    //                         req.type = "Find";
+    //                         req.condition = {"_id": {"$eq": token}};
+    //                         next();
+    //                     }
+    //                 }
 
-                    if(req.body.Type === "Thumbnail") {
-                        req.condition = {"_id": {"$eq": req.body.Token}};
-                        delete req.body.Type;
-                        delete req.body.Token;
-                        Client.edit(req.body, req, res, next);
-                    }
+    //                 if(req.body.Type === "Thumbnail") {
+    //                     req.condition = {"_id": {"$eq": req.body.Token}};
+    //                     delete req.body.Type;
+    //                     delete req.body.Token;
+    //                     Client.edit(req.body, req, res, next);
+    //                 }
 
-                    if(req.body.Type === "Register") {
-                        let condition = {"Email": {"$eq": req.body.Email}};
-                        checkExists(condition)
-                        .then((result) => {
-                            if(result?.status) {
-                                return res.status(404).json({status: false, type: "emailRegisterAlready"});
+    //                 if(req.body.Type === "Register") {
+    //                     let condition = {"Email": {"$eq": req.body.Email}};
+    //                     checkExists(condition)
+    //                     .then((result) => {
+    //                         if(result?.status) {
+    //                             return res.status(404).json({status: false, type: "emailRegisterAlready"});
 
-                            } else {
-                                req.system = "manager";
-                                req.type = "Register";
-                                delete req.body.Type;
-                                delete req.body.Func;
-                                Client.register(req.body, req, res, next);
-                            }
-                        })
-                        .catch((err) => {
-                            throw err;
-                        })
-                    }
+    //                         } else {
+    //                             req.system = "manager";
+    //                             req.type = "Register";
+    //                             delete req.body.Type;
+    //                             delete req.body.Func;
+    //                             Client.register(req.body, req, res, next);
+    //                         }
+    //                     })
+    //                     .catch((err) => {
+    //                         throw err;
+    //                     })
+    //                 }
 
-                } else {
-                    clientService.exists(req.condition)
-                    .then((result) => {
-                        if(result.status) {
-                            if(req.body.Type === "Edit") {
-                                delete req.body.Type;
-                                Client.edit(req.body, req, res, next);
-                            }
+    //             } else {
+    //                 clientService.exists(req.condition)
+    //                 .then((result) => {
+    //                     if(result.status) {
+    //                         if(req.body.Type === "Edit") {
+    //                             delete req.body.Type;
+    //                             Client.edit(req.body, req, res, next);
+    //                         }
             
-                            if(req.method === "GET") {
-                                req.type = "Find";
-                                next();
-                            }
+    //                         if(req.method === "GET") {
+    //                             req.type = "Find";
+    //                             next();
+    //                         }
 
-                        } else {
-                            return res.status(401).json({status: false, type:"authorizedInconrrect"});
-                        }
-                    })
-                    .catch((err) => {
-                        throw err;
-                    })
-                }
+    //                     } else {
+    //                         return res.status(401).json({status: false, type:"authorizedInconrrect"});
+    //                     }
+    //                 })
+    //                 .catch((err) => {
+    //                     throw err;
+    //                 })
+    //             }
 
-            } else {
-                return res.status(401).json({status: false, type:"authorizedExperience"});
-            }
+    //         } else {
+    //             return res.status(401).json({status: false, type:"authorizedExperience"});
+    //         }
 
-        } else {
-            if(req.body.Type === "Register") {
-                let condition = {"Email": {"$eq": req.body.Email}};
-                clientService.exists(condition)
-                .then((result) => {
-                    if(result?.status) {
-                        return res.status(404).json({status: false, type: "emailRegisterAlready"});
+    //     } else {
+    //         if(req.body.Type === "Register") {
+    //             let condition = {"Email": {"$eq": req.body.Email}};
+    //             clientService.exists(condition)
+    //             .then((result) => {
+    //                 if(result?.status) {
+    //                     return res.status(404).json({status: false, type: "emailRegisterAlready"});
 
-                    } else {
-                        req.type = "Register";
-                        delete req.body.Type;
-                        delete req.body.Func;
-                        Client.register(req.body, req, res, next);
-                    }
-                })
-                .catch((err) => {
-                    throw err;
-                })
-            }
-        }
-    }
+    //                 } else {
+    //                     req.type = "Register";
+    //                     delete req.body.Type;
+    //                     delete req.body.Func;
+    //                     Client.register(req.body, req, res, next);
+    //                 }
+    //             })
+    //             .catch((err) => {
+    //                 throw err;
+    //             })
+    //         }
+    //     }
+    // }
 
     // COURSE TRANSACTION
     CourseTransaction(req, res, next) {
@@ -201,6 +198,68 @@ class Middleware {
                     }
                 }
 
+            } else {
+                return res.status(404).json({status: false, type: "token-expired"});
+            }
+        } else {
+            return res.status(404).json({status: false, type: "token-blank"});
+        }
+    }
+
+    // UNIT TRANSACTION
+    UnitTransactions(req, res, next) {
+        if(req.headers.authorization && req.headers.authorization !== "Empty") {
+            if(JWT.verify(req.headers.authorization.split(' ')[1])) {
+                let { token, role } = JWT.decoded(req.headers.authorization.split(' ')[1]).payload;
+                req.condition = {"_id": {"$eq": token}};
+
+                if(role) {
+                    if(req.body?.Type || req.body?.Func) {
+                        if(role === "Admin" || role === "Editer") {
+                            if(req.body.Type === "modified") {
+                                req.type = "modified";
+                                req.condition = {"_id": {"$eq": req.body.Id}};
+                                delete req.body.Id;
+                                delete req.body.Type;
+                                req.unit = req.body;
+                                next();
+                            }
+
+                            if(role === "Admin") {
+                                if(req.body.Type === "createUnit") {
+                                    delete req.body.Type;
+                                    req.type = "createUnit";
+                                    req.conditionUnit = {"CourseId": {"$eq": req.body.CourseId}};
+                                    req.conditionCourse = {"_id": {"$eq": req.body.CourseId}};
+                                    req.unit = req.body;
+                                    next();
+                                }
+                            }
+                        } else {
+                            return res.status(405).json({status: false, type: "missing-permission"});
+                        }
+                    } else {
+                        let {type, token, id, limited, start, status} = JSON.parse(req.headers.comment);
+                        if(type === "Find") {
+                            req.type = "Find";
+                            req.condition = "";
+                            
+                            if(id && status) {
+                                req.condition = {"CourseId": {"$eq": id}, "Status": status};
+
+                            } else if(id) {
+                                req.condition = {"_id": {"$eq": id}};
+
+                            } else {
+                                req.condition = {"Status": status};
+                            }
+                            next();
+                        }
+                    }
+
+                } else {
+                    return res.status(405).json({status: false, type: "missing-role"});
+                }
             } else {
                 return res.status(404).json({status: false, type: "token-expired"});
             }
@@ -392,7 +451,7 @@ class Middleware {
                                     delete req.body.Type;
                                     req.type = "Register";
     
-                                    userService.exists({"Email": {"$eq": req.body.Email}})
+                                    UserService.exists({"Email": {"$eq": req.body.Email}})
                                     .then((result) => {
                                         if(!result) {
                                             req.body.Password = BCRYPT.hash(req.body.Password);

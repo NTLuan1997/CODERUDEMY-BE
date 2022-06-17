@@ -1,12 +1,12 @@
 const CourseService = require("../services/CourseService");
-const UnitService = require("../services/unitService");
+const UnitService = require("../services/UnitService");
 class UnitController {
 
     constructor() { }
 
     Functions(req, res) {
 
-        function edit() {
+        function modified() {
             UnitService.update(req.condition, req.unit)
             .then((result) => {
                 res.status(200).json(result);
@@ -30,12 +30,11 @@ class UnitController {
             UnitService.saved(req.unit)
             .then((result) => {
                 if(result?.status) {
-                    return UnitService.count(req.condition);
+                    return UnitService.count(req.conditionUnit);
                 }
             })
             .then((count) => {
-                let query = {"_id": {"$eq": req.courseId}};
-                return CourseService.edit(query, {"Unit": count});
+                return CourseService.edit(req.conditionCourse, {"Unit": count});
             })
             .then((result) => {
                 res.status(200).json(result);
@@ -45,9 +44,9 @@ class UnitController {
             })
         }
         
-        if(req.type === "Edit" || req.type === "Status"){edit()}
         if(req.type === "Find"){find()}
-        if(req.type === "CreateUnit"){saved()}
+        if(req.type === "modified"){modified()}
+        if(req.type === "createUnit"){saved()}
     }
 
 }
