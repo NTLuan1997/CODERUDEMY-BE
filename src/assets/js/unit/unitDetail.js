@@ -53,7 +53,6 @@ window.onload = function () {
                 throw err;
             })
         }
-
     }())
 
 //     Validation({
@@ -146,7 +145,6 @@ window.onload = function () {
         Name.value = result?.Name;
         Status.checked = result?.Status;
         UpdateDate.value = result?.UpdateDate.split(".")[0];
-
     }
 
     function setValue() {
@@ -157,21 +155,22 @@ window.onload = function () {
             CourseId: localStorage.getItem("CourseToken"),
             Lesson: 0,
             Name: Name.value,
-            Status: false,
+            Status: true,
             UpdateDate: "",
         };
 
         if(type === "create") {
-            payload.Type = "CreateUnit";
+            payload.Type = "createUnit";
             payload.CreateDate = date.toISOString();
         }
 
         if(type === "update") {
-            payload.Type = "Edit";
+            payload.Type = "modified";
             payload.CreateDate = CreateDate.value;
             payload.Id = unitId;
             payload.UpdateDate = date.toISOString();
-            payload.Lesson = Lesson.value;
+            delete payload.Lesson;
+            delete payload.Status;
         }
 
         return payload;

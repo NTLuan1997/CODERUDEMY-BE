@@ -1,5 +1,4 @@
 const CourseService = require("../services/CourseService");
-const unitService = require("../services/unitService");
 
 class Course {
 
