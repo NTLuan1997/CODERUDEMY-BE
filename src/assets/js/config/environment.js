@@ -40,12 +40,17 @@ export const environment = {
         limited: "",
     },
     "permission": {
+        "contentLinked": "Xóa nội dung liên kết",
         "registerAlready": "Email đã được đăng ký.",
         "missingPermission": "Không đủ quyền thực thi chức năng.",
         "tokenBlank": "Mã xác thực trống.",
         "tokenExpired": "Mã xác thực quá hạn.",
     },
     "options": {
+        "course": {
+            DocumentKeys: ["Name", "Author", "Type", "Unit", "CreateDate"],
+            HeaderTitles: ["Họ và tên", "Tác giả", "Loại khóa học", "Học phần", "Ngày tạo"],
+        },
         "user": {
             DocumentKeys: ["Name", "Email", "DateOfBirth", "Role", "Status"],
             HeaderTitles: ["Họ và tên", "Email", "Ngày/Tháng/Năm sinh", "Quyền", "Trạng thái"],

@@ -15,34 +15,54 @@ window.onload = function (e) {
     let token = `Bearer ${cookie.get("Authentic")}`;
     environment.payload.type = "Limited";
     environment.payload.start = 0;
-    environment.payload.limited = 5;
+    environment.payload.limited = 10;
 
-    let ComponentHeader = $("#Header");
-    let ComponentView = $("#Body");
-    let KeyComponent = ["Name", "Author", "Type", "Unit", "CreateDate"];
-    let KeyHeader = ["Họ và tên", "Tác giả", "Loại khóa học", "Học phần", "Ngày tạo", "Chúc năng"];
+    const course = (function () {
+        let endpoint = "";
+        let options = {};
 
-    (function () {
-        https.FIND(environment.payload, token, environment.endpoint.course)
-        .then((res) => {
-            view.setType("Nội học phần", "unit");
-            view.render(res, ComponentHeader, KeyHeader, ComponentView, KeyComponent);
-        })
-        .then(() => {
-            redirect();
-        })
-        .catch((err) => {
-            throw err;
-        })
-    })()
+        return {
+            config: function() {
+                endpoint = environment.endpoint.course;
+                Object.assign(options, environment.options.course);
+            },
 
-    function redirect() {
-        $$(".unit").forEach((unit) => {
-            unit.addEventListener("click", function(e) {
-                e.preventDefault();
-                localStorage.setItem("CourseToken", this.dataset.id);
-                window.location.href = "course/unit";
-            })
-        })
-    }
+            render: function(router) {
+                https.FIND(environment.payload, token, endpoint)
+                .then((result) => {
+                    view.Render({
+                        ...options,
+                        Body: "#Body",
+                        Blank: "#Blank",
+                        Header: "#Header",
+                        Result: result,
+                        Type: "LoadChildren",
+                    });
+                })
+                .then(() => {
+                    router();
+                    deleted.virtual($$(".delete"), endpoint, "course");
+                })
+                .catch((err) => {
+                    throw err;
+                })
+            },
+
+            router: function() {
+                $$(".redirect").forEach(function(element) {
+                    element.innerHTML = "Học phần";
+                    element.style.cursor = "pointer";
+
+                    element.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        localStorage.setItem("CourseToken", this.dataset.id);
+                        window.location.href = "course/unit";
+                    })
+                })
+            }
+        }
+    })();
+
+    course.config();
+    course.render(course.router);
 }

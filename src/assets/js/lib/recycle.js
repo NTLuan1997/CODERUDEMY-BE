@@ -21,12 +21,12 @@ window.onload = function(e) {
 
     const recycle = (function() {
         const Restore = $("#restore");
+        const BreadcrumdRollPage = $("#breadcrumd-roll-page");
         let backpage = "";
         let endpoint = "";
         let options = {};
         let ParentRecycle;
         let ItemsRecycle;
-        let Thumbnail = "";
 
         function stated() {
             ParentRecycle = $("#parent-recycle");
@@ -43,6 +43,7 @@ window.onload = function(e) {
             ItemsRecycle.forEach((recycle) => {
                 recycle.addEventListener("change", function(e) {
                     if(ItemsRecycle.every((item) => item.checked === false)) {
+                        ParentRecycle.checked = false;
                         Restore.classList.remove("active");
 
                     } else if(ItemsRecycle.some((item) => item.checked === false)) {
@@ -70,8 +71,7 @@ window.onload = function(e) {
 
                 let payload = {
                     Type: "Restore",
-                    Tokens: Tokens,
-                    Status: true,
+                    Tokens: Tokens
                 }
 
                 https.PUT(token, payload, endpoint)
@@ -89,9 +89,19 @@ window.onload = function(e) {
         return {
             config: function() {
                 switch(type) {
+                    case "course":
+                        backpage = "/web/course";
+                        BreadcrumdRollPage.setAttribute("href", "/web/course");
+                        BreadcrumdRollPage.innerHTML = "Danh mục khóa học";
+                        endpoint = environment.endpoint.course;
+                        Object.assign(options, environment.options.course);
+                        break;
+
                     case "user":
                     default:
                         backpage = "/web/user";
+                        BreadcrumdRollPage.setAttribute("href", "/web/user");
+                        BreadcrumdRollPage.innerHTML = "Thông tin quản trị viên";
                         endpoint = environment.endpoint.user;
                         Object.assign(options, environment.options.user);
                         break;

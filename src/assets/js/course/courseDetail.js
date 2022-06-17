@@ -152,11 +152,11 @@ window.onload = function (e) {
     function uploadStatus(e) {
         let payload = {
             Id: origin.parameter().token,
-            Func: "Status",
+            Func: "Edit",
             Status: this.checked
         }
 
-        return https.PUT(token, payload, environment.endpoint.course)
+        https.PUT(token, payload, environment.endpoint.course)
         .then((result) => {
             if(result?.status) {
                 window.location.reload();
@@ -174,8 +174,8 @@ window.onload = function (e) {
             if(status) {
                 let payload = {
                     Id: origin.parameter().token,
-                    Type: "Thumbnail",
-                    Destination: destination,
+                    Func: "Edit",
+                    Thumbnail: destination,
                     UpdateDate: date.toISOString()
                 }
                 return https.PUT(token, payload, environment.endpoint.course);
@@ -217,7 +217,7 @@ window.onload = function (e) {
             Author: Author.value,
             Description: Description.value,
             Name: Name.value,
-            Status: false,
+            Status: true,
             Type: Type.value,
         }
 
@@ -234,6 +234,7 @@ window.onload = function (e) {
             payload.Id = origin.parameter().token;
             payload.Unit = Unit.value;
             payload.UpdateDate = date.toISOString();
+            delete payload.Status;
         }
         
         return payload;
