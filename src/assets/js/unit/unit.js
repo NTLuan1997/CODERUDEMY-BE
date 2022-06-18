@@ -3,28 +3,16 @@ import { environment } from "../config/environment.js";
 import Delete from "../lib/delete.js";
 import { HTTPS } from "../lib/https.js";
 import { View } from "../lib/view.js";
-import Origin from "../lib/lib-origin.js";
 
 window.onload = function (e) {
     const cookie = new Cookie();
     const deleted = new Delete();
     const https = new HTTPS();
-    const origin = new Origin();
     const view = new View();
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
 
     let token = `Bearer ${cookie.get("Authentic")}`;
-
-    // function redirect() {
-    //     $$(".lesson").forEach((unit) => {
-    //         unit.addEventListener("click", function(e) {
-    //             e.preventDefault();
-    //             localStorage.setItem("UnitToken", this.dataset.id);
-    //             window.location.href = "unit/lesson";
-    //         })
-    //     })
-    // }
 
     const course = (function () {
         let endpoint = "";
@@ -72,7 +60,7 @@ window.onload = function (e) {
                         element.addEventListener("click", function(e) {
                             e.preventDefault();
                             localStorage.setItem("UnitToken", this.dataset.id);
-                            window.location.href = "course/unit/lesson";
+                            window.location.href = "unit/lesson";
                         })
                     })
                 }

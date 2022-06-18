@@ -58,7 +58,17 @@ export class View {
     }
 
     methodView(type, currentValue, token) {
-        let Amount = (currentValue?.Unit)? currentValue?.Unit : 0;
+        let Amount = 0;
+        if(currentValue.hasOwnProperty("Unit") || currentValue.hasOwnProperty("Lesson")) {
+            if(currentValue.hasOwnProperty("Unit")) {
+                Amount = currentValue.Unit;
+            }
+
+            if(currentValue.hasOwnProperty("Lesson")) {
+                Amount = currentValue.Lesson;
+            }
+        }
+
         let template = "";
         let Thumbnail = (type === "Recycle" && currentValue?.Thumbnail)? currentValue?.Thumbnail : "";
         let page = this.Origin.page();

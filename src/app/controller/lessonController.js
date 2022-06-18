@@ -1,12 +1,12 @@
-const LessonService = require("../services/lessonService");
-const UnitService = require("../services/unitService");
+const LessonService = require("../services/LessonService");
+const UnitService = require("../services/UnitService");
 
 class LessonController {
 
     constructor() { }
 
     Functions(req, res) {
-        function edit() {
+        function modified() {
             LessonService.update(req.condition, req.lesson)
             .then((result) => {
                 res.status(200).json(result);
@@ -30,13 +30,12 @@ class LessonController {
             LessonService.saved(req.lesson)
             .then((result) => {
                 if(result?.status) {
-                    return LessonService.count(req.UnitId);
+                    return LessonService.count(req.conditionLesson);
                 }
             })
             .then((count) => {
-                if(count) {
-                    let unit = {"Lesson": count};
-                    return UnitService.update(req.condition, unit);
+                if(count >= 0) {
+                    return UnitService.update(req.conditionUnit, {"Lesson": count});
                 }
             })
             .then((result) => {
@@ -47,9 +46,41 @@ class LessonController {
             })
         }
 
-        if(req.type === "CreateLesson"){saved()}
-        if(req.type === "Edit"){edit()}
-        if(req.type === "Find"){find()}
+        function restore() {
+            LessonService.restore(req.condition, req.lesson)
+            .then((result) => {
+                res.status(200).json(result);
+            })
+            .catch((err) => {
+                throw err;
+            })
+        }
+
+        function remove() {
+            LessonService.remove(req.condition)
+            .then((result) => {
+                if(result?.status) {
+                    return LessonService.count(req.conditionLesson);
+                }
+            })
+            .then((count) => {
+                if(count >= 0) {
+                    return UnitService.update(req.conditionUnit, {"Lesson": count});
+                }
+            })
+            .then((result) => {
+                res.status(200).json(result);
+            })
+            .catch((err) => {
+                throw err;
+            })
+        }
+
+        if(req.type === "createLesson"){saved()}
+        if(req.type === "find"){find()}
+        if(req.type === "modified"){modified()}
+        if(req.type === "restore"){restore()}
+        if(req.type === "remove"){remove()}
     }
 
 }

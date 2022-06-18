@@ -87,7 +87,7 @@ window.onload = function (e) {
     switch(type) {
         case "update":
             setTitleForm("update");
-            Status.addEventListener("change", updateStatus);
+            Status.addEventListener("change", state);
             Lesson.addEventListener("submit", update);
             break;
 
@@ -126,12 +126,11 @@ window.onload = function (e) {
         })
     }
 
-    function updateStatus(e) {
+    function state(e) {
         e.preventDefault();
-
         let payload = {
-            Type: "Status",
-            LessonId: lessonId,
+            Type: "modified",
+            Id: lessonId,
             Status: this.checked,
             UpdateDate: date.toISOString(),
         }
@@ -150,6 +149,7 @@ window.onload = function (e) {
     function binding(result) {
         CreateDate.value = result?.CreateDate.split(".")[0];
         Name.value = result?.Name;
+        Status.checked = result?.Status;
         UpdateDate.value = (result?.UpdateDate) ? result?.UpdateDate.split(".")[0] : null;
         tinymce.activeEditor.setContent(result?.Content);
     }
@@ -159,21 +159,23 @@ window.onload = function (e) {
             Content: Content.value,
             CreateDate: date.toISOString(),
             Name: Name.value,
-            Status: false,
+            Status: true,
             UnitId: unitToken,
             UpdateDate: "",
         }
 
         if(type === "create") {
-            payload.Type = "CreateLesson";
+            payload.Type = "createLesson";
             payload.Thumbnail = "";
         }
 
         if(type === "update") {
-            payload.LessonId = lessonId;
-            payload.Status = Status.checked;
+            payload.Type = "modified";
+            payload.Id = lessonId;
             payload.UpdateDate = date.toISOString();
-            payload.Type = "Edit";
+
+            delete payload.CreateDate;
+            delete payload.Status;
         }
 
         return payload;
