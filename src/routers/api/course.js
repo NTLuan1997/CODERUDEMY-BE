@@ -2,12 +2,13 @@ const router = require("express").Router();
 const middleware = require("../../app/middleware/middleware");
 const CourseController = require("../../app/controller/CourseController");
 const UnitController = require("../../app/controller/UnitController");
-// const LessonController = require("../../app/controller/lessonController");
+const LessonController = require("../../app/controller/LessonController");
 
     // LESSON
-        // router.get("/unit/lesson", middleware.LessonTransaction, LessonController.Functions);
-        // router.post("/unit/lesson", middleware.LessonTransaction, LessonController.Functions);
-        // router.put("/unit/lesson", middleware.LessonTransaction, LessonController.Functions);
+        router.get("/unit/lesson", middleware.LessonTransaction, LessonController.Functions);
+        router.post("/unit/lesson", middleware.LessonTransaction, LessonController.Functions);
+        router.put("/unit/lesson", middleware.LessonTransaction, LessonController.Functions);
+        router.delete("/unit/lesson", middleware.LessonTransaction, LessonController.Functions);
 
     // UNIT
         router.get("/unit", middleware.UnitTransactions, UnitController.Functions);

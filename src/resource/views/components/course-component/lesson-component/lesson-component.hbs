@@ -21,17 +21,20 @@
         </div>
 
         <div class="page-main">
-            <div class="page-main--header d-flex align-items-center justify-content-between">
+            <div class="page-main--header d-flex align-items-center">
                 <h2 class="header-title">Chương học hiện có</h2>
-                <a class="header-router-link-detail" id="lesson-new" href="/web/course/unit/lesson/detail?type=create">
+                <a class="header-router-link-detail ml-auto mr-2" href="/web/course/unit/lesson/detail?type=create">
                     <i class="fa fa-plus mr-2" aria-hidden="true"></i>Thêm mới
+                </a>
+                <a class="header-router-link-detail" href="/web/course/unit/lesson/recycle?type=lesson">
+                    <i class="fa fa-recycle mr-2" aria-hidden="true"></i>Sọt rác
                 </a>
             </div>
             <table class="page-main-body table">
                 <thead class="thead-dark"><tr id="Header"></tr></thead>
                 <tbody id="Body"></tbody>
             </table>
-            <div class="undefine-data" id="Blank-data">Không có nội dung phù hợp</div>
+            <div class="undefine-data" id="Blank">Không có nội dung phù hợp</div>
         </div>
     </div>
 

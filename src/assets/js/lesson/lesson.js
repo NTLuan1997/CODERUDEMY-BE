@@ -1,41 +1,62 @@
 import { Cookie } from "../lib/cookie.js";
+import Delete from "../lib/delete.js";
 import { environment } from "../config/environment.js";
 import { HTTPS } from "../lib/https.js";
 import { View } from "../lib/view.js";
-import Origin from "../lib/lib-origin.js";
 
 window.onload = function (e) {
 
     const cookie = new Cookie();
+    const deleted = new Delete();
     const https = new HTTPS();
-    const origin = new Origin();
     const view = new View();
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
 
     let token = `Bearer ${cookie.get("Authentic")}`;
-    let ComponentHeader = $("#Header");
-    let ComponentView = $("#Body");
-    let KeyComponent = ["Name", "Status", "CreateDate"];
-    let KeyHeader = ["Tên học phần", "Trạng thái", "Ngày tạo", "Chúc năng"];
-    let unitId = "";
 
-    (function() {
+    const course = (function () {
+        let endpoint = "";
+        let options = {};
+        let payload = {};
+
         if(localStorage.getItem("UnitToken")) {
-            unitId = localStorage.getItem("UnitToken");
+            $("#Blank").classList.remove("active");
+            payload.id = localStorage.getItem("UnitToken");
+            payload.status = true;
+            payload.type = "Find";
 
-            let payload = {
-                id: localStorage.getItem("UnitToken"),
-                type: "FindAll"
+            return {
+                config: function() {
+                    endpoint = environment.endpoint.lesson;
+                    Object.assign(options, environment.options.lesson);
+                },
+
+                render: function() {
+                    https.FIND(payload, token, endpoint)
+                    .then((result) => {
+                        view.Render({
+                            ...options,
+                            Body: "#Body",
+                            Blank: "#Blank",
+                            Header: "#Header",
+                            Result: result,
+                            Type: "Basic",
+                        });
+                    })
+                    .then(() => {
+                        deleted.virtual($$(".delete"), endpoint, "lesson");
+                    })
+                    .catch((err) => {
+                        throw err;
+                    })
+                },
             }
-
-            https.FIND(payload, token, environment.endpoint.lesson)
-            .then((result) => {
-                view.render(result, ComponentHeader, KeyHeader, ComponentView, KeyComponent);
-            })
-            .catch((err) => {
-                throw err;
-            })
+        } else {
+            $("#Blank").classList.add("active");
         }
-    }());
+    })();
+
+    course.config();
+    course.render();
 }

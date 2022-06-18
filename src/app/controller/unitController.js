@@ -34,7 +34,9 @@ class UnitController {
                 }
             })
             .then((count) => {
-                return CourseService.edit(req.conditionCourse, {"Unit": count});
+                if(count >= 0) {
+                    return CourseService.edit(req.conditionCourse, {"Unit": count});
+                }
             })
             .then((result) => {
                 res.status(200).json(result);
@@ -55,7 +57,6 @@ class UnitController {
         }
 
         function remove() {
-
             UnitService.remove(req.condition)
             .then((result) => {
                 if(result?.status) {
@@ -63,7 +64,9 @@ class UnitController {
                 }
             })
             .then((count) => {
-                return CourseService.edit(req.conditionCourse, {"Unit": count});
+                if(count >= 0) {
+                    return CourseService.edit(req.conditionCourse, {"Unit": count});
+                }
             })
             .then((result) => {
                 res.status(200).json(result);
@@ -71,34 +74,13 @@ class UnitController {
             .catch((err) => {
                 throw err;
             })
-
-            // UnitService.find(req.condition)
-            // .then((result) => {
-            //     if(result?.length) {
-            //         condition = {"_id": {"$eq": result[0].CourseId}};
-            //         return true;
-            //     } else {
-            //         console.log("Not find element");
-            //     }
-            // })
-            // .then((status) => {
-            //     if(status) {
-            //         return UnitService.remove(req.condition);
-            //     }
-            // })
-            // .then((result) => {
-
-            // })
-            // .catch((err) => {
-            //     throw err;
-            // })
         }
         
         if(req.type === "createUnit"){saved()}
-        if(req.type === "remove"){remove()}
         if(req.type === "find"){find()}
         if(req.type === "modified"){modified()}
         if(req.type === "restore"){restore()}
+        if(req.type === "remove"){remove()}
     }
 
 }

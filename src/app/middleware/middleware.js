@@ -2,122 +2,10 @@ const JWT = require("../utils/jwt");
 const BCRYPT = require("../utils/bcrypt");
 const UserService = require("../services/UserService");
 const UnitService = require("../services/UnitService");
+const LessonService = require("../services/LessonService");
 class Middleware {
 
     constructor() { }
-
-    // clientTransaction(req, res, next) {
-
-    //     function checkExists(condition) {
-    //         return new Promise((resolve, reject) => {
-    //             clientService.exists(condition)
-    //             .then((result) => {
-    //                 resolve(result);
-    //             })
-    //             .catch((err) => {
-    //                 reject(err);
-    //             })
-    //         })
-    //     }
-
-    //     if(req.headers.authorization && req.headers.authorization !== "Empty") {
-    //         if(JWT.verify(req.headers.authorization.split(' ')[1])) {
-    //             let { token, role } = JWT.decoded(req.headers.authorization.split(' ')[1]).payload;
-    //             req.condition = {"_id": {"$eq": new ObjectId(token)}};
-
-    //             if(role) {
-    //                 if(req.headers.comment) {
-    //                     let {type, token, limited, start} = JSON.parse(req.headers.comment);
-
-    //                     if(type && type === "limited") {
-    //                         req.type = type;
-    //                         req.limited = limited;
-    //                         req.start = start;
-    //                         next();
-    //                     }
-
-    //                     if(type && type === "findClientByID") {
-    //                         req.type = "Find";
-    //                         req.condition = {"_id": {"$eq": token}};
-    //                         next();
-    //                     }
-    //                 }
-
-    //                 if(req.body.Type === "Thumbnail") {
-    //                     req.condition = {"_id": {"$eq": req.body.Token}};
-    //                     delete req.body.Type;
-    //                     delete req.body.Token;
-    //                     Client.edit(req.body, req, res, next);
-    //                 }
-
-    //                 if(req.body.Type === "Register") {
-    //                     let condition = {"Email": {"$eq": req.body.Email}};
-    //                     checkExists(condition)
-    //                     .then((result) => {
-    //                         if(result?.status) {
-    //                             return res.status(404).json({status: false, type: "emailRegisterAlready"});
-
-    //                         } else {
-    //                             req.system = "manager";
-    //                             req.type = "Register";
-    //                             delete req.body.Type;
-    //                             delete req.body.Func;
-    //                             Client.register(req.body, req, res, next);
-    //                         }
-    //                     })
-    //                     .catch((err) => {
-    //                         throw err;
-    //                     })
-    //                 }
-
-    //             } else {
-    //                 clientService.exists(req.condition)
-    //                 .then((result) => {
-    //                     if(result.status) {
-    //                         if(req.body.Type === "Edit") {
-    //                             delete req.body.Type;
-    //                             Client.edit(req.body, req, res, next);
-    //                         }
-            
-    //                         if(req.method === "GET") {
-    //                             req.type = "Find";
-    //                             next();
-    //                         }
-
-    //                     } else {
-    //                         return res.status(401).json({status: false, type:"authorizedInconrrect"});
-    //                     }
-    //                 })
-    //                 .catch((err) => {
-    //                     throw err;
-    //                 })
-    //             }
-
-    //         } else {
-    //             return res.status(401).json({status: false, type:"authorizedExperience"});
-    //         }
-
-    //     } else {
-    //         if(req.body.Type === "Register") {
-    //             let condition = {"Email": {"$eq": req.body.Email}};
-    //             clientService.exists(condition)
-    //             .then((result) => {
-    //                 if(result?.status) {
-    //                     return res.status(404).json({status: false, type: "emailRegisterAlready"});
-
-    //                 } else {
-    //                     req.type = "Register";
-    //                     delete req.body.Type;
-    //                     delete req.body.Func;
-    //                     Client.register(req.body, req, res, next);
-    //                 }
-    //             })
-    //             .catch((err) => {
-    //                 throw err;
-    //             })
-    //         }
-    //     }
-    // }
 
     // COURSE TRANSACTION
     CourseTransaction(req, res, next) {
@@ -286,7 +174,6 @@ class Middleware {
                                             throw err;
                                         })
                                     }
-                                    //
                                 }
 
                                 if(req.body.Type === "Restore") {
@@ -332,133 +219,115 @@ class Middleware {
         }
     }
 
-    // UnitTransactions(req, res, next) {
-    //     if(req.headers.authorization && req.headers.authorization !== "Empty") {
-    //         if(JWT.verify(req.headers.authorization.split(' ')[1])) {
-    //             let { token, role } = JWT.decoded(req.headers.authorization.split(' ')[1]).payload;
-    //             req.condition = {"_id": {"$eq": new ObjectId(token)}};
+    // LESSON TRANSACTION
+    LessonTransaction(req, res, next) {
+        if(req.headers.authorization && req.headers.authorization !== "Empty") {
+            if(JWT.verify(req.headers.authorization.split(' ')[1])) {
+                let { token, role } = JWT.decoded(req.headers.authorization.split(' ')[1]).payload;
+                req.condition = {"_id": {"$eq": token}};
 
-    //             if(role) {
-    //                 if(req.body.Func || req.body.Type) {
-    //                     if(role === "Admin") {
+                if(role) {
+                    if(req.body?.Type || req.body?.Func) {
+                        if(role === "Admin" || role === "Editer") {
+                            if(req.body.Type === "modified") {
+                                req.type = "modified";
+                                req.condition = {"_id": {"$eq": req.body.Id}};
+                                delete req.body.Id;
+                                delete req.body.Type;
 
-    //                         if(req.body.Type === "CreateUnit") {
-    //                             req.type = "CreateUnit";
-    //                             req.courseId = req.body.CourseId;
-    //                             req.condition = {"CourseId": {"$eq": req.body.CourseId}};
-    //                             req.unit = req.body;
-    //                             next();
-    //                         }
+                                if(req.body.hasOwnProperty("Status")) {
+                                    if(role === "Admin") {
+                                        req.lesson = req.body;
+                                        next();
+                                    } else {
+                                        return res.status(405).json({status: false, type: "missing-permission"});
+                                    }
+                                } else {
+                                    req.lesson = req.body;
+                                    next();
+                                }
+                            }
 
-    //                         if(req.body.Type === "Edit") {
-    //                             delete req.body.Type;
-    //                             delete req.body.CreateDate;
+                            if(role === "Admin") {
+                                if(req.body.Type === "createLesson") {
+                                    delete req.body.Type;
+                                    req.type = "createLesson";
+                                    req.conditionLesson = {"UnitId": {"$eq": req.body.UnitId}};
+                                    req.conditionUnit = {"_id": {"$eq": req.body.UnitId}};
+                                    req.lesson = req.body;
+                                    next();
+                                }
 
-    //                             req.type = "Edit";
-    //                             req.condition = {"_id": {"$eq": req.body.Id}};
-    //                             delete req.body.Id;
+                                if(req.body.Func === "Delete") {
+                                    delete req.body.Func;
+                                    req.condition = {"_id": {"$eq": req.body.Id}};
+                                    if(req.body.Type === "Virtual") {
+                                        req.type = "modified";
+                                        req.lesson = {"Status": false};
+                                        next();
+                                    }
 
-    //                             req.unit = req.body;
-    //                             next();
-    //                         }
+                                    if(req.body.Type === "Really") {
+                                        LessonService.find(req.condition)
+                                        .then((result) => {
+                                            if(result?.length) {
+                                                req.type = "remove";
+                                                req.conditionLesson = {"UnitId": {"$eq": result[0].UnitId}};
+                                                req.conditionUnit = {"_id": {"$eq": result[0].UnitId}};
+                                                next();
 
-    //                         if(req.body.Type === "Status") {
-    //                             delete req.body.Type;
-    //                             req.condition = {"_id": {"$eq": req.body.Id}};
-    //                             delete req.body.Id;
+                                            } else {
+                                                console.log("Test");
+                                            }
+                                        })
+                                        .catch((err) => {
+                                            throw err;
+                                        })
+                                    }
+                                }
 
-    //                             req.type = "Status";
-    //                             req.unit = req.body;
-    //                             next();
-    //                         }
+                                if(req.body.Type === "Restore") {
+                                    req.type = "restore";
+                                    req.condition = {"_id": {"$in": req.body.Tokens}};
+                                    req.lesson = {"Status": true};
+                                    next();
+                                }
 
-    //                     } else {
-    //                         console.log("permission");
-    //                     }
+                            } else {
+                                return res.status(405).json({status: false, type: "missing-permission"});
+                            }
+                        } else {
+                            return res.status(405).json({status: false, type: "missing-permission"});
+                        }
+                    } else {
+                        let {type, token, id, limited, start, status} = JSON.parse(req.headers.comment);
+                        if(type === "Find") {
+                            req.type = "find";
+                            req.condition = "";
+                            
+                            if(id && status) {
+                                req.condition = {"UnitId": {"$eq": id}, "Status": status};
 
-    //                 } else {
-    //                     if(req.headers.comment) {
-    //                         let {type, token, id, limited, start} = JSON.parse(req.headers.comment);
-    //                         if(type === "Find") {
-    //                             req.type = "Find";
-    //                             req.condition = {"_id": {"$eq": id}};
-    //                         }
+                            } else if(id) {
+                                req.condition = {"_id": {"$eq": id}};
 
-    //                         if(type === "FindAll") {
-    //                             req.type = "Find";
-    //                             req.condition = {"CourseId": {"$eq": id}};
-    //                         }
+                            } else {
+                                req.condition = {"Status": status};
+                            }
+                            next();
+                        }
+                    }
 
-    //                         next();
-    //                     }
-    //                 }
-    //             } else {
-    //                 console.log("Not Find Role");
-    //             }
-    //         } else {
-    //             return res.status(404).json({status: false, type: "tokenExperience"});
-    //         }
-    //     } else {
-    //         return res.status(404).json({status: false, type: "tokenBlank"});
-    //     }
-    // }
-
-    // LessonTransaction(req, res, next) {
-    //     if(req.headers.authorization && req.headers.authorization !== "Empty") {
-    //         if(JWT.verify(req.headers.authorization.split(' ')[1])) {
-    //             let { token, role } = JWT.decoded(req.headers.authorization.split(' ')[1]).payload;
-    //             req.condition = {"_id": {"$eq": token}};
-
-    //             if(role) {
-    //                 if(req.body.Type || req.body.Func) {
-    //                     if(role === "Admin") {
-    //                         if(req.body.Type === "CreateLesson") {
-    //                             delete req.body.Type;
-    //                             req.type = "CreateLesson";
-    //                             req.condition = {"_id": {"$eq": req.body.UnitId}};
-    //                             req.UnitId = {"UnitId": {"$eq": req.body.UnitId}};
-    //                             req.lesson = req.body;
-    //                             next();
-    //                         }
-
-    //                         if((req.body.Type === "Edit") || (req.body.Type === "Status")) {
-    //                             req.type = "Edit";
-    //                             req.condition = {"_id": {"$eq": req.body.LessonId}};
-                                
-    //                             delete req.body.Type;
-    //                             delete req.body.LessonId;
-    //                             req.lesson = req.body;
-    //                             next();
-    //                         }
-
-    //                     } else {
-    //                         console.log("permission");
-    //                     }
-
-    //                 } else {
-    //                     let {type, token, limited, id, start} = JSON.parse(req.headers.comment);
-    //                     if(type === "FindAll") {
-    //                         req.type = "Find";
-    //                         req.condition = {"UnitId": {"$eq": id}};
-    //                     }
-
-    //                     if(type === "Find") {
-    //                         req.type = "Find";
-    //                         req.condition = {"_id": {"$eq": id}};
-    //                     }
-    //                     next();
-    //                 }
-
-    //             } else {
-    //                 return res.status(404).json({status: false, type: "roleBlank"});
-    //             }
-    //         } else {
-    //             return res.status(404).json({status: false, type: "tokenExperience"});
-    //         }
-    //     } else {
-    //         return res.status(404).json({status: false, type: "tokenBlank"});
-    //     }
-    // }
+                } else {
+                    return res.status(405).json({status: false, type: "missing-role"});
+                }
+            } else {
+                return res.status(404).json({status: false, type: "token-expired"});
+            }
+        } else {
+            return res.status(404).json({status: false, type: "token-blank"});
+        }
+    }
 
     // USER TRANSACTION
     UserTransaction(req, res, next) {

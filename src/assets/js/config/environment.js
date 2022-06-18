@@ -51,6 +51,10 @@ export const environment = {
             DocumentKeys: ["Name", "Author", "Type", "Unit", "CreateDate"],
             HeaderTitles: ["Họ và tên", "Tác giả", "Loại khóa học", "Học phần", "Ngày tạo"],
         },
+        "lesson": {
+            DocumentKeys: ["Name", "Status", "CreateDate"],
+            HeaderTitles: ["Tên học phần", "Trạng thái", "Ngày tạo"],
+        },
         "unit": {
             DocumentKeys: ["Name", "Lesson", "Status", "CreateDate"],
             HeaderTitles: ["Tên học phần", "Số khóa học", "Trạng thái", "Ngày tạo"],
