@@ -2,14 +2,16 @@ import { Cookie } from "../lib/cookie.js";
 import { environment } from "../config/environment.js";
 import { HTTPS } from "../lib/https.js";
 import Origin from "../lib/lib-origin.js";
+import { Permission } from "../lib/permission.js";
 import { Validation } from "../lib/validation.js";
 
 window.onload = function () {
 
     const cookie = new Cookie();
     const date = new Date();
-    const origin = new Origin();
     const https = new HTTPS();
+    const origin = new Origin();
+    const permission = new Permission();
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
 
@@ -81,7 +83,7 @@ window.onload = function () {
     switch (type) {
         case "update":
             setTitleForm("update");
-            Status.addEventListener("change", updateStatus);
+            Status.addEventListener("change", state);
             Unit.addEventListener("submit", update);
             break;
 
@@ -96,9 +98,7 @@ window.onload = function () {
         e.preventDefault();
         https.POST(token, setValue(), environment.endpoint.unit)
         .then((result) => {
-            if(result?.status) {
-                window.location.href = "/web/course/unit";
-            }
+            (result?.status)? window.location.href = "/web/course/unit" : permission.setState(result);
         })
         .catch((err) => {
             throw err;
@@ -109,28 +109,24 @@ window.onload = function () {
         e.preventDefault();
         https.PUT(token, setValue(), environment.endpoint.unit)
         .then((result) => {
-            if(result?.status) {
-                window.location.href = "/web/course/unit";
-            }
+            (result?.status)? window.location.href = "/web/course/unit" : permission.setState(result);
         })
         .catch((err) => {
             throw err;
         })
     }
 
-    function updateStatus(e) {
+    function state(e) {
         e.preventDefault();
         let payload = {
-            Type: "Status",
+            Type: "modified",
             Id: unitId,
             Status: this.checked,
             UpdateDate: date.toISOString(),
         }
         https.PUT(token, payload, environment.endpoint.unit)
         .then((result) => {
-            if(result?.status) {
-                window.location.href = "/web/course/unit";
-            }
+            (result?.status)? window.location.href = "/web/course/unit" : permission.setState(result);
         })
         .catch((err) => {
             throw err;
@@ -166,9 +162,9 @@ window.onload = function () {
 
         if(type === "update") {
             payload.Type = "modified";
-            payload.CreateDate = CreateDate.value;
             payload.Id = unitId;
             payload.UpdateDate = date.toISOString();
+            delete payload.CreateDate;
             delete payload.Lesson;
             delete payload.Status;
         }

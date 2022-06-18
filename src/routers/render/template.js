@@ -20,6 +20,7 @@ const Template = require("../../app/controller/web/template");
 
     // UNIT
         router.get("/web/course/unit/detail", Template.render);
+        router.get("/web/course/unit/recycle", Template.render);
         router.get("/course/unit", Template.render);
 
     // USER

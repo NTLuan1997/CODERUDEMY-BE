@@ -43,7 +43,7 @@ window.onload = function (e) {
                     Object.assign(options, environment.options.unit);
                 },
 
-                render: function() {
+                render: function(router) {
                     https.FIND(payload, token, endpoint)
                     .then((result) => {
                         view.Render({
@@ -56,6 +56,7 @@ window.onload = function (e) {
                         });
                     })
                     .then(() => {
+                        router();
                         deleted.virtual($$(".delete"), endpoint, "unit");
                     })
                     .catch((err) => {
@@ -83,5 +84,5 @@ window.onload = function (e) {
     })();
 
     course.config();
-    course.render();
+    course.render(course.router);
 }

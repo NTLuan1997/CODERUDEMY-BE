@@ -1,6 +1,7 @@
-const UserService = require("../services/UserService");
 const JWT = require("../utils/jwt");
 const BCRYPT = require("../utils/bcrypt");
+const UserService = require("../services/UserService");
+const UnitService = require("../services/UnitService");
 class Middleware {
 
     constructor() { }
@@ -135,8 +136,19 @@ class Middleware {
 
                                 delete req.body.Func;
                                 delete req.body.Id;
-                                req.course = req.body;
-                                next();
+
+                                if(req.body.hasOwnProperty("Status")) {
+                                    if(role === "Admin") {
+                                        req.course = req.body;
+                                        next();
+
+                                    } else {
+                                        return res.status(405).json({status: false, type: "missing-permission"});
+                                    }
+                                } else {
+                                    req.course = req.body;
+                                    next();
+                                }
                             }
 
                             if(role === "Admin") {
@@ -167,7 +179,11 @@ class Middleware {
                                     req.user = {"Status": true};
                                     next();
                                 }
+                            } else {
+                                return res.status(405).json({status: false, type: "missing-permission"});
                             }
+                        } else {
+                            return res.status(405).json({status: false, type: "missing-permission"});
                         }
 
                     } else {
@@ -221,8 +237,18 @@ class Middleware {
                                 req.condition = {"_id": {"$eq": req.body.Id}};
                                 delete req.body.Id;
                                 delete req.body.Type;
-                                req.unit = req.body;
-                                next();
+
+                                if(req.body.hasOwnProperty("Status")) {
+                                    if(role === "Admin") {
+                                        req.unit = req.body;
+                                        next();
+                                    } else {
+                                        return res.status(405).json({status: false, type: "missing-permission"});
+                                    }
+                                } else {
+                                    req.unit = req.body;
+                                    next();
+                                }
                             }
 
                             if(role === "Admin") {
@@ -234,6 +260,44 @@ class Middleware {
                                     req.unit = req.body;
                                     next();
                                 }
+
+                                if(req.body.Func === "Delete") {
+                                    delete req.body.Func;
+                                    req.condition = {"_id": {"$eq": req.body.Id}};
+                                    if(req.body.Type === "Virtual") {
+                                        req.type = "modified";
+                                        req.unit = {"Status": false};
+                                        next();
+                                    }
+
+                                    if(req.body.Type === "Really") {
+                                        UnitService.find(req.condition)
+                                        .then((result) => {
+                                            if(result?.length) {
+                                                req.type = "remove";
+                                                req.conditionUnit = {"CourseId": {"$eq": result[0].CourseId}};
+                                                req.conditionCourse = {"_id": {"$eq": result[0].CourseId}};
+                                                next();
+                                            } else {
+                                                console.log("Test");
+                                            }
+                                        })
+                                        .catch((err) => {
+                                            throw err;
+                                        })
+                                    }
+                                    //
+                                }
+
+                                if(req.body.Type === "Restore") {
+                                    req.type = "restore";
+                                    req.condition = {"_id": {"$in": req.body.Tokens}};
+                                    req.unit = {"Status": true};
+                                    next();
+                                }
+
+                            } else {
+                                return res.status(405).json({status: false, type: "missing-permission"});
                             }
                         } else {
                             return res.status(405).json({status: false, type: "missing-permission"});
@@ -241,7 +305,7 @@ class Middleware {
                     } else {
                         let {type, token, id, limited, start, status} = JSON.parse(req.headers.comment);
                         if(type === "Find") {
-                            req.type = "Find";
+                            req.type = "find";
                             req.condition = "";
                             
                             if(id && status) {
