@@ -97,6 +97,14 @@ window.onload = function(e) {
                         Object.assign(options, environment.options.course);
                         break;
 
+                    case "unit":
+                        backpage = "/web/course/unit";
+                        BreadcrumdRollPage.setAttribute("href", "/web/course/unit");
+                        BreadcrumdRollPage.innerHTML = "Danh mục chương học";
+                        endpoint = environment.endpoint.unit;
+                        Object.assign(options, environment.options.unit);
+                        break;
+
                     case "user":
                     default:
                         backpage = "/web/user";

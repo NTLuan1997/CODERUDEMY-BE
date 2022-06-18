@@ -2,6 +2,7 @@ import { Cookie } from "../lib/cookie.js";
 import { environment } from "../config/environment.js";
 import { HTTPS } from "../lib/https.js";
 import Origin  from "../lib/lib-origin.js";
+import { Permission } from "../lib/permission.js";
 import { Priture } from "../lib/priture.js";
 import { Validation } from "../lib/validation.js";
 
@@ -10,6 +11,7 @@ window.onload = function (e) {
     const cookie = new Cookie();
     const https = new HTTPS();
     const origin = new Origin();
+    const permission = new Permission();
     const priture = new Priture();
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
@@ -107,7 +109,7 @@ window.onload = function (e) {
     switch (type) {
         case "update":
             setTitleForm("update");
-            Status.addEventListener("change", uploadStatus);
+            Status.addEventListener("change", state);
             Thumbnail.addEventListener("change", uploadThumbnail);
             Course.addEventListener("submit", update);
             break;
@@ -124,9 +126,7 @@ window.onload = function (e) {
         if (this.valid) {
             https.POST(token, setValue(), environment.endpoint.course)
             .then((result) => {
-                if(result?.status) {
-                    window.location.href = "/web/course";
-                }
+                (result?.status)? window.location.href = "/web/course" : permission.setState(result);
             })
             .catch((err) => {
                 throw err;
@@ -149,7 +149,7 @@ window.onload = function (e) {
         }
     }
 
-    function uploadStatus(e) {
+    function state(e) {
         let payload = {
             Id: origin.parameter().token,
             Func: "Edit",
@@ -158,9 +158,7 @@ window.onload = function (e) {
 
         https.PUT(token, payload, environment.endpoint.course)
         .then((result) => {
-            if(result?.status) {
-                window.location.reload();
-            }
+            (result?.status)? window.location.reload() : permission.setState(result);
         })
         .catch((err) => {
             throw err;

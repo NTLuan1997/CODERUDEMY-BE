@@ -51,6 +51,24 @@ class UnitService extends Service {
             })
         })
     }
+
+    restore(query, body) {
+        return super.documentQuery((resolve, reject) => {
+            Unit.updateMany(query, body, { upsert: true }).exec((err, doc) => {
+                if (err) reject(err);
+                resolve({ status: true, message: "Update done" });
+            })
+        })
+    }
+
+    remove(query) {
+        return super.documentQuery((resolve, reject) => {
+            Unit.deleteOne(query).exec((err, doc) => {
+                if (err) reject(err);
+                resolve({ status: true, message: "Delete done", unit: doc });
+            })
+        })
+    }
 }
 
 module.exports = new UnitService;
