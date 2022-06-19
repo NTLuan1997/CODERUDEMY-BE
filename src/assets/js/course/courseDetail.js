@@ -139,9 +139,7 @@ window.onload = function (e) {
         if (this.valid) {
             https.PUT(token, setValue(), environment.endpoint.course)
             .then((result) => {
-                if(result?.status) {
-                    window.location.reload();
-                }
+                (result?.status)? window.location.reload() : permission.setState(result);
             })
             .catch((err) => {
                 throw err;

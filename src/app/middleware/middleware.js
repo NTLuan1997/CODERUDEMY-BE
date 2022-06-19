@@ -1,8 +1,9 @@
 const JWT = require("../utils/jwt");
 const BCRYPT = require("../utils/bcrypt");
+const ClientService = require("../services/ClientService");
+const LessonService = require("../services/LessonService");
 const UserService = require("../services/UserService");
 const UnitService = require("../services/UnitService");
-const LessonService = require("../services/LessonService");
 class Middleware {
 
     constructor() { }
@@ -13,10 +14,32 @@ class Middleware {
             if(JWT.verify(req.headers.authorization.split(' ')[1])) {
                 let { token, role } = JWT.decoded(req.headers.authorization.split(' ')[1]).payload;
                 req.condition = {"_id": {"$eq": token}};
+
                 if(role) {
                     if(req.body?.Type || req.body?.Func) {
-                        if(req.body?.Type === "modified") { }
-                        if(role === "Admin") { }
+
+                        // if() {}
+                        // if(req.body?.Type === "modified") { }
+
+                        if(role === "Admin") {
+                            if(req.body?.Type === "Register") {
+                                let condition = {"Email": {"$eq": req.body?.Email}};
+                                ClientService.exists(condition)
+                                .then((result) => {
+                                    if(result?.status) {
+                                        return res.status(405).json({status: false, type: "register-already"});
+
+                                    } else {
+                                        req.type = "Register";
+                                        delete req.body?.Platform;
+                                        delete req.body?.Type;
+                                        req.body.Password = BCRYPT.hash(req.body.Password);
+                                        req.client = req.body;
+                                        next();
+                                    }
+                                })
+                            }
+                        }
 
                     } else {
                         let {type, token, id, limited, start, status} = JSON.parse(req.headers.comment);
@@ -442,7 +465,7 @@ class Middleware {
                                             next();
 
                                         } else {
-                                            return res.status(404).json({status: false, type: "register-already"});
+                                            return res.status(405).json({status: false, type: "register-already"});
                                         }
                                     })
                                     .catch((err) => {
