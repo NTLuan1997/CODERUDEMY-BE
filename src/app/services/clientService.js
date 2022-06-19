@@ -80,6 +80,15 @@ class ClientService extends Service {
         })
     }
 
+    delete(query) {
+        return super.documentQuery((resolve, reject) => {
+            Client.deleteOne(query).exec((err, doc) => {
+                if (err) reject(err);
+                resolve({ status: true, message: "Delete done"});
+            })
+        })
+    }
+
 }
 
 module.exports = new ClientService;

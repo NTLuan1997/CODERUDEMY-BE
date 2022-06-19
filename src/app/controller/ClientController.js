@@ -54,6 +54,17 @@ class ClientController {
             })
         }
 
+        function remove() {
+            ClientService.delete(req.condition)
+            .then((result) => {
+                res.status(200).json(result);
+            })
+            .catch((err) => {
+                throw err;
+            })
+        }
+
+        if(req.type === "Delete"){remove()}
         if(req.type === "Find"){find()}
         if(req.type === "Limited"){limited()}
         if(req.type === "Modified"){modified()}
