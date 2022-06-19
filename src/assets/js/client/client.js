@@ -40,7 +40,7 @@ window.onload = function (e) {
                     });
                 })
                 .then(() => {
-                    // deleted.virtual($$(".delete"), environment.endpoint.user, "user");
+                    deleted.virtual($$(".delete"), environment.endpoint.client, "client");
                 })
                 .catch((err) => {
                     throw err;

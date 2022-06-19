@@ -62,11 +62,20 @@ class ClientService extends Service {
         })
     }
 
+    restore(query, body) {
+        return super.documentQuery((resolve, reject) => {
+            Client.updateMany(query, body, { upsert: true }).exec((err, doc) => {
+                if (err) reject(err);
+                resolve({ status: true, message: "Update done" });
+            })
+        })
+    }
+
     update(condition, body) {
         return super.documentQuery((resolve, reject) => {
             Client.updateOne(condition, body, (err, doc) => {
                 if(err) reject(err);
-                resolve({status: true, message: "update done", doc});
+                resolve({status: true, message: "update done"});
             })
         })
     }

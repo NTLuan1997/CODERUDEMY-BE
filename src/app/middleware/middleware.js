@@ -17,11 +17,40 @@ class Middleware {
 
                 if(role) {
                     if(req.body?.Type || req.body?.Func) {
+                        if(req.body?.Type === "modified") {
+                            req.type = "Modified";
+                            req.condition = {"_id": {"$eq": req.body.Id}};
 
-                        // if() {}
-                        // if(req.body?.Type === "modified") { }
+                            delete req.body.Platform;
+                            delete req.body.Id;
+                            delete req.body.Type;
+
+                            req.client = req.body;
+                            next();
+                        }
 
                         if(role === "Admin") {
+                            if(req.body.Func === "Delete") {
+                                delete req.body.Func;
+                                req.condition = {"_id": {"$eq": req.body.Id}};
+                                if(req.body.Type === "Virtual") {
+                                    req.type = "Modified";
+                                    req.client = {"Status": false};
+                                }
+
+                                if(req.body.Type === "Really") {
+                                    req.type = "Delete";
+                                }
+                                next();
+                            }
+
+                            if(req.body.Type === "Restore") {
+                                req.type = "Restore";
+                                req.condition = {"_id": {"$in": req.body.Tokens}};
+                                req.client = {"Status": true};
+                                next();
+                            }
+                            
                             if(req.body?.Type === "Register") {
                                 let condition = {"Email": {"$eq": req.body?.Email}};
                                 ClientService.exists(condition)
@@ -39,6 +68,8 @@ class Middleware {
                                     }
                                 })
                             }
+                        } else {
+                            return res.status(405).json({status: false, type: "missing-permission"});
                         }
 
                     } else {
