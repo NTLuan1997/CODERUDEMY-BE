@@ -1,5 +1,5 @@
 const userService = require("../services/UserService");
-class User {
+class UserController {
 
     constructor() { }
 
@@ -75,4 +75,4 @@ class User {
     }
 }
 
-module.exports = new User;
+module.exports = new UserController;

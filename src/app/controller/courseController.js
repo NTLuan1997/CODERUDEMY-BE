@@ -1,6 +1,6 @@
 const CourseService = require("../services/CourseService");
 
-class Course {
+class CourseController {
 
     constructor() { }
 
@@ -75,4 +75,4 @@ class Course {
 
 }
 
-module.exports = new Course;
+module.exports = new CourseController;

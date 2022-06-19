@@ -7,6 +7,55 @@ class Middleware {
 
     constructor() { }
 
+    //CLIENT TRANSACTION
+    ClientTransaction(req, res, next) {
+        if(req.headers.authorization && req.headers.authorization !== "Empty") {
+            if(JWT.verify(req.headers.authorization.split(' ')[1])) {
+                let { token, role } = JWT.decoded(req.headers.authorization.split(' ')[1]).payload;
+                req.condition = {"_id": {"$eq": token}};
+                if(role) {
+                    if(req.body?.Type || req.body?.Func) {
+                        if(req.body?.Type === "modified") { }
+                        if(role === "Admin") { }
+
+                    } else {
+                        let {type, token, id, limited, start, status} = JSON.parse(req.headers.comment);
+                        if(type === "Limited") {
+                            req.type = "Limited";
+                            req.limited = limited;
+                            req.start = start;
+                            req.condition = {Status: {"$eq": true}};
+                            next();
+                        }
+
+                        if(type === "Find") {
+                            req.type = "Find";
+                            req.condition = "";
+                            
+                            if(id && status) {
+                                req.condition = {"_id": {"$eq": id}, "Status": status};
+
+                            } else if(id) {
+                                req.condition = {"_id": {"$eq": id}};
+
+                            } else {
+                                req.condition = {"Status": status};
+                            }
+                            next();
+                        }
+                    }
+
+                } else {
+                    return res.status(405).json({status: false, type: "missing-role"});
+                }
+            } else {
+                return res.status(404).json({status: false, type: "token-expired"});
+            }
+        } else {
+            return res.status(404).json({status: false, type: "token-blank"});
+        }
+    }
+
     // COURSE TRANSACTION
     CourseTransaction(req, res, next) {
         if(req.headers.authorization && req.headers.authorization !== "Empty") {
@@ -100,8 +149,9 @@ class Middleware {
                             next();
                         }
                     }
+                } else {
+                    return res.status(405).json({status: false, type: "missing-role"});
                 }
-
             } else {
                 return res.status(404).json({status: false, type: "token-expired"});
             }

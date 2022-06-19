@@ -1,9 +1,6 @@
-import { environment } from "./config/environment.js";
 import { Cookie } from "./lib/cookie.js";
-import { HTTPS } from "./lib/https.js";
 
 window.onload = function (e) {
-    const https = new HTTPS();
     const cookie = new Cookie();
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
@@ -11,6 +8,7 @@ window.onload = function (e) {
     $("#SignOut").addEventListener("click", function (e) {
         e.preventDefault();
         cookie.remove("Authentic");
+        localStorage.clear();
         window.location.href = "/";
     })
 }
