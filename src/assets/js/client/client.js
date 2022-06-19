@@ -1,11 +1,13 @@
+import { Cookie } from "../lib/cookie.js";
+import  Delete from "../lib/delete.js";
 import { environment } from "../config/environment.js";
 import { HTTPS } from "../commons/https.js";
-import { Cookie } from "../lib/cookie.js";
 import { View } from "../lib/view.js";
 
 window.onload = function (e) {
-    const https = new HTTPS();
     const cookie = new Cookie();
+    const deleted = new Delete();
+    const https = new HTTPS();
     const view = new View();
     let $ = document.querySelector.bind(document);
     let $$ = document.querySelectorAll.bind(document);
@@ -15,21 +17,38 @@ window.onload = function (e) {
     environment.payload.start = 0;
     environment.payload.limit = 5;
 
-    let pageRequire = 5;
-    let Pagination = $$(".pagination")[0];
-    let ComponentHeader = $("#Header");
-    let ComponentView = $("#Body");
-    let KeyComponent = ["Name", "Email", "Gender", "Phone", "DateOfBirth", "Address"];
-    let KeyHeader = ["Họ và tên", "Email", "Giới tính", "Điện thoại", "Ngày/Tháng/Năm sinh", "Địa chỉ", "Chúc năng"];
+    const client = (function () {
+        let endpoint = "";
+        let options = {};
 
-    (function () {
-        https.FIND(environment.payload, token, environment.endpoint.client)
-        .then((res) => {
-            view.setUrl(environment.endpoint.client);
-            view.render(res, ComponentHeader, KeyHeader, ComponentView, KeyComponent);
-        })
-        .catch((err) => {
-            throw err;
-        })
+        return {
+            config: function() {
+                endpoint = environment.endpoint.client;
+                Object.assign(options, environment.options.client);
+            },
+
+            render: function() {
+                https.FIND(environment.payload, token, endpoint)
+                .then((result) => {
+                    view.Render({
+                        ...options,
+                        Body: "#Body",
+                        Blank: "#Blank",
+                        Header: "#Header",
+                        Result: result,
+                        Type: "Basic",
+                    });
+                })
+                .then(() => {
+                    // deleted.virtual($$(".delete"), environment.endpoint.user, "user");
+                })
+                .catch((err) => {
+                    throw err;
+                })
+            }
+        }
     })();
+
+    // client.config();
+    // client.render();
 }

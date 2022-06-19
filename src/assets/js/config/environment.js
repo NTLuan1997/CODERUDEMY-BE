@@ -47,6 +47,10 @@ export const environment = {
         "tokenExpired": "Mã xác thực quá hạn.",
     },
     "options": {
+        "client": {
+            DocumentKeys: ["Name", "Email", "Gender", "Phone", "DateOfBirth", "Address"],
+            HeaderTitles: ["Họ và tên", "Email", "Giới tính", "Điện thoại", "Ngày/Tháng/Năm sinh", "Địa chỉ", "Chúc năng"],
+        },
         "course": {
             DocumentKeys: ["Name", "Author", "Type", "Unit", "CreateDate"],
             HeaderTitles: ["Họ và tên", "Tác giả", "Loại khóa học", "Học phần", "Ngày tạo"],
