@@ -1,7 +1,7 @@
 import { Cookie } from "../lib/cookie.js";
 import  Delete from "../lib/delete.js";
 import { environment } from "../config/environment.js";
-import { HTTPS } from "../commons/https.js";
+import { HTTPS } from "../lib/https.js";
 import { View } from "../lib/view.js";
 
 window.onload = function (e) {
@@ -13,9 +13,9 @@ window.onload = function (e) {
     let $$ = document.querySelectorAll.bind(document);
 
     let token = `Bearer ${cookie.get("Authentic")}`;
-    environment.payload.type = "limited";
+    environment.payload.type = "Limited";
     environment.payload.start = 0;
-    environment.payload.limit = 5;
+    environment.payload.limited = 10;
 
     const client = (function () {
         let endpoint = "";
@@ -49,6 +49,6 @@ window.onload = function (e) {
         }
     })();
 
-    // client.config();
-    // client.render();
+    client.config();
+    client.render();
 }

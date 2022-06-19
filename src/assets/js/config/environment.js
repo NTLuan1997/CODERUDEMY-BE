@@ -48,8 +48,8 @@ export const environment = {
     },
     "options": {
         "client": {
-            DocumentKeys: ["Name", "Email", "Gender", "Phone", "DateOfBirth", "Address"],
-            HeaderTitles: ["Họ và tên", "Email", "Giới tính", "Điện thoại", "Ngày/Tháng/Năm sinh", "Địa chỉ", "Chúc năng"],
+            DocumentKeys: ["Name", "Email", "Gender", "Phone", "Address"],
+            HeaderTitles: ["Họ và tên", "Email", "Giới tính", "Điện thoại", "Địa chỉ"],
         },
         "course": {
             DocumentKeys: ["Name", "Author", "Type", "Unit", "CreateDate"],
