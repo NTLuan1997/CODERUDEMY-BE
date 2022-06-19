@@ -89,6 +89,14 @@ window.onload = function(e) {
         return {
             config: function() {
                 switch(type) {
+                    case "client":
+                        backpage = "/web/client";
+                        BreadcrumdRollPage.setAttribute("href", "/web/client");
+                        BreadcrumdRollPage.innerHTML = "Danh mục học viên";
+                        endpoint = environment.endpoint.client;
+                        Object.assign(options, environment.options.client);
+                        break;
+
                     case "course":
                         backpage = "/web/course";
                         BreadcrumdRollPage.setAttribute("href", "/web/course");

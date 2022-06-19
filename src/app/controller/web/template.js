@@ -49,6 +49,7 @@ class Template {
                 res.status(200).render("components/user-component/user-detail-component", {show: true});
                 break;
 
+            case "/web/client/recycle":
             case "/web/course/unit/lesson/recycle":
             case "/web/course/unit/recycle":
             case "/web/course/recycle":
