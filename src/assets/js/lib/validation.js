@@ -30,7 +30,14 @@ export function Validation(options) {
                         if (messageContent) break;
                     }
 
-                    handleMessage(Form, Input, Message, messageContent);
+                    if(rule.hasOwnProperty("optional") && rule?.optional) {
+                        if(messageContent) {
+                            this.value = "";
+                            handleMessage(Form, Input, Message, null);
+                        }
+                    } else {
+                        handleMessage(Form, Input, Message, messageContent);
+                    }
                 })
 
                 Input.addEventListener("input", function (e) {
@@ -38,14 +45,6 @@ export function Validation(options) {
                         handleMessage(Form, Input, Message, null);
                     }
                 })
-
-                if (options.type == "no-event") {
-                    for (let i = 0; i < rule.guides.length; i++) {
-                        messageContent = rule.guides[i].test();
-                        if (messageContent) break;
-                    }
-                    handleMessage(Form, Input, Message, messageContent);
-                }
             }
 
             Form.addEventListener("submit", function () {
@@ -56,8 +55,16 @@ export function Validation(options) {
                     }
                     if (messageContent) break;
                 }
-                handleMessage(Form, Input, Message, messageContent);
-                if (!!messageContent) Object.defineProperty(Form, "valid", { value: false, writable: true });
+
+                if(rule.hasOwnProperty("optional") && rule?.optional) {
+                    if(messageContent) {
+                        this.value = "";
+                        messageContent = null;
+                        handleMessage(Form, Input, Message, null);
+                    }
+                } else {
+                    handleMessage(Form, Input, Message, messageContent);
+                }
             })
         })
     }
@@ -70,7 +77,6 @@ function handleMessage(form, input, message, messageContent) {
         message.classList.add("invalid-feedback");
         input.classList.add("is-invalid");
         Object.defineProperty(form, "valid", { value: false, writable: true });
-
     } else {
         message.innerText = '';
         message.classList.remove("invalid-feedback");
@@ -127,7 +133,7 @@ Validation.password = function() {
     }
 }
 
-Validation.comformPassword = function(password) {
+Validation.ConfirmPassword = function(password) {
     return {
         test: function(value) {
             let message = null;

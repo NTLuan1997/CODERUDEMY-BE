@@ -20,7 +20,7 @@ window.onload = function(e) {
     const token = `Bearer ${cookie.get("Authentic")}`;
     const type = origin.parameter().type;
 
-    // Information
+    // INFORMATION
     const Address = $("#Address");
     const Client = $('#Client');
     const DateOfBirth = $("#DateOfBirth");
@@ -36,37 +36,31 @@ window.onload = function(e) {
     const thumbnail = $("#thumbnail");
     const Upload = $("#Upload");
 
-
-    // Validation({
-    //     form: "#Client",
-    //     selectorError: ".form-message",
-    //     rules: [
-    //         {
-    //             selector: "#Name",
-    //             guides: [Validation.required()]
-    //         },
-    //         {
-    //             selector: "#Email",
-    //             guides: [Validation.required(), Validation.isEmail()]
-    //         },
-    //         {
-    //             selector: "#Gender",
-    //             guides: [Validation.required()]
-    //         },
-    //         {
-    //             selector: "#DateOfBirth",
-    //             guides: [Validation.required()]
-    //         },
-    //         {
-    //             selector: "#Phone",
-    //             guides: [Validation.required(), Validation.phone()]
-    //         },
-    //         {
-    //             selector: "#Address",
-    //             guides: [Validation.required()]
-    //         }
-    //     ]
-    // });
+    let rules = [{
+            selector: "#Name",
+            guides: [Validation.required()]
+        },
+        {
+            selector: "#Email",
+            guides: [Validation.required(), Validation.isEmail()]
+        },
+        {
+            selector: "#Gender",
+            guides: [Validation.required()]
+        },
+        {
+            selector: "#DateOfBirth",
+            guides: [Validation.required()]
+        },
+        {
+            selector: "#Phone",
+            guides: [Validation.required(), Validation.phone()]
+        },
+        {
+            selector: "#Address",
+            guides: [Validation.required()]
+        },
+    ];
 
     let app = (function() {
         let thumbnailOld = "";
@@ -135,7 +129,6 @@ window.onload = function(e) {
                     Swicthed.classList.add("active");
                     Thumbnail.classList.add("active");
                     Title.innerHTML = "Chỉnh sửa thông tin";
-
                 } else {
                     Executed.innerHTML = "Thêm mới";
                     Swicthed.classList.remove("active");
@@ -157,25 +150,27 @@ window.onload = function(e) {
                 return {
                     create : function(e) {
                         e.preventDefault();
-                        // if (this.valid) {}
-                        https.POST(token, getClient(), environment.endpoint.client)
-                        .then((result) => {
-                            (result?.status)? window.location.href = "/web/client" : permission.setState(result);
-                        })
-                        .catch((err) => {
-                            throw err;
-                        })
+                        if (this.valid) {
+                            https.POST(token, getClient(), environment.endpoint.client)
+                            .then((result) => {
+                                (result?.status)? window.location.href = "/web/client" : permission.setState(result);
+                            })
+                            .catch((err) => {
+                                throw err;
+                            })
+                        }
                     },
                     update: function(e) {
                         e.preventDefault();
-                        // if (this.valid) {}
-                        https.PUT(token, getClient(), environment.endpoint.client)
-                        .then((result) => {
-                            (result?.status)? window.location.href = "/web/client" : permission.setState(result);
-                        })
-                        .catch((err) => {
-                            throw err;
-                        })
+                        if (this.valid) {
+                            https.PUT(token, getClient(), environment.endpoint.client)
+                            .then((result) => {
+                                (result?.status)? window.location.href = "/web/client" : permission.setState(result);
+                            })
+                            .catch((err) => {
+                                throw err;
+                            })
+                        }
                     },
                     thumbnail: function(e) {
                         priture.upload(environment.priture.url, this.files[0], "clients", thumbnailOld)
@@ -199,13 +194,35 @@ window.onload = function(e) {
                         .catch((err) => {
                             throw err;
                         })
-                    },
-                    validation: function() { }
+                    }
                 }
+            },
+            validation: function() {
+                if(type === "update") {
+                    rules.push(...[
+                        {
+                            selector: "#Password",
+                            guides: [Validation.password()],
+                            optional: true,
+                        },
+                        {
+                            selector: "#ConfirmPassword",
+                            guides: [Validation.ConfirmPassword($("#Password"))],
+                            optional: false,
+                        }
+                    ]);
+                }
+
+                Validation({
+                    form: "#Client",
+                    selectorError: ".form-message",
+                    rules: rules
+                });
             }
         }
     })();
 
     app.BindInformationPage();
+    app.validation();
     app.BindEvent(app.Event);
 }
