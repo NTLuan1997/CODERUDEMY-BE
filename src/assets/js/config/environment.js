@@ -45,6 +45,7 @@ export const environment = {
         "missingPermission": "Không đủ quyền thực thi chức năng.",
         "tokenBlank": "Mã xác thực trống.",
         "tokenExpired": "Mã xác thực quá hạn.",
+        "uploadPriture": "Cập hình ảnh không thành công",
     },
     "options": {
         "client": {

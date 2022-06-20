@@ -37,6 +37,10 @@ export class Permission {
                 message = environment.permission.tokenExpired;
                 break;
 
+            case "upload-priture":
+                message = environment.permission.uploadPriture;
+                break;
+
             case "missing-permission":
             default:
                 message = environment.permission.missingPermission;
