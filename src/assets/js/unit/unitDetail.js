@@ -57,29 +57,6 @@ window.onload = function () {
         }
     }())
 
-//     Validation({
-//         form: "#unit-detail",
-//         selectorError: ".form-message",
-//         rules: [
-//             {
-//                 selector: "#course-code",
-//                 guides: [Validation.required()]
-//             },
-//             {
-//                 selector: "#unit-name",
-//                 guides: [Validation.required()]
-//             },
-//             {
-//                 selector: "#unit-create-date",
-//                 guides: [Validation.required()]
-//             },
-//             {
-//                 selector: "#unit-edit-last-date",
-//                 guides: [Validation.required()]
-//             }
-//         ]
-//     });
-
     switch (type) {
         case "update":
             setTitleForm("update");

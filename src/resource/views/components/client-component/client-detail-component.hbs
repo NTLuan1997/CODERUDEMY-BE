@@ -17,39 +17,34 @@
                 <li><span>Chi tiết</span></li>
             </ul>
         </div>
-        <div class="page-detail">
-            <div class="page-detail--information">
-                <div class="title">
-                    <h2 class="title-page" id="Title-page">Title</h2>
-                    <div class="custom-control custom-switch" id="Switched">
-                        <input type="checkbox" class="custom-control-input" id="Status">
-                        <label class="custom-control-label" for="Status">Trạng thái người dùng</label>
+        <form class="detail-form" id="Client">
+            {{!-- INFORMATION --}}
+            <div class="page-detail">
+                <div class="page-detail--information">
+                    <div class="title">
+                        <h2 class="title-page" id="Title-page">Title</h2>
+                        <div class="custom-control custom-switch" id="Switched">
+                            <input type="checkbox" class="custom-control-input" id="Status">
+                            <label class="custom-control-label" for="Status">Trạng thái người dùng</label>
+                        </div>
+                    </div>
+                    <div class="priture" id="Thumbnail">
+                        <img class="thumbnail" id="thumbnail" src="/static/img/thumbnail_default.jpg" alt="thumbnail"/>
+                        <input type="file" class="upload-thumbnail" id="Upload"/>
                     </div>
                 </div>
-
-                <div class="priture" id="Thumbnail">
-                    <img class="thumbnail" id="thumbnail" src="/static/img/thumbnail_default.jpg" alt="thumbnail"/>
-                    <input type="file" class="upload-thumbnail" id="Upload"/>
-                </div>
-            </div>
-
-            {{!-- INFORMATION --}}
-            <form class="page-detail-form" id="Client">
                 <div class="row">
                     <div class="col-6">
-
                         <div class="form-group">
                             <label class="form-group--label" for="Name">Họ và tên</label>
                             <input type="text" class="form-control" id="Name">
                             <span class="form-message"></span>
                         </div>
-
                         <div class="form-group">
                             <label class="form-group--label" for="Email">Email</label>
                             <input type="email" class="form-control" id="Email">
                             <span class="form-message"></span>
                         </div>
-
                         <div class="form-group">
                             <label class="form-group--label" for="Gender">giới tính</label>
                             <select class="custom-select" id="Gender">
@@ -67,13 +62,11 @@
                             <input type="date" class="form-control" id="DateOfBirth">
                             <span class="form-message"></span>
                         </div>
-
                         <div class="form-group">
                             <label class="form-group--label" for="Phone">Số điện thoại</label>
                             <input type="phone" class="form-control" id="Phone">
                             <span class="form-message"></span>
                         </div>
-
                         <div class="form-group">
                             <label class="form-group--label" for="Address">địa chỉ</label>
                             <input type="text" class="form-control" id="Address">
@@ -81,9 +74,63 @@
                         </div>
                     </div>
                 </div>
-                <div class="users-detail--serect"><button class="btn-executed btn" id="Executed" type="submit">Submit</button></div>
-            </form>
-        </div>
+            </div>
+
+            {{!-- PASSWORD --}}
+            <div class="page-detail">
+                <div class="page-detail--information">
+                    <div class="title"><h2 class="title-page">Chỉnh sửa mật khẩu</h2></div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-group--label" for="Password">Mật khẩu</label>
+                            <input type="password" class="form-control" id="Password">
+                            <span class="form-message"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-group--label" for="ConfirmPassword">Xác nhận mật khẩu</label>
+                            <input type="Password" class="form-control" id="ConfirmPassword">
+                            <span class="form-message"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{!-- REGISTER COURSE --}}
+            <div class="page-detail mb-3">
+                <div class="page-detail--information">
+                    <div class="title"><h2 class="title-page">Đăng ký học phần</h2></div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-group--label" for="Courses">Khóa học</label>
+                            <select class="custom-select" id="Courses">
+                                <option selected value="default">Danh mục khóa học</option>
+                            </select>
+                            <span class="form-message"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-group--label d-block" for="Courses">Chức năng</label>
+                            <button type="button" class="">Đăng ký</button>
+                            <button type="button" class="">Hủy đăng ký</button>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="register-content" id="RegisterContent">Content</div>
+                        <div class="register-blank" id="RegisterBlank">Blank</div>
+                    </div>
+                </div>
+            </div>
+            <div class="users-detail--serect">
+                <button type="submit" class="btn-executed btn" id="Executed">Submit</button>
+            </div>
+        </form>
     </div>
 
     <script type="module" src="/static/js/client/clientDetail.js"></script>
