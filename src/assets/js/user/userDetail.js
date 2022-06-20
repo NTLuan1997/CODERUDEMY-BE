@@ -218,12 +218,7 @@ window.onload = function (e) {
                 }
             })
             .then((result) => {
-                if(result?.status) {
-                    window.location.reload();
-
-                } else {
-                    permission.setState(result);
-                }
+                (result?.status)? window.location.reload(): permission.setState(result);
             })
             .catch((err) => {
                 throw err;

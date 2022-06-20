@@ -222,6 +222,22 @@ form .form-group .password-control {
   .page-detail .page-detail--information {
     display: flex;
     align-items: flex-start; }
+    .page-detail .page-detail--information .title .title-common-page {
+      font-size: 25px;
+      font-weight: 700;
+      letter-spacing: .3px;
+      margin-bottom: 5px;
+      text-transform: uppercase; }
+    .page-detail .page-detail--information .title .title-page {
+      font-size: 25px;
+      font-weight: 700;
+      letter-spacing: .3px;
+      margin-bottom: 5px;
+      text-transform: uppercase; }
+    .page-detail .page-detail--information .title .custom-switch {
+      display: none; }
+      .page-detail .page-detail--information .title .custom-switch.active {
+        display: block; }
     .page-detail .page-detail--information .priture {
       display: none;
       margin-left: auto;

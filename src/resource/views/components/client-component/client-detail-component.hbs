@@ -18,12 +18,18 @@
             </ul>
         </div>
         <div class="page-detail">
-            {{!-- PRICTURE --}}
             <div class="page-detail--information">
-                <h2 class="page-detail--title">Thông tin khóa học</h2>
-                <div class="priture" id="wrapper-priture">
+                <div class="title">
+                    <h2 class="title-page" id="Title-page">Title</h2>
+                    <div class="custom-control custom-switch" id="Switched">
+                        <input type="checkbox" class="custom-control-input" id="Status">
+                        <label class="custom-control-label" for="Status">Trạng thái người dùng</label>
+                    </div>
+                </div>
+
+                <div class="priture" id="Thumbnail">
                     <img class="thumbnail" id="thumbnail" src="/static/img/thumbnail_default.jpg" alt="thumbnail"/>
-                    <input type="file" class="upload-thumbnail" id="upload-thumbnail"/>
+                    <input type="file" class="upload-thumbnail" id="Upload"/>
                 </div>
             </div>
 
@@ -75,7 +81,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="users-detail--serect"><button class="btn-executed btn" type="submit">Submit</button></div>
+                <div class="users-detail--serect"><button class="btn-executed btn" id="Executed" type="submit">Submit</button></div>
             </form>
         </div>
     </div>
