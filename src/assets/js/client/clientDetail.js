@@ -36,6 +36,8 @@ window.onload = function(e) {
     const thumbnail = $("#thumbnail");
     const Upload = $("#Upload");
 
+    const Hidden = $$(".hidden");
+
     let rules = [{
             selector: "#Name",
             guides: [Validation.required()]
@@ -129,6 +131,11 @@ window.onload = function(e) {
                     Swicthed.classList.add("active");
                     Thumbnail.classList.add("active");
                     Title.innerHTML = "Chỉnh sửa thông tin";
+
+                    Hidden.forEach((item) => {
+                        item.classList.add("active");
+                    })
+                    
                 } else {
                     Executed.innerHTML = "Thêm mới";
                     Swicthed.classList.remove("active");
@@ -162,15 +169,15 @@ window.onload = function(e) {
                     },
                     update: function(e) {
                         e.preventDefault();
-                        if (this.valid) {
-                            https.PUT(token, getClient(), environment.endpoint.client)
-                            .then((result) => {
-                                (result?.status)? window.location.href = "/web/client" : permission.setState(result);
-                            })
-                            .catch((err) => {
-                                throw err;
-                            })
-                        }
+                        // if (this.valid) {
+                        //     https.PUT(token, getClient(), environment.endpoint.client)
+                        //     .then((result) => {
+                        //         (result?.status)? window.location.href = "/web/client" : permission.setState(result);
+                        //     })
+                        //     .catch((err) => {
+                        //         throw err;
+                        //     })
+                        // }
                     },
                     thumbnail: function(e) {
                         priture.upload(environment.priture.url, this.files[0], "clients", thumbnailOld)
@@ -208,7 +215,7 @@ window.onload = function(e) {
                         {
                             selector: "#ConfirmPassword",
                             guides: [Validation.ConfirmPassword($("#Password"))],
-                            optional: false,
+                            linked: {"element":$("#Password"), "status": true},
                         }
                     ]);
                 }

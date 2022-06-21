@@ -177,6 +177,11 @@ form .form-group .password-control {
     .page-main .undefine-data.active {
       display: block; }
 
+.detail-form .hidden {
+  display: none; }
+  .detail-form .hidden.active {
+    display: block; }
+
 .page-detail {
   box-shadow: 0 0 2px #00000030;
   margin-top: 15px;
