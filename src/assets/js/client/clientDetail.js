@@ -28,6 +28,7 @@ window.onload = function(e) {
     const Name = $("#Name");
     const Gender = $("#Gender");
     const Phone = $("#Phone");
+    const Password = $("#Password");
     const Swicthed = $("#Switched");
     const Status = $("#Status");
     const Executed = $("#Executed");
@@ -115,10 +116,12 @@ window.onload = function(e) {
             if(type === "update") {
                 payload.Type = "modified";
                 payload.Id = origin.parameter().token;
-                payload.Status = Status.checked;
+                if(Password.value) {
+                    payload.Password = Password.value;
+                }
 
+                delete payload.Status;
                 delete payload.RegisterCourse;
-                delete payload.Password;
             }
             
             return payload;
@@ -146,7 +149,8 @@ window.onload = function(e) {
             },            
             BindEvent: function(callback) {
                 if(type === "update") {
-                    Upload.addEventListener("change", callback().thumbnail)
+                    Status.addEventListener("change", callback().state);
+                    Upload.addEventListener("change", callback().thumbnail);
                     Client.addEventListener("submit", callback().update);
 
                 } else {
@@ -169,15 +173,33 @@ window.onload = function(e) {
                     },
                     update: function(e) {
                         e.preventDefault();
-                        // if (this.valid) {
-                        //     https.PUT(token, getClient(), environment.endpoint.client)
-                        //     .then((result) => {
-                        //         (result?.status)? window.location.href = "/web/client" : permission.setState(result);
-                        //     })
-                        //     .catch((err) => {
-                        //         throw err;
-                        //     })
-                        // }
+                        if (this.valid) {
+                            https.PUT(token, getClient(), environment.endpoint.client)
+                            .then((result) => {
+                                (result?.status)? window.location.href = "/web/client" : permission.setState(result);
+                            })
+                            .catch((err) => {
+                                throw err;
+                            })
+                        } else {
+                            permission.setState({type: "form-valid"});
+                        }
+                    },
+                    state: function(e) {
+                        let payload = {
+                            Status: this.checked,
+                            Platform: "System",
+                            Id: origin.parameter().token,
+                            Type: "modified"
+                        };
+
+                        https.PUT(token, payload, environment.endpoint.client)
+                        .then((result) => {
+                            (result?.status)? window.location.reload(): permission.setState(result);
+                        })
+                        .catch((err) => {
+                            throw err;
+                        })
                     },
                     thumbnail: function(e) {
                         priture.upload(environment.priture.url, this.files[0], "clients", thumbnailOld)
