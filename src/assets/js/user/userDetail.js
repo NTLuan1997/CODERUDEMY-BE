@@ -45,55 +45,55 @@ window.onload = function (e) {
     const Security = $("#Security");
     const Password = $("#Password");
 
-    Validation({
-        form: "#User",
-        selectorError: ".form-message",
-        rules: [
-            {
-                selector: "#Name",
-                guides: [Validation.required()]
-            },
-            {
-                selector: "#DateOfBirth",
-                guides: [Validation.required(), Validation.dateOfBirth(0, 80)]
-            },
-            {
-                selector: "#Email",
-                guides: [Validation.required(), Validation.isEmail()]
-            },
-            {
-                selector: "#Gender",
-                guides: [Validation.required()]
-            },
-            {
-                selector: "#Phone",
-                guides: [Validation.required()]
-            },
-            {
-                selector: "#Address",
-                guides: [Validation.required()]
-            },
-            {
-                selector: "#Role",
-                guides: [Validation.required()]
-            }
-        ]
-    });
+    // Validation({
+    //     form: "#User",
+    //     selectorError: ".form-message",
+    //     rules: [
+    //         {
+    //             selector: "#Name",
+    //             guides: [Validation.required()]
+    //         },
+    //         {
+    //             selector: "#DateOfBirth",
+    //             guides: [Validation.required(), Validation.dateOfBirth(0, 80)]
+    //         },
+    //         {
+    //             selector: "#Email",
+    //             guides: [Validation.required(), Validation.isEmail()]
+    //         },
+    //         {
+    //             selector: "#Gender",
+    //             guides: [Validation.required()]
+    //         },
+    //         {
+    //             selector: "#Phone",
+    //             guides: [Validation.required()]
+    //         },
+    //         {
+    //             selector: "#Address",
+    //             guides: [Validation.required()]
+    //         },
+    //         {
+    //             selector: "#Role",
+    //             guides: [Validation.required()]
+    //         }
+    //     ]
+    // });
 
-    Validation({
-        form: "#Security",
-        selectorError: ".form-message",
-        rules: [
-            {
-                selector: "#Password",
-                guides: [Validation.required(), Validation.minLength(6), Validation.maxLength(15), Validation.password()]
-            },
-            {
-                selector: "#ComformPassword",
-                guides: [Validation.required(), Validation.comformPassword(Password)]
-            }
-        ]
-    })
+    // Validation({
+    //     form: "#Security",
+    //     selectorError: ".form-message",
+    //     rules: [
+    //         {
+    //             selector: "#Password",
+    //             guides: [Validation.required(), Validation.minLength(6), Validation.maxLength(15), Validation.password()]
+    //         },
+    //         {
+    //             selector: "#ComformPassword",
+    //             guides: [Validation.required(), Validation.comformPassword(Password)]
+    //         }
+    //     ]
+    // })
 
     if (type == "update") {
         (function () {

@@ -25,6 +25,10 @@ class Middleware {
                             delete req.body.Id;
                             delete req.body.Type;
 
+                            if(req.body.Password) {
+                                req.body.Password = BCRYPT.hash(req.body.Password);
+                            }
+
                             req.client = req.body;
                             next();
                         }
