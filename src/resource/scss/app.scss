@@ -1,8 +1,12 @@
 @import "_variables.scss";
 
 // HOME PAGE
+html, body {
+    height: 100%;
+}
 .main-body {
-    min-height: 85vh;
+    // min-height: 85vh;
+    height: 100%;
 }
 
 .home_title {

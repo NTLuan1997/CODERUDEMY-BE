@@ -25,8 +25,8 @@ export class Permission {
                 message = environment.permission.contentLinked;
                 break;
 
-            case "form-valid":
-                message = environment.permission.formValid;
+            case "form-invalid":
+                message = environment.permission.formInvalid;
                 break;
 
             case "register-already":

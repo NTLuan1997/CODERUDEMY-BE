@@ -169,6 +169,8 @@ window.onload = function(e) {
                             .catch((err) => {
                                 throw err;
                             })
+                        } else {
+                            permission.setState({type: "form-invalid"});
                         }
                     },
                     update: function(e) {
@@ -182,7 +184,7 @@ window.onload = function(e) {
                                 throw err;
                             })
                         } else {
-                            permission.setState({type: "form-valid"});
+                            permission.setState({type: "form-invalid"});
                         }
                     },
                     state: function(e) {

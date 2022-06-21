@@ -71,7 +71,7 @@ class UserController {
         if(req.type === "Register"){saved()}
 
         if(req.type === "limited"){limited()}
-        if((req.type === "Edit")){updated()}
+        if((req.type === "Modified")){updated()}
     }
 }
 
