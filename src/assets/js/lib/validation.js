@@ -30,14 +30,8 @@ export function Validation(options) {
                         if (messageContent) break;
                     }
 
-                    if(rule.hasOwnProperty("optional") && rule?.optional) {
-                        if(messageContent) {
-                            this.value = "";
-                            handleMessage(Form, Input, Message, null);
-                        }
-                    } else {
-                        handleMessage(Form, Input, Message, messageContent);
-                    }
+                    linkedElement(Form, Input, Message, messageContent, rule);
+                    optionalElement(Form, Input, Message, messageContent, rule);
                 })
 
                 Input.addEventListener("input", function (e) {
@@ -56,19 +50,29 @@ export function Validation(options) {
                     if (messageContent) break;
                 }
 
-                if(rule.hasOwnProperty("optional") && rule?.optional) {
-                    if(messageContent) {
-                        this.value = "";
-                        messageContent = null;
-                        handleMessage(Form, Input, Message, null);
-                    }
-                } else {
-                    handleMessage(Form, Input, Message, messageContent);
-                }
+                linkedElement(Form, Input, Message, messageContent, rule);
+                optionalElement(Form, Input, Message, messageContent, rule);
             })
         })
     }
+}
 
+function linkedElement(form, input, message, messageContent, rule) {
+    if(rule.hasOwnProperty("linked")) {
+        if(rule.linked.element.value === input.value) {
+            handleMessage(form, input, message, null);
+
+        } else if(!rule.linked.element.value) {
+            input.value = "";
+            handleMessage(form, input, message, null);
+
+        } else if(!input.value) {
+            handleMessage(form, input, message, null);
+
+        } else {
+            handleMessage(form, input, message, messageContent);
+        }
+    }
 }
 
 function handleMessage(form, input, message, messageContent) {
@@ -76,12 +80,27 @@ function handleMessage(form, input, message, messageContent) {
         message.innerText = messageContent;
         message.classList.add("invalid-feedback");
         input.classList.add("is-invalid");
+        Object.defineProperty(input, "valid", { value: false, writable: true });
         Object.defineProperty(form, "valid", { value: false, writable: true });
+
     } else {
         message.innerText = '';
         message.classList.remove("invalid-feedback");
         input.classList.remove("is-invalid");
+        Object.defineProperty(input, "valid", { value: true, writable: true });
         Object.defineProperty(form, "valid", { value: true, writable: true });
+    }
+}
+
+function optionalElement(form, input, message, messageContent, rule) {
+    if(rule.hasOwnProperty("optional") && rule?.optional) {
+        if(messageContent) {
+            input.value = "";
+            messageContent = null;
+            handleMessage(form, input, message, null);
+        }
+    } else {
+        handleMessage(form, input, message, messageContent);
     }
 }
 
