@@ -18,22 +18,23 @@
                 <li><span>Chi tiết</span></li>
             </ul>
         </div>
-        <div class="users-detail my-3">
-            <div class="page-detail--information">
-                <div class="title">
-                    <h2 class="title-page">User detail title</h2>
-                    <div class="custom-control custom-switch" id="switched">
-                        <input type="checkbox" class="custom-control-input" id="Status">
-                        <label class="custom-control-label" for="Status">Trạng thái người dùng</label>
+        <form class="detail-form" id="User">
+
+            <div class="page-detail my-3">
+                <div class="page-detail--information">
+                    <div class="title">
+                        <h2 class="title-page" id="Title-page">Title</h2>
+                        <div class="custom-control custom-switch" id="Switched">
+                            <input type="checkbox" class="custom-control-input" id="Status">
+                            <label class="custom-control-label" for="Status">Trạng thái người dùng</label>
+                        </div>
+                    </div>
+                    <div class="priture" id="Thumbnail">
+                        <img class="thumbnail" id="thumbnail" src="/static/img/thumbnail_default.jpg" alt="thumbnail"/>
+                        <input type="file" class="upload-thumbnail" id="Upload"/>
                     </div>
                 </div>
 
-                <div class="priture" id="wrapper-priture">
-                    <img class="thumbnail" id="thumbnail" src="/static/img/thumbnail_default.jpg" alt="thumbnail"/>
-                    <input type="file" class="upload-thumbnail" id="upload-thumbnail"/>
-                </div>
-            </div>
-            <form id="User">
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
@@ -91,40 +92,36 @@
                         </div>
                     </div>
                 </div>
-                <div class="users-detail--serect">
-                    <button type="submit" class="btn users-detail--btn">Submit</button>
-                </div>
-            </form>
-        </div>
-
-        <div class="users-detail security-information my-4" id="security-information">
-            <div class="page-detail--information">
-                <div class="title">
-                    <h2 class="title-common-page">Thông tin bảo mật</h2>
-                </div>
             </div>
-            <form id="Security">
+            
+            {{!-- PASSWORD --}}
+            <div class="page-detail hidden">
+                <div class="page-detail--information">
+                    <div class="title">
+                        <h2 class="title-common-page">Thông tin bảo mật</h2>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
                             <label class="title--input" for="Password">Mật khẩu</label>
-                            <input type="password" class="form-control" id="Password" placeholder="">
+                            <input type="password" class="form-control" id="Password">
                             <span class="form-message"></span>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label class="title--input" for="comform-password">Nhập lại mật khẩu</label>
-                            <input type="password" class="form-control" id="ComformPassword" placeholder="">
+                            <label class="title--input" for="ConfirmPassword">Nhập lại mật khẩu</label>
+                            <input type="password" class="form-control" id="ConfirmPassword">
                             <span class="form-message"></span>
                         </div>
                     </div>
                 </div>
-                <div class="users-detail--serect">
-                    <button type="submit" class="btn users-detail--btn" id="SecurityBTN">Đặt lại mật khẩu</button>
-                </div>
-            </form>
-        </div>
+            </div>
+            <div class="users-detail--serect mb-4">
+                <button type="submit" class="btn-executed btn" id="Executed">Submit</button>
+            </div>
+        </form>
     </div>
     <script type="module" src="/static/js/user/userDetail.js"></script>
 </body>

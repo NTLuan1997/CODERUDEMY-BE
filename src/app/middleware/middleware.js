@@ -447,8 +447,8 @@ class Middleware {
                 if(role) {
                     if(req.body.Type || req.body.Func) {
                         if(role === "Admin" || role === "Editer") {
-                            if(req.body.Type === "Edit") {
-                                req.type = "Edit";
+                            if(req.body.Type === "modified") {
+                                req.type = "Modified";
                                 req.condition = {"_id": {"$eq": req.body.Id}};
                                 delete req.body.Type;
                                 delete req.body.Id;

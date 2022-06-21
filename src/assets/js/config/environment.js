@@ -41,7 +41,7 @@ export const environment = {
     },
     "permission": {
         "contentLinked": "Xóa nội dung liên kết",
-        "formValid": "Nhập nội dung không hợp lệ",
+        "formInvalid": "Nhập nội dung không hợp lệ",
         "registerAlready": "Email đã được đăng ký.",
         "missingPermission": "Không đủ quyền thực thi chức năng.",
         "tokenBlank": "Mã xác thực trống.",
