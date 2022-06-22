@@ -2,7 +2,8 @@ html, body {
   height: 100%; }
 
 .main-body {
-  height: 100%; }
+  height: auto;
+  min-height: 100%; }
 
 .home_title {
   font-size: 30px;
@@ -117,16 +118,6 @@ html, body {
       .breadcrumd ul li .go-back {
         cursor: pointer; }
 
-form .form-group .password-control {
-  position: relative; }
-  form .form-group .password-control i.toggle-pasword {
-    color: #323232;
-    cursor: pointer;
-    right: 5px;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%); }
-
 .page-main {
   box-shadow: 0 0 2px #00000030;
   margin: 15px 0px;
@@ -189,44 +180,6 @@ form .form-group .password-control {
   box-shadow: 0 0 2px #00000030;
   margin-top: 15px;
   padding: 15px; }
-  .page-detail .title-information {
-    display: flex;
-    align-items: center; }
-    .page-detail .title-information .information-title {
-      font-size: 25px;
-      font-weight: 700;
-      margin-bottom: 15px;
-      text-transform: uppercase; }
-    .page-detail .title-information .information-status {
-      display: none;
-      margin-left: auto; }
-      .page-detail .title-information .information-status.active {
-        display: block; }
-    .page-detail .title-information .information-thumbnail {
-      margin-left: auto;
-      position: relative; }
-      .page-detail .title-information .information-thumbnail #thumbnail {
-        bottom: 0px;
-        display: inline-block;
-        right: 0px;
-        height: 35px;
-        overflow: hidden;
-        position: absolute;
-        width: 35px; }
-        .page-detail .title-information .information-thumbnail #thumbnail:before {
-          background-color: #f28d0f;
-          border-radius: 2px;
-          color: #ffffff;
-          font-family: "FontAwesome";
-          font-weight: 500;
-          font-size: 17px;
-          content: "\f1c5";
-          display: inline-block;
-          height: 35px;
-          line-height: 35px;
-          text-align: center;
-          width: 35px;
-          vertical-align: middle; }
   .page-detail .page-detail--information {
     display: flex;
     align-items: flex-start; }
@@ -242,9 +195,9 @@ form .form-group .password-control {
       letter-spacing: .3px;
       margin-bottom: 5px;
       text-transform: uppercase; }
-    .page-detail .page-detail--information .title .custom-switch {
+    .page-detail .page-detail--information .custom-switch {
       display: none; }
-      .page-detail .page-detail--information .title .custom-switch.active {
+      .page-detail .page-detail--information .custom-switch.active {
         display: block; }
     .page-detail .page-detail--information .priture {
       display: none;
@@ -281,6 +234,46 @@ form .form-group .password-control {
           vertical-align: middle; }
       .page-detail .page-detail--information .priture.active {
         display: block; }
+    .page-detail .page-detail--information .priture-description {
+      height: 35px;
+      position: relative; }
+      .page-detail .page-detail--information .priture-description .file {
+        bottom: 0px;
+        display: inline-block;
+        right: 0px;
+        height: 35px;
+        overflow: hidden;
+        position: absolute;
+        width: 35px; }
+        .page-detail .page-detail--information .priture-description .file:before {
+          background-color: #f28d0f;
+          border-radius: 2px;
+          color: #ffffff;
+          font-family: "FontAwesome";
+          font-weight: 500;
+          font-size: 17px;
+          content: "\f1c5";
+          display: inline-block;
+          height: 35px;
+          line-height: 35px;
+          text-align: center;
+          width: 35px;
+          vertical-align: middle; }
+  .page-detail .page-detail--content {
+    border: 1px solid #ccc;
+    margin-top: 5px;
+    padding: 10px; }
+    .page-detail .page-detail--content .image-content {
+      display: none; }
+      .page-detail .page-detail--content .image-content img {
+        height: auto;
+        width: auto; }
+      .page-detail .page-detail--content .image-content.active {
+        display: block; }
+    .page-detail .page-detail--content .blank-content {
+      display: none; }
+      .page-detail .page-detail--content .blank-content.active {
+        display: block; }
   .page-detail .page-detail-form .form-group .form-group--label {
     font-size: 16px;
     text-transform: capitalize; }
@@ -304,56 +297,16 @@ form .form-group .password-control {
     background-color: #f28d0f;
     color: white; }
 
-#page-thumbnail {
-  display: none; }
-  #page-thumbnail.active {
-    display: block; }
-
-.client-course-register {
-  display: none; }
-  .client-course-register.active {
-    display: block; }
-
-.register-course .course-content {
-  border-radius: 5px;
-  border: 1px solid #dddddd;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  padding: 10px; }
-  .register-course .course-content .course-content--items:not(:first-child) {
-    margin-left: 15px; }
-  .register-course .course-content .course-content--items .course-content--items_name {
-    display: inline-block; }
-  .register-course .course-content .course-content--items .course-content--items_unRegister {
-    border: none;
-    background-color: transparent;
-    display: inline-block;
-    line-height: 0px;
-    right: 0px;
-    padding: 0px; }
-    .register-course .course-content .course-content--items .course-content--items_unRegister i.fa {
-      color: #5e5e5e; }
-    .register-course .course-content .course-content--items .course-content--items_unRegister:focus, .register-course .course-content .course-content--items .course-content--items_unRegister:focus-visible {
-      border-top-color: transparent;
-      border-left-color: transparent;
-      border-right-color: transparent;
-      border-bottom-color: transparent;
-      outline-color: transparent; }
-    .register-course .course-content .course-content--items .course-content--items_unRegister:hover {
-      color: #da4848; }
-
-.users-detail--serect {
+.detail--serect {
   margin-top: 10px; }
-  .users-detail--serect button {
+  .detail--serect button {
     background-color: #f28d0f !important;
     color: #ffffff;
     padding: 5px 15px;
     text-transform: capitalize; }
-    .users-detail--serect button:not(:last-child) {
+    .detail--serect button:not(:last-child) {
       margin-right: 5px; }
-    .users-detail--serect button:hover {
+    .detail--serect button:hover {
       color: #ffffff; }
 
 .table .thead-dark tr th {
@@ -401,22 +354,5 @@ footer {
     font-size: 13px;
     text-align: center;
     text-transform: uppercase; }
-
-.modal-loader {
-  background-color: #ebebeb82;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  left: 0px;
-  top: 0px;
-  position: fixed;
-  width: 100%;
-  z-index: 100; }
-  .modal-loader img {
-    width: 450px; }
-
-.modal-loader.active {
-  display: flex; }
 
 /*# sourceMappingURL=../../../false/app.css.map */

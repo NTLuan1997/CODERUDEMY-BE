@@ -65,12 +65,13 @@ class CourseController {
             })
         }
 
-        if(req.type === "Edit"){edit()}
         if(req.type === "Delete"){deleted()}
         if(req.type === "Find"){find()}
-        if(req.type === "CreateCourse"){save()}
         if(req.type === "Limited") {limited()}
         if(req.type === "Restore"){restore()}
+
+        if(req.type === "Create"){save()}
+        if(req.type === "Modified"){edit()}
     }
 
 }

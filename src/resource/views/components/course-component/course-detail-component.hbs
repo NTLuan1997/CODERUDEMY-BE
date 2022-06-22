@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 
 <body>
@@ -17,16 +18,16 @@
                 <li><span>Chi tiết</span></li>
             </ul>
         </div>
-        <div class="page-detail">
-            <div class="title-information">
-                <h2 class="information-title">title</h2>
-                <div class="custom-control custom-switch information-status" id="switched">
-                    <input type="checkbox" class="custom-control-input" id="Status">
-                    <label class="custom-control-label" for="Status">Trạng thái</label>
+        <form class="detail-form" id="Course">
+            <div class="page-detail">
+                <div class="page-detail--information">
+                    <div class="title"><h2 class="title-page" id="Title-page">Title</h2></div>
+                    <div class="custom-control custom-switch ml-auto" id="Switched">
+                        <input type="checkbox" class="custom-control-input" id="Status">
+                        <label class="custom-control-label" for="Status">Trạng thái người dùng</label>
+                    </div>
                 </div>
-            </div>
 
-            <form class="page-detail-form" id="Course">
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
@@ -69,28 +70,35 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label class="form-group--label" for="Description">Mô tả khóa học</label>
-                            <textarea class="form-control" id="Description" rows="3"></textarea>
+                            <textarea id="Textarea"></textarea>
                             <span class="form-message"></span>
                         </div>
                     </div>
                 </div>
-                <div class="users-detail--serect">
-                    <button type="submit" class="btn-executed btn">Submit</button>
-                </div>
-            </form>
-        </div>
-
-        <div class="page-detail my-4" id="page-thumbnail">
-            <div class="title-information">
-                <h2>Ảnh khóa học</h2>
-                <div class="information-thumbnail"><input type="file" id="thumbnail"></div>
             </div>
-            <div id="content-thumbnail"><img src="#" alt="thumbnail"></div>
-            <div class="course-thumbnail" id="blank-thumbnail">Chưa có thông tin...</div>
-        </div>
+
+            <div class="page-detail hidden my-3">
+                <div class="page-detail--information">
+                    <div class="title"><h2 class="title-page">Ảnh khóa học</h2></div>
+                    <div class="priture-description ml-auto"><input  class="file" type="file" id="Upload"></div>
+                </div>
+
+                <div class="page-detail--content">
+                    <div class="image-content">
+                        <img src="/static/img/thumbnail_default.jpg" id="Thumbnail" alt="thumbnail">
+                    </div>
+                    <div class="blank-content">Chưa có thông tin...</div>
+                </div>
+            </div>
+
+            <div class="detail--serect mb-4">
+                <button type="submit" class="btn-executed btn" id="Executed">Submit</button>
+            </div>
+        </form>
     </div>
 
     <script type="module" src="/static/js/course/courseDetail.js"></script>
+    <script src="/static/js/lib/tinymce.js"></script>
 </body>
 
 </html>

@@ -125,9 +125,9 @@ class Middleware {
                     if(req.body?.Type || req.body?.Func) {
                         if(role === "Admin" || role === "Editer") {
 
-                            if(req.body.Func === "Edit") {
+                            if(req.body.Func === "modified") {
                                 req.condition = {"_id": {"$eq": req.body.Id}};
-                                req.type = "Edit";
+                                req.type = "Modified";
 
                                 delete req.body.Func;
                                 delete req.body.Id;
@@ -147,9 +147,9 @@ class Middleware {
                             }
 
                             if(role === "Admin") {
-                                if(req.body.Func === "CreateCourse") {
+                                if(req.body.Func === "create") {
                                     delete req.body.Func;
-                                    req.type = "CreateCourse";
+                                    req.type = "Create";
                                     req.course = req.body;
                                     next();
                                 }
