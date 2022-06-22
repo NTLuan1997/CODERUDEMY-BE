@@ -19,7 +19,7 @@ window.onload = function (e) {
     const token = `Bearer ${cookie.get("Authentic")}`;
     const type = origin.parameter().type;
 
-    // GET WRAPPER
+    // INFORMATION
     const Course = $("#Course");
     const Name = $("#Name");
     const Type = $("#Type");
@@ -27,22 +27,21 @@ window.onload = function (e) {
     const CreateDate = $("#CreateDate");
     const UpdateDate = $("#UpdateDate");
     const Unit = $("#Unit");
-    const Description = $("#Description");
-    let date = new Date();
-    let ThumbnailOld = "";
-
-    // HIDDEN INPUT
-    const Switched = $("#switched");
+    const Description = $("#Textarea");
+    const Swicthed = $("#Switched");
     const Status = $("#Status");
-    const hiddenGroup = $$(".hidden-group");
+    const Executed = $("#Executed");
+    const Title = $("#Title-page");
+    const Thumbnail = $("#Thumbnail");
+    const Upload = $("#Upload");
 
-    // PRITURE
-    const pageThumbnail = $("#page-thumbnail");
-    const Thumbnail = $("#thumbnail");
-    const ContentThumbnail = $("#content-thumbnail");
-    const BlankThumbnail = $("#blank-thumbnail");
+    const BlankContent = $$(".blank-content")[0];
+    const Hidden = $$(".hidden");
+    const ImageContent = $$(".image-content")[0];
 
-    const rules = [
+    let date = new Date();
+    
+    let rules = [
         {
             selector: "#Name",
             guides: [Validation.required()]
@@ -56,196 +55,189 @@ window.onload = function (e) {
             guides: [Validation.required()]
         },
         {
-            selector: "#Description",
+            selector: "#Textarea",
             guides: [Validation.required()]
         }
     ];
 
-    if(type === "update") {
-        pageThumbnail.classList.add("active");
-        Switched.classList.add("active");
-        hiddenGroup.forEach((group) => {
-            group.classList.add("active");
-        })
-
-        rules.concat([
-            {
-                selector: "#CreateDate",
-                guides: [Validation.required()]
-            },
-            {
-                selector: "#EditDate",
-                guides: [Validation.required()]
-            },
-            {
-                selector: "#Thumbnail",
-                guides: [Validation.required()]
+    const app = (function() {
+        let thumbnailOld = "";
+        if(type === "update") {
+            let payload = {
+                id: origin.parameter().token,
+                type: "Find"
             }
-        ]);
 
-        (function() {
-            environment.payload.type = "Find";
-            environment.payload.id = origin.parameter().token;
-
-            https.FIND(environment.payload, token, environment.endpoint.course)
+            https.FIND(payload, token, environment.endpoint.course)
             .then((result) => {
                 if(result?.length) {
-                    binding(result[0]);
+                    Name.value = result.at(0)?.Name;
+                    Type.value = result.at(0)?.Type;
+                    Author.value = result.at(0)?.Author;
+                    CreateDate.value = result.at(0)?.CreateDate?.split(".")[0];
+                    UpdateDate.value = (result.at(0)?.UpdateDate)? result.at(0)?.UpdateDate.split(".")[0] : "";
+                    tinymce.activeEditor.setContent(result.at(0)?.Description);
+                    Status.checked = result.at(0)?.Status;
+                    Unit.value = result.at(0)?.Unit;
+                    if(result.at(0)?.Thumbnail) {
+                        ImageContent.classList.add("active");
+                        thumbnailOld = result.at(0)?.Thumbnail;
+                        Thumbnail.setAttribute("src", `${environment.priture.url}/${result.at(0)?.Thumbnail}`);
+
+                    } else {
+                        BlankContent.classList.add("active");
+                    }
                 }
             })
             .catch((err) => {
                 throw err;
             })
-
-        }())
-    }
-
-    Validation({
-        form: "#Course",
-        selectorError: ".form-message",
-        rules: rules
-    });
-
-    switch (type) {
-        case "update":
-            setTitleForm("update");
-            Status.addEventListener("change", state);
-            Thumbnail.addEventListener("change", uploadThumbnail);
-            Course.addEventListener("submit", update);
-            break;
-
-        case "create":
-        default:
-            setTitleForm("create");
-            Course.addEventListener("submit", create);
-            break;
-    }
-
-    function create(e) {
-        e.preventDefault();
-        if (this.valid) {
-            https.POST(token, setValue(), environment.endpoint.course)
-            .then((result) => {
-                (result?.status)? window.location.href = "/web/course" : permission.setState(result);
-            })
-            .catch((err) => {
-                throw err;
-            })
-        }
-    }
-
-    function update(e) {
-        e.preventDefault();
-        if (this.valid) {
-            https.PUT(token, setValue(), environment.endpoint.course)
-            .then((result) => {
-                (result?.status)? window.location.reload() : permission.setState(result);
-            })
-            .catch((err) => {
-                throw err;
-            })
-        }
-    }
-
-    function state(e) {
-        let payload = {
-            Id: origin.parameter().token,
-            Func: "Edit",
-            Status: this.checked
         }
 
-        https.PUT(token, payload, environment.endpoint.course)
-        .then((result) => {
-            (result?.status)? window.location.reload() : permission.setState(result);
-        })
-        .catch((err) => {
-            throw err;
-        })
-    }
+        function getCourse() {
+            let payload = {
+                Author: Author.value,
+                Description: Description.value,
+                Name: Name.value,
+                Status: true,
+                Type: Type.value,
+            }
 
-    function uploadThumbnail(e) {
-        priture.upload(environment.priture.url, this.files[0], "courses", ThumbnailOld)
-        .then((result) => {
-            let {status, message, destination} = result;
-            if(status) {
-                let payload = {
-                    Id: origin.parameter().token,
-                    Func: "Edit",
-                    Thumbnail: destination,
-                    UpdateDate: date.toISOString()
+            if(type === "create") {
+                payload.CreateDate = date.toISOString();
+                payload.Func = "create";
+                payload.Unit = 0;
+                payload.UpdateDate = "";
+                payload.Thumbnail = "";
+            }
+
+            if(type === "update") {
+                payload.Func = "modified";
+                payload.Id = origin.parameter().token;
+                payload.Unit = Unit.value;
+                payload.UpdateDate = date.toISOString();
+                delete payload.Status;
+            }
+            
+            return payload;
+        }
+
+        return  {
+            BindInformationPage: function() {
+                if(type === "update") {
+                    Executed.innerHTML = "Cập nhật thông tin";
+                    Swicthed.classList.add("active");
+                    Title.innerHTML = "Thông tin khóa học";
+
+                    Hidden.forEach((item) => {
+                        item.classList.add("active");
+                    })
+                    
+                } else {
+                    Executed.innerHTML = "Thêm mới";
+                    Swicthed.classList.remove("active");
+                    Title.innerHTML = "Thêm mới khóa học";
+
                 }
-                return https.PUT(token, payload, environment.endpoint.course);
+            },            
+            BindEvent: function(callback) {
+                if(type === "update") {
+                    Status.addEventListener("change", callback().state);
+                    Upload.addEventListener("change", callback().thumbnail);
+                    Course.addEventListener("submit", callback().update);
+
+                } else {
+                    Course.addEventListener("submit", callback().create);
+                }
+            },
+            Event: function() {
+                return {
+                    create : function(e) {
+                        e.preventDefault();
+                        if (this.valid) {
+                            https.POST(token, getCourse(), environment.endpoint.course)
+                            .then((result) => {
+                                (result?.status)? window.location.href = "/web/course" : permission.setState(result);
+                            })
+                            .catch((err) => {
+                                throw err;
+                            })
+
+                        } else {
+                            permission.setState({type: "form-invalid"});
+                        }
+                    },
+                    update: function(e) {
+                        e.preventDefault();
+                        if (this.valid) {
+                            https.PUT(token, getCourse(), environment.endpoint.course)
+                            .then((result) => {
+                                (result?.status)? window.location.href = "/web/course" : permission.setState(result);
+                            })
+                            .catch((err) => {
+                                throw err;
+                            })
+                        } else {
+                            permission.setState({type: "form-invalid"});
+                        }
+                    },
+                    state: function(e) {
+                        let payload = {
+                            Status: this.checked,
+                            Id: origin.parameter().token,
+                            Func: "modified"
+                        };
+                        
+                        if(Number(Unit.value)) {
+                            permission.setState({type: "content-Linked"});
+
+                        } else {
+                            https.PUT(token, payload, environment.endpoint.course)
+                            .then((result) => {
+                                (result?.status)? window.location.reload(): permission.setState(result);
+                            })
+                            .catch((err) => {
+                                throw err;
+                            })
+                        }
+                    },
+                    thumbnail: function(e) {
+                        priture.upload(environment.priture.url, this.files[0], "courses", thumbnailOld)
+                        .then((result) => {
+                            let {status, message, destination} = result;
+                            if(status) {
+                                let payload = {
+                                        Id: origin.parameter().token,
+                                        Func: "modified",
+                                        Thumbnail: destination,
+                                        UpdateDate: date.toISOString()
+                                }
+                                console.log("payload", payload);
+                                return https.PUT(token, payload, environment.endpoint.course);
+                            } else {
+                                permission.setState({type: "upload-priture"});
+                            }
+                        })
+                        .then((result) => {
+                            (result?.status)? window.location.reload(): permission.setState(result);
+                        })
+                        .catch((err) => {
+                            throw err;
+                        })
+                    }
+                }
+            },
+            validation: function() {
+                Validation({
+                    form: "#Course",
+                    selectorError: ".form-message",
+                    rules: rules
+                });
             }
-        })
-        .then((result) => {
-            if(result?.status) {
-                window.location.reload();
-            }
-        })
-        .catch((err) => {
-            throw err;
-        })
-    }
-
-    function binding(result) {
-        Name.value = result?.Name;
-        Author.value = result?.Author;
-        Type.value = result?.Type;
-        Unit.value = result?.Unit;
-        CreateDate.value = result?.CreateDate.split(".")[0];
-        UpdateDate.value = (result?.UpdateDate)? result?.UpdateDate.split(".")[0] : "";
-        Description.value = result?.Description;
-        Status.checked = result?.Status;
-        if(result?.Thumbnail) {
-            ThumbnailOld = result?.Thumbnail;
-            ContentThumbnail.lastElementChild.setAttribute("src", `${environment.priture.url}/${ThumbnailOld}`);
-            ContentThumbnail.style.display = "block";
-            BlankThumbnail.style.display = "none";
-
-        } else {
-            ContentThumbnail.style.display = "none";
-            BlankThumbnail.style.display = "block";
         }
-    }
+    })();
 
-    function setValue() {
-        let payload = {
-            Author: Author.value,
-            Description: Description.value,
-            Name: Name.value,
-            Status: true,
-            Type: Type.value,
-        }
-
-        if(type === "create") {
-            payload.CreateDate = date.toISOString();
-            payload.Func = "CreateCourse";
-            payload.Unit = 0;
-            payload.UpdateDate = "";
-            payload.Thumbnail = "";
-        }
-
-        if(type === "update") {
-            payload.Func = "Edit";
-            payload.Id = origin.parameter().token;
-            payload.Unit = Unit.value;
-            payload.UpdateDate = date.toISOString();
-            delete payload.Status;
-        }
-        
-        return payload;
-    }
-
-    function setTitleForm(type) {
-        let title = $$(".information-title")[0];
-        let subButton = $$(".btn-executed")[0];
-
-        if (type == "create") {
-            title.innerHTML = "Thêm mới khóa học";
-            subButton.innerHTML = "Thêm mới";
-        } else {
-            title.innerHTML = "Thông tin khóa học";
-            subButton.innerHTML = "Cập nhật";
-        }
-    }
+    app.BindInformationPage();
+    app.validation();
+    app.BindEvent(app.Event);
 }
