@@ -76,7 +76,7 @@ class LessonController {
             })
         }
 
-        if(req.type === "createLesson"){saved()}
+        if(req.type === "created"){saved()}
         if(req.type === "find"){find()}
         if(req.type === "modified"){modified()}
         if(req.type === "restore"){restore()}
