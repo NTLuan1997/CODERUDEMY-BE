@@ -248,9 +248,9 @@ class Middleware {
                             }
 
                             if(role === "Admin") {
-                                if(req.body.Type === "createUnit") {
+                                if(req.body.Type === "created") {
                                     delete req.body.Type;
-                                    req.type = "createUnit";
+                                    req.type = "created";
                                     req.conditionUnit = {"CourseId": {"$eq": req.body.CourseId}};
                                     req.conditionCourse = {"_id": {"$eq": req.body.CourseId}};
                                     req.unit = req.body;
