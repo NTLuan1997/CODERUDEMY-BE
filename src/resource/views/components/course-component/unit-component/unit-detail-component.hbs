@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 
 <body>
@@ -18,67 +19,70 @@
                 <li><span>Chi tiết</span></li>
             </ul>
         </div>
-        <div class="page-detail">
-            <div class="title-information">
-                <h2 class="information-title">Thông tin khóa học</h2>
-                <div class="custom-control custom-switch information-status" id="switched">
-                    <input type="checkbox" class="custom-control-input" id="Status">
-                    <label class="custom-control-label" for="Status">Trạng thái</label>
-                </div>
-            </div>
+        <form class="detail-form" id="unit">
+            <div class="page-detail">
 
-            <form class="page-detail-form" id="Unit">
+                <div class="page-detail--information">
+                    <div class="title"><h2 class="title-page" id="Title-page">Title</h2></div>
+                    <div class="custom-control custom-switch ml-auto" id="switched">
+                        <input type="checkbox" class="custom-control-input" id="status">
+                        <label class="custom-control-label" for="status">Trạng thái</label>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            <label class="form-group--label" for="Code">Mã khóa học</label>
-                            <input type="text" class="form-control" id="Code" disabled>
+                            <label class="form-group--label" for="code">Mã khóa học</label>
+                            <input type="text" class="form-control" id="code" disabled>
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
-                            <label class="form-group--label" for="Name">Tên Chương học</label>
-                            <input type="text" class="form-control" id="Name">
+                            <label class="form-group--label" for="name">Tên Chương học</label>
+                            <input type="text" class="form-control" id="name">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
-                            <label class="form-group--label" for="Lesson">Số bài giảng hiện có</label>
-                            <input type="text" class="form-control" id="Lesson" disabled>
+                            <label class="form-group--label" for="lesson">Số bài giảng hiện có</label>
+                            <input type="text" class="form-control" id="lesson" disabled>
                             <span class="form-message"></span>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label class="form-group--label" for="Author">Tác giả</label>
-                            <input type="text" class="form-control" id="Author">
+                            <label class="form-group--label" for="author">Tác giả</label>
+                            <input type="text" class="form-control" id="author">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
-                            <label class="form-group--label" for="CreateDate">Ngày tạo</label>
-                            <input type="datetime-local" step="0.001" class="form-control" id="CreateDate" disabled>
+                            <label class="form-group--label" for="createDate">Ngày tạo</label>
+                            <input type="datetime-local" step="0.001" class="form-control" id="createDate" disabled>
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
-                            <label class="form-group--label" for="UpdateDate">Cập nhật gần đây</label>
-                            <input type="datetime-local" step="0.001" class="form-control" id="UpdateDate" disabled>
+                            <label class="form-group--label" for="updateDate">Cập nhật gần đây</label>
+                            <input type="datetime-local" step="0.001" class="form-control" id="updateDate" disabled>
                             <span class="form-message"></span>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="form-group--label" for="Description">Mô tả học phần</label>
-                            <textarea class="description" id="Description" rows="4" cols="50"></textarea>
+                            <label class="form-group--label" for="Textarea">Mô tả học phần</label>
+                            <textarea id="Textarea"></textarea>
                             <span class="form-message"></span>
                         </div>
                     </div>
                 </div>
-                <div class="detail--serect">
-                    <button type="submit" class="btn-executed btn">Submit</button>
-                </div>
-            </form>
-        </div>
+            </div>
+
+            <div class="detail--serect mb-4">
+                <button type="submit" class="btn-executed btn" id="Executed">Submit</button>
+            </div>
+        </form>
     </div>
 
     <script type="module" src="/static/js/unit/unitDetail.js"></script>
+    <script src="/static/js/lib/tinymce.js"></script>
 </body>
 
 </html>

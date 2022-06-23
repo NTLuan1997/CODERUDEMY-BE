@@ -77,7 +77,7 @@ class UnitController {
             })
         }
         
-        if(req.type === "createUnit"){saved()}
+        if(req.type === "created"){saved()}
         if(req.type === "find"){find()}
         if(req.type === "modified"){modified()}
         if(req.type === "restore"){restore()}
