@@ -263,12 +263,12 @@ html, body {
     border: 1px solid #ccc;
     margin-top: 5px;
     padding: 10px; }
-    .page-detail .page-detail--content .image-content {
+    .page-detail .page-detail--content .document-content {
       display: none; }
-      .page-detail .page-detail--content .image-content img {
+      .page-detail .page-detail--content .document-content img {
         height: auto;
         width: auto; }
-      .page-detail .page-detail--content .image-content.active {
+      .page-detail .page-detail--content .document-content.active {
         display: block; }
     .page-detail .page-detail--content .blank-content {
       display: none; }

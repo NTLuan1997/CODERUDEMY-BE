@@ -28,7 +28,6 @@ class Middleware {
                             if(req.body.Password) {
                                 req.body.Password = BCRYPT.hash(req.body.Password);
                             }
-
                             req.client = req.body;
                             next();
                         }
@@ -158,7 +157,7 @@ class Middleware {
                                     delete req.body.Func;
                                     req.condition = {"_id": {"$eq": req.body.Id}};
                                     if(req.body.Type === "Virtual") {
-                                        req.type = "Edit";
+                                        req.type = "Modified";
                                         req.course = {"Status": false};
                                     }
 
@@ -461,8 +460,10 @@ class Middleware {
                                 } else {
                                     return res.status(405).json({status: false, type: "missing-permission"});
                                 }
-                                req.user = req.body;
-                                next();
+                                console.log(req.body);
+
+                                // req.user = req.body;
+                                // next();
                             }
 
                             if(role === "Admin") {
@@ -470,7 +471,7 @@ class Middleware {
                                     delete req.body.Func;
                                     req.condition = {"_id": {"$eq": req.body.Id}};
                                     if(req.body.Type === "Virtual") {
-                                        req.type = "Edit";
+                                        req.type = "Modified";
                                         req.user = {"Status": req.body.Status};
                                     }
 

@@ -22,7 +22,10 @@ window.onload = function(e) {
 
     // INFORMATION
     const Address = $("#Address");
+    const Blank = $("#Blank")
     const Client = $('#Client');
+    const Courses = $("#courses");
+    const Content = $("#Content");
     const DateOfBirth = $("#DateOfBirth");
     const Email = $("#Email");
     const Name = $("#Name");
@@ -36,6 +39,8 @@ window.onload = function(e) {
     const Thumbnail = $("#Thumbnail");
     const thumbnail = $("#thumbnail");
     const Upload = $("#Upload");
+    const Register = $("#register");
+    const UnRegister = $("#unregister");
 
     const Hidden = $$(".hidden");
 
@@ -66,32 +71,126 @@ window.onload = function(e) {
     ];
 
     let app = (function() {
+        let RegisterCourse = [];
         let thumbnailOld = "";
+        
         if(type === "update") {
             let payload = {
-                id: origin.parameter().token,
-                type: "Find"
-            }
+                client: {
+                    id: origin.parameter().token,
+                    type: "Find"
+                },
+                course: {
+                    type: "Find",
+                    status: true
+                }
+            };
 
-            https.FIND(payload, token, environment.endpoint.client)
+            Promise.all([
+                https.FIND(payload.client, token, environment.endpoint.client),
+                https.FIND(payload.course, token, environment.endpoint.course)
+            ])
             .then((result) => {
-                if(result?.length) {
-                    Address.value = result.at(0)?.Address;
-                    DateOfBirth.value = date.bindingToTemplate(result.at(0)?.DateOfBirth);
-                    Email.value = result.at(0)?.Email;
-                    Name.value = result.at(0)?.Name;
-                    Gender.value = result.at(0)?.Gender;
-                    Phone.value = result.at(0)?.Phone;
-                    Status.checked = result.at(0)?.Status;
-                    if(result.at(0)?.Thumbnail) {
-                        thumbnailOld = result.at(0)?.Thumbnail;
-                        thumbnail.setAttribute("src", `${environment.priture.url}/${result.at(0)?.Thumbnail}`);
+                let client = result[0][0];
+                let courses = result[1];
+                if(client) {
+                    Address.value = client?.Address;
+                    DateOfBirth.value = date.bindingToTemplate(client?.DateOfBirth);
+                    Email.value = client?.Email;
+                    Name.value = client?.Name;
+                    Gender.value = client?.Gender;
+                    Phone.value = client?.Phone;
+                    Status.checked = client?.Status;
+                    if(client?.Thumbnail) {
+                        thumbnailOld = client?.Thumbnail;
+                        thumbnail.setAttribute("src", `${environment.priture.url}/${client?.Thumbnail}`);
+                    }
+
+                    if(client?.RegisterCourse.length) {
+                        RegisterCourse = client?.RegisterCourse;
                     }
                 }
+
+                if(courses.length) {
+                    registerView().render(courses);
+                    registerView().bindingEvent("Register");
+
+                } else {
+                    permission.setState({type: "course-blank"});
+                }
+
             })
             .catch((err) => {
                 throw err;
             })
+        }
+
+        function registerView() {
+            function renderContent(parameter) {
+                let template = "";
+                template = parameter.reduce((accument, item) => {
+                    return accument.concat(`
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="${item?._id}">
+                            <label class="form-check-label">${item?.courseName}</label>
+                        </div>
+                    `);
+                }, []).join(" ");
+                Content.innerHTML = template;
+            }
+
+            return {
+                bindingEvent: function(type) {
+                    if(type === "Register") {
+                        Register.addEventListener("click", function(e) {
+                            if(Courses.value.includes("=")) {
+                                if(RegisterCourse.length) {
+                                    if(RegisterCourse.some((course) => course._id === Courses.value.split("=")[0])) {
+                                        permission.setState({type: "register-already"});
+
+                                    } else {
+                                        RegisterCourse.push({"_id": Courses.value.split("=")[0], "courseName": Courses.value.split("=")[1]});
+                                    }
+                                } else {
+                                    RegisterCourse.push({"_id": Courses.value.split("=")[0], "courseName": Courses.value.split("=")[1]});
+                                }
+    
+                                Content.classList.add("active");
+                                renderContent(RegisterCourse);
+    
+                                if(Blank.classList.contains("active")) {
+                                    Blank.classList.remove("active");
+                                }
+                            }
+                        })
+                    }
+                },
+                render: function(courses) {
+                    if(RegisterCourse.length) {
+                        Content.classList.add("active");
+                        renderContent(RegisterCourse);
+
+                    } else {
+                        Blank.classList.add("active");
+                    }
+                    
+                    let template = `<option selected value="default">Danh mục khóa học</option>`;
+                    template += courses.reduce((accument, item) => {
+                        return accument.concat(`<option value="${item?._id}=${item?.Name}">${item?.Name}</option>`);
+                    }, []).join("");
+
+                    Courses.innerHTML = template;
+
+                    Courses.addEventListener("change",  function(e) {
+                        if(this.value !== "default") { 
+                            Register.removeAttribute("disabled");
+
+                        } else {
+                            Register.setAttribute("disabled", true);
+                        }
+                    })
+                }
+            }
         }
 
         function getClient() {
@@ -116,12 +215,13 @@ window.onload = function(e) {
             if(type === "update") {
                 payload.Type = "modified";
                 payload.Id = origin.parameter().token;
-                if(Password.value) {
-                    payload.Password = Password.value;
+                (Password.value)? payload.Password = Password.value : delete payload.Password;
+
+                if(RegisterCourse.length) {
+                    payload.RegisterCourse = RegisterCourse;
                 }
 
                 delete payload.Status;
-                delete payload.RegisterCourse;
             }
             
             return payload;
