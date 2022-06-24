@@ -21,6 +21,10 @@ export class Permission {
     mapper(type) {
         let message = "";
         switch(type) {
+            case "course-blank":
+                message = environment.permission.courseBlank;
+                break;
+
             case "content-Linked":
                 message = environment.permission.contentLinked;
                 break;
@@ -28,7 +32,7 @@ export class Permission {
             case "form-invalid":
                 message = environment.permission.formInvalid;
                 break;
-
+            
             case "register-already":
                 message = environment.permission.registerAlready;
                 break;

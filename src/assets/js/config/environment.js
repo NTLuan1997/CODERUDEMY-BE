@@ -40,9 +40,10 @@ export const environment = {
         limited: "",
     },
     "permission": {
+        "courseBlank": "Danh mục khóa học trống",
         "contentLinked": "Xóa nội dung liên kết",
         "formInvalid": "Nhập nội dung không hợp lệ",
-        "registerAlready": "Email đã được đăng ký.",
+        "registerAlready": "Đã được đăng ký.",
         "missingPermission": "Không đủ quyền thực thi chức năng.",
         "tokenBlank": "Mã xác thực trống.",
         "tokenExpired": "Mã xác thực quá hạn.",
