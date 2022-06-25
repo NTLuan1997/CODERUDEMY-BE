@@ -39,8 +39,6 @@ window.onload = function (e) {
     const thumbnail = $("#thumbnail");
     const Upload = $("#Upload");
 
-    const Hidden = $$(".hidden");
-
     let rules = [
         {
             selector: "#Name",
@@ -146,10 +144,6 @@ window.onload = function (e) {
                     Swicthed.classList.add("active");
                     Thumbnail.classList.add("active");
                     Title.innerHTML = "Chỉnh sửa thông tin";
-
-                    Hidden.forEach((item) => {
-                        item.classList.add("active");
-                    })
                     
                 } else {
                     Executed.innerHTML = "Thêm mới";

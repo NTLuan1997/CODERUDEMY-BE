@@ -24,8 +24,7 @@ window.onload = function(e) {
     const Address = $("#Address");
     const Blank = $("#Blank")
     const Client = $('#Client');
-    const Courses = $("#courses");
-    const Content = $("#Content");
+    const Content = $('#Content');
     const DateOfBirth = $("#DateOfBirth");
     const Email = $("#Email");
     const Name = $("#Name");
@@ -39,8 +38,7 @@ window.onload = function(e) {
     const Thumbnail = $("#Thumbnail");
     const thumbnail = $("#thumbnail");
     const Upload = $("#Upload");
-    const Register = $("#register");
-    const UnRegister = $("#unregister");
+    const redirect = $("#redirect");
 
     const Hidden = $$(".hidden");
 
@@ -77,7 +75,7 @@ window.onload = function(e) {
         if(type === "update") {
             let payload = {
                 client: {
-                    id: origin.parameter().token,
+                    id: (origin.parameter().token)? origin.parameter().token : localStorage.getItem("clientToken"),
                     type: "Find"
                 },
                 course: {
@@ -86,39 +84,24 @@ window.onload = function(e) {
                 }
             };
 
-            Promise.all([
-                https.FIND(payload.client, token, environment.endpoint.client),
-                https.FIND(payload.course, token, environment.endpoint.course)
-            ])
+            https.FIND(payload.client, token, environment.endpoint.client)
             .then((result) => {
-                let client = result[0][0];
-                let courses = result[1];
-                if(client) {
-                    Address.value = client?.Address;
-                    DateOfBirth.value = date.bindingToTemplate(client?.DateOfBirth);
-                    Email.value = client?.Email;
-                    Name.value = client?.Name;
-                    Gender.value = client?.Gender;
-                    Phone.value = client?.Phone;
-                    Status.checked = client?.Status;
-                    if(client?.Thumbnail) {
-                        thumbnailOld = client?.Thumbnail;
-                        thumbnail.setAttribute("src", `${environment.priture.url}/${client?.Thumbnail}`);
-                    }
-
-                    if(client?.RegisterCourse.length) {
-                        RegisterCourse = client?.RegisterCourse;
-                    }
+                Address.value = result.at(0)?.Address;
+                DateOfBirth.value = date.bindingToTemplate(result.at(0)?.DateOfBirth);
+                Email.value = result.at(0)?.Email;
+                Name.value = result.at(0)?.Name;
+                Gender.value = result.at(0)?.Gender;
+                Phone.value = result.at(0)?.Phone;
+                Status.checked = result.at(0)?.Status;
+                if(result.at(0)?.Thumbnail) {
+                    thumbnailOld = result.at(0)?.Thumbnail;
+                    thumbnail.setAttribute("src", `${environment.priture.url}/${result.at(0)?.Thumbnail}`);
                 }
 
-                if(courses.length) {
-                    registerView().render(courses);
-                    registerView().bindingEvent("Register");
-
-                } else {
-                    permission.setState({type: "course-blank"});
+                if(result.at(0)?.RegisterCourse.length) {
+                    RegisterCourse = result.at(0)?.RegisterCourse;
+                    registerView();
                 }
-
             })
             .catch((err) => {
                 throw err;
@@ -126,70 +109,18 @@ window.onload = function(e) {
         }
 
         function registerView() {
-            function renderContent(parameter) {
-                let template = "";
-                template = parameter.reduce((accument, item) => {
-                    return accument.concat(`
-                        <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input" id="${item?._id}">
-                            <label class="form-check-label">${item?.courseName}</label>
-                        </div>
-                    `);
+            console.log(RegisterCourse);
+
+            if(RegisterCourse.length) {
+                Content.classList.add("active");
+                Content.innerHTML = RegisterCourse.reduce((accument, item) => {
+                    return accument.concat(`<p class="document-content--items">
+                        <i class="fa fa-check" aria-hidden="true"></i> ${item?.courseName}
+                    </p>`);
                 }, []).join(" ");
-                Content.innerHTML = template;
-            }
 
-            return {
-                bindingEvent: function(type) {
-                    if(type === "Register") {
-                        Register.addEventListener("click", function(e) {
-                            if(Courses.value.includes("=")) {
-                                if(RegisterCourse.length) {
-                                    if(RegisterCourse.some((course) => course._id === Courses.value.split("=")[0])) {
-                                        permission.setState({type: "register-already"});
-
-                                    } else {
-                                        RegisterCourse.push({"_id": Courses.value.split("=")[0], "courseName": Courses.value.split("=")[1]});
-                                    }
-                                } else {
-                                    RegisterCourse.push({"_id": Courses.value.split("=")[0], "courseName": Courses.value.split("=")[1]});
-                                }
-    
-                                Content.classList.add("active");
-                                renderContent(RegisterCourse);
-    
-                                if(Blank.classList.contains("active")) {
-                                    Blank.classList.remove("active");
-                                }
-                            }
-                        })
-                    }
-                },
-                render: function(courses) {
-                    if(RegisterCourse.length) {
-                        Content.classList.add("active");
-                        renderContent(RegisterCourse);
-
-                    } else {
-                        Blank.classList.add("active");
-                    }
-                    
-                    let template = `<option selected value="default">Danh mục khóa học</option>`;
-                    template += courses.reduce((accument, item) => {
-                        return accument.concat(`<option value="${item?._id}=${item?.Name}">${item?.Name}</option>`);
-                    }, []).join("");
-
-                    Courses.innerHTML = template;
-
-                    Courses.addEventListener("change",  function(e) {
-                        if(this.value !== "default") { 
-                            Register.removeAttribute("disabled");
-
-                        } else {
-                            Register.setAttribute("disabled", true);
-                        }
-                    })
-                }
+            } else {
+                Blank.classList.add("active");
             }
         }
 
@@ -214,13 +145,10 @@ window.onload = function(e) {
     
             if(type === "update") {
                 payload.Type = "modified";
-                payload.Id = origin.parameter().token;
+                payload.Id = (origin.parameter().token)? origin.parameter().token : localStorage.getItem("clientToken");
                 (Password.value)? payload.Password = Password.value : delete payload.Password;
 
-                if(RegisterCourse.length) {
-                    payload.RegisterCourse = RegisterCourse;
-                }
-
+                delete payload.RegisterCourse;
                 delete payload.Status;
             }
             
@@ -291,7 +219,7 @@ window.onload = function(e) {
                         let payload = {
                             Status: this.checked,
                             Platform: "System",
-                            Id: origin.parameter().token,
+                            Id: (origin.parameter().token)? origin.parameter().token : localStorage.getItem("clientToken"),
                             Type: "modified"
                         };
 
@@ -310,7 +238,7 @@ window.onload = function(e) {
                             if(status) {
                                 let payload = {
                                     Platform: "System",
-                                    Id: origin.parameter().token,
+                                    Id: (origin.parameter().token)? origin.parameter().token : localStorage.getItem("clientToken"),
                                     Type: "modified",
                                     Thumbnail: destination
                                 }
@@ -327,6 +255,12 @@ window.onload = function(e) {
                         })
                     }
                 }
+            },
+            redirect: function() {
+                redirect.addEventListener("click", function(e) {
+                    localStorage.setItem("clientToken", origin.parameter().token);
+                    window.location.href = "/web/client/register";
+                })
             },
             validation: function() {
                 if(type === "update") {
@@ -356,4 +290,5 @@ window.onload = function(e) {
     app.BindInformationPage();
     app.validation();
     app.BindEvent(app.Event);
+    app.redirect();
 }

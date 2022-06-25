@@ -13,6 +13,10 @@ class Template {
                 res.status(200).render('components/client-component/client-component', {show: true});
                 break;
 
+            case "/web/client/register":
+                res.status(200).render('components/client-component/client-register-component', {show: true});
+                break;
+
             case "/web/client/detail":
                 res.status(200).render('components/client-component/client-detail-component', {show: true});
                 break;

@@ -8,6 +8,7 @@ const Template = require("../../app/controller/web/template");
     // CLIENT
         router.get("/client/detail", Template.render);
         router.get("/client/recycle", Template.render);
+        router.get("/client/register", Template.render);
         router.get("/client", Template.render);
 
     // COURSE
