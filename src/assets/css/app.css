@@ -195,6 +195,14 @@ html, body {
       letter-spacing: .3px;
       margin-bottom: 5px;
       text-transform: uppercase; }
+    .page-detail .page-detail--information .header-router {
+      border-radius: 5px;
+      background-color: #f28d0f;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      padding: 10px; }
     .page-detail .page-detail--information .custom-switch {
       display: none; }
       .page-detail .page-detail--information .custom-switch.active {
@@ -264,7 +272,16 @@ html, body {
     margin-top: 5px;
     padding: 10px; }
     .page-detail .page-detail--content .document-content {
-      display: none; }
+      border-radius: 5px;
+      border: 1px solid #e7e7e7;
+      display: none;
+      padding: 10px; }
+      .page-detail .page-detail--content .document-content .document-content--items {
+        margin-bottom: 5px; }
+        .page-detail .page-detail--content .document-content .document-content--items:not(:first-child) {
+          border-top: 1px solid #f6f6f6; }
+        .page-detail .page-detail--content .document-content .document-content--items i.fa {
+          color: #f28d0f; }
       .page-detail .page-detail--content .document-content img {
         height: auto;
         width: auto; }

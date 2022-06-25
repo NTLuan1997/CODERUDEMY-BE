@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="breadcrumd">
+            <ul class="list-unstyled">
+                <li><a href="/web">Trang chủ</a></li>
+                <li><a href="/web/client/detail?type=update">Chi tiếc học viên</a></li>
+                <li><span>Đăng ký học phần</span></li>
+            </ul>
+        </div>
+        <form class="detail-form" id="Client">
+            {{!-- INFORMATION --}}
+            <div class="page-detail">
+                <div class="page-detail--information">
+                    <div class="title">
+                        <h2 class="title-page" id="title">Title</h2>
+                    </div>
+                </div>
+
+                <div class="page-detail--content">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="title--input" for="course">Giới tính</label>
+                                <select class="custom-select" id="course"></select>
+                                <span class="form-message"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="title--input" for="course">Giới tính</label>
+                                <div class="group-method">
+                                    <button type="button" class="btn btn-executed mr-2" id="register">Đăng ký</button>
+                                    <button type="button" class="btn btn-executed" id="unregister">Hủy đăng ký</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail--content">
+                        <div class="form-group">
+                            <label class="title--input" for="course">Danh sách khóa học đăng ký</label>
+                            <div class="document-content" id="content">Đã có nội dung</div>
+                            <div class="blank-content" id="blank">Chưa có thông tin...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail--serect mb-2">
+                    <button type="submit" class="btn btn-executed" id="executed">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script type="module" src="/static/js/client/clientRegister.js"></script>
+</body>
+</html>
