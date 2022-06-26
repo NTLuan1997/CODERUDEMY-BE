@@ -460,10 +460,8 @@ class Middleware {
                                 } else {
                                     return res.status(405).json({status: false, type: "missing-permission"});
                                 }
-                                console.log(req.body);
-
-                                // req.user = req.body;
-                                // next();
+                                req.user = req.body;
+                                next();
                             }
 
                             if(role === "Admin") {
