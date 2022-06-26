@@ -37,7 +37,7 @@ window.onload = function (e) {
 
     const BlankContent = $$(".blank-content")[0];
     const Hidden = $$(".hidden");
-    const ImageContent = $$(".image-content")[0];
+    const Content = $$(".document-content")[0];
 
     let date = new Date();
     
@@ -79,8 +79,9 @@ window.onload = function (e) {
                     tinymce.activeEditor.setContent(result.at(0)?.Description);
                     Status.checked = result.at(0)?.Status;
                     Unit.value = result.at(0)?.Unit;
+
                     if(result.at(0)?.Thumbnail) {
-                        ImageContent.classList.add("active");
+                        Content.classList.add("active");
                         thumbnailOld = result.at(0)?.Thumbnail;
                         Thumbnail.setAttribute("src", `${environment.priture.url}/${result.at(0)?.Thumbnail}`);
 
