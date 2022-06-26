@@ -258,7 +258,9 @@ window.onload = function(e) {
             },
             redirect: function() {
                 redirect.addEventListener("click", function(e) {
-                    localStorage.setItem("clientToken", origin.parameter().token);
+                    if(origin.parameter().token) {
+                        localStorage.setItem("clientToken", origin.parameter().token);
+                    }
                     window.location.href = "/web/client/register";
                 })
             },
