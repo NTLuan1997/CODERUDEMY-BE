@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const middleware = require("../../app/middleware/middleware");
-const CourseController = require("../../app/controller/CourseController");
-const UnitController = require("../../app/controller/UnitController");
-const LessonController = require("../../app/controller/LessonController");
+const CourseController = require("../../app/controller/courseController");
+const UnitController = require("../../app/controller/unitController");
+const LessonController = require("../../app/controller/lessonController");
 
     // LESSON
         router.get("/unit/lesson", middleware.LessonTransaction, LessonController.Functions);
