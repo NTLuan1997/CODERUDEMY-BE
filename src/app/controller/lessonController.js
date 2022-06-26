@@ -1,5 +1,5 @@
-const LessonService = require("../services/LessonService");
-const UnitService = require("../services/UnitService");
+const LessonService = require("../services/lessonService");
+const UnitService = require("../services/unitService");
 
 class LessonController {
 
