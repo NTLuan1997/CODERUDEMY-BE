@@ -11,6 +11,7 @@ window.onload = function(e) {
     const $$ = document.querySelectorAll.bind(document);
 
     const blank = $("#blank");
+    const clientF = $("#client");
     const content = $("#content");
     const course = $("#course");
     const executed = $("#executed");
@@ -22,7 +23,7 @@ window.onload = function(e) {
     const app = (function() {
         let client = [];
         let courses = [];
-        let RegisterCourse = [];
+        // let RegisterCourse = [];
         let payload = {
             client: {
                 id: localStorage.getItem("clientToken"),
@@ -31,6 +32,12 @@ window.onload = function(e) {
             course: {
                 status: true,
                 type: "Find"
+            },
+            upload: {
+                Platform: "System",
+                Type: "modified",
+                Id: localStorage.getItem("clientToken"),
+                RegisterCourse: []
             }
         };
 
@@ -39,35 +46,54 @@ window.onload = function(e) {
                 register: function() {
                     register.addEventListener("click", function(e) {
                         e.preventDefault();
-                        let id = course.value.split("=")[0];
-                        let name = course.value.split("=")[1];
+                        if(course.value !== "default") {
+                            let id = course.value.split("=")[0];
+                            let name = course.value.split("=")[1];
 
-                        if(client.at(0)?.RegisterCourse.some((item) => item._id === id)) {
-                            permission.setState({type: "register-already"});
+                            if(client.at(0)?.RegisterCourse.some((item) => item._id === id)) {
+                                permission.setState({type: "register-already"});
+
+                            } else {
+                                client.at(0)?.RegisterCourse.push({_id: id, courseName: name});
+                                render();
+                            }
 
                         } else {
-                            client.at(0)?.RegisterCourse.push({_id: id, courseName: name});
-                            render();
+                            permission.setState({type: "choose-course"});
                         }
                     })
                 },
                 unRegister: function() {
                     unregister.addEventListener("click", function(e) {
                         let itemCourse = Array.from($$(".item-course"));
-
-                        itemCourse.forEach(function(item) {
-                            if(item.checked) {
-                                // console.log(item.dataset.id);
-
-                                for(let i = 0; i < client.at(0)?.RegisterCourse.length; i++) {
-                                    if(client.at(0)?.RegisterCourse[i]._id === item.dataset.id) {
-                                        client.at(0)?.RegisterCourse.splice(i, 1);
+                        if(itemCourse.some((course) => course.checked === true)) {
+                            itemCourse.forEach(function(item) {
+                                if(item.checked) {
+                                    for(let i = 0; i < client.at(0)?.RegisterCourse.length; i++) {
+                                        if(client.at(0)?.RegisterCourse[i]._id === item.dataset.id) {
+                                            client.at(0)?.RegisterCourse.splice(i, 1);
+                                        }
                                     }
                                 }
-                            }
-                        })
+                            })
+                            render();
 
-                        console.log(client.at(0)?.RegisterCourse);
+                        } else {
+                            permission.setState({type: "choose-course"});
+                        }
+                    })
+                },
+                upload: function() {
+                    clientF.addEventListener("submit", function(e) {
+                        e.preventDefault();
+                        payload.upload.RegisterCourse = client.at(0)?.RegisterCourse;
+                        https.PUT(token, payload.upload, environment.endpoint.client)
+                        .then((result) => {
+                            (result?.status)? window.location.href = "/web/client/detail?type=update" : permission.setState(result);
+                        })
+                        .catch((err) => {
+                            throw err;
+                        })
                     })
                 }
             }
@@ -95,20 +121,29 @@ window.onload = function(e) {
             }
             Event().register();
             Event().unRegister();
+            Event().upload();
         }
 
         function render() {
-            content.innerHTML = client.at(0)?.RegisterCourse.reduce((accument, item) => {
-                return accument.concat(
-                    `   
-                    <div class="d-flex align-items-center mb-1">
-                        <input type="checkbox" class="mr-2 item-course" data-id="${item?._id}">
-                        <p class="mb-0">${item?.courseName}</p>
-                    </div>
-                    `
-                );
+            if(client.at(0)?.RegisterCourse.length) {
+                blank.classList.remove("active");
+                content.classList.add("active");
 
-            }, []).join(" ");
+                content.innerHTML = client.at(0)?.RegisterCourse.reduce((accument, item) => {
+                    return accument.concat(
+                        `   
+                        <div class="d-flex align-items-center mb-1">
+                            <input type="checkbox" class="mr-2 item-course" data-id="${item?._id}">
+                            <p class="mb-0">${item?.courseName}</p>
+                        </div>
+                        `
+                    );
+    
+                }, []).join(" ");
+            } else {
+                blank.classList.add("active");
+                content.classList.remove("active");
+            }
         }
 
         Promise.all([

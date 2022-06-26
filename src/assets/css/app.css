@@ -288,7 +288,10 @@ html, body {
       .page-detail .page-detail--content .document-content.active {
         display: block; }
     .page-detail .page-detail--content .blank-content {
-      display: none; }
+      border-radius: 5px;
+      border: 1px solid #e7e7e7;
+      display: none;
+      padding: 10px; }
       .page-detail .page-detail--content .blank-content.active {
         display: block; }
   .page-detail .page-detail-form .form-group .form-group--label {
