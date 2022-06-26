@@ -40,6 +40,7 @@ export const environment = {
         limited: "",
     },
     "permission": {
+        "chooseCourse": "Chọn khóa học trước khi thực hiện chức năng",
         "courseBlank": "Danh mục khóa học trống",
         "contentLinked": "Xóa nội dung liên kết",
         "formInvalid": "Nhập nội dung không hợp lệ",

@@ -367,7 +367,10 @@ html, body {
             }
         }
         .blank-content {
+            border-radius: 5px;
+            border: 1px solid #e7e7e7;
             display: none;
+            padding: 10px;
             &.active {
                 display: block;
             }

@@ -21,6 +21,10 @@ export class Permission {
     mapper(type) {
         let message = "";
         switch(type) {
+            case "choose-course":
+                message = environment.permission.chooseCourse;
+                break;
+
             case "course-blank":
                 message = environment.permission.courseBlank;
                 break;
