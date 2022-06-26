@@ -2,7 +2,7 @@ const JWT = require("../utils/jwt");
 const BCRYPT = require("../utils/bcrypt");
 const ClientService = require("../services/clientService");
 const LessonService = require("../services/lessonService");
-const UserService = require("../services/UserService");
+const UserService = require("../services/userService");
 const UnitService = require("../services/unitService");
 class Middleware {
 
