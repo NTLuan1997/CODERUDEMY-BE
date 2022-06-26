@@ -1,6 +1,6 @@
 const JWT = require("../utils/jwt");
 const BCRYPT = require("../utils/bcrypt");
-const ClientService = require("../services/ClientService");
+const ClientService = require("../services/clientService");
 const LessonService = require("../services/LessonService");
 const UserService = require("../services/UserService");
 const UnitService = require("../services/UnitService");

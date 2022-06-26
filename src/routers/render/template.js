@@ -17,13 +17,16 @@ const Template = require("../../app/controller/web/template");
         router.get("/course", Template.render);
         
     // LESSON
-        router.get("/web/course/unit/lesson/detail", Template.render);
-        router.get("/web/course/unit/lesson/recycle", Template.render);
-        router.get("/web/course/unit/lesson", Template.render);
+        router.get("/course/unit/lesson/detail", Template.render);
+        router.get("/course/unit/lesson/recycle", Template.render);
+        router.get("/course/unit/lesson", Template.render);
+
+    // INFORMATION
+        router.get("/information", Template.render);
 
     // UNIT
-        router.get("/web/course/unit/detail", Template.render);
-        router.get("/web/course/unit/recycle", Template.render);
+        router.get("/course/unit/detail", Template.render);
+        router.get("/course/unit/recycle", Template.render);
         router.get("/course/unit", Template.render);
 
     // USER
