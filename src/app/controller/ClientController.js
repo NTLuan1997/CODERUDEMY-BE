@@ -1,4 +1,4 @@
-const ClientService = require("../services/ClientService");
+const ClientService = require("../services/clientService");
 class ClientController {
 
     constructor() { }
