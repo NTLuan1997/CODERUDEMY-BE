@@ -208,7 +208,7 @@ window.onload = function (e) {
                         })
                     },
                     thumbnail: function(e) {
-                        priture.upload(environment.priture.url, this.files[0], "clients", thumbnailOld)
+                        priture.upload(environment.priture.url, this.files[0], "users", thumbnailOld)
                         .then((result) => {
                             let {status, message, destination} = result;
                             if(status) {
