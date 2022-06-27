@@ -102,6 +102,7 @@ window.onload = function (e) {
                 Name: Name.value,
                 Status: true,
                 Type: Type.value,
+                "Register": 0,
             }
 
             if(type === "create") {

@@ -23,6 +23,8 @@ window.onload = function(e) {
     const app = (function() {
         let client = [];
         let courses = [];
+        let registerValue = [];
+
         let payload = {
             client: {
                 id: localStorage.getItem("clientToken"),
@@ -48,12 +50,14 @@ window.onload = function(e) {
                         if(course.value !== "default") {
                             let id = course.value.split("=")[0];
                             let name = course.value.split("=")[1];
+                            let registered = Number(course.value.split("=")[2]);
 
                             if(client.at(0)?.RegisterCourse.some((item) => item._id === id)) {
                                 permission.setState({type: "register-already"});
 
                             } else {
                                 client.at(0)?.RegisterCourse.push({_id: id, courseName: name});
+                                registerValue.push({id: id, register: (registered + 1)});
                                 render();
                             }
 
@@ -88,6 +92,18 @@ window.onload = function(e) {
                         payload.upload.RegisterCourse = client.at(0)?.RegisterCourse;
                         https.PUT(token, payload.upload, environment.endpoint.client)
                         .then((result) => {
+                            if(result?.status) {
+                                let payload = {
+                                    Func: "register",
+                                    Register: registerValue
+                                };
+
+                                return https.PUT(token, payload, environment.endpoint.course);
+                            } else {
+                                permission.setState(result);
+                            }
+                        })
+                        .then((result) => {
                             (result?.status)? window.location.href = "/web/client/detail?type=update" : permission.setState(result);
                         })
                         .catch((err) => {
@@ -102,7 +118,7 @@ window.onload = function(e) {
             let template = `<option selected value="default">Chọn thông tin khóa học</option>`;
             if(Array.isArray(courses)) {
                 template += courses.reduce((accument, item) => {
-                    return accument.concat(`<option value="${item?._id}=${item?.Name}">${item?.Name}</option>`);
+                    return accument.concat(`<option value="${item?._id}=${item?.Name}=${item?.Register}">${item?.Name}</option>`);
                 }, []).join(" ");
             }
             course.innerHTML = template;

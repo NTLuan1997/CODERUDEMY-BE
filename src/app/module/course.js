@@ -10,6 +10,7 @@ const Courses = new Schema({
     "UpdateDate": Date,
     "Description": String,
     "Thumbnail": String,
+    "Register": Number,
     "Status": Boolean
 })
 

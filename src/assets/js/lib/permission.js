@@ -29,6 +29,10 @@ export class Permission {
                 message = environment.permission.courseBlank;
                 break;
 
+            case "course-registered":
+                message = environment.permission.courseRegistered;
+                break;
+
             case "content-Linked":
                 message = environment.permission.contentLinked;
                 break;
