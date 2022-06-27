@@ -23,7 +23,6 @@ window.onload = function(e) {
     const app = (function() {
         let client = [];
         let courses = [];
-        // let RegisterCourse = [];
         let payload = {
             client: {
                 id: localStorage.getItem("clientToken"),

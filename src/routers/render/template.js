@@ -22,7 +22,7 @@ const Template = require("../../app/controller/web/template");
         router.get("/course/unit/lesson", Template.render);
 
     // INFORMATION
-        router.get("/information", Template.render);
+        // router.get("/information", Template.render);
 
     // UNIT
         router.get("/course/unit/detail", Template.render);

@@ -21,10 +21,10 @@ window.onload = function(e) {
     const type = origin.parameter().type;
 
     // INFORMATION
-    const Address = $("#Address");
-    const Blank = $("#Blank")
+    const address = $("#address");
+    const blank = $("#blank");
     const Client = $('#Client');
-    const Content = $('#Content');
+    const content = $('#content');
     const DateOfBirth = $("#DateOfBirth");
     const Email = $("#Email");
     const Name = $("#Name");
@@ -40,7 +40,7 @@ window.onload = function(e) {
     const Upload = $("#Upload");
     const redirect = $("#redirect");
 
-    const Hidden = $$(".hidden");
+    const hidden = $$(".hidden");
 
     let rules = [{
             selector: "#Name",
@@ -69,7 +69,6 @@ window.onload = function(e) {
     ];
 
     let app = (function() {
-        let RegisterCourse = [];
         let thumbnailOld = "";
         
         if(type === "update") {
@@ -86,7 +85,7 @@ window.onload = function(e) {
 
             https.FIND(payload.client, token, environment.endpoint.client)
             .then((result) => {
-                Address.value = result.at(0)?.Address;
+                address.value = result.at(0)?.Address;
                 DateOfBirth.value = date.bindingToTemplate(result.at(0)?.DateOfBirth);
                 Email.value = result.at(0)?.Email;
                 Name.value = result.at(0)?.Name;
@@ -98,35 +97,30 @@ window.onload = function(e) {
                     thumbnail.setAttribute("src", `${environment.priture.url}/${result.at(0)?.Thumbnail}`);
                 }
 
-                if(result.at(0)?.RegisterCourse.length) {
-                    RegisterCourse = result.at(0)?.RegisterCourse;
-                    registerView();
-                }
+                View(result.at(0)?.RegisterCourse);
             })
             .catch((err) => {
                 throw err;
             })
         }
 
-        function registerView() {
-            console.log(RegisterCourse);
-
-            if(RegisterCourse.length) {
-                Content.classList.add("active");
-                Content.innerHTML = RegisterCourse.reduce((accument, item) => {
+        function View(parameter) {
+            if(parameter.length) {
+                content.classList.add("active");
+                content.innerHTML = parameter.reduce((accument, item) => {
                     return accument.concat(`<p class="document-content--items">
                         <i class="fa fa-check" aria-hidden="true"></i> ${item?.courseName}
                     </p>`);
                 }, []).join(" ");
 
             } else {
-                Blank.classList.add("active");
+                blank.classList.add("active");
             }
         }
 
         function getClient() {
             let payload = {
-                Address: Address.value,
+                Address: address.value,
                 DateOfBirth: DateOfBirth.value,
                 Email: Email.value,
                 Name: Name.value,
@@ -163,7 +157,7 @@ window.onload = function(e) {
                     Thumbnail.classList.add("active");
                     Title.innerHTML = "Chỉnh sửa thông tin";
 
-                    Hidden.forEach((item) => {
+                    hidden.forEach((item) => {
                         item.classList.add("active");
                     })
                     
