@@ -34,8 +34,13 @@ export default class Delete {
 
         element.forEach(function(btn) {
             btn.addEventListener("click", function(e) {
+
+                console.log(this.dataset);
                 if(this.dataset.hasOwnProperty("amount") && !!(Number(this.dataset?.amount))) {
                     permission.setState({type: "content-Linked"});
+
+                } else if(this.dataset.hasOwnProperty("register") && !!(Number(this.dataset?.register))) {
+                    permission.setState({type: "course-registered"});
 
                 } else {
                     _this.payload.Id = this.dataset.id;

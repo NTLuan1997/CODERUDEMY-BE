@@ -63,7 +63,7 @@ window.onload = function(e) {
             guides: [Validation.required(), Validation.phone()]
         },
         {
-            selector: "#Address",
+            selector: "#address",
             guides: [Validation.required()]
         },
     ];

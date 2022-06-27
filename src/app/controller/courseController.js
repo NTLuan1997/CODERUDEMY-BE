@@ -45,6 +45,20 @@ class CourseController {
             })
         }
 
+        function register() {
+            for(let index = 0; index < req.register.length; index++) {
+                CourseService.edit(req.register[index].condition, req.register[index].course)
+                .then((result) => {
+                    if(index === (req.register.length - 1)) {
+                        res.status(200).json(result);
+                    }
+                })
+                .catch((err) => {
+                    throw err;
+                })
+            }
+        }
+
         function restore() {
             CourseService.restore(req.condition, req.user)
             .then((result) => {
@@ -68,6 +82,7 @@ class CourseController {
         if(req.type === "Delete"){deleted()}
         if(req.type === "Find"){find()}
         if(req.type === "Limited") {limited()}
+        if(req.type === "Register"){register()}
         if(req.type === "Restore"){restore()}
 
         if(req.type === "Create"){save()}

@@ -59,6 +59,7 @@ export class View {
 
     methodView(type, currentValue, token) {
         let Amount = 0;
+        let Register = 0;
         if(currentValue.hasOwnProperty("Unit") || currentValue.hasOwnProperty("Lesson")) {
             if(currentValue.hasOwnProperty("Unit")) {
                 Amount = currentValue.Unit;
@@ -67,6 +68,10 @@ export class View {
             if(currentValue.hasOwnProperty("Lesson")) {
                 Amount = currentValue.Lesson;
             }
+        }
+
+        if(currentValue.hasOwnProperty("Register")) {
+            Register = currentValue?.Register;
         }
 
         let template = "";
@@ -79,7 +84,7 @@ export class View {
                     <td class="d-flex">
                         <a class="btn-method mr-2 redirect" data-id="${token}">Redirect</a>
                         <a class="btn-method mr-2" href="${page.pathname}/detail?type=update&token=${token}">Sửa</a>
-                        <button class="btn-method delete" data-id="${token}" data-amount="${Amount}" type="button">Xóa</button>
+                        <button class="btn-method delete" data-id="${token}" data-amount="${Amount}" data-register=${Register} type="button">Xóa</button>
                     </td>
                 `;
                 break;

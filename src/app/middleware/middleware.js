@@ -145,6 +145,17 @@ class Middleware {
                                 }
                             }
 
+                            if(req.body.Func === "register") {
+                                req.type = "Register";
+                                if(req.body?.Register.length) {
+                                    req.register = req.body?.Register.reduce((accument, item) => {
+                                        return accument.concat({condition: {_id: item?.id}, course: {Register: item?.register}});
+                                    }, []);
+                                }
+
+                                next();
+                            }
+
                             if(role === "Admin") {
                                 if(req.body.Func === "create") {
                                     delete req.body.Func;

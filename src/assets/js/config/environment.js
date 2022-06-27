@@ -42,6 +42,7 @@ export const environment = {
     "permission": {
         "chooseCourse": "Chọn khóa học trước khi thực hiện chức năng",
         "courseBlank": "Danh mục khóa học trống",
+        "courseRegistered": "Khóa học có đăng ký chức năng không khả dụng",
         "contentLinked": "Xóa nội dung liên kết",
         "formInvalid": "Nhập nội dung không hợp lệ",
         "registerAlready": "Đã được đăng ký.",
@@ -56,8 +57,8 @@ export const environment = {
             HeaderTitles: ["Họ và tên", "Email", "Giới tính", "Điện thoại", "Địa chỉ"],
         },
         "course": {
-            DocumentKeys: ["Name", "Author", "Type", "Unit", "CreateDate"],
-            HeaderTitles: ["Họ và tên", "Tác giả", "Loại khóa học", "Học phần", "Ngày tạo"],
+            DocumentKeys: ["Name", "Author", "Type", "Unit", "Register", "CreateDate"],
+            HeaderTitles: ["Họ và tên", "Tác giả", "Loại khóa học", "Học phần", "Số lượng đăng ký", "Ngày tạo"],
         },
         "lesson": {
             DocumentKeys: ["Name", "Status", "CreateDate"],
