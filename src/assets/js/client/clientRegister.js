@@ -23,7 +23,8 @@ window.onload = function(e) {
     const app = (function() {
         let client = [];
         let courses = [];
-        let registerValue = [];
+        let registerInit = [];
+        let registerAfterExecute = [];
 
         let payload = {
             client: {
@@ -57,9 +58,11 @@ window.onload = function(e) {
 
                             } else {
                                 client.at(0)?.RegisterCourse.push({_id: id, courseName: name});
-                                registerValue.push({id: id, register: (registered + 1)});
+                                registerAfterExecute.push({id: id, register: (registered + 1)});
                                 render();
                             }
+                            // console.log(registerAfterExecute);
+                            // console.log(registerInit);
 
                         } else {
                             permission.setState({type: "choose-course"});
@@ -75,6 +78,12 @@ window.onload = function(e) {
                                     for(let i = 0; i < client.at(0)?.RegisterCourse.length; i++) {
                                         if(client.at(0)?.RegisterCourse[i]._id === item.dataset.id) {
                                             client.at(0)?.RegisterCourse.splice(i, 1);
+                                            
+                                            for(let index = 0; index < registerInit.length; index++) {
+                                                if(registerInit[index]._id === item.dataset.id) {
+                                                    registerAfterExecute.push({id: registerInit[index]._id, register: (registerInit[index].register - 1)})
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -95,7 +104,7 @@ window.onload = function(e) {
                             if(result?.status) {
                                 let payload = {
                                     Func: "register",
-                                    Register: registerValue
+                                    Register: registerAfterExecute
                                 };
 
                                 return https.PUT(token, payload, environment.endpoint.course);
@@ -117,7 +126,9 @@ window.onload = function(e) {
         function viewOption() {
             let template = `<option selected value="default">Chọn thông tin khóa học</option>`;
             if(Array.isArray(courses)) {
+
                 template += courses.reduce((accument, item) => {
+                    registerInit.push({_id: item?._id, register: item?.Register});
                     return accument.concat(`<option value="${item?._id}=${item?.Name}=${item?.Register}">${item?.Name}</option>`);
                 }, []).join(" ");
             }
