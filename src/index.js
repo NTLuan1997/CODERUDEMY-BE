@@ -4,7 +4,6 @@ const session = require("express-session");
 const cookieParser = require('cookie-parser');
 const corsMiddleware = require("./app/middleware/corsMiddleware");
 const API = require("./routers/api/router");
-const Authentication = require("./app/oauth2/authentication");
 const Render = require("./routers/render/router");
 
 // const morgan = require('morgan');

@@ -61,8 +61,6 @@ window.onload = function(e) {
                                 registerAfterExecute.push({id: id, register: (registered + 1)});
                                 render();
                             }
-                            // console.log(registerAfterExecute);
-                            // console.log(registerInit);
 
                         } else {
                             permission.setState({type: "choose-course"});
