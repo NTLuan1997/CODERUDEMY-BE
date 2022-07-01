@@ -57,13 +57,13 @@ export default class Delete {
     really(element, endpoint) {
         let _this = this;
         this.payload.Type = "Really";
-        this.payload.Func = "Delete"
+        this.payload.Func = "Delete";
 
         element.forEach(function(btn) {
             btn.addEventListener("click", function() {
                 _this.payload.Id = this.dataset.id;
 
-                if(this.dataset.thumbnail) {
+                if(this.dataset?.thumbnail) {
                     priture.delete(environment.priture.url, this.dataset.thumbnail)
                     .then((result) => {
                         if(result?.status) {
